@@ -15,7 +15,7 @@ public class WidgetEnergyBar extends WidgetEnergy {
 	public WidgetEnergyBar(int posX, int posY, IEnergyStorage storage) {
 		super(posX, posY, 12, 69, storage);
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		if (storage == null) {

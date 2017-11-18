@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public interface ILocatable {
 	/** Must not be named "getPos to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	BlockPos getCoordinates();
-
+	
 	/** Must not be named "getWorldObj" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	World getWorldObj();
 	

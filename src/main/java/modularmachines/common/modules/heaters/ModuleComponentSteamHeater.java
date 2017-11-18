@@ -22,7 +22,7 @@ import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.Translator;
 
 public class ModuleComponentSteamHeater extends DefaultModuleComponent<ModuleHeaterSteam> {
-
+	
 	public static final DecimalFormat FORMATE = new DecimalFormat("#0.00");
 	
 	public ModuleComponentSteamHeater(ModuleHeaterSteam parent) {

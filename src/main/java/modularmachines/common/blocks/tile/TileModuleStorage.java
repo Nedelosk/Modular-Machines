@@ -74,7 +74,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	
 	@Override
 	public void updateServer() {
-		for(LogicComponent component : componentMap.values()){
+		for (LogicComponent component : componentMap.values()) {
 			component.update();
 		}
 	}
@@ -133,7 +133,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == ModuleRegistry.MODULE_CONTAINER){
+		if (capability == ModuleRegistry.MODULE_CONTAINER) {
 			return ModuleRegistry.MODULE_CONTAINER.cast(this);
 		}
 		return super.getCapability(capability, facing);
@@ -191,9 +191,9 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 		return modules;
 	}
 	
-	private void addToList(Set<Module> modules, Module module){
+	private void addToList(Set<Module> modules, Module module) {
 		modules.add(module);
-		if(!(module instanceof IModuleProvider)){
+		if (!(module instanceof IModuleProvider)) {
 			return;
 		}
 		IModuleProvider provider = (IModuleProvider) module;
@@ -204,12 +204,12 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	@Override
 	public AxisAlignedBB getBoundingBox() {
 		AxisAlignedBB boundingBox = null;
-		for(Module module : getModules()){
+		for (Module module : getModules()) {
 			AxisAlignedBB alignedBB = module.getCollisionBox();
-			if(alignedBB == null){
+			if (alignedBB == null) {
 				continue;
 			}
-			if(boundingBox == null){
+			if (boundingBox == null) {
 				boundingBox = alignedBB;
 				continue;
 			}
@@ -220,15 +220,15 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	
 	@Override
 	public RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end) {
-		Vec3d startVec = start.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
-		Vec3d endVec = end.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+		Vec3d startVec = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
+		Vec3d endVec = end.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
 		Collection<Module> modules = getModules();
-		if(modules.isEmpty()){
+		if (modules.isEmpty()) {
 			RayTraceResult old = Block.FULL_BLOCK_AABB.calculateIntercept(startVec, endVec);
-			if(old == null){
+			if (old == null) {
 				return null;
 			}
-			return new RayTraceResult(old.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), old.sideHit, pos);
+			return new RayTraceResult(old.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), old.sideHit, pos);
 		}
 		return modules
 				.stream()
@@ -237,7 +237,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 				.min(Comparator.comparingDouble(hit -> hit.getValue().hitVec.squareDistanceTo(startVec)))
 				.map(p -> {
 					RayTraceResult old = p.getValue();
-					RayTraceResult result = new RayTraceResult(old.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), old.sideHit, pos);
+					RayTraceResult result = new RayTraceResult(old.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), old.sideHit, pos);
 					result.subHit = p.getKey().getIndex();
 					result.hitInfo = old;
 					return result;
@@ -247,27 +247,27 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	
 	@Override
 	public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult) {
-		if(itemStack.isEmpty()){
+		if (itemStack.isEmpty()) {
 			return false;
 		}
 		IModuleDataContainer dataContainer = ModuleHelper.getContainerFromItem(itemStack);
-		if(dataContainer == null){
+		if (dataContainer == null) {
 			return false;
 		}
-		if(rayTraceResult.subHit == -1){
+		if (rayTraceResult.subHit == -1) {
 			return insertModule(this, itemStack, dataContainer, rayTraceResult);
 		}
 		Module module = getModule(rayTraceResult.subHit);
-		if(!(module instanceof IModuleProvider)){
+		if (!(module instanceof IModuleProvider)) {
 			return false;
 		}
 		IModuleProvider provider = (IModuleProvider) module;
 		return insertModule(provider, itemStack, dataContainer, rayTraceResult);
 	}
 	
-	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult){
+	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult) {
 		IModulePosition position = provider.getPosition(rayTraceResult);
-		if(position == null) {
+		if (position == null) {
 			return false;
 		}
 		return provider.getHandler().insertModule(position, dataContainer, itemStack);

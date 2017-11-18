@@ -19,7 +19,7 @@ import net.minecraft.world.chunk.Chunk;
 import modularmachines.api.ILocatable;
 
 public class WorldUtil {
-
+	
 	/**
 	 * Returns the tile of the specified class, returns null if it is the wrong type or does not exist.
 	 * Avoids creating new tile entities when using a ChunkCache (off the main thread).
@@ -28,14 +28,14 @@ public class WorldUtil {
 	@Nullable
 	public static <T extends TileEntity> T getTile(IBlockAccess world, BlockPos pos, Class<T> tileClass) {
 		TileEntity tileEntity;
-
+		
 		if (world instanceof ChunkCache) {
 			ChunkCache chunkCache = (ChunkCache) world;
 			tileEntity = chunkCache.getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK);
 		} else {
 			tileEntity = world.getTileEntity(pos);
 		}
-
+		
 		if (tileClass.isInstance(tileEntity)) {
 			return tileClass.cast(tileEntity);
 		} else {
@@ -64,19 +64,19 @@ public class WorldUtil {
 	}
 	
 	public static boolean isUsableByPlayer(EntityPlayer player, TileEntity tile) {
-		if(player.isSneaking()){
+		if (player.isSneaking()) {
 			return false;
 		}
 		BlockPos pos = tile.getPos();
 		World world = tile.getWorld();
-
+		
 		return !tile.isInvalid() && world.getTileEntity(pos) == tile && player.getDistanceSqToCenter(pos) <= 64.0D;
 	}
 	
-	public static void dropItems(World world, BlockPos pos, List<ItemStack> drops){
+	public static void dropItems(World world, BlockPos pos, List<ItemStack> drops) {
 		if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
-			for(ItemStack stack : drops) {
-				if(stack.isEmpty()){
+			for (ItemStack stack : drops) {
+				if (stack.isEmpty()) {
 					continue;
 				}
 				double xOffset = (double) (world.rand.nextFloat() * 0.5F) + 0.25D;

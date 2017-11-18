@@ -15,10 +15,10 @@ import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 
 public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
-
+	
 	public static final ItemFilterFluid INSTANCE = new ItemFilterFluid(true);
 	private static final Map<Fluid, ItemFilterFluid> FILTERS = new HashMap<>();
-
+	
 	public static ItemFilterFluid get(Fluid fluidFilter) {
 		if (!FILTERS.containsKey(fluidFilter)) {
 			FILTERS.put(fluidFilter, new ItemFilterFluid(fluidFilter));
@@ -26,23 +26,23 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
 		}
 		return FILTERS.get(fluidFilter);
 	}
-
+	
 	private boolean empty;
 	private Fluid fluidFilter;
-
+	
 	private ItemFilterFluid(boolean empty) {
 		this(empty, null);
 	}
-
+	
 	private ItemFilterFluid(Fluid fluidFilter) {
 		this(false, fluidFilter);
 	}
-
+	
 	private ItemFilterFluid(boolean empty, Fluid fluidFilter) {
 		this.empty = empty;
 		this.fluidFilter = fluidFilter;
 	}
-
+	
 	@Override
 	public boolean isValid(int index, ItemStack content, Module module) {
 		if (content == null) {
@@ -51,10 +51,7 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
 		if (content.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
 			IFluidHandler handler = content.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
 			if (handler.getTankProperties() == null || handler.getTankProperties().length <= 0) {
-				if (empty) {
-					return true;
-				}
-				return false;
+				return empty;
 			}
 			for (IFluidTankProperties property : handler.getTankProperties()) {
 				if (property != null) {

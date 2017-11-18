@@ -5,7 +5,7 @@ import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.recipes.Recipe;
 
 public class RecipeLathe extends Recipe {
-
+	
 	protected final LatheMode mode;
 	
 	public RecipeLathe(RecipeItem[] inputItems, RecipeItem[] outputItems, int speed, LatheMode mode) {
@@ -16,10 +16,10 @@ public class RecipeLathe extends Recipe {
 	public LatheMode getMode() {
 		return mode;
 	}
-
+	
 	@Override
 	public String getRecipeCategory() {
 		return MachineCategorys.LATHE;
 	}
-
+	
 }

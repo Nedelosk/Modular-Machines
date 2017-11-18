@@ -20,10 +20,10 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.blocks.FluidBlock;
 
 public class Registry {
-
+	
 	private Registry() {
 	}
-
+	
 	public static Fluid registerFluid(String fluidName, int temperature, Material material, boolean createBlock, boolean isGas, int density) {
 		Fluid fluid = FluidRegistry.getFluid(fluidName);
 		if (fluid == null) {
@@ -52,9 +52,9 @@ public class Registry {
 		}
 		return FluidRegistry.getFluid(fluidName);
 	}
-
+	
 	public static <V extends IForgeRegistryEntry<V>> IForgeRegistryEntry<V> register(V entry, String name) {
-		if(entry.getRegistryName() == null){
+		if (entry.getRegistryName() == null) {
 			entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), name));
 		}
 		IForgeRegistry registry;
@@ -64,28 +64,28 @@ public class Registry {
 		} else if (entry instanceof Item) {
 			ModularMachines.proxy.registerItem((Item) entry);
 			registry = ForgeRegistries.ITEMS;
-		}else{
+		} else {
 			throw new IllegalArgumentException();
 		}
 		registry.register(entry);
 		return entry;
 	}
-
+	
 	public static Item register(Item entry) {
 		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), entry.getUnlocalizedName()));
 		ForgeRegistries.ITEMS.register(entry);
 		ModularMachines.proxy.registerItem(entry);
 		return entry;
 	}
-
+	
 	public static void registerTile(Class<? extends TileEntity> tile, String name, String modName) {
 		GameRegistry.registerTileEntity(tile, "modularmachines." + modName + "." + name);
 	}
-
+	
 	public static String setUnlocalizedBlockName(String name) {
 		return "modularmachines.block." + name;
 	}
-
+	
 	public static String setUnlocalizedItemName(String name) {
 		return "modularmachines.item." + name;
 	}

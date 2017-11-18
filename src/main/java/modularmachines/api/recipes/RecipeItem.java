@@ -6,61 +6,61 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 public class RecipeItem {
-
+	
 	public final FluidStack fluid;
 	public final ItemStack item;
 	public final OreStack ore;
 	public final float chance;
-
+	
 	public RecipeItem(ItemStack item) {
 		this.item = item;
 		this.fluid = null;
 		this.ore = null;
 		this.chance = -1;
 	}
-
+	
 	public RecipeItem(FluidStack fluid) {
 		this.fluid = fluid;
 		this.item = null;
 		this.ore = null;
 		this.chance = -1;
 	}
-
+	
 	public RecipeItem(OreStack ore) {
 		this.fluid = null;
 		this.item = null;
 		this.ore = ore;
 		this.chance = -1;
 	}
-
+	
 	public RecipeItem(ItemStack item, float chance) {
 		this.item = item;
 		this.fluid = null;
 		this.ore = null;
 		this.chance = chance;
 	}
-
+	
 	public RecipeItem(FluidStack fluid, float chance) {
 		this.fluid = fluid;
 		this.item = null;
 		this.ore = null;
 		this.chance = chance;
 	}
-
+	
 	public RecipeItem(OreStack ore, float chance) {
 		this.fluid = null;
 		this.item = null;
 		this.ore = ore;
 		this.chance = chance;
 	}
-
+	
 	public RecipeItem(ItemStack item, FluidStack fluid, OreStack ore, float chance) {
 		this.fluid = fluid;
 		this.item = item;
 		this.ore = ore;
 		this.chance = chance;
 	}
-
+	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setFloat("chance", this.chance);
 		if (item != null) {
@@ -77,7 +77,7 @@ public class RecipeItem {
 			nbt.setTag("ore", nbtTag);
 		}
 	}
-
+	
 	public static RecipeItem loadFromNBT(NBTTagCompound nbt) {
 		ItemStack item = null;
 		FluidStack fluid = null;
@@ -95,30 +95,27 @@ public class RecipeItem {
 		}
 		return new RecipeItem(item, fluid, ore, chance);
 	}
-
+	
 	public boolean isFluid() {
 		return fluid != null;
 	}
-
+	
 	public boolean isItem() {
 		return item != null;
 	}
-
+	
 	public boolean isOre() {
 		return ore != null;
 	}
-
+	
 	public boolean isEmpty() {
 		return !isFluid() && !isItem() && !isOre();
 	}
 	
-	public boolean canUseItem(float chance){
-		if (this.chance == -1 || chance >= this.chance) {
-			return true;
-		}
-		return false;
+	public boolean canUseItem(float chance) {
+		return this.chance == -1 || chance >= this.chance;
 	}
-
+	
 	public RecipeItem copy() {
 		ItemStack item = this.item;
 		FluidStack fluid = this.fluid;

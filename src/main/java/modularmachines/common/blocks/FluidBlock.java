@@ -16,18 +16,18 @@ import net.minecraftforge.fml.common.Loader;
 import modularmachines.common.core.Registry;
 
 public class FluidBlock extends BlockFluidClassic {
-
+	
 	protected Fluid fluid;
 	protected String fluidName;
 	protected String modName;
-
+	
 	public FluidBlock(Fluid fluid, Material material, String fluidName) {
 		super(fluid, material);
 		this.fluid = fluid;
 		this.fluidName = fluidName;
 		this.modName = Loader.instance().activeModContainer().getModId().toLowerCase(Locale.ENGLISH);
 	}
-
+	
 	@Override
 	public boolean canDisplace(IBlockAccess world, BlockPos pos) {
 		IBlockState blockState = world.getBlockState(pos);
@@ -36,7 +36,7 @@ public class FluidBlock extends BlockFluidClassic {
 		}
 		return super.canDisplace(world, pos);
 	}
-
+	
 	@Override
 	public boolean displaceIfPossible(World world, BlockPos pos) {
 		IBlockState blockState = world.getBlockState(pos);
@@ -45,7 +45,7 @@ public class FluidBlock extends BlockFluidClassic {
 		}
 		return super.displaceIfPossible(world, pos);
 	}
-
+	
 	@Override
 	public String getUnlocalizedName() {
 		return Registry.setUnlocalizedBlockName(fluidName);

@@ -8,7 +8,7 @@ import modularmachines.api.modules.pages.ModuleComponent;
 
 public interface IModuleGuiLogic {
 	
-    IModuleContainer getProvider();
+	IModuleContainer getProvider();
 	
 	void setCurrentPage(@Nullable ModuleComponent page, boolean sendToServer);
 	

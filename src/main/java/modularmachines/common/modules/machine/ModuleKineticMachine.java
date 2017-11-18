@@ -11,7 +11,7 @@ import modularmachines.common.utils.ModuleUtil;
  * A module that uses kinetic energy to produce things.
  */
 public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMachine<R> {
-
+	
 	protected final double maxSpeed;
 	protected double speed = 0.0D;
 	
@@ -88,10 +88,10 @@ public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMach
 				if (speed > 0) {
 					workTime += Math.round(speed);
 				}
-
+				
 				if (workTime > 0) {
 					needUpdate = true;
-					this.workTime+= workTime;
+					this.workTime += workTime;
 				}
 			}
 			if (needUpdate) {
@@ -99,5 +99,5 @@ public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMach
 			}
 		}
 	}
-
+	
 }

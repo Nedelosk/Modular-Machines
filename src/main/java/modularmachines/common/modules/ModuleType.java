@@ -8,12 +8,12 @@ package modularmachines.common.modules;
 import modularmachines.api.modules.IModuleType;
 
 public enum ModuleType implements IModuleType {
-	TRANSFER{
+	TRANSFER {
 	/*	@Override
 		public void isValidModuleCount(IAssembler assembler, int count, List<AssemblerError> errors) {
 			if(count > 1){
 				errors.add(new AssemblerError(Translator.translateToLocal("modular.assembler.error.type.transfer")));
 			}
 		}*/
-	};
+	}
 }

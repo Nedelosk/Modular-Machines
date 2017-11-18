@@ -6,20 +6,20 @@ import modularmachines.api.recipes.IMode;
 
 public enum LatheMode implements IMode {
 	ROD("rod"), WIRE("wire"), SCREW("screw");
-
+	
 	public static final LatheMode[] VALUES = values();
-
+	
 	private String name;
-
-	private LatheMode(String name) {
+	
+	LatheMode(String name) {
 		this.name = name;
 	}
-
+	
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
 	public IMode next() {
 		int ord = ordinal();
@@ -30,7 +30,7 @@ public enum LatheMode implements IMode {
 		}
 		return VALUES[ord];
 	}
-
+	
 	@Override
 	public IMode previous() {
 		int ord = ordinal();
@@ -40,7 +40,7 @@ public enum LatheMode implements IMode {
 		}
 		return VALUES[ord];
 	}
-
+	
 	@Nullable
 	@Override
 	public IMode getMode(int index) {

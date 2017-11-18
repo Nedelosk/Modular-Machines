@@ -28,11 +28,11 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 		this.facing = facing;
 		this.tileEntity = null;
 	}
-
+	
 	@Override
 	public String getTabTooltip() {
 		ItemStack tabItem = getTabItem();
-		if(tabItem == null || tabItem.isEmpty()){
+		if (tabItem == null || tabItem.isEmpty()) {
 			return "UNKNOWN";
 		}
 		return tabItem.getDisplayName();
@@ -40,11 +40,11 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 	
 	@Override
 	public void init(IModuleContainer provider) {
-		if(tileEntity == null){
+		if (tileEntity == null) {
 			tileEntity = WorldUtil.getTile(provider.getLocatable(), facing);
 		}
 	}
-
+	
 	@Override
 	public boolean isValid() {
 		return tileEntity != null && moduleTransfer.isValid(this);
@@ -57,10 +57,10 @@ public class TransferWrapperTileEntity<H> implements ITransferHandlerWrapper<H> 
 	public EnumFacing getFacing() {
 		return facing;
 	}
-
+	
 	@Override
 	public ItemStack getTabItem() {
-		if(tileEntity == null){
+		if (tileEntity == null) {
 			return ItemStack.EMPTY;
 		}
 		World world = tileEntity.getWorld();

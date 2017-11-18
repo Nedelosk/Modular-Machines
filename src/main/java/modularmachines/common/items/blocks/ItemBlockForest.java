@@ -9,18 +9,18 @@ import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
 
 public class ItemBlockForest extends ItemBlock {
-
+	
 	public ItemBlockForest(Block block) {
 		super(block);
 		setHasSubtypes(true);
 		setCreativeTab(TabModularMachines.tabModularMachines);
 	}
-
+	
 	@Override
 	public int getMetadata(int i) {
 		return i;
 	}
-
+	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		String prefix = Integer.toString(itemstack.getItemDamage());

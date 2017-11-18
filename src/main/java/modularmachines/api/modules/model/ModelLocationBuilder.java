@@ -1,5 +1,6 @@
 package modularmachines.api.modules.model;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,33 +16,36 @@ public class ModelLocationBuilder {
 	
 	protected final Set<ModelFormatting> formattings;
 	protected final ModuleData data;
+	@Nullable
 	protected String preFix;
+	@Nullable
 	protected String folder;
 	protected boolean status;
-	protected ResourceLocation location;
 	
 	public ModelLocationBuilder(ModelLocationBuilder location) {
-		this.data = location.data;
-		this.formattings = location.formattings;
-		this.preFix = location.preFix;
-		this.folder = location.folder;
-		this.status = location.status;
-		this.location = null;
+		this(location.formattings, location.data, location.preFix, location.folder, location.status);
+	}
+	
+	private ModelLocationBuilder(Set<ModelFormatting> formattings, ModuleData data, @Nullable String preFix, @Nullable String folder, boolean status) {
+		this.formattings = formattings;
+		this.data = data;
+		this.preFix = preFix;
+		this.folder = folder;
+		this.status = status;
 	}
 	
 	public ModelLocationBuilder(ModuleData data) {
 		this.data = data;
 		this.formattings = new HashSet<>();
-		this.location = null;
 		this.preFix = "";
 	}
 	
-	public ModelLocationBuilder addPreFix(String preFix){
+	public ModelLocationBuilder addPreFix(String preFix) {
 		this.preFix = preFix;
 		return this;
 	}
 	
-	public ModelLocationBuilder addToPreFix(String preFix){
+	public ModelLocationBuilder addToPreFix(String preFix) {
 		this.preFix += preFix;
 		return this;
 	}
@@ -69,11 +73,15 @@ public class ModelLocationBuilder {
 		return this;
 	}
 	
-	public ModuleData getData() {
+	public ModuleData data() {
 		return data;
 	}
 	
-	public ResourceLocation build(){
+	public ModelLocationBuilder copy() {
+		return new ModelLocationBuilder(this);
+	}
+	
+	public ResourceLocation build() {
 		String modID = data.getRegistryName().getResourceDomain();
 		String preFix = this.preFix;
 		if (preFix == null) {
@@ -93,5 +101,5 @@ public class ModelLocationBuilder {
 		}
 		return new ResourceLocation(modID, "module/" + folder + "/" + preFix);
 	}
-
+	
 }

@@ -21,9 +21,9 @@ import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemTool extends Item implements IItemModelRegister {
-
+	
 	private String name;
-
+	
 	public ItemTool(String name, int maxDamage) {
 		this.setMaxDamage(maxDamage);
 		this.setCreativeTab(CreativeTabs.TOOLS);
@@ -32,7 +32,7 @@ public class ItemTool extends Item implements IItemModelRegister {
 		this.name = name;
 		setUnlocalizedName(Registry.setUnlocalizedItemName("tool." + name));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
@@ -40,7 +40,7 @@ public class ItemTool extends Item implements IItemModelRegister {
 		manager.registerItemModel(item, new ToolMeshDefinition(location));
 		ModelBakery.registerItemVariants(item, location);
 	}
-
+	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return getUnlocalizedName().replace("item.", "");
@@ -54,13 +54,13 @@ public class ItemTool extends Item implements IItemModelRegister {
 	
 	@SideOnly(Side.CLIENT)
 	private class ToolMeshDefinition implements ItemMeshDefinition {
-
+		
 		ModelResourceLocation location;
-
+		
 		public ToolMeshDefinition(ModelResourceLocation location) {
 			this.location = location;
 		}
-
+		
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;

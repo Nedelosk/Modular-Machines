@@ -16,7 +16,7 @@ import modularmachines.api.recipes.RecipeRegistry;
 import modularmachines.common.modules.IModuleWorking;
 
 public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
-
+	
 	private static final Random RANDOM = new Random();
 	
 	protected final int workTimeModifier;
@@ -27,7 +27,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	protected R recipe;
 	@Nullable
 	protected Random rand;
-
+	
 	public ModuleMachine(int workTimeModifier) {
 		super();
 		this.workTimeModifier = workTimeModifier;
@@ -35,12 +35,12 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	
 	@Override
 	public void update() {
-		if(rand == null){
+		if (rand == null) {
 			/*ILocatable locatable = logic.getLocatable();
 			if(locatable != null){
 				rand = locatable.getWorldObj().rand;
 			}else{*/
-				rand = RANDOM; 
+			rand = RANDOM;
 			//}
 		}
 	}
@@ -63,7 +63,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	}
 	
 	protected abstract IRecipeConsumer[] getConsumers();
-
+	
 	protected boolean addOutputs() {
 		IRecipeConsumer[] consumers = getConsumers();
 		for (IRecipeConsumer consumer : consumers) {
@@ -80,9 +80,9 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}*/
 	}
-
+	
 	public abstract RecipeItem[] getInputs();
-
+	
 	protected boolean isRecipeValid(R recipe) {
 		IRecipeConsumer[] consumers = getConsumers();
 		for (IRecipeConsumer consumer : consumers) {
@@ -92,20 +92,21 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		}
 		return true;
 	}
-
+	
 	protected abstract boolean canWork();
 	
 	protected int createWorkTimeTotal(int recipeSpeed) {
 		return recipeSpeed * workTimeModifier;
 	}
-
+	
 	public R getValidRecipe() {
 		List<R> recipes = getRecipes();
 		RecipeItem[] inputs = getInputs();
 		if (recipes == null) {
 			return null;
 		}
-		testRecipes: for (R recipe : recipes) {
+		testRecipes:
+		for (R recipe : recipes) {
 			RecipeItem[] recipeInputs = recipe.getInputItems();
 			for (int i = 0; i < recipeInputs.length; i++) {
 				RecipeItem recipeInput = recipeInputs[i];
@@ -134,7 +135,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		}
 		return null;
 	}
-
+	
 	public boolean isRecipeInput(int index, RecipeItem item) {
 		List<R> recipes = getRecipes();
 		if (recipes == null || item == null) {
@@ -142,7 +143,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		}
 		for (R recipe : recipes) {
 			RecipeItem[] items = recipe.getInputItems();
-			if(index >= items.length){
+			if (index >= items.length) {
 				continue;
 			}
 			if (RecipeRegistry.itemEqualsItem(items[index], item, false)) {
@@ -151,7 +152,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		}
 		return false;
 	}
-
+	
 	protected abstract String getRecipeCategory();
 	
 	@Override
@@ -180,7 +181,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	public void setRecipe(R recipe) {
 		this.recipe = recipe;
 	}
-
+	
 	public List<R> getRecipes() {
 		if (RecipeRegistry.getRecipeHandler(getRecipeCategory()) == null) {
 			return Collections.emptyList();

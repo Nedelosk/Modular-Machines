@@ -7,7 +7,7 @@ import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.recipes.Recipe;
 
-public class RecipePulverizer extends Recipe{
+public class RecipePulverizer extends Recipe {
 	
 	public RecipePulverizer(ItemStack input, ItemStack output, ItemStack outputSecond, float chance, int speed) {
 		this(new RecipeItem(input), new RecipeItem[]{new RecipeItem(output), new RecipeItem(outputSecond, chance)}, speed);
@@ -40,10 +40,10 @@ public class RecipePulverizer extends Recipe{
 	public RecipePulverizer(RecipeItem[] inputItems, RecipeItem[] outputItems, int speed) {
 		super(inputItems, outputItems, speed);
 	}
-
+	
 	@Override
 	public String getRecipeCategory() {
 		return MachineCategorys.PULVERIZER;
 	}
-
+	
 }

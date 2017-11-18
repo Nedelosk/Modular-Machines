@@ -21,6 +21,7 @@ import modularmachines.client.gui.WidgetManager;
 
 public class WidgetFilterSlot extends Widget {
 	private ItemStack stack;
+	
 	public WidgetFilterSlot(int posX, int posY) {
 		super(posX, posY, 16, 16);
 		this.stack = ItemStack.EMPTY;
@@ -29,11 +30,11 @@ public class WidgetFilterSlot extends Widget {
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		if(!stack.isEmpty()) {
+		if (!stack.isEmpty()) {
 			gui.drawItemStack(stack, guiLeft + pos.x, guiTop + pos.y);
 		}
 		WidgetManager manager = gui.getWidgetManager();
-		if(isMouseOver(manager.mouseX - guiLeft, manager.mouseY - guiTop)){
+		if (isMouseOver(manager.mouseX - guiLeft, manager.mouseY - guiTop)) {
 			GlStateManager.disableLighting();
 			GlStateManager.disableDepth();
 			GlStateManager.colorMask(true, true, true, false);
@@ -51,16 +52,16 @@ public class WidgetFilterSlot extends Widget {
 		super.handleMouseClick(mouseX, mouseY, mouseButton);
 		EntityPlayer player = Minecraft.getMinecraft().player;
 		ItemStack itemStack = player.inventory.getItemStack();
-		if(!itemStack.isEmpty()){
+		if (!itemStack.isEmpty()) {
 			stack = itemStack.copy();
-		}else if(GuiScreen.isShiftKeyDown()){
+		} else if (GuiScreen.isShiftKeyDown()) {
 			stack = ItemStack.EMPTY;
 		}
 	}
 	
 	@Override
 	public List<String> getTooltip() {
-		if(stack.isEmpty()){
+		if (stack.isEmpty()) {
 			return Collections.emptyList();
 		}
 		return stack.getTooltip(Minecraft.getMinecraft().player, ITooltipFlag.TooltipFlags.ADVANCED);

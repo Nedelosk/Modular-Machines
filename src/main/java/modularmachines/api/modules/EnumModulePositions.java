@@ -1,6 +1,6 @@
 package modularmachines.api.modules;
 
-public enum EnumModulePositions implements IModulePosition{
+public enum EnumModulePositions implements IModulePosition {
 	CASING,
 	FRONT,
 	BACK((float) (Math.PI)),

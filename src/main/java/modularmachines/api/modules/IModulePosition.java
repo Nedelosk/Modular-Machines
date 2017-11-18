@@ -7,11 +7,11 @@ import net.minecraft.util.EnumFacing;
  */
 public interface IModulePosition {
 	
-	default float getRotationAngle(){
+	default float getRotationAngle() {
 		return 0.0F;
 	}
 	
-	default EnumFacing getFacing(){
+	default EnumFacing getFacing() {
 		return EnumFacing.fromAngle(Math.toDegrees(getRotationAngle()));
 	}
 }

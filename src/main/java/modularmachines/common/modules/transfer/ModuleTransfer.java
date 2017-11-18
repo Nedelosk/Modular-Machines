@@ -18,7 +18,7 @@ import modularmachines.common.modules.logic.UpdateComponent;
 import modularmachines.common.utils.ModuleUtil;
 
 public abstract class ModuleTransfer<H> extends Module implements ITickable, IModuleTransfer<H> {
-
+	
 	protected List<ITransferCycle<H>> transferCycles;
 	public boolean wasCreated;
 	public boolean wasInited;
@@ -29,7 +29,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		NBTTagList list = new NBTTagList();
-		for(ITransferCycle cycle : transferCycles){
+		for (ITransferCycle cycle : transferCycles) {
 			list.appendTag(cycle.writeToNBT(new NBTTagCompound()));
 		}
 		compound.setTag("Cycles", list);
@@ -42,7 +42,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 		createWrappers();
 		transferCycles.clear();
 		NBTTagList list = compound.getTagList("Cycles", 10);
-		for(int i = 0;i < list.tagCount();i++){
+		for (int i = 0; i < list.tagCount(); i++) {
 			transferCycles.add(getCycle(list.getCompoundTagAt(i)));
 		}
 	}
@@ -52,54 +52,54 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 		createWrappers();
 	}*/
 	
-	private void createWrappers(){
-		if(wasCreated){
+	private void createWrappers() {
+		if (wasCreated) {
 			return;
 		}
 		for (EnumFacing facing : EnumFacing.VALUES) {
-			if(!tileWrappers.containsKey(facing)){
+			if (!tileWrappers.containsKey(facing)) {
 				tileWrappers.put(facing, createTileWrapper(facing));
 			}
 		}
 		for (Module module : container.getModules()) {
 			int index = module.getIndex();
-			if(!moduleWrappers.containsKey(index)){
+			if (!moduleWrappers.containsKey(index)) {
 				moduleWrappers.put(index, createModuleWrapper(index));
 			}
 		}
 		wasCreated = true;
 	}
 	
-	public void addCycle(ITransferCycle<H> cycle){
+	public void addCycle(ITransferCycle<H> cycle) {
 		transferCycles.add(cycle);
 		Collections.sort(transferCycles);
 		updateCycleWidgets();
 	}
 	
-	public void removeCycles(int index){
-		if(index >= transferCycles.size()){
+	public void removeCycles(int index) {
+		if (index >= transferCycles.size()) {
 			return;
 		}
 		transferCycles.remove(index);
-		if(!transferCycles.isEmpty()) {
+		if (!transferCycles.isEmpty()) {
 			Collections.sort(transferCycles);
 		}
 		updateCycleWidgets();
 	}
 	
-	public void updateCycleWidgets(){
+	public void updateCycleWidgets() {
 		ModuleComponent page = getComponent(0);
-		if(page instanceof ModuleComponentTransfer){
+		if (page instanceof ModuleComponentTransfer) {
 			ModuleComponentTransfer transferPage = (ModuleComponentTransfer) page;
 			
 		}
 	}
 	
-	public void initWrappers(){
-		if(wasInited){
+	public void initWrappers() {
+		if (wasInited) {
 			return;
 		}
-		for(ITransferHandlerWrapper wrapper : getWrappers()){
+		for (ITransferHandlerWrapper wrapper : getWrappers()) {
 			wrapper.init(container);
 		}
 		wasInited = true;
@@ -108,9 +108,9 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	public List<ITransferHandlerWrapper<H>> getValidWrappers() {
 		List<ITransferHandlerWrapper<H>> wrappers = getWrappers();
 		Iterator<ITransferHandlerWrapper<H>> wrappersIterator = wrappers.iterator();
-		while(wrappersIterator.hasNext()){
+		while (wrappersIterator.hasNext()) {
 			ITransferHandlerWrapper<H> wrapper = wrappersIterator.next();
-			if(!wrapper.isValid()){
+			if (!wrapper.isValid()) {
 				wrappersIterator.remove();
 			}
 		}
@@ -126,18 +126,18 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	
 	@Override
 	public void update() {
-		if(!wasInited){
+		if (!wasInited) {
 			initWrappers();
 			wasInited = true;
 		}
 		UpdateComponent update = ModuleUtil.getUpdate(container);
-		try{
+		try {
 			for (ITransferCycle<H> cycle : getTransferCycles()) {
 				if (cycle.canWork()) {
 					cycle.work(update.getTickCount());
 				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

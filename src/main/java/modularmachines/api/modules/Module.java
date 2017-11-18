@@ -29,7 +29,7 @@ import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.utils.BoundingBoxHelper;
 
 public class Module implements ICapabilityProvider {
-
+	
 	protected final List<ModuleComponent> components;
 	/**
 	 * The position of the module at the handler.
@@ -50,43 +50,43 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public EnumWallType getWallType(){
+	public EnumWallType getWallType() {
 		return EnumWallType.WALL;
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Nullable
-	public ResourceLocation getWindowLocation(){
+	public ResourceLocation getWindowLocation() {
 		return null;
 	}
 	
-	public List<ModuleComponent> getComponents(){
+	public List<ModuleComponent> getComponents() {
 		return components;
 	}
 	
 	@Nullable
-	public ModuleComponent getComponent(int index){
-		if(index >= components.size() || index < 0){
+	public ModuleComponent getComponent(int index) {
+		if (index >= components.size() || index < 0) {
 			return null;
 		}
 		return components.get(index);
 	}
 	
-	protected void addComponent(ModuleComponent component){
-		if(!components.contains(component)){
+	protected void addComponent(ModuleComponent component) {
+		if (!components.contains(component)) {
 			component.setIndex(components.size());
 			components.add(component);
 		}
 	}
-
+	
 	/**
 	 * @return The item that the module drop.
 	 */
-	public List<ItemStack> getDrops(){
+	public List<ItemStack> getDrops() {
 		return Collections.singletonList(parentItem);
 	}
 	
-	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem){
+	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
@@ -96,7 +96,7 @@ public class Module implements ICapabilityProvider {
 		this.container.onModuleAdded(this);
 	}
 	
-	public void onLoadModule(IModuleHandler parent, IModulePosition position){
+	public void onLoadModule(IModuleHandler parent, IModulePosition position) {
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
@@ -106,22 +106,22 @@ public class Module implements ICapabilityProvider {
 	
 	protected void createComponents() {
 	}
-
-	public boolean isClean(){
+	
+	public boolean isClean() {
 		return true;
 	}
 	
-	public void sendModuleUpdate(){
+	public void sendModuleUpdate() {
 		
 	}
 	
-    public NBTTagCompound writeToNBT(NBTTagCompound compound){
-    	compound.setTag("Parent", parentItem.serializeNBT());
-    	compound.setString("Data", data.getRegistryName().toString());
-    	return compound;
-    }
-    
-    public void readFromNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setTag("Parent", parentItem.serializeNBT());
+		compound.setString("Data", data.getRegistryName().toString());
+		return compound;
+	}
+	
+	public void readFromNBT(NBTTagCompound compound) {
 		parentItem = new ItemStack(compound.getCompoundTag("Parent"));
 		data = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(compound.getString("Data")));
 	}
@@ -154,34 +154,34 @@ public class Module implements ICapabilityProvider {
 		return data;
 	}
 	
-	public IItemHandler getItemHandler(){
+	public IItemHandler getItemHandler() {
 		return null;
 	}
 	
-	public IFluidHandler getFluidHandler(){
+	public IFluidHandler getFluidHandler() {
 		return null;
 	}
 	
 	@Nullable
-	public RayTraceResult collisionRayTrace(Vec3d start, Vec3d end){
+	public RayTraceResult collisionRayTrace(Vec3d start, Vec3d end) {
 		AxisAlignedBB boundingBox = getCollisionBox();
 		return boundingBox == null ? null : boundingBox.calculateIntercept(start, end);
 	}
 	
 	@Nullable
-	public AxisAlignedBB getCollisionBox(){
+	public AxisAlignedBB getCollisionBox() {
 		AxisAlignedBB boundingBox = getBoundingBox();
 		IModuleProvider provider = parent.getProvider();
-		if(boundingBox != null && provider instanceof Module){
+		if (boundingBox != null && provider instanceof Module) {
 			Module module = (Module) provider;
 			IModulePosition parentPosition = module.position;
 			EnumFacing facing = position.getFacing();
 			EnumFacing containerFacing = container.getFacing();
-			if(containerFacing == EnumFacing.SOUTH){
+			if (containerFacing == EnumFacing.SOUTH) {
 				facing = facing.rotateY().rotateY();
-			}else if(containerFacing == EnumFacing.EAST){
+			} else if (containerFacing == EnumFacing.EAST) {
 				facing = facing.rotateY();
-			}else if(containerFacing == EnumFacing.WEST){
+			} else if (containerFacing == EnumFacing.WEST) {
 				facing = facing.rotateY().rotateY().rotateY();
 			}
 			BoundingBoxHelper helper = new BoundingBoxHelper(facing);
@@ -190,20 +190,20 @@ public class Module implements ICapabilityProvider {
 		return boundingBox == null ? null : boundingBox.offset(getBoundingBoxOffset());
 	}
 	
-	protected Vec3d getBoundingBoxOffset(){
+	protected Vec3d getBoundingBoxOffset() {
 		return Vec3d.ZERO;
 	}
 	
 	@Nullable
-	protected AxisAlignedBB getBoundingBox(){
+	protected AxisAlignedBB getBoundingBox() {
 		return null;
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler());
-		}else if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		} else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(getFluidHandler());
 		}
 		return null;

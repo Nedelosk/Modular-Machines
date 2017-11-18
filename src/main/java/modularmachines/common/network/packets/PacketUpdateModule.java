@@ -14,15 +14,15 @@ import modularmachines.common.network.IStreamable;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
-public class PacketUpdateModule extends PacketModule{
-
+public class PacketUpdateModule extends PacketModule {
+	
 	public PacketUpdateModule() {
 	}
 	
 	public PacketUpdateModule(Module module) {
 		super(module);
 	}
-
+	
 	public PacketUpdateModule(Module module, ModuleComponent page) {
 		super(module, page);
 	}
@@ -45,8 +45,8 @@ public class PacketUpdateModule extends PacketModule{
 		}
 	}
 	
-	public static final class Handler implements IPacketHandlerClient{
-
+	public static final class Handler implements IPacketHandlerClient {
+		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
@@ -55,7 +55,7 @@ public class PacketUpdateModule extends PacketModule{
 			int componentIndex = data.readInt();
 			if (index > 0) {
 				Module module = container.getModule(index);
-				if(module == null){
+				if (module == null) {
 					return;
 				}
 				if (componentIndex > 0) {
@@ -69,7 +69,7 @@ public class PacketUpdateModule extends PacketModule{
 			}
 		}
 	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.UPDATE_MODULE;

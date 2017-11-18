@@ -38,22 +38,22 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	@Nullable
 	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
 	
-	default AxisAlignedBB getBoundingBox(){
+	default AxisAlignedBB getBoundingBox() {
 		return Block.FULL_BLOCK_AABB;
 	}
 	
 	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult);
 	
 	@Override
-	default IModuleContainer getContainer(){
+	default IModuleContainer getContainer() {
 		return this;
 	}
 	
 	@Nullable
-	default EnumFacing getFacing(){
+	default EnumFacing getFacing() {
 		return null;
 	}
 	
-	default void setFacing(EnumFacing facing){
+	default void setFacing(EnumFacing facing) {
 	}
 }

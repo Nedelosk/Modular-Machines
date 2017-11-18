@@ -16,15 +16,15 @@ import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
-
+	
 	public List<String> jeiTooltip;
 	public final IModuleWorking module;
-
+	
 	public WidgetProgressBar(int posX, int posY, IModuleWorking module) {
 		super(posX, posY, 22, 17);
 		this.module = module;
 	}
-
+	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton);
@@ -32,7 +32,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 			PluginUtil.show(((IModuleJei) module).getJeiRecipeCategorys());
 		}
 	}
-
+	
 	@Override
 	public List<String> getTooltip() {
 		ArrayList<String> list = new ArrayList<>();
@@ -54,7 +54,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 		}
 		return list;
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
@@ -72,7 +72,7 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 		int scale = pos.height;
 		return (int) MathHelper.clamp(Math.round(scale * getTimeRatio(module.getWorkTime())), 0, scale);
 	}
-
+	
 	private double getTimeRatio(int time) {
 		if (time <= 0) {
 			return 0;

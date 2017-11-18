@@ -14,25 +14,25 @@ import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ModuleUtil;
 
 public class PacketSyncHeatBuffer extends PacketLocatable {
-
+	
 	public double heatBuffer;
-
+	
 	public PacketSyncHeatBuffer() {
 	}
-
+	
 	public PacketSyncHeatBuffer(IModuleContainer provider) {
 		super(provider);
 		IHeatSource heatSource = ModuleUtil.getHeat(provider);
 		heatBuffer = heatSource.getHeatStored();
 	}
-
+	
 	@Override
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeDouble(heatBuffer);
 	}
-
-	public static final class Handler implements IPacketHandlerClient{
+	
+	public static final class Handler implements IPacketHandlerClient {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -44,7 +44,7 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 			}
 		}
 	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SYNC_HEAT;

@@ -11,7 +11,7 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 
 public class WidgetTransferHandler<H> extends Widget {
-
+	
 	private final List<ITransferHandlerWrapper<H>> wrappers;
 	private ITransferHandlerWrapper currentWrapper;
 	private ItemStack itemStack;
@@ -23,10 +23,10 @@ public class WidgetTransferHandler<H> extends Widget {
 		setItemStack();
 	}
 	
-	private void setItemStack(){
+	private void setItemStack() {
 		itemStack = currentWrapper.getTabItem();
 	}
-
+	
 	@Override
 	public List<String> getTooltip() {
 		if (currentWrapper != null) {
@@ -34,32 +34,32 @@ public class WidgetTransferHandler<H> extends Widget {
 		}
 		return Collections.emptyList();
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		GlStateManager.enableAlpha();
 		Minecraft.getMinecraft().renderEngine.bindTexture(widgetTexture);
 		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 220, 0, pos.width, pos.height);
-		if(!itemStack.isEmpty()){
+		if (!itemStack.isEmpty()) {
 			gui.drawItemStack(itemStack, guiLeft + pos.x + 1, guiTop + pos.y + 1);
 		}
 		GlStateManager.disableAlpha();
 	}
-
+	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (currentWrapper != null) {
 			ModularMachines.proxy.playButtonClick();
 			int index = wrappers.indexOf(currentWrapper);
-			if(wrappers.size() > 1){
-				if(mouseButton == 0){
+			if (wrappers.size() > 1) {
+				if (mouseButton == 0) {
 					if (index == wrappers.size() - 1) {
 						index = 0;
 					} else {
 						index++;
 					}
-				}else{
+				} else {
 					index--;
 					if (index < 0) {
 						index = wrappers.size() - 1;

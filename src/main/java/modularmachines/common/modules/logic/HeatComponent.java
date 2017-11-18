@@ -11,8 +11,8 @@ import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
 
-public class HeatComponent extends LogicComponent implements IHeatSource{
-
+public class HeatComponent extends LogicComponent implements IHeatSource {
+	
 	protected final HeatBuffer buffer;
 	
 	public HeatComponent() {
@@ -35,12 +35,12 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	public double extractHeat(double maxExtract, boolean simulate) {
 		return buffer.extractHeat(maxExtract, simulate);
 	}
-
+	
 	@Override
 	public double receiveHeat(double maxReceive, boolean simulate) {
 		return buffer.receiveHeat(maxReceive, simulate);
 	}
-
+	
 	@Override
 	public void increaseHeat(double maxHeat, int heatModifier) {
 		buffer.increaseHeat(maxHeat, heatModifier);
@@ -59,22 +59,22 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 			}
 		}
 	}
-
+	
 	@Override
 	public void reduceHeat(int heatModifier) {
 		buffer.reduceHeat(heatModifier);
 	}
-
+	
 	@Override
 	public void setHeatStored(double heatBuffer) {
 		buffer.setHeatStored(heatBuffer);
 	}
-
+	
 	@Override
 	public double getHeatStored() {
 		return buffer.getHeatStored();
 	}
-
+	
 	@Override
 	public double getCapacity() {
 		return buffer.getCapacity();
@@ -83,5 +83,5 @@ public class HeatComponent extends LogicComponent implements IHeatSource{
 	public HeatBuffer getBuffer() {
 		return buffer;
 	}
-
+	
 }

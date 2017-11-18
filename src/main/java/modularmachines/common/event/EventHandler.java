@@ -30,20 +30,20 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
 
 public class EventHandler {
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tooltipEvent(ItemTooltipEvent event) {
 		event.getToolTip().addAll(ModularMachines.proxy.addModuleInfo(event.getItemStack()));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/container"));
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/liquid"));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
@@ -63,11 +63,11 @@ public class EventHandler {
 		Minecraft mc = Minecraft.getMinecraft();
 		World world = mc.world;
 		RayTraceResult posHit = mc.objectMouseOver;
-		if(posHit != null && posHit.typeOfHit == RayTraceResult.Type.BLOCK && posHit.getBlockPos() != null){
+		if (posHit != null && posHit.typeOfHit == RayTraceResult.Type.BLOCK && posHit.getBlockPos() != null) {
 			BlockPos pos = posHit.getBlockPos();
 			EnumFacing facing = posHit.sideHit;
 			TileEntity tileEntity = WorldUtil.getTile(world, pos, TileEntity.class);
-			if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite())){
+			if (tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite())) {
 				/*IModuleLogic logic = tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite());
 				if(logic != null){
 					FontRenderer fontRenderer = mc.fontRenderer;

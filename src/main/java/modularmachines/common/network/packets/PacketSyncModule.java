@@ -15,17 +15,17 @@ import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
 public class PacketSyncModule extends PacketModule {
-
+	
 	private NBTTagCompound nbt;
-
+	
 	public PacketSyncModule() {
 	}
-
+	
 	public PacketSyncModule(Module module) {
 		super(module);
 		this.nbt = module.writeToNBT(new NBTTagCompound());
 	}
-
+	
 	@Override
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
@@ -37,8 +37,8 @@ public class PacketSyncModule extends PacketModule {
 		return PacketId.SYNC_MODULE;
 	}
 	
-	public static class Handler implements IPacketHandlerClient{
-
+	public static class Handler implements IPacketHandlerClient {
+		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {

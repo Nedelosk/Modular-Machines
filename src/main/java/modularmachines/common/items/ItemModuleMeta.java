@@ -14,10 +14,10 @@ import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemModuleMeta extends Item implements IItemModelRegister {
-
+	
 	public String[] names;
 	public String uln;
-
+	
 	public ItemModuleMeta(String uln, String[] names) {
 		setUnlocalizedName(uln);
 		setHasSubtypes(true);
@@ -25,7 +25,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 		this.names = names;
 		this.uln = uln;
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
@@ -33,17 +33,17 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 			manager.registerItemModel(item, i, uln + "/" + names[i]);
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-		if(isInCreativeTab(tab)) {
+		if (isInCreativeTab(tab)) {
 			for (int i = 0; i < names.length; i++) {
 				list.add(new ItemStack(this, 1, i));
 			}
 		}
 	}
-
+	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName(uln + "_" + names[itemstack.getItemDamage()]);

@@ -49,7 +49,7 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		ILocatable locatable = source.getLocatable();
-		if(locatable != null){
+		if (locatable != null) {
 			return locatable.isUsableByPlayer(player);
 		}
 		return true;

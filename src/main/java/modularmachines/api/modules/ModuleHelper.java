@@ -27,7 +27,7 @@ public class ModuleHelper {
 		}
 		return validModules;
 	}
-
+	
 	/**
 	 * @return The matching module container for the stack.
 	 */

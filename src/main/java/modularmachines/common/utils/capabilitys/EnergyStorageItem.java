@@ -15,28 +15,28 @@ import net.minecraftforge.energy.IEnergyStorage;
 import modularmachines.common.utils.content.IEnergyItem;
 
 public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
-
+	
 	public static final String ENERGY_KEY = "Energy";
 	protected final ItemStack container;
 	protected final IEnergyItem energyItem;
 	protected final int maxReceive;
 	protected final int maxExtract;
-
+	
 	public EnergyStorageItem(ItemStack container, IEnergyItem energyItem) {
 		this(container, energyItem, 1000, 1000);
 	}
-
+	
 	public EnergyStorageItem(ItemStack container, IEnergyItem energyItem, int maxTransfer) {
 		this(container, energyItem, maxTransfer, maxTransfer);
 	}
-
+	
 	public EnergyStorageItem(ItemStack container, IEnergyItem energyItem, int maxReceive, int maxExtract) {
 		this.container = container;
 		this.energyItem = energyItem;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
 	}
-
+	
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		if (!canReceive()) {
@@ -49,7 +49,7 @@ public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
 		}
 		return energyReceived;
 	}
-
+	
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		if (!canExtract()) {
@@ -62,7 +62,7 @@ public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
 		}
 		return energyExtracted;
 	}
-
+	
 	@Override
 	public int getEnergyStored() {
 		if (!container.hasTagCompound()) {
@@ -70,7 +70,7 @@ public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
 		}
 		return container.getTagCompound().getInteger(ENERGY_KEY);
 	}
-
+	
 	@Override
 	public int getMaxEnergyStored() {
 		if (!container.hasTagCompound()) {
@@ -78,35 +78,35 @@ public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
 		}
 		return energyItem.getCapacity(container);
 	}
-
+	
 	@Override
 	public boolean canExtract() {
 		return this.maxExtract > 0;
 	}
-
+	
 	@Override
 	public boolean canReceive() {
 		return this.maxReceive > 0;
 	}
-
+	
 	public void setEnergy(int energy) {
 		if (!container.hasTagCompound()) {
 			return;
 		}
 		container.getTagCompound().setInteger(ENERGY_KEY, energy);
 	}
-
+	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		return capability == CapabilityEnergy.ENERGY;
 	}
-
+	
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		return capability == CapabilityEnergy.ENERGY ? CapabilityEnergy.ENERGY.cast(this) : null;
 	}
-
+	
 	public static ItemStack createItemStack(IEnergyItem item, int size, int damage, boolean empty) {
 		ItemStack itemStack = new ItemStack(item.getItem(), size, damage);
 		NBTTagCompound tagCombound = new NBTTagCompound();
@@ -114,36 +114,36 @@ public class EnergyStorageItem implements IEnergyStorage, ICapabilityProvider {
 		itemStack.setTagCompound(tagCombound);
 		return itemStack;
 	}
-
+	
 	public static ItemStack createItemStack(Item item, int size, int damage, int energy) {
 		ItemStack itemStack = new ItemStack(item, size, damage);
 		NBTTagCompound tagCombound = new NBTTagCompound();
 		tagCombound.setInteger(EnergyStorageItem.ENERGY_KEY, energy);
 		return itemStack;
 	}
-
+	
 	public static int getCapacity(ItemStack stack) {
 		if (stack.getItem() instanceof IEnergyItem) {
 			return ((IEnergyItem) stack.getItem()).getCapacity(stack);
 		}
 		return 0;
 	}
-
+	
 	public static int getEnergy(ItemStack stack) {
 		return getEnergy(stack.getTagCompound());
 	}
-
+	
 	public static int getEnergy(NBTTagCompound tagCombound) {
 		if (!hasEnergy(tagCombound)) {
 			return 0;
 		}
 		return tagCombound.getInteger(EnergyStorageItem.ENERGY_KEY);
 	}
-
+	
 	public static boolean hasEnergy(ItemStack stack) {
 		return hasEnergy(stack.getTagCompound());
 	}
-
+	
 	public static boolean hasEnergy(@Nullable NBTTagCompound tagCombound) {
 		return tagCombound != null && tagCombound.hasKey(EnergyStorageItem.ENERGY_KEY);
 	}

@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.client.model.ModelManager;
 
 public interface IItemModelRegister {
-
+	
 	@SideOnly(Side.CLIENT)
 	void registerItemModels(Item item, ModelManager manager);
 }

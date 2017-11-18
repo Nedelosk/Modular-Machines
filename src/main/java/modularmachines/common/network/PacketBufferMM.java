@@ -21,18 +21,18 @@ public class PacketBufferMM extends PacketBuffer {
 	public PacketBufferMM(ByteBuf wrapped) {
 		super(wrapped);
 	}
-
+	
 	public String readString() {
 		return super.readString(1024);
 	}
-
+	
 	public void writeItemStacks(NonNullList<ItemStack> itemStacks) {
 		writeVarInt(itemStacks.size());
 		for (ItemStack stack : itemStacks) {
 			writeItemStack(stack);
 		}
 	}
-
+	
 	public NonNullList<ItemStack> readItemStacks() throws IOException {
 		int stackCount = readVarInt();
 		NonNullList<ItemStack> itemStacks = NonNullList.create();
@@ -41,26 +41,26 @@ public class PacketBufferMM extends PacketBuffer {
 		}
 		return itemStacks;
 	}
-
+	
 	public void writeInventory(IInventory inventory) {
 		int size = inventory.getSizeInventory();
 		writeVarInt(size);
-
+		
 		for (int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getStackInSlot(i);
 			writeItemStack(stack);
 		}
 	}
-
+	
 	public void readInventory(IInventory inventory) throws IOException {
 		int size = readVarInt();
-
+		
 		for (int i = 0; i < size; i++) {
 			ItemStack stack = readItemStack();
 			inventory.setInventorySlotContents(i, stack);
 		}
 	}
-
+	
 	public void writeFluidStack(@Nullable FluidStack fluidStack) {
 		if (fluidStack == null) {
 			writeVarInt(-1);
@@ -69,7 +69,7 @@ public class PacketBufferMM extends PacketBuffer {
 			writeString(fluidStack.getFluid().getName());
 		}
 	}
-
+	
 	@Nullable
 	public FluidStack readFluidStack() {
 		int amount = readVarInt();
@@ -79,22 +79,22 @@ public class PacketBufferMM extends PacketBuffer {
 			if (fluid == null) {
 				return null;
 			}
-
+			
 			return new FluidStack(fluid, amount);
 		}
 		return null;
 	}
-
+	
 	public void writeEntityById(Entity entity) {
 		writeVarInt(entity.getEntityId());
 	}
-
+	
 	@Nullable
 	public Entity readEntityById(World world) {
 		int entityId = readVarInt();
 		return world.getEntityByID(entityId);
 	}
-
+	
 	public <T extends Enum<T>> void writeEnum(T enumValue, T[] enumValues) {
 		if (enumValues.length <= 256) {
 			writeByte(enumValue.ordinal());
@@ -102,7 +102,7 @@ public class PacketBufferMM extends PacketBuffer {
 			writeVarInt(enumValue.ordinal());
 		}
 	}
-
+	
 	public <T extends Enum<T>> T readEnum(T[] enumValues) {
 		int ordinal;
 		if (enumValues.length <= 256) {
@@ -112,7 +112,7 @@ public class PacketBufferMM extends PacketBuffer {
 		}
 		return enumValues[ordinal];
 	}
-
+	
 	public void writeStreamable(@Nullable IStreamable streamable) {
 		if (streamable != null) {
 			writeBoolean(true);
@@ -121,7 +121,7 @@ public class PacketBufferMM extends PacketBuffer {
 			writeBoolean(false);
 		}
 	}
-
+	
 	@Nullable
 	public <T extends IStreamable> T readStreamable(IStreamableFactory<T> factory) throws IOException {
 		if (readBoolean()) {
@@ -129,7 +129,7 @@ public class PacketBufferMM extends PacketBuffer {
 		}
 		return null;
 	}
-
+	
 	public <T extends IStreamable> void writeStreamables(@Nullable List<T> streamables) {
 		if (streamables == null) {
 			writeVarInt(0);
@@ -140,7 +140,7 @@ public class PacketBufferMM extends PacketBuffer {
 			}
 		}
 	}
-
+	
 	public <T extends IStreamable> void readStreamables(List<T> outputList, IStreamableFactory<T> factory) throws IOException {
 		outputList.clear();
 		int length = readVarInt();
@@ -151,7 +151,7 @@ public class PacketBufferMM extends PacketBuffer {
 			}
 		}
 	}
-
+	
 	public interface IStreamableFactory<T extends IStreamable> {
 		T create(PacketBufferMM data) throws IOException;
 	}

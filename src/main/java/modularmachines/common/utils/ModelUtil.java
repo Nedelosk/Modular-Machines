@@ -18,11 +18,11 @@ import net.minecraftforge.client.model.SimpleModelState;
 import modularmachines.common.ModularMachines;
 
 public class ModelUtil {
-
+	
 	public static SimpleModelState loadModelState(ResourceLocation location) {
 		return new SimpleModelState(PerspectiveMapWrapper.getTransforms(loadTransformFromJson(location)));
 	}
-
+	
 	private static ItemCameraTransforms loadTransformFromJson(ResourceLocation location) {
 		try {
 			return ModelBlock.deserialize(getReaderForResource(location)).getAllTransforms();
@@ -31,7 +31,7 @@ public class ModelUtil {
 		}
 		return ItemCameraTransforms.DEFAULT;
 	}
-
+	
 	private static Reader getReaderForResource(ResourceLocation location) throws IOException {
 		ResourceLocation file = new ResourceLocation(location.getResourceDomain(),
 				location.getResourcePath() + ".json");

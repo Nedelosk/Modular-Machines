@@ -15,5 +15,5 @@ public abstract class ModuleComponentTransfer<M extends ModuleTransfer<H>, H> ex
 	public int getPlayerInvPosition() {
 		return 161;
 	}
-
+	
 }

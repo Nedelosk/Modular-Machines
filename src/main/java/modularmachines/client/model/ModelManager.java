@@ -35,7 +35,7 @@ import modularmachines.common.utils.content.IItemModelRegister;
 
 @SideOnly(Side.CLIENT)
 public class ModelManager {
-
+	
 	private static final ModelManager instance = new ModelManager();
 	private final List<IItemModelRegister> itemModelRegisters = new ArrayList<>();
 	private final List<IClientContentHandler> clientContentHandlers = new ArrayList<>();
@@ -44,39 +44,39 @@ public class ModelManager {
 	/* DEFAULT ITEM AND BLOCK MODEL STATES*/
 	private IModelState defaultBlockState;
 	private IModelState defaultItemState;
-
+	
 	public ModelManager() {
 	}
-
+	
 	public static ModelManager getInstance() {
 		return instance;
 	}
-
+	
 	public void registerItemModel(Item item, int meta, String identifier) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, createModelLocation(identifier));
 	}
-
+	
 	public void registerItemModel(Item item, int meta, String modID, String identifier) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, createModelLocation(modID, identifier));
 	}
-
+	
 	public void registerItemModel(Item item, int meta) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, createModelLocation(item));
 	}
-
+	
 	public void registerItemModel(Item item, ItemMeshDefinition definition) {
 		ModelLoader.setCustomMeshDefinition(item, definition);
 	}
-
+	
 	public ModelResourceLocation createModelLocation(Item item) {
 		String itemName = ForgeRegistries.ITEMS.getKey(item).getResourcePath();
 		return createModelLocation(itemName);
 	}
-
+	
 	public ModelResourceLocation createModelLocation(String identifier) {
 		return createModelLocation(Constants.MOD_ID, identifier);
 	}
-
+	
 	public ModelResourceLocation createModelLocation(String modID, String identifier) {
 		return new ModelResourceLocation(modID + ":" + identifier, "inventory");
 	}
@@ -94,7 +94,7 @@ public class ModelManager {
 		defaultItemState = ModelUtil.loadModelState(new ResourceLocation("minecraft:models/item/generated"));
 		defaultBlockState = ModelUtil.loadModelState(new ResourceLocation("minecraft:models/block/block"));
 	}
-
+	
 	public void registerBlockClient(Block block) {
 		if (block instanceof IItemModelRegister) {
 			itemModelRegisters.add((IItemModelRegister) block);
@@ -106,7 +106,7 @@ public class ModelManager {
 			blockColorList.add((IColoredBlock) block);
 		}
 	}
-
+	
 	public void registerItemClient(Item item) {
 		if (item instanceof IItemModelRegister) {
 			itemModelRegisters.add((IItemModelRegister) item);
@@ -118,7 +118,7 @@ public class ModelManager {
 			itemColorList.add((IColoredItem) item);
 		}
 	}
-
+	
 	public void registerModels() {
 		for (IItemModelRegister itemModelRegister : itemModelRegisters) {
 			Item item = null;
@@ -135,7 +135,7 @@ public class ModelManager {
 			clientContentHandler.handleClientContent();
 		}
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public void registerItemAndBlockColors() {
 		Minecraft minecraft = Minecraft.getMinecraft();
@@ -152,12 +152,12 @@ public class ModelManager {
 			}
 		}
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	private static class ItemColorHandler implements IItemColor {
-
+		
 		public static final ItemColorHandler INSTANCE = new ItemColorHandler();
-
+		
 		private ItemColorHandler() {
 		}
 		
@@ -170,15 +170,15 @@ public class ModelManager {
 			return 0xffffff;
 		}
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	private static class BlockColorHandler implements IBlockColor {
-
+		
 		public static final BlockColorHandler INSTANCE = new BlockColorHandler();
-
+		
 		private BlockColorHandler() {
 		}
-
+		
 		@Override
 		public int colorMultiplier(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
 			Block block = state.getBlock();

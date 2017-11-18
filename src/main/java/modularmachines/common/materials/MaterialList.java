@@ -4,24 +4,24 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class MaterialList implements Iterable<EnumMaterial> {
-
+	
 	private EnumMaterial[] materials;
-
+	
 	public MaterialList(EnumMaterial... materials) {
 		this.materials = materials;
 	}
-
+	
 	public EnumMaterial[] getMaterials() {
 		return materials;
 	}
-
+	
 	public EnumMaterial get(int index) {
 		if (index >= materials.length) {
 			return null;
 		}
 		return materials[index];
 	}
-
+	
 	public int getIndex(EnumMaterial material) {
 		if (material == null) {
 			return -1;
@@ -35,7 +35,7 @@ public class MaterialList implements Iterable<EnumMaterial> {
 		}
 		return -1;
 	}
-
+	
 	public EnumMaterial getFromOre(String oreDict) {
 		for (EnumMaterial material : materials) {
 			String[] oreDicts = material.getOreDicts();
@@ -49,7 +49,7 @@ public class MaterialList implements Iterable<EnumMaterial> {
 		}
 		return null;
 	}
-
+	
 	public String getName(int index) {
 		if (index >= materials.length) {
 			return null;
@@ -60,29 +60,29 @@ public class MaterialList implements Iterable<EnumMaterial> {
 		}
 		return material.getName();
 	}
-
+	
 	public int getColor(int index) {
 		if (index >= materials.length) {
 			return -1;
 		}
 		return materials[index].getColor();
 	}
-
+	
 	public int size() {
 		return materials.length;
 	}
-
+	
 	@Override
 	public Iterator<EnumMaterial> iterator() {
 		return new Iterator<EnumMaterial>() {
-
+			
 			int index = 0;
-
+			
 			@Override
 			public boolean hasNext() {
 				return (index < materials.length);
 			}
-
+			
 			@Override
 			public EnumMaterial next() throws NoSuchElementException {
 				if (index >= materials.length) {
@@ -91,7 +91,7 @@ public class MaterialList implements Iterable<EnumMaterial> {
 				index++;
 				return materials[index - 1];
 			}
-
+			
 			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();

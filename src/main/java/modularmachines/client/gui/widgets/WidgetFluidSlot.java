@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.IFluidTank;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetFluidSlot extends Widget {
-
+	
 	private IFluidTank tank;
 	
 	public WidgetFluidSlot(int posX, int posY, IFluidTank tank) {
@@ -34,7 +34,7 @@ public class WidgetFluidSlot extends Widget {
 		GlStateManager.disableBlend();
 	}
 	
-	public void drawFluid(int xPos, int yPos, FluidStack fluidStack){
+	public void drawFluid(int xPos, int yPos, FluidStack fluidStack) {
 		if (fluidStack == null) {
 			return;
 		}
@@ -63,5 +63,5 @@ public class WidgetFluidSlot extends Widget {
 		float blue = (color & 0xFF) / 255.0F;
 		GlStateManager.color(red, green, blue, 1.0F);
 	}
-
+	
 }

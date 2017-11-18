@@ -12,23 +12,23 @@ import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
-
+	
 	protected final List<Widget> widgets = new ArrayList<>();
 	public final GuiBase<P, S> gui;
 	public int mouseX;
 	public int mouseY;
-
+	
 	public WidgetManager(GuiBase<P, S> gui) {
 		this.gui = gui;
 	}
-
+	
 	public void add(Widget widget) {
 		if (!widgets.contains(widget)) {
 			this.widgets.add(widget);
 			widget.setManager(this);
 		}
 	}
-
+	
 	public void addAll(Collection<Widget> widgets) {
 		if (widgets == null) {
 			return;
@@ -37,15 +37,15 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 			add(widget);
 		}
 	}
-
+	
 	public void remove(Widget widget) {
 		this.widgets.remove(widget);
 	}
-
+	
 	public void clear() {
 		this.widgets.clear();
 	}
-
+	
 	public Widget getWidgetAtMouse(int mouseX, int mouseY) {
 		for (Widget widget : widgets) {
 			if (widget.isMouseOver(mouseX, mouseY)) {
@@ -54,7 +54,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		}
 		return null;
 	}
-
+	
 	public void drawWidgets(int guiLeft, int guiTop) {
 		for (Widget slot : widgets) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -112,7 +112,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		}
 		return false;
 	}
-
+	
 	public void drawTooltip(int mouseX, int mouseY) {
 		int posX = mouseX - gui.getGuiLeft();
 		int posY = mouseY - gui.getGuiTop();
@@ -121,7 +121,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 			RenderUtil.renderTooltip(mouseX, mouseY, widget.getTooltip());
 		}
 	}
-
+	
 	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
 		int posX = mouseX - gui.getGuiLeft();
 		int posY = mouseY - gui.getGuiTop();
@@ -129,11 +129,11 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		if (widget != null) {
 			widget.handleMouseClick(posX, posY, mouseButton);
 		}
-		for(Widget w : widgets){
+		for (Widget w : widgets) {
 			w.onMouseClick(posX, posY, mouseButton);
 		}
 	}
-
+	
 	public List<Widget> getWidgets() {
 		return widgets;
 	}

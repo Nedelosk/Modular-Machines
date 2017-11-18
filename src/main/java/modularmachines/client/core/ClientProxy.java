@@ -42,7 +42,7 @@ import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.utils.Translator;
 
 public class ClientProxy extends CommonProxy {
-
+	
 	public static KeyBinding MODULE_INFO = new KeyBinding("key.mm.showModuleInfo", KeyConflictContext.GUI, Keyboard.KEY_M, Constants.NAME);
 	
 	@Override
@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void loadModuleModels() {
-		for(ModuleDefinition definition : ModuleDefinition.values()){
+		for (ModuleDefinition definition : ModuleDefinition.values()) {
 			definition.registerModelData();
 		}
 	}
@@ -73,7 +73,7 @@ public class ClientProxy extends CommonProxy {
 	public EntityPlayer getPlayer() {
 		return Minecraft.getMinecraft().player;
 	}
-
+	
 	@Override
 	public void playButtonClick() {
 		Minecraft minecraft = getClientInstance();
@@ -110,14 +110,14 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void onAssemblerGuiChange() {
 		GuiScreen screen = getClientInstance().currentScreen;
-		if(screen != null){
+		if (screen != null) {
 			/*if(screen instanceof GuiAssembler){
 				GuiAssembler assembler = (GuiAssembler) screen;
 				assembler.setHasChange();
 			}*/
 		}
 	}
-
+	
 	@Override
 	public void registerFluidStateMapper(Block block, final Fluid fluid) {
 		final ModelResourceLocation fluidLocation = new ModelResourceLocation("modularmachines:fluids", fluid.getName());
@@ -126,59 +126,59 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(block), new FluidItemMeshDefinition(fluidLocation));
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(block), fluidLocation);
 	}
-
+	
 	@Override
 	public void registerStateMapper(Block block, IStateMapper mapper) {
 		ModelLoader.setCustomStateMapper(block, mapper);
 	}
-
+	
 	private static class FluidStateMapper extends StateMapperBase {
-
+		
 		private final ModelResourceLocation fluidLocation;
-
+		
 		public FluidStateMapper(ModelResourceLocation fluidLocation) {
 			this.fluidLocation = fluidLocation;
 		}
-
+		
 		@Override
 		protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
 			return fluidLocation;
 		}
 	}
-
+	
 	public static class BlockModeStateMapper extends StateMapperBase {
-
+		
 		private final ModelResourceLocation location;
-
+		
 		public BlockModeStateMapper(ModelResourceLocation location) {
 			this.location = location;
 		}
-
+		
 		@Override
 		protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
 			return location;
 		}
 	}
-
+	
 	private static class FluidItemMeshDefinition implements ItemMeshDefinition {
-
+		
 		private final ModelResourceLocation fluidLocation;
-
+		
 		public FluidItemMeshDefinition(ModelResourceLocation fluidLocation) {
 			this.fluidLocation = fluidLocation;
 		}
-
+		
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return fluidLocation;
 		}
 	}
-
+	
 	@Override
 	public void registerBlock(Block block) {
 		ModelManager.getInstance().registerBlockClient(block);
 	}
-
+	
 	@Override
 	public void registerItem(Item item) {
 		ModelManager.getInstance().registerItemClient(item);

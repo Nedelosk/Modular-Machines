@@ -10,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeRegistry {
-
+	
 	private static final HashMap<String, IRecipeHandler> handlers = Maps.newHashMap();
-
+	
 	/**
 	 * Remove a recipe from the registry
 	 */
@@ -24,17 +24,16 @@ public class RecipeRegistry {
 		return handler.getRecipes().remove(recipe);
 	}
 	
-	public static void registerRecipe(IRecipe recipe){
+	public static void registerRecipe(IRecipe recipe) {
 		IRecipeHandler handler = getRecipeHandler(recipe.getRecipeCategory());
 		if (handler == null) {
 			return;
 		}
 		handler.addRecipe(recipe);
 	}
-
+	
 	/**
-	 * @param testSizeSame
-	 *            Test the stackSize or the amount of the two RecipeItem's.
+	 * @param testSizeSame Test the stackSize or the amount of the two RecipeItem's.
 	 * @return True if the input equals the item
 	 */
 	public static boolean itemEqualsItem(RecipeItem item, RecipeItem input, boolean testSizeSame) {
@@ -43,7 +42,7 @@ public class RecipeRegistry {
 				if (!input.isItem()) {
 					return false;
 				} else if (item.item.getItem() == input.item.getItem() && (item.item.getItemDamage() == input.item.getItemDamage() || item.item.getItemDamage() == OreDictionary.WILDCARD_VALUE)
-						&& (testSizeSame && item.item.getCount() <= input.item.getCount() || !testSizeSame) && (!item.item.hasTagCompound() && !input.item.hasTagCompound() || ItemStack.areItemStackTagsEqual(item.item, input.item))) {
+						&& (!testSizeSame || item.item.getCount() <= input.item.getCount()) && (!item.item.hasTagCompound() && !input.item.hasTagCompound() || ItemStack.areItemStackTagsEqual(item.item, input.item))) {
 					return true;
 				}
 				return false;
@@ -51,7 +50,7 @@ public class RecipeRegistry {
 				if (!input.isFluid()) {
 					return false;
 				} else if (item.fluid.isFluidEqual(input.fluid)) {
-					if (testSizeSame && item.fluid.amount <= input.fluid.amount || !testSizeSame) {
+					if (!testSizeSame || item.fluid.amount <= input.fluid.amount) {
 						return true;
 					}
 				}
@@ -59,7 +58,7 @@ public class RecipeRegistry {
 			} else if (item.isOre()) {
 				if (input.isOre()) {
 					if (item.ore.equals(input.ore)) {
-						if (testSizeSame && item.ore.stackSize <= input.ore.stackSize || !testSizeSame) {
+						if (!testSizeSame || item.ore.stackSize <= input.ore.stackSize) {
 							return true;
 						}
 					}
@@ -83,7 +82,7 @@ public class RecipeRegistry {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Register a recipe handler for a recipeCategory.
 	 */
@@ -95,7 +94,7 @@ public class RecipeRegistry {
 		handlers.put(recipeCategory, handler);
 		return handler;
 	}
-
+	
 	/**
 	 * @return A recipe handler from the matching recipeCategory.
 	 */
@@ -103,7 +102,7 @@ public class RecipeRegistry {
 	public static IRecipeHandler getRecipeHandler(String recipeCategory) {
 		return handlers.get(recipeCategory);
 	}
-
+	
 	/**
 	 * @return A map with all recipe handlers that are in the registry.
 	 */

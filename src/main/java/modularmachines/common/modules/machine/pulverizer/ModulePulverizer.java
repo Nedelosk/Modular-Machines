@@ -41,17 +41,17 @@ public class ModulePulverizer extends ModuleKineticMachine {
 		super.createComponents();
 		addComponent(new ModuleComponentPulverizer(this));
 	}
-
+	
 	@Override
 	protected IRecipeConsumer[] getConsumers() {
 		return new IRecipeConsumer[]{itemHandler};
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		return itemHandler.getInputs();
 	}
-
+	
 	@Override
 	protected String getRecipeCategory() {
 		return MachineCategorys.PULVERIZER;

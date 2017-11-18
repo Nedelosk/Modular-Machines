@@ -19,23 +19,23 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 		this.moduleTransfer = moduleTransfer;
 		this.index = index;
 	}
-
+	
 	@Override
 	public String getTabTooltip() {
-		if(module == null){
+		if (module == null) {
 			return "UNKNOWN";
 		}
 		return module.getData().getDisplayName();
 	}
-
+	
 	@Override
 	public boolean isValid() {
 		return module != null && moduleTransfer.isValid(this);
 	}
-
+	
 	@Override
 	public void init(IModuleContainer provider) {
-		if(module == null){
+		if (module == null) {
 			module = provider.getModule(index);
 		}
 	}
@@ -56,7 +56,7 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 	
 	@Override
 	public ItemStack getTabItem() {
-		if(module == null){
+		if (module == null) {
 			return ItemStack.EMPTY;
 		}
 		return module.getParentItem().copy();

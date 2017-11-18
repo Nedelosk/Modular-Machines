@@ -12,13 +12,13 @@ import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class WidgetEnergyField extends WidgetEnergy {
-
+	
 	private final ResourceLocation widget = new ResourceLocation("modularmachines", "textures/gui/widgets.png");
-
+	
 	public WidgetEnergyField(int posX, int posY, IEnergyStorage storage) {
 		super(posX, posY, 66, 66, storage);
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		if (source == null) {

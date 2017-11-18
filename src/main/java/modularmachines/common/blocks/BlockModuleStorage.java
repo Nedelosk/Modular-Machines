@@ -88,7 +88,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[] { UnlistedBlockPos.POS, UnlistedBlockAccess.BLOCKACCESS });
+		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{UnlistedBlockPos.POS, UnlistedBlockAccess.BLOCKACCESS});
 	}
 	
 	@Override
@@ -114,12 +114,12 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, world);
-		if(container == null){
+		if (container == null) {
 			return false;
 		}
 		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
 		RayTraceResult hit = collisionRayTrace(state, world, pos, vectors.getKey(), vectors.getValue());
-		if(hit != null && !world.isRemote){
+		if (hit != null && !world.isRemote) {
 			return container.insertModule(player.getHeldItem(hand), hit);
 		}
 		return false;
@@ -129,7 +129,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
-		if(container == null){
+		if (container == null) {
 			return null;
 		}
 		return container.collisionRayTrace(pos, start, end);
@@ -138,7 +138,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
-		if(container == null){
+		if (container == null) {
 			return;
 		}
 		container.setFacing(placer.getHorizontalFacing().getOpposite());
@@ -147,7 +147,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
-		if(container == null){
+		if (container == null) {
 			return FULL_BLOCK_AABB.offset(pos);
 		}
 		return container.getBoundingBox().offset(pos);
@@ -157,7 +157,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
-		if(container == null){
+		if (container == null) {
 			return FULL_BLOCK_AABB;
 		}
 		return container.getBoundingBox();
@@ -165,13 +165,13 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if(side == null){
+		if (side == null) {
 			return false;
 		}
 		IModuleContainer provider = ModuleUtil.getContainer(pos, world);
-		if(provider != null){
-			for(IRedstoneListener listener : ModuleUtil.getModules(provider, IRedstoneListener.class)){
-				if(listener.canProvidePower(state, world, pos, side)){
+		if (provider != null) {
+			for (IRedstoneListener listener : ModuleUtil.getModules(provider, IRedstoneListener.class)) {
+				if (listener.canProvidePower(state, world, pos, side)) {
 					return true;
 				}
 			}
@@ -278,11 +278,11 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, world);
-		if(container == null){
+		if (container == null) {
 			return false;
 		}
 		EnumFacing facing = container.getFacing();
-		if(facing != axis){
+		if (facing != axis) {
 			container.setFacing(axis);
 			container.getLocatable().markLocatableDirty();
 			world.markBlockRangeForRenderUpdate(pos, pos);
@@ -295,8 +295,8 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		super.onNeighborChange(world, pos, neighbor);
 		IModuleContainer tileLogic = ModuleUtil.getContainer(pos, world);
-		if(tileLogic != null){
-			for(INeighborBlockListener changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockListener.class)){
+		if (tileLogic != null) {
+			for (INeighborBlockListener changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockListener.class)) {
 				changeListener.onNeighborChange(world, pos, neighbor);
 			}
 		}

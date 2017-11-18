@@ -19,29 +19,29 @@ import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 
 public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
-
+	
 	protected final Module module;
 	protected final NonNullList<FluidTankModule> containers;
-
+	
 	public FluidTankHandler(Module module) {
 		this.module = module;
 		this.containers = NonNullList.create();
 	}
-
+	
 	public FluidTankModule getContainer(int index) {
 		return containers.get(index);
 	}
-
+	
 	public List<FluidTankModule> getContainers() {
 		return containers;
 	}
 	
-	public FluidTankModule addTank(boolean isInput, int capacity){
+	public FluidTankModule addTank(boolean isInput, int capacity) {
 		FluidTankModule container = new FluidTankModule(capacity, containers.size(), isInput, module);
 		containers.add(container);
 		return container;
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		int count = getInputCount();
@@ -66,7 +66,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 				if (recipeInput.isFluid()) {
 					FluidStack recipeFluid = recipeInput.fluid;
 					FluidStack drainedFluid = drain(recipeFluid, !simulate);
-					if(drainedFluid == null || drainedFluid.amount < recipeFluid.amount){
+					if (drainedFluid == null || drainedFluid.amount < recipeFluid.amount) {
 						return false;
 					}
 				}
@@ -85,7 +85,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 				if (recipeOutput.isFluid() && recipeOutput.canUseItem(chance)) {
 					FluidStack recipeFluid = recipeOutput.fluid;
 					int drainedFluid = fill(recipeFluid, !simulate);
-					if(drainedFluid < recipeFluid.amount){
+					if (drainedFluid < recipeFluid.amount) {
 						return false;
 					}
 				}
@@ -93,7 +93,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
 		List<IFluidTankProperties> properties = Lists.newArrayList();
@@ -119,7 +119,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalFillAmount;
 	}
-
+	
 	public FluidStack drainInternal(FluidStack resource, boolean doDrain) {
 		if (resource == null || resource.amount <= 0) {
 			return null;
@@ -142,7 +142,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalDrained;
 	}
-
+	
 	public FluidStack drainInternal(int maxDrain, boolean doDrain) {
 		if (maxDrain == 0) {
 			return null;
@@ -169,7 +169,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalDrained;
 	}
-
+	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
 		if (resource == null || resource.amount <= 0) {
@@ -187,7 +187,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalFillAmount;
 	}
-
+	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (resource == null || resource.amount <= 0) {
@@ -211,7 +211,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalDrained;
 	}
-
+	
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (maxDrain == 0) {
@@ -239,7 +239,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return totalDrained;
 	}
-
+	
 	@Override
 	public int getInputCount() {
 		int inputs = 0;
@@ -250,7 +250,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return inputs;
 	}
-
+	
 	@Override
 	public int getOutputCount() {
 		int outputs = 0;
@@ -261,7 +261,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		}
 		return outputs;
 	}
-
+	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList nbtTagTankList = new NBTTagList();
 		for (FluidTankModule container : containers) {
@@ -273,7 +273,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 		compound.setTag("Tanks", nbtTagTankList);
 		return compound;
 	}
-
+	
 	public void readFromNBT(NBTTagCompound compound) {
 		NBTTagList tankList = compound.getTagList("Tanks", 10);
 		for (int i = 0; i < tankList.tagCount(); i++) {
@@ -298,7 +298,7 @@ public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
 			}
 		}
 	}*/
-
+	
 	public boolean isInput(int index) {
 		if (containers.size() <= index) {
 			return false;

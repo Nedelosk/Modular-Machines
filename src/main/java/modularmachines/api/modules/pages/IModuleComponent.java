@@ -15,9 +15,9 @@ public interface IModuleComponent<P extends Module> {
 	
 	@SideOnly(Side.CLIENT)
 	IPage createPage(GuiContainer gui);
-
+	
 	void detectAndSendChanges();
-
+	
 	String getTitle();
 	
 	NBTTagCompound writeToNBT(NBTTagCompound compound);

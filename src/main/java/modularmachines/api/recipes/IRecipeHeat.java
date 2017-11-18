@@ -1,7 +1,7 @@
 package modularmachines.api.recipes;
 
-public interface IRecipeHeat extends IRecipe{
-
+public interface IRecipeHeat extends IRecipe {
+	
 	double getHeatToRemove();
 	
 	double getRequiredHeat();

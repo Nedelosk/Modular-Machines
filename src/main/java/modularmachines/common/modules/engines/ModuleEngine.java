@@ -11,7 +11,7 @@ import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.ModuleUtil;
 
 public abstract class ModuleEngine extends Module implements ITickable {
-
+	
 	protected final int materialPerWork;
 	protected final double kineticModifier;
 	public boolean isWorking;
@@ -22,17 +22,17 @@ public abstract class ModuleEngine extends Module implements ITickable {
 		this.materialPerWork = materialPerWork;
 		this.kineticModifier = kineticModifier;
 	}
-
-	protected int getMaterialPerWork(){
+	
+	protected int getMaterialPerWork() {
 		return materialPerWork;
 	}
-
-	protected double getKineticModifier(){
+	
+	protected double getKineticModifier() {
 		return kineticModifier;
 	}
 	
 	protected abstract boolean canWork();
-
+	
 	protected abstract boolean removeMaterial();
 	
 	@Override
@@ -60,15 +60,15 @@ public abstract class ModuleEngine extends Module implements ITickable {
 			}
 		}
 	}
-
+	
 	@Override
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
-
+	
 	//TODO:model system
 	/*@SideOnly(Side.CLIENT)
 	@Override

@@ -25,7 +25,7 @@ import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
 public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidHandler> {
-
+	
 	@SideOnly(Side.CLIENT)
 	private WidgetTextField amount;
 	@SideOnly(Side.CLIENT)
@@ -39,17 +39,17 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	
 	
 	public static class NumberValidator implements Predicate<String> {
-
+		
 		private final int slots;
 		
 		private NumberValidator(int slots) {
 			this.slots = slots;
 		}
-
+		
 		@Override
 		public boolean apply(String text) {
 			Integer i = Ints.tryParse(text);
-			if(i == null || i > slots){
+			if (i == null || i > slots) {
 				return false;
 			}
 			return text.isEmpty() || i != null && i.intValue() >= 0;
@@ -62,7 +62,7 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void drawBackground(int mouseX, int mouseY){
+	public void drawBackground(int mouseX, int mouseY) {
 		super.drawBackground(mouseX, mouseY);
 		RenderUtil.texture(getGuiTexture());
 		gui.drawTexturedModalRect(gui.getGuiLeft() + 286, gui.getGuiTop() + 30, 176, 0, 29, 104);
@@ -71,8 +71,8 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void initGui() {
-		if(!module.wasInited){
-			for(ITransferHandlerWrapper wrapper : module.getWrappers()){
+		if (!module.wasInited) {
+			for (ITransferHandlerWrapper wrapper : module.getWrappers()) {
 				wrapper.init(module.getContainer());
 			}
 			module.wasInited = true;
@@ -84,7 +84,7 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	public void addWidgets() {
 		super.addWidgets();
 		List<ITransferHandlerWrapper<IFluidHandler>> wrappers = module.getValidWrappers();
-		if(!wrappers.isEmpty()){
+		if (!wrappers.isEmpty()) {
 			int xSize = gui.xSize;
 			int cycleSize = 110;
 			addWidget(startHandler = new WidgetTransferHandler(xSize + 4, 27, wrappers));
@@ -128,7 +128,7 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	public void drawForeground(FontRenderer fontRenderer, int mouseX, int mouseY) {
 		super.drawForeground(fontRenderer, mouseX, mouseY);
 		List<ITransferHandlerWrapper<IFluidHandler>> wrappers = module.getValidWrappers();
-		if(!wrappers.isEmpty()){
+		if (!wrappers.isEmpty()) {
 			String from = Translator.translateToLocal("module.transfer.item.page.from");
 			fontRenderer.drawString(from, gui.xSize + 110 / 2 - fontRenderer.getStringWidth(from) / 2, 18, Color.GRAY.getRGB());
 			String to = Translator.translateToLocal("module.transfer.item.page.to");
@@ -136,7 +136,7 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 			String amount = Translator.translateToLocal("module.transfer.item.page.amount");
 			fontRenderer.drawString(amount, gui.xSize + 110 / 4 - fontRenderer.getStringWidth(amount) / 2, 78, Color.GRAY.getRGB());
 			String priority = Translator.translateToLocal("module.transfer.item.page.priority");
-			fontRenderer.drawString(priority, gui.xSize + 110 / 2 + 25  - fontRenderer.getStringWidth(priority) / 2, 78, Color.GRAY.getRGB());
+			fontRenderer.drawString(priority, gui.xSize + 110 / 2 + 25 - fontRenderer.getStringWidth(priority) / 2, 78, Color.GRAY.getRGB());
 			String time = Translator.translateToLocal("module.transfer.item.page.time");
 			fontRenderer.drawString(time, gui.xSize + 110 / 2 - fontRenderer.getStringWidth(time) / 2, 108, Color.GRAY.getRGB());
 			//fontRenderer.drawStringWithShadow(Translator.translateToLocal("module.transfer.item.page.from"), gui.guiLeft + 176 , y, Color.GRAY)
@@ -156,8 +156,8 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 		}
 	}*/
 	
-	public int parseInt(String text){
-		if(text == null){
+	public int parseInt(String text) {
+		if (text == null) {
 			return -1;
 		}
 		return Ints.tryParse(text);
@@ -165,15 +165,15 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addCycle(){
-			int time = parseInt(this.time.getText());
-			int priority = parseInt(this.priority.getText());
-			int amount = parseInt(this.amount.getText());
-			if(time < 0 || amount < 0){
-				return ;
-			}
-			
-			PacketHandler.sendToServer(new PacketAddCycle(module, new FluidTransferCycle(module, startHandler.getCurrentWrapper(), endHandler.getCurrentWrapper(), time, priority, amount)));
+	public void addCycle() {
+		int time = parseInt(this.time.getText());
+		int priority = parseInt(this.priority.getText());
+		int amount = parseInt(this.amount.getText());
+		if (time < 0 || amount < 0) {
+			return;
+		}
+		
+		PacketHandler.sendToServer(new PacketAddCycle(module, new FluidTransferCycle(module, startHandler.getCurrentWrapper(), endHandler.getCurrentWrapper(), time, priority, amount)));
 	}
-
+	
 }

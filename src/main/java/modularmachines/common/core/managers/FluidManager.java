@@ -7,9 +7,9 @@ import net.minecraftforge.fluids.Fluid;
 import modularmachines.common.core.Registry;
 
 public class FluidManager {
-
+	
 	public static Fluid STEAM;
-
+	
 	public static void registerFluids() {
 		STEAM = Registry.registerFluid("steam", 500, Material.LAVA, false, true, 0);
 	}

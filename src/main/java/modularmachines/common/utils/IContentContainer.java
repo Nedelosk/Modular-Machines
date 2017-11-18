@@ -6,7 +6,7 @@ import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 
 public interface IContentContainer<C> {
-
+	
 	boolean hasContent();
 	
 	void set(C content);

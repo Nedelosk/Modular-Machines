@@ -41,17 +41,17 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 		super.createComponents();
 		addComponent(new ModuleComponentAlloySmelter(this));
 	}
-
+	
 	@Override
 	protected IRecipeConsumer[] getConsumers() {
 		return new IRecipeConsumer[]{itemHandler};
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		return itemHandler.getInputs();
 	}
-
+	
 	@Override
 	protected String getRecipeCategory() {
 		return MachineCategorys.ALLOY_SMELTER;
@@ -61,5 +61,5 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}
-
+	
 }

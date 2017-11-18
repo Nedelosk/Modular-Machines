@@ -38,7 +38,7 @@ import modularmachines.common.plugins.PluginManager;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION)
 public class ModularMachines {
-
+	
 	@Instance(Constants.MOD_ID)
 	public static ModularMachines instance;
 	
@@ -76,7 +76,7 @@ public class ModularMachines {
 		proxy.loadModuleModels();
 		OreDictionaryManager.registerOres();
 	}
-
+	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		//ModuleManager.registerModuels();
@@ -85,7 +85,7 @@ public class ModularMachines {
 		proxy.init();
 		PLUGIN_MANAGER.init();
 	}
-
+	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		//ModuleLoadManager.loadModules();

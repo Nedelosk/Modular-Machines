@@ -11,20 +11,20 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
 public class RenderUtil {
-
+	
 	public static void renderTooltip(int x, int y, List<String> tooltipData) {
 		ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
 		GuiUtils.drawHoveringText(tooltipData, x, y, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), -1, Minecraft.getMinecraft().fontRenderer);
 	}
-
+	
 	public static TextureManager engine() {
 		return Minecraft.getMinecraft().renderEngine;
 	}
-
+	
 	public static void texture(ResourceLocation tex) {
 		engine().bindTexture(tex);
 	}
-
+	
 	public static void bindBlockTexture() {
 		texture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 	}

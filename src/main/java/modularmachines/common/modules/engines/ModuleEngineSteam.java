@@ -17,7 +17,7 @@ import modularmachines.common.tanks.FluidTankHandler;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
-
+	
 	public final ItemHandlerModule itemHandler;
 	public final FluidTankHandler fluidHandler;
 	public final IFluidTank fluidTank;
@@ -45,7 +45,7 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 		itemHandler.writeToNBT(compound);
 		return compound;
 	}
-
+	
 	@Override
 	public boolean removeMaterial() {
 		if (fluidHandler == null) {
@@ -67,16 +67,13 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 			ModuleUtil.tryEmptyContainer(0, 1, itemHandler, fluidHandler);
 		}
 	}
-
+	
 	@Override
 	public boolean canWork() {
 		if (fluidTank.getFluid() == null) {
 			return false;
 		}
-		if (fluidTank.getFluid().amount > 0) {
-			return true;
-		}
-		return false;
+		return fluidTank.getFluid().amount > 0;
 	}
 	
 	@Override
@@ -93,22 +90,22 @@ public class ModuleEngineSteam extends ModuleEngine implements IFluidHandler {
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}
-
+	
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
 		return fluidHandler.getTankProperties();
 	}
-
+	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
 		return fluidHandler.fill(resource, doFill);
 	}
-
+	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		return fluidHandler.drain(resource, doDrain);
 	}
-
+	
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		return fluidHandler.drain(maxDrain, doDrain);

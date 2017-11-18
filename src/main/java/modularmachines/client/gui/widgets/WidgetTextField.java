@@ -22,25 +22,25 @@ import net.minecraft.util.math.MathHelper;
 import modularmachines.common.utils.Translator;
 
 public class WidgetTextField extends Widget {
-
-	  public interface ICharFilter {
-
-		    boolean passesFilter(WidgetTextField tf, char c);
-		  }
-
-		  public static final ICharFilter FILTER_NUMERIC = new ICharFilter() {
-		    @Override
-		    public boolean passesFilter(WidgetTextField tf, char c) {
-		      return Character.isDigit(c) || (c == '-' && Strings.isNullOrEmpty(tf.getText()));
-		    }
-		  };
-		  
-		  public static final ICharFilter FILTER_NUMERIC_ARRAY = new ICharFilter() {
-			    @Override
-			    public boolean passesFilter(WidgetTextField tf, char c) {
-			      return Character.isDigit(c) || c == ',';
-			    }
-			  };
+	
+	public interface ICharFilter {
+		
+		boolean passesFilter(WidgetTextField tf, char c);
+	}
+	
+	public static final ICharFilter FILTER_NUMERIC = new ICharFilter() {
+		@Override
+		public boolean passesFilter(WidgetTextField tf, char c) {
+			return Character.isDigit(c) || (c == '-' && Strings.isNullOrEmpty(tf.getText()));
+		}
+	};
+	
+	public static final ICharFilter FILTER_NUMERIC_ARRAY = new ICharFilter() {
+		@Override
+		public boolean passesFilter(WidgetTextField tf, char c) {
+			return Character.isDigit(c) || c == ',';
+		}
+	};
 	
 	private final int id;
 	private final FontRenderer fontRendererInstance;
@@ -59,36 +59,36 @@ public class WidgetTextField extends Widget {
 	/** True if this textbox is visible */
 	private boolean visible = true;
 	private GuiPageButtonList.GuiResponder guiResponder;
-	private Predicate<String> validator = Predicates.<String> alwaysTrue();
+	private Predicate<String> validator = Predicates.alwaysTrue();
 	private ICharFilter filter;
-
+	
 	public WidgetTextField(int posX, int posY, int width, int height) {
 		this(posX, posY, width, height, 0);
 	}
-
+	
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId) {
 		this(posX, posY, width, height, componentId, Minecraft.getMinecraft().fontRenderer);
 	}
-
+	
 	public WidgetTextField(int posX, int posY, int width, int height, int componentId, FontRenderer fontrendererObj) {
 		super(posX, posY, width, height);
 		this.id = componentId;
 		this.fontRendererInstance = fontrendererObj;
 	}
 	
-	 public WidgetTextField setCharFilter(ICharFilter filter) {
-		    this.filter = filter;
-		    return this;
-		  }
-
+	public WidgetTextField setCharFilter(ICharFilter filter) {
+		this.filter = filter;
+		return this;
+	}
+	
 	public void setGuiResponder(GuiPageButtonList.GuiResponder guiResponderIn) {
 		this.guiResponder = guiResponderIn;
 	}
-
+	
 	public void updateCursorCounter() {
 		++this.cursorCounter;
 	}
-
+	
 	public void setText(String textIn) {
 		if (this.validator.apply(textIn)) {
 			if (textIn.length() > this.maxStringLength) {
@@ -99,23 +99,23 @@ public class WidgetTextField extends Widget {
 			this.setCursorPositionEnd();
 		}
 	}
-
+	
 	@Override
 	public String getText() {
 		return this.text;
 	}
-
+	
 	public String getSelectedText() {
 		int i = this.cursorPosition < this.selectionEnd ? this.cursorPosition : this.selectionEnd;
 		int j = this.cursorPosition < this.selectionEnd ? this.selectionEnd : this.cursorPosition;
 		return this.text.substring(i, j);
 	}
-
+	
 	public WidgetTextField setValidator(Predicate<String> theValidator) {
 		this.validator = theValidator;
 		return this;
 	}
-
+	
 	public void writeText(String textToWrite) {
 		String s = "";
 		String s1 = ChatAllowedCharacters.filterAllowedCharacters(textToWrite);
@@ -144,7 +144,7 @@ public class WidgetTextField extends Widget {
 			}
 		}
 	}
-
+	
 	public void deleteWords(int num) {
 		if (!this.text.isEmpty()) {
 			if (this.selectionEnd != this.cursorPosition) {
@@ -154,7 +154,7 @@ public class WidgetTextField extends Widget {
 			}
 		}
 	}
-
+	
 	public void deleteFromCursor(int num) {
 		if (!this.text.isEmpty()) {
 			if (this.selectionEnd != this.cursorPosition) {
@@ -182,19 +182,19 @@ public class WidgetTextField extends Widget {
 			}
 		}
 	}
-
+	
 	public int getId() {
 		return this.id;
 	}
-
+	
 	public int getNthWordFromCursor(int numWords) {
 		return this.getNthWordFromPos(numWords, this.getCursorPosition());
 	}
-
+	
 	public int getNthWordFromPos(int n, int pos) {
 		return this.getNthWordFromPosWS(n, pos, true);
 	}
-
+	
 	public int getNthWordFromPosWS(int n, int pos, boolean skipWs) {
 		int i = pos;
 		boolean flag = n < 0;
@@ -221,26 +221,26 @@ public class WidgetTextField extends Widget {
 		}
 		return i;
 	}
-
+	
 	public void moveCursorBy(int num) {
 		this.setCursorPosition(this.selectionEnd + num);
 	}
-
+	
 	public void setCursorPosition(int pos) {
 		this.cursorPosition = pos;
 		int i = this.text.length();
 		this.cursorPosition = MathHelper.clamp(this.cursorPosition, 0, i);
 		this.setSelectionPos(this.cursorPosition);
 	}
-
+	
 	public void setCursorPositionZero() {
 		this.setCursorPosition(0);
 	}
-
+	
 	public void setCursorPositionEnd() {
 		this.setCursorPosition(this.text.length());
 	}
-
+	
 	@Override
 	public boolean keyTyped(char typedChar, int keyCode) {
 		if (!this.isFocused) {
@@ -335,7 +335,7 @@ public class WidgetTextField extends Widget {
 			}
 		}
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		if (this.isVisible()) {
@@ -351,8 +351,8 @@ public class WidgetTextField extends Widget {
 			boolean flag1 = this.isFocused && this.cursorCounter / 6 % 2 == 0 && flag;
 			int xPos = this.enableBackgroundDrawing ? pos.x + 4 : pos.x;
 			int yPos = this.enableBackgroundDrawing ? pos.y + (pos.height - 8) / 2 : pos.y;
-			xPos+=guiLeft;
-			yPos+=guiTop;
+			xPos += guiLeft;
+			yPos += guiTop;
 			int j1 = xPos;
 			if (k > s.length()) {
 				k = s.length();
@@ -376,7 +376,7 @@ public class WidgetTextField extends Widget {
 				if (flag2) {
 					Gui.drawRect(k1, yPos - 1, k1 + 1, yPos + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
 				} else {
-					this.fontRendererInstance.drawStringWithShadow("_", k1,  yPos, color);
+					this.fontRendererInstance.drawStringWithShadow("_", k1, yPos, color);
 				}
 			}
 			if (k != j) {
@@ -418,30 +418,30 @@ public class WidgetTextField extends Widget {
 		GlStateManager.disableColorLogic();
 		GlStateManager.enableTexture2D();
 	}
-
+	
 	public void setMaxStringLength(int length) {
 		this.maxStringLength = length;
 		if (this.text.length() > length) {
 			this.text = this.text.substring(0, length);
 		}
 	}
-
+	
 	public int getMaxStringLength() {
 		return this.maxStringLength;
 	}
-
+	
 	public int getCursorPosition() {
 		return this.cursorPosition;
 	}
-
+	
 	public boolean getEnableBackgroundDrawing() {
 		return this.enableBackgroundDrawing;
 	}
-
+	
 	public void setEnableBackgroundDrawing(boolean enableBackgroundDrawingIn) {
 		this.enableBackgroundDrawing = enableBackgroundDrawingIn;
 	}
-
+	
 	public void setTextColor(int color) {
 		this.enabledColor = color;
 	}
@@ -461,11 +461,11 @@ public class WidgetTextField extends Widget {
 			this.setCursorPosition(this.fontRendererInstance.trimStringToWidth(s, i).length() + this.lineScrollOffset);
 		}
 	}
-
+	
 	public void setDisabledTextColour(int color) {
 		this.disabledColor = color;
 	}
-
+	
 	@Override
 	public void setFocused(boolean isFocusedIn) {
 		if (isFocusedIn && !this.isFocused) {
@@ -473,24 +473,24 @@ public class WidgetTextField extends Widget {
 		}
 		this.isFocused = isFocusedIn;
 	}
-
+	
 	@Override
 	public boolean isFocused() {
 		return this.isFocused;
 	}
-
+	
 	public void setEnabled(boolean enabled) {
 		this.isEnabled = enabled;
 	}
-
+	
 	public int getSelectionEnd() {
 		return this.selectionEnd;
 	}
-
+	
 	public int getWidth() {
 		return this.getEnableBackgroundDrawing() ? pos.width - 8 : pos.width;
 	}
-
+	
 	public void setSelectionPos(int position) {
 		int i = this.text.length();
 		if (position > i) {
@@ -518,15 +518,15 @@ public class WidgetTextField extends Widget {
 			this.lineScrollOffset = MathHelper.clamp(this.lineScrollOffset, 0, i);
 		}
 	}
-
+	
 	public void setCanLoseFocus(boolean canLoseFocusIn) {
 		this.canLoseFocus = canLoseFocusIn;
 	}
-
+	
 	public boolean isVisible() {
 		return this.visible;
 	}
-
+	
 	public void setVisible(boolean isVisible) {
 		this.visible = isVisible;
 	}
@@ -540,7 +540,7 @@ public class WidgetTextField extends Widget {
 	
 	@Override
 	public List getTooltip() {
-		if(tootltip != null){
+		if (tootltip != null) {
 			return Collections.singletonList(Translator.translateToLocal(tootltip));
 		}
 		return super.getTooltip();

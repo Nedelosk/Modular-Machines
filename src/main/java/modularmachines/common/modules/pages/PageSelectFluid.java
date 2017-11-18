@@ -10,7 +10,7 @@ import modularmachines.client.gui.widgets.Widget;
 import modularmachines.client.gui.widgets.WidgetTextField;
 
 public class PageSelectFluid extends PageWidget {
-
+	
 	@SideOnly(Side.CLIENT)
 	private WidgetTextField field;
 	
@@ -24,5 +24,5 @@ public class PageSelectFluid extends PageWidget {
 		super.addWidget(widget);
 		addWidget(field = new WidgetTextField(20, 5, 75, 15));
 	}
-
+	
 }

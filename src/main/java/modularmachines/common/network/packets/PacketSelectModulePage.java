@@ -22,21 +22,21 @@ import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ModuleUtil;
 
 public class PacketSelectModulePage extends PacketModule {
-
+	
 	public PacketSelectModulePage() {
 	}
-
+	
 	public PacketSelectModulePage(IModuleContainer provider, ModuleComponent page) {
 		super(provider, page.getParent().getIndex(), page.getIndex());
 	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SELECT_PAGE;
 	}
 	
-	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
-	
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer {
+		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
@@ -50,7 +50,7 @@ public class PacketSelectModulePage extends PacketModule {
 				guiLogic.setCurrentPage(page, false);
 			}
 		}
-	
+		
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			WorldServer world = player.getServerWorld();
@@ -67,5 +67,5 @@ public class PacketSelectModulePage extends PacketModule {
 			}
 		}
 	}
-
+	
 }

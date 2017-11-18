@@ -8,15 +8,15 @@ import net.minecraftforge.energy.IEnergyStorage;
 import modularmachines.api.modules.logic.LogicComponent;
 
 public class EnergyStorageComponent extends LogicComponent implements IEnergyStorage {
-
+	
 	public final List<IEnergyStorage> energyStorages;
-
+	
 	public EnergyStorageComponent() {
 		this.energyStorages = new ArrayList<>();
 	}
-
-	public void addStorage(IEnergyStorage storage){
-		if(!energyStorages.contains(storage)){
+	
+	public void addStorage(IEnergyStorage storage) {
+		if (!energyStorages.contains(storage)) {
 			energyStorages.add(storage);
 		}
 	}
@@ -34,7 +34,7 @@ public class EnergyStorageComponent extends LogicComponent implements IEnergySto
 		}
 		return totalExtract;
 	}
-
+	
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		int totalReceived = 0;
@@ -49,7 +49,7 @@ public class EnergyStorageComponent extends LogicComponent implements IEnergySto
 		}
 		return totalReceived;
 	}
-
+	
 	@Override
 	public int getEnergyStored() {
 		int energyStored = 0;
@@ -58,7 +58,7 @@ public class EnergyStorageComponent extends LogicComponent implements IEnergySto
 		}
 		return energyStored;
 	}
-
+	
 	@Override
 	public int getMaxEnergyStored() {
 		int capacity = 0;
@@ -67,12 +67,12 @@ public class EnergyStorageComponent extends LogicComponent implements IEnergySto
 		}
 		return capacity;
 	}
-
+	
 	@Override
 	public boolean canExtract() {
 		return !energyStorages.isEmpty();
 	}
-
+	
 	@Override
 	public boolean canReceive() {
 		return !energyStorages.isEmpty();

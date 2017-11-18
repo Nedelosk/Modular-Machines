@@ -39,7 +39,7 @@ import modularmachines.common.network.packets.PacketUpdateModule;
 import modularmachines.common.utils.Log;
 
 public class PacketHandler {
-
+	
 	public static final String channelId = "MM";
 	private final static FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channelId);
 	
@@ -68,15 +68,15 @@ public class PacketHandler {
 		registerServerPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
 		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
 	}
-
+	
 	public static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {
 		packetID.setHandlerClient(packet);
 	}
-
+	
 	public static void registerServerPacket(PacketId packetID, IPacketHandlerServer packet) {
 		packetID.setHandlerServer(packet);
 	}
-
+	
 	public static void sendToNetwork(IPacket packet, BlockPos pos, WorldServer world) {
 		if (packet == null) {
 			return;
@@ -94,7 +94,7 @@ public class PacketHandler {
 			}
 		}
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public static void sendToServer(IPacket packet) {
 		NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getConnection();
@@ -102,7 +102,7 @@ public class PacketHandler {
 			netHandler.sendPacket(packet.getPacket());
 		}
 	}
-
+	
 	public static void sendToPlayer(IPacket packet, EntityPlayer entityplayer) {
 		if (!(entityplayer instanceof EntityPlayerMP) || entityplayer instanceof FakePlayer) {
 			return;
@@ -110,11 +110,11 @@ public class PacketHandler {
 		EntityPlayerMP player = (EntityPlayerMP) entityplayer;
 		sendPacket(packet.getPacket(), player);
 	}
-
+	
 	public static void sendPacket(FMLProxyPacket packet, EntityPlayerMP player) {
 		channel.sendTo(packet, player);
 	}
-
+	
 	@SubscribeEvent
 	public void onPacket(ServerCustomPacketEvent event) {
 		PacketBufferMM data = new PacketBufferMM(event.getPacket().payload());
@@ -125,7 +125,7 @@ public class PacketHandler {
 		IPacketHandlerServer packetHandler = packetId.getServerHandler();
 		checkThreadAndEnqueue(packetHandler, data, player, player.getServerWorld());
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onPacket(ClientCustomPacketEvent event) {
@@ -136,7 +136,7 @@ public class PacketHandler {
 		IPacketHandlerClient packetHandler = packetId.getClientHandler();
 		checkThreadAndEnqueue(packetHandler, data, Minecraft.getMinecraft());
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	private static void checkThreadAndEnqueue(final IPacketHandlerClient packet, final PacketBufferMM data, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
@@ -151,7 +151,7 @@ public class PacketHandler {
 			});
 		}
 	}
-
+	
 	private static void checkThreadAndEnqueue(final IPacketHandlerServer packet, final PacketBufferMM data, final EntityPlayerMP player, IThreadListener threadListener) {
 		if (!threadListener.isCallingFromMinecraftThread()) {
 			threadListener.addScheduledTask(() -> {

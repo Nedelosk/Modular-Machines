@@ -23,7 +23,7 @@ public abstract class Widget<S extends ILocatableSource> {
 	protected WidgetManager<IGuiProvider, S> manager;
 	protected GuiBase<IGuiProvider, S> gui;
 	protected S source;
-
+	
 	public Widget(int posX, int posY, int width, int height) {
 		this.pos = new Rectangle(posX, posY, width, height);
 	}
@@ -37,39 +37,39 @@ public abstract class Widget<S extends ILocatableSource> {
 	public WidgetManager<IGuiProvider, S> getManager() {
 		return manager;
 	}
-
+	
 	public void draw(int guiLeft, int guiTop) {
 	}
-
+	
 	public boolean keyTyped(char keyChar, int keyCode) {
 		return false;
 	}
-
+	
 	public void drawStrings() {
 	}
-
+	
 	public List<String> getTooltip() {
 		return Collections.emptyList();
 	}
-
+	
 	public boolean isMouseOver(int x, int y) {
 		return x >= pos.x && y >= pos.y && x < pos.x + pos.width && y < pos.y + pos.height;
 	}
-
+	
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 	}
 	
-	public void onMouseClick(int mouseX, int mouseY, int mouseButton){
+	public void onMouseClick(int mouseX, int mouseY, int mouseButton) {
 		
 	}
-
+	
 	public boolean isFocused() {
 		return false;
 	}
-
+	
 	public void setFocused(boolean focused) {
 	}
-
+	
 	public String getText() {
 		return null;
 	}
@@ -77,13 +77,10 @@ public abstract class Widget<S extends ILocatableSource> {
 	public final Rectangle getPos() {
 		return pos;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		Widget w = (Widget) obj;
-		if (w.pos.equals(pos)) {
-			return true;
-		}
-		return false;
+		return w.pos.equals(pos);
 	}
 }

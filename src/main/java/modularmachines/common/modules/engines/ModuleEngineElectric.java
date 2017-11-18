@@ -9,20 +9,16 @@ public class ModuleEngineElectric extends ModuleEngine {
 	public ModuleEngineElectric(int capacity, int maxTransfer, int energyPerWork, double kineticModifier) {
 		super(capacity, maxTransfer, energyPerWork, kineticModifier);
 	}
-
+	
 	@Override
 	protected boolean canWork() {
 		IEnergyStorage energyStorage = ModuleUtil.getEnergy(container);
 		if (energyStorage == null) {
 			return false;
 		}
-		if (energyStorage.getEnergyStored() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return energyStorage.getEnergyStored() > 0;
 	}
-
+	
 	@Override
 	protected boolean removeMaterial() {
 		IEnergyStorage energyStorage = ModuleUtil.getEnergy(container);
@@ -36,12 +32,12 @@ public class ModuleEngineElectric extends ModuleEngine {
 			return false;
 		}
 	}
-
+	
 	@Override
 	protected int getMaterialPerWork() {
 		return materialPerWork;
 	}
-
+	
 	@Override
 	protected double getKineticModifier() {
 		return kineticModifier;

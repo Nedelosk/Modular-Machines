@@ -31,7 +31,7 @@ import modularmachines.common.tanks.FluidTankModule;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleBoiler extends Module implements ITickable, IModuleJei {
-
+	
 	public final ItemHandlerModule itemHandler;
 	public final FluidTankHandler fluidHandler;
 	public final FluidTankModule tankWater;
@@ -64,7 +64,7 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 		itemHandler.writeToNBT(compound);
 		return compound;
 	}
-
+	
 	@Override
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
@@ -76,9 +76,9 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	
 	@Override
 	public String[] getJeiRecipeCategorys() {
-		return new String[] { MachineCategorys.BOILER };
+		return new String[]{MachineCategorys.BOILER};
 	}
-
+	
 	@Override
 	public void update() {
 		UpdateComponent update = container.getComponent(LogicComponent.UPDATE);

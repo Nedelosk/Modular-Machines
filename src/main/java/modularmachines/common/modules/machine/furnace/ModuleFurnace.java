@@ -18,10 +18,10 @@ import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleHeatMachine;
 
 public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IModuleJei {
-
+	
 	public static final List<IRecipeHeat> FURNACE_RECIPES = new ArrayList<>();
 	public final ItemHandlerModule itemHandler;
-
+	
 	public ModuleFurnace(int workTimeModifier) {
 		super(workTimeModifier);
 		itemHandler = new ItemHandlerModule(this);
@@ -31,14 +31,14 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	
 	@Override
 	public String[] getJeiRecipeCategorys() {
-		return new String[] { MachineCategorys.FURNACE };
+		return new String[]{MachineCategorys.FURNACE};
 	}
 	
 	@Override
 	protected IRecipeConsumer[] getConsumers() {
 		return new IRecipeConsumer[]{itemHandler};
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		return itemHandler.getInputs();
@@ -62,12 +62,12 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	
 	@Override
 	public List<IRecipeHeat> getRecipes() {
-		if(FURNACE_RECIPES.isEmpty()){
+		if (FURNACE_RECIPES.isEmpty()) {
 			for (Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet()) {
 				ItemStack input = entry.getKey();
 				ItemStack output = entry.getValue();
 				if (input != null && output != null) {
-					FURNACE_RECIPES.add(new RecipeFurnace(entry.getKey(),entry.getValue(), 2, 0.15D, 50D));
+					FURNACE_RECIPES.add(new RecipeFurnace(entry.getKey(), entry.getValue(), 2, 0.15D, 50D));
 				}
 			}
 		}

@@ -12,7 +12,7 @@ import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetTransfer extends Widget {
-
+	
 	public static final ResourceLocation TEXTURE = new ResourceLocation("modularmachines:textures/gui/transfer_widgets.png");
 	
 	public boolean selected;
@@ -29,7 +29,7 @@ public class WidgetTransfer extends Widget {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.texture(TEXTURE);
 		gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 110, selected ? 22 : 0, pos.width, pos.height);
-		if(cycle != null){
+		if (cycle != null) {
 			ItemStack startItem = cycle.getStartHandler().getTabItem();
 			ItemStack endItem = cycle.getEndHandler().getTabItem();
 			gui.drawItemStack(startItem, guiLeft + pos.x + 3, guiTop + pos.y + 3);
@@ -48,5 +48,5 @@ public class WidgetTransfer extends Widget {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-
+	
 }

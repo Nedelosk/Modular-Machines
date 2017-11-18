@@ -75,32 +75,32 @@ public class ModuleStorageModelBaked implements IBakedModel {
 	}
 	
 	@Nullable
-	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex){
+	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex) {
 		List<IBakedModel> models = new ArrayList<>();
-		for(Module module : provider.getHandler().getModules()){
+		for (Module module : provider.getHandler().getModules()) {
 			IBakedModel model = ModelLoader.getModel(module, modelState, vertex);
 			if (model == null) {
 				continue;
 			}
 			float rotation = module.getPosition().getRotationAngle();
-			if(rotation > 0.0F || rotation < 0.0F){
+			if (rotation > 0.0F || rotation < 0.0F) {
 				model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, rotation, 0F, 1F);
 			}
-			if(module instanceof IModuleProvider){
+			if (module instanceof IModuleProvider) {
 				IModuleProvider moduleProvider = (IModuleProvider) module;
 				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex);
-				if(bakedModel != null) {
+				if (bakedModel != null) {
 					model = new BakedMultiModel(ImmutableList.of(model, bakedModel));
 				}
 			}
 			models.add(model);
 		}
-		if(models.isEmpty()){
+		if (models.isEmpty()) {
 			return null;
 		}
 		return new BakedMultiModel(models);
 	}
-
+	
 	@Override
 	public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 		if (state instanceof IExtendedBlockState) {
@@ -109,7 +109,7 @@ public class ModuleStorageModelBaked implements IBakedModel {
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);
 			if (pos != null && world != null) {
 				IModuleContainer container = ModuleUtil.getContainer(pos, world);
-				if(container != null){
+				if (container != null) {
 					IBakedModel model = bakeModel(container, DefaultVertexFormats.BLOCK, container.getFacing());
 					if (model != null) {
 						return model.getQuads(state, side, rand);
@@ -155,32 +155,32 @@ public class ModuleStorageModelBaked implements IBakedModel {
 		}
 		return null;
 	}*/
-
+	
 	@Override
 	public boolean isAmbientOcclusion() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isGui3d() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isBuiltInRenderer() {
 		return false;
 	}
-
+	
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
 		return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/modular_chassis");
 	}
-
+	
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		return ItemCameraTransforms.DEFAULT;
 	}
-
+	
 	@Override
 	public ItemOverrideList getOverrides() {
 		return ItemOverrideList.NONE;

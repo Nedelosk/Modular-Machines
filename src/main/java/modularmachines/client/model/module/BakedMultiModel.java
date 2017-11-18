@@ -13,18 +13,18 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
 public class BakedMultiModel implements IBakedModel {
-
+	
 	private final Collection<IBakedModel> models;
 	protected final TextureAtlasSprite particleTexture;
 	protected final ItemOverrideList overrides;
-
+	
 	public BakedMultiModel(Collection<IBakedModel> models) {
 		IBakedModel ibakedmodel = models.iterator().next();
 		this.models = models;
 		this.particleTexture = ibakedmodel.getParticleTexture();
 		this.overrides = ibakedmodel.getOverrides();
 	}
-
+	
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 		List<BakedQuad> quads = new ArrayList<>();
@@ -35,32 +35,32 @@ public class BakedMultiModel implements IBakedModel {
 		}
 		return quads;
 	}
-
+	
 	@Override
 	public boolean isAmbientOcclusion() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isGui3d() {
 		return true;
 	}
-
+	
 	@Override
 	public boolean isBuiltInRenderer() {
 		return false;
 	}
-
+	
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
 		return this.particleTexture;
 	}
-
+	
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		return ItemCameraTransforms.DEFAULT;
 	}
-
+	
 	@Override
 	public ItemOverrideList getOverrides() {
 		return this.overrides;

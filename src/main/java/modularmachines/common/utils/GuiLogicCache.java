@@ -19,28 +19,28 @@ import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.modules.logic.ModuleGuiLogic;
 
 public class GuiLogicCache extends WorldSavedData {
-
+	
 	public final Map<BlockPos, CacheValue> logicCache = new HashMap<>();
 	
 	public GuiLogicCache(String name) {
 		super(name);
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		logicCache.clear();
 		NBTTagList logics = nbt.getTagList("Logics", 10);
-		for(int i = 0;i < logics.tagCount();i++){
+		for (int i = 0; i < logics.tagCount(); i++) {
 			NBTTagCompound tagCompound = logics.getCompoundTagAt(i);
 			BlockPos pos = NBTUtil.getPosFromTag(tagCompound);
 			logicCache.put(pos, new CacheValue(tagCompound.getInteger("Module"), tagCompound.getInteger("Page")));
 		}
 	}
-
+	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList logics = new NBTTagList();
-		for(Entry<BlockPos, CacheValue> entry : logicCache.entrySet()){
+		for (Entry<BlockPos, CacheValue> entry : logicCache.entrySet()) {
 			CacheValue logic = entry.getValue();
 			NBTTagCompound tagCompound = NBTUtil.createPosTag(entry.getKey());
 			tagCompound.setInteger("Module", logic.getModuleIndex());
@@ -50,28 +50,28 @@ public class GuiLogicCache extends WorldSavedData {
 		return compound;
 	}
 	
-	public void remove(BlockPos pos){
+	public void remove(BlockPos pos) {
 		logicCache.remove(pos);
 	}
 	
 	@Nullable
-	public IModuleGuiLogic getLogic(World world, BlockPos pos){
+	public IModuleGuiLogic getLogic(World world, BlockPos pos) {
 		CacheValue cacheValue = logicCache.get(pos);
-		if(cacheValue == null || cacheValue.logic == null){
+		if (cacheValue == null || cacheValue.logic == null) {
 			IModuleContainer provider = ModuleUtil.getContainer(pos, world);
-			if(provider == null){
+			if (provider == null) {
 				return null;
 			}
-			if(cacheValue == null){
+			if (cacheValue == null) {
 				logicCache.put(pos, cacheValue = new CacheValue(provider));
-			}else{
+			} else {
 				cacheValue.setProvider(provider);
 			}
 		}
 		return cacheValue.logic;
 	}
 	
-	protected static class CacheValue{
+	protected static class CacheValue {
 		@Nullable
 		public IModuleGuiLogic logic;
 		public int moduleIndex = -1;
@@ -91,9 +91,9 @@ public class GuiLogicCache extends WorldSavedData {
 		}
 		
 		public int getModuleIndex() {
-			if(logic != null){
+			if (logic != null) {
 				Module module = logic.getCurrentModule();
-				if(module != null){
+				if (module != null) {
 					return module.getIndex();
 				}
 			}
@@ -101,14 +101,14 @@ public class GuiLogicCache extends WorldSavedData {
 		}
 		
 		public int getPageIndex() {
-			if(logic != null){
+			if (logic != null) {
 				ModuleComponent page = logic.getCurrentComponent();
-				if(page != null){
+				if (page != null) {
 					return page.getIndex();
 				}
 			}
 			return pageIndex;
 		}
 	}
-
+	
 }

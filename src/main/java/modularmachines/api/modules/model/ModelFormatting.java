@@ -5,5 +5,5 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public enum ModelFormatting {
-	STATUS, FOLDER, SIZE;
+	STATUS, FOLDER, SIZE
 }

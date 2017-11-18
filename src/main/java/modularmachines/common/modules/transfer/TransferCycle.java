@@ -3,14 +3,14 @@ package modularmachines.common.modules.transfer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class TransferCycle<H> implements ITransferCycle<H> {
-
+	
 	protected final int time;
 	protected final int priority;
 	protected final ITransferHandlerWrapper<H> startHandler;
 	protected final ITransferHandlerWrapper<H> endHandler;
 	protected final ModuleTransfer<H> moduleTransfer;
 	protected final int amount;
-
+	
 	public TransferCycle(ModuleTransfer<H> moduleTransfer, ITransferHandlerWrapper<H> startHandler, ITransferHandlerWrapper<H> endHandler, int time, int priority, int amount) {
 		this.moduleTransfer = moduleTransfer;
 		this.startHandler = startHandler;
@@ -19,7 +19,7 @@ public abstract class TransferCycle<H> implements ITransferCycle<H> {
 		this.priority = priority;
 		this.amount = amount;
 	}
-
+	
 	public TransferCycle(ModuleTransfer<H> moduleTransfer, NBTTagCompound compound) {
 		this.moduleTransfer = moduleTransfer;
 		time = compound.getInteger("Time");
@@ -48,17 +48,17 @@ public abstract class TransferCycle<H> implements ITransferCycle<H> {
 	public int getTime() {
 		return time;
 	}
-
+	
 	@Override
 	public int getPriority() {
 		return priority;
 	}
-
+	
 	@Override
 	public ITransferHandlerWrapper<H> getStartHandler() {
 		return startHandler;
 	}
-
+	
 	@Override
 	public ITransferHandlerWrapper<H> getEndHandler() {
 		return endHandler;

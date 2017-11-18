@@ -295,11 +295,11 @@ public class ModuleManager {
 	private static IModuleItemContainer registerModuleItem(IModule module, IModuleProperties properties, IMaterial material, EnumModuleSizes size) {
 		return register(new ModuleItemContainer(null, material, size, new ModuleContainer(module, properties)), module.getRegistryName().getResourcePath() + "." + material.getName() + "." + size.getName());
 	}*/
-
+	
 	public static void registerCapability() {
 		//CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
 		//CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
-		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), ()-> new IModuleContainer(){
+		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> new IModuleContainer() {
 			@Override
 			public void addComponent(String identifier, LogicComponent component) {
 			}
@@ -369,9 +369,9 @@ public class ModuleManager {
 			}
 		});
 	}
-
+	
 	private static class DefaultStorage implements IStorage {
-
+		
 		@Override
 		public NBTBase writeNBT(Capability capability, Object instance, EnumFacing side) {
 			if (instance instanceof INBTSerializable) {
@@ -379,7 +379,7 @@ public class ModuleManager {
 			}
 			return new NBTTagCompound();
 		}
-
+		
 		@Override
 		public void readNBT(Capability capability, Object instance, EnumFacing side, NBTBase nbt) {
 			if (instance instanceof INBTSerializable) {
@@ -388,23 +388,23 @@ public class ModuleManager {
 		}
 	}
 	
-	private static void register(ItemStack parent, ModuleDefinition definition){
+	private static void register(ItemStack parent, ModuleDefinition definition) {
 		ModuleRegistry.registerContainer(new ModuleDataContainer(parent, definition.data()));
 	}
 	
-	private static void registerCapability(ItemStack parent, ModuleDefinition definition){
+	private static void registerCapability(ItemStack parent, ModuleDefinition definition) {
 		ModuleRegistry.registerContainer(new ModuleDataContainerCapability(parent, definition.data()));
 	}
 	
-	private static void registerNBT(ItemStack parent, ModuleDefinition definition){
+	private static void registerNBT(ItemStack parent, ModuleDefinition definition) {
 		ModuleRegistry.registerContainer(new ModuleDataContainerNBT(parent, definition.data()));
 	}
 	
-	private static void registerDamage(ItemStack parent, ModuleDefinition definition){
+	private static void registerDamage(ItemStack parent, ModuleDefinition definition) {
 		ModuleRegistry.registerContainer(new ModuleDataContainerDamage(parent, definition.data()));
 	}
 	
-	private static void register(IModuleDataContainer container){
+	private static void register(IModuleDataContainer container) {
 		ModuleRegistry.registerContainer(container);
 	}
 }

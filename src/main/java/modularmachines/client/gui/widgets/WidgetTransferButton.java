@@ -13,7 +13,7 @@ import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetTransferButton<H> extends Widget {
-
+	
 	public boolean addButton;
 	public PageTransfer<ModuleTransfer<H>, H> transferPage;
 	
@@ -27,9 +27,9 @@ public class WidgetTransferButton<H> extends Widget {
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderUtil.texture(widgetTexture);
-		if(addButton){
+		if (addButton) {
 			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 166, 18, 18, 18);
-		}else{
+		} else {
 			gui.drawTexturedModalRect(guiLeft + pos.x, guiTop + pos.y, 184, 18, 18, 18);
 		}
 	}
@@ -37,11 +37,11 @@ public class WidgetTransferButton<H> extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		ModularMachines.proxy.playButtonClick();
-		if(addButton){
+		if (addButton) {
 			transferPage.addCycle();
-		}else{
+		} else {
 			WidgetTransfer widget = transferPage.selectedWidget;
-			if(widget != null){
+			if (widget != null) {
 				ModuleTransfer module = transferPage.getModule();
 				List<ITransferCycle> cycles = module.getTransferCycles();
 				PacketHandler.sendToServer(new PacketRemoveCycle(transferPage.getModule(), cycles.indexOf(widget.cycle)));
@@ -49,5 +49,5 @@ public class WidgetTransferButton<H> extends Widget {
 		}
 		
 	}
-
+	
 }

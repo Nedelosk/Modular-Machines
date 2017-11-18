@@ -1,9 +1,9 @@
 package modularmachines.common.modules;
 
-public interface IModuleBurning  {
+public interface IModuleBurning {
 	
 	int getFuel();
 	
 	int getFuelTotal();
-
+	
 }

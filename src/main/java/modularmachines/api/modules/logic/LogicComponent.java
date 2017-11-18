@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import modularmachines.api.modules.IModuleContainer;
 
 public class LogicComponent {
-
+	
 	public static final String ENERGY = "energy";
 	public static final String HEAT = "heat";
 	public static final String MODEL = "model";
@@ -17,7 +17,7 @@ public class LogicComponent {
 	public LogicComponent() {
 	}
 	
-	public void update(){
+	public void update() {
 	}
 	
 	public void setProvider(IModuleContainer provider) {
@@ -30,7 +30,7 @@ public class LogicComponent {
 	
 	public void readFromNBT(NBTTagCompound compound) {
 	}
-
+	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		return compound;
 	}

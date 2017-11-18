@@ -20,7 +20,7 @@ import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ModuleUtil;
 
 public class PacketRemoveCycle extends PacketModule {
-
+	
 	protected int index;
 	
 	public PacketRemoveCycle() {
@@ -42,7 +42,7 @@ public class PacketRemoveCycle extends PacketModule {
 		return PacketId.REMOVE_CYCLE;
 	}
 	
-	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -52,12 +52,12 @@ public class PacketRemoveCycle extends PacketModule {
 			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
-			if(module instanceof ModuleTransfer){
+			if (module instanceof ModuleTransfer) {
 				ModuleTransfer transfer = (ModuleTransfer) module;
 				transfer.getTransferCycles().remove(data.readInt());
 			}
 		}
-	
+		
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
@@ -66,7 +66,7 @@ public class PacketRemoveCycle extends PacketModule {
 			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
-			if(module instanceof ModuleTransfer){
+			if (module instanceof ModuleTransfer) {
 				ModuleTransfer transfer = (ModuleTransfer) module;
 				int index = data.readInt();
 				transfer.getTransferCycles().remove(index);
@@ -75,5 +75,5 @@ public class PacketRemoveCycle extends PacketModule {
 			}
 		}
 	}
-
+	
 }

@@ -17,31 +17,31 @@ import modularmachines.common.modules.transfer.items.ItemTransferCycle;
 
 public class ItemUtil {
 	
-	public static void setCount(ItemStack itemStack, int count){
+	public static void setCount(ItemStack itemStack, int count) {
 		itemStack.setCount(count);
 	}
 	
-	public static int getCount(ItemStack itemStack){
+	public static int getCount(ItemStack itemStack) {
 		return itemStack.getCount();
 	}
 	
-	public static void shrink(ItemStack itemStack, int quantity){
+	public static void shrink(ItemStack itemStack, int quantity) {
 		itemStack.shrink(quantity);
 	}
 	
-	public static void grow(ItemStack itemStack, int quantity){
+	public static void grow(ItemStack itemStack, int quantity) {
 		itemStack.grow(quantity);
 	}
 	
-	public static boolean isNotEmpty(ItemStack itemStack){
+	public static boolean isNotEmpty(ItemStack itemStack) {
 		return itemStack != null && !itemStack.isEmpty();
 	}
 	
-	public static boolean isEmpty(ItemStack itemStack){
+	public static boolean isEmpty(ItemStack itemStack) {
 		return itemStack == null || itemStack.isEmpty();
 	}
 	
-	public static ItemStack empty(){
+	public static ItemStack empty() {
 		return ItemStack.EMPTY;
 	}
 	
@@ -78,11 +78,11 @@ public class ItemUtil {
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		return isIdenticalItem(lhs, rhs, false);
 	}
-
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT) {
 		return isIdenticalItem(lhs, rhs, ignorNBT, false);
 	}
-
+	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs, boolean ignorNBT, boolean ignorDisplay) {
 		if (lhs == null || rhs == null) {
 			return false;
@@ -106,7 +106,7 @@ public class ItemUtil {
 		}
 		return true;
 	}
-
+	
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {
 		if (base == null || comparison == null) {
 			return false;
@@ -125,7 +125,7 @@ public class ItemUtil {
 			return ItemStack.areItemStackTagsEqual(base, comparison);
 		}
 	}
-
+	
 	@Nullable
 	public static String getStackToString(@Nonnull ItemStack stack) {
 		Item item = stack.getItem();

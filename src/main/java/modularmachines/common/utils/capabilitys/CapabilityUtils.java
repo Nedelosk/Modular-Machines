@@ -19,17 +19,17 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 public class CapabilityUtils {
 	
 	@Nullable
-	public static <T> T getCapability(IBlockAccess world, BlockPos pos, @Nonnull Capability<T> capability, @Nullable EnumFacing facing){
+	public static <T> T getCapability(IBlockAccess world, BlockPos pos, @Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile == null){
+		if (tile == null) {
 			return null;
 		}
 		return getCapability(tile, capability, facing);
 	}
 	
 	@Nullable
-	public static <T> T getCapability(ICapabilityProvider provider, @Nonnull Capability<T> capability, @Nullable EnumFacing facing){
-		if(provider == null || !provider. hasCapability(capability, facing)){
+	public static <T> T getCapability(ICapabilityProvider provider, @Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		if (provider == null || !provider.hasCapability(capability, facing)) {
 			return null;
 		}
 		return provider.getCapability(capability, facing);

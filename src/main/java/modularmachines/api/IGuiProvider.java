@@ -8,10 +8,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface IGuiProvider extends ILocatableSource {
-
+	
 	@SideOnly(Side.CLIENT)
 	GuiContainer createGui(InventoryPlayer inventory);
-
+	
 	Container createContainer(InventoryPlayer inventory);
 	
 }

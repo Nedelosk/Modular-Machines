@@ -14,7 +14,7 @@ import modularmachines.common.tanks.FluidTankModule;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ModuleHeaterSteam extends ModuleHeater {
-
+	
 	public final ItemHandlerModule itemHandler;
 	public final FluidTankHandler fluidHandler;
 	public final FluidTankModule tank;
@@ -41,30 +41,30 @@ public class ModuleHeaterSteam extends ModuleHeater {
 		itemHandler.writeToNBT(compound);
 		return compound;
 	}
-
+	
 	@Override
 	protected boolean canAddHeat() {
 		return fuel > 0;
 	}
-
+	
 	@Override
 	protected void afterAddHeat() {
-		fuel-=10 * getData().getSize().ordinal();
+		fuel -= 10 * getData().getSize().ordinal();
 	}
-
+	
 	@Override
 	protected boolean updateFuel() {
 		FluidStack input = tank.getFluid();
 		if (input == null) {
 			if (tank.drainInternal(80, true) != null) {
-				fuel=50;
-				fuelTotal=50;
+				fuel = 50;
+				fuelTotal = 50;
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void update() {
 		if (ModuleUtil.getUpdate(container).updateOnInterval(20)) {

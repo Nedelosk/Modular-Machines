@@ -24,14 +24,14 @@ public enum EnumMaterial {
 	ENDERIUM("Enderium", "enderium", 0x1B7A57, "Enderium"),
 	// Mekanism
 	OSMIUM("Osmium", "osmium", 0xADC9CB, "Osmium");
-
+	
 	public static final EnumMaterial[] VALUES = values();
 	
 	private int color;
 	private String name;
 	private String unlocalizedName;
 	private String[] oreDicts;
-
+	
 	EnumMaterial(String name, String unlocalizedName, int color, String... oreDicts) {
 		this.name = name;
 		this.color = color;
@@ -42,15 +42,15 @@ public enum EnumMaterial {
 	public int getColor() {
 		return color;
 	}
-
+	
 	public String[] getOreDicts() {
 		return oreDicts;
 	}
-
+	
 	public String getName() {
 		return name.toLowerCase(Locale.ENGLISH);
 	}
-
+	
 	public String getLocalizedName() {
 		return I18n.translateToLocal("material." + unlocalizedName + ".name");
 	}

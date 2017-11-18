@@ -23,49 +23,50 @@ import modularmachines.common.utils.ItemUtil;
 import static net.minecraft.item.ItemStack.EMPTY;
 
 public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsumer {
-
+	
 	protected final Module module;
 	protected final NonNullList<ItemContainer> containers;
-
+	
 	public ItemHandlerModule(Module module) {
 		this.module = module;
 		this.containers = NonNullList.create();
 	}
 	
-	public ItemContainer addSlot(boolean isInput){
+	public ItemContainer addSlot(boolean isInput) {
 		ItemContainer container = new ItemContainer(containers.size(), isInput, module);
 		containers.add(container);
 		return container;
 	}
 	
-	public ItemContainer addContainer(boolean isInput, String backgroundTexture){
+	public ItemContainer addContainer(boolean isInput, String backgroundTexture) {
 		ItemContainer container = new ItemContainer(containers.size(), isInput, module, backgroundTexture);
 		containers.add(container);
 		return container;
 	}
-
+	
 	/* INEVNTORY */
 	@Override
 	public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
 		validateSlotIndex(slot);
-		if (ItemStack.areItemStacksEqual(this.containers.get(slot).get(), stack))
+		if (ItemStack.areItemStacksEqual(this.containers.get(slot).get(), stack)) {
 			return;
+		}
 		this.containers.get(slot).set(stack);
 		onContentsChanged(slot);
 	}
-
+	
 	@Override
 	public int getSlots() {
 		return containers.size();
 	}
-
+	
 	@Override
 	@Nonnull
 	public ItemStack getStackInSlot(int slot) {
 		validateSlotIndex(slot);
 		return this.containers.get(slot).get();
 	}
-
+	
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
 		if (amount <= 0) {
@@ -77,7 +78,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return extractItemInternal(slot, amount, simulate);
 	}
-
+	
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 		if (stack.isEmpty()) {
@@ -89,31 +90,34 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return insertItemInternal(slot, stack, simulate);
 	}
-
+	
 	@Nonnull
 	public ItemStack insertItemInternal(int slot, @Nonnull ItemStack stack, boolean simulate) {
-		if (stack.isEmpty())
+		if (stack.isEmpty()) {
 			return ItemStack.EMPTY;
-
+		}
+		
 		validateSlotIndex(slot);
-
+		
 		ItemContainer container = containers.get(slot);
 		ItemStack existing = container.get();
-
+		
 		int limit = getStackLimit(slot, stack);
-
+		
 		if (!existing.isEmpty()) {
-			if (!ItemHandlerHelper.canItemStacksStack(stack, existing))
+			if (!ItemHandlerHelper.canItemStacksStack(stack, existing)) {
 				return stack;
-
+			}
+			
 			limit -= existing.getCount();
 		}
-
-		if (limit <= 0)
+		
+		if (limit <= 0) {
 			return stack;
-
+		}
+		
 		boolean reachedLimit = stack.getCount() > limit;
-
+		
 		if (!simulate) {
 			if (existing.isEmpty()) {
 				container.set(reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, limit) : stack);
@@ -122,25 +126,27 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 			}
 			onContentsChanged(slot);
 		}
-
+		
 		return reachedLimit ? ItemHandlerHelper.copyStackWithSize(stack, stack.getCount() - limit) : ItemStack.EMPTY;
 	}
-
+	
 	@Nonnull
 	public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
-		if (amount <= 0)
+		if (amount <= 0) {
 			return ItemStack.EMPTY;
-
+		}
+		
 		validateSlotIndex(slot);
-
+		
 		ItemContainer container = containers.get(slot);
 		ItemStack existing = container.get();
-
-		if (existing.isEmpty())
+		
+		if (existing.isEmpty()) {
 			return ItemStack.EMPTY;
-
+		}
+		
 		int toExtract = Math.min(amount, existing.getMaxStackSize());
-
+		
 		if (existing.getCount() <= toExtract) {
 			if (!simulate) {
 				container.set(ItemStack.EMPTY);
@@ -152,20 +158,20 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 				container.set(ItemHandlerHelper.copyStackWithSize(existing, existing.getCount() - toExtract));
 				onContentsChanged(slot);
 			}
-
+			
 			return ItemHandlerHelper.copyStackWithSize(existing, toExtract);
 		}
 	}
-
-    @Override
-    public int getSlotLimit(int slot) {
-        return 64;
-    }
-
-    protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
-        return Math.min(getSlotLimit(slot), stack.getMaxStackSize());
-    }
-
+	
+	@Override
+	public int getSlotLimit(int slot) {
+		return 64;
+	}
+	
+	protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+		return Math.min(getSlotLimit(slot), stack.getMaxStackSize());
+	}
+	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList nbtTagList = new NBTTagList();
 		for (int i = 0; i < containers.size(); i++) {
@@ -179,13 +185,13 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		compound.setTag("Items", nbtTagList);
 		return compound;
 	}
-
+	
 	public void readFromNBT(NBTTagCompound compound) {
 		NBTTagList tagList = compound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
 			int slot = itemTags.getInteger("Slot");
-
+			
 			if (slot >= 0 && slot < containers.size()) {
 				containers.get(slot).set(new ItemStack(itemTags));
 			}
@@ -207,29 +213,30 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 	 * I18n.translateToLocal("mm.tooltip.handler.inventory.amount") +
 	 * itemStack.stackSize); } } }
 	 */
-
+	
 	protected void validateSlotIndex(int slot) {
-		if (slot < 0 || slot >= containers.size())
+		if (slot < 0 || slot >= containers.size()) {
 			throw new RuntimeException("Slot " + slot + " not in valid range - [0," + containers.size() + ")");
+		}
 	}
-
+	
 	protected void onLoad() {
 	}
-
+	
 	protected void onContentsChanged(int slot) {
 	}
-
+	
 	public boolean isValid(int index, ItemStack stack) {
 		return containers.get(index).isValid(stack);
 	}
-
+	
 	public boolean isInput(int index) {
 		if (containers.size() <= index) {
 			return false;
 		}
 		return containers.get(index).isInput();
 	}
-
+	
 	@Override
 	public int getInputCount() {
 		int inputCount = 0;
@@ -240,7 +247,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return inputCount;
 	}
-
+	
 	@Override
 	public int getOutputCount() {
 		int outputCount = 0;
@@ -251,7 +258,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return outputCount;
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		int count = getInputCount();
@@ -265,7 +272,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return inputs;
 	}
-
+	
 	@Override
 	public boolean insertOutputs(float chance, IRecipe recipe, boolean simulate) {
 		if (recipe == null) {
@@ -289,14 +296,14 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return true;
 	}
-
+	
 	@Override
 	public boolean extractInputs(float chance, IRecipe recipe, boolean simulate) {
 		if (recipe == null) {
 			return false;
 		}
 		RecipeItem[] items = recipe.getInputItems();
-		for (int i = 0;i < items.length;i++) {
+		for (int i = 0; i < items.length; i++) {
 			RecipeItem recipeInput = items[i];
 			if (recipeInput != null) {
 				if (recipeInput.isOre()) {
@@ -312,11 +319,11 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return true;
 	}
-
+	
 	public Module getModule() {
 		return module;
 	}
-
+	
 	@Nullable
 	public ItemContainer getContainer(int index) {
 		if (containers.size() <= index) {
@@ -324,7 +331,7 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		}
 		return containers.get(index);
 	}
-
+	
 	public List<ItemStack> getDrops() {
 		List<ItemStack> drops = new ArrayList<>();
 		for (int i = 0; i < getSlots(); i++) {

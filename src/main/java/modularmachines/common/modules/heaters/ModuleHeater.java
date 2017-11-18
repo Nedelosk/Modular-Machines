@@ -13,8 +13,8 @@ import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.ModuleUtil;
 
-public abstract class ModuleHeater extends Module implements ITickable, IModuleBurning{
-
+public abstract class ModuleHeater extends Module implements ITickable, IModuleBurning {
+	
 	protected final double maxHeat;
 	protected final int heatModifier;
 	protected int fuel;
@@ -49,7 +49,7 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 	public int getFuelTotal() {
 		return fuelTotal;
 	}
-
+	
 	@Override
 	public void update() {
 		if (ModuleUtil.getUpdate(container).updateOnInterval(20)) {
@@ -67,7 +67,7 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 			}
 		}
 	}
-
+	
 	@Override
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
@@ -76,7 +76,7 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
-
+	
 	//TODO: rendering
 	/*@SideOnly(Side.CLIENT)
 	@Override
@@ -104,10 +104,10 @@ public abstract class ModuleHeater extends Module implements ITickable, IModuleB
 				ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), "default", "heaters", container.getSize(), false));
 		return locations;
 	}*/
-
+	
 	protected abstract boolean canAddHeat();
-
+	
 	protected abstract boolean updateFuel();
-
+	
 	protected abstract void afterAddHeat();
 }

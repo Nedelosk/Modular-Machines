@@ -19,24 +19,24 @@ public class FluidTransferCycle extends TransferCycle<IFluidHandler> {
 	public FluidTransferCycle(ModuleTransferFluid moduleTransfer, NBTTagCompound compound) {
 		super(moduleTransfer, compound);
 	}
-
+	
 	@Override
 	public void work(int ticks) {
 		if (ticks % time == 0) {
 			//ItemUtil.transferStacks(moduleTransfer, this);
 		}
 	}
-
+	
 	@Override
 	public boolean canWork() {
 		return true;
 	}
-
+	
 	@Override
 	public int getComplexity() {
 		return 0;
 	}
-
+	
 	@Override
 	public Predicate<ItemStack> getFilter() {
 		return null;

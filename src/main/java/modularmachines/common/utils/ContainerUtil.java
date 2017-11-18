@@ -17,14 +17,14 @@ import net.minecraftforge.common.util.FakePlayer;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
-import modularmachines.common.containers.BaseContainer;
 import modularmachines.common.ModularMachines;
+import modularmachines.common.containers.BaseContainer;
 
 public class ContainerUtil {
 	
 	private static final int SIZE_PLAYER_INV = 9 * 4;
 	private static final int SIVE_HOTBAR = 9;
-
+	
 	public static ItemStack transferStackInSlot(List inventorySlots, EntityPlayer player, int slotIndex) {
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
 		if (slot == null || !slot.getHasStack()) {
@@ -48,7 +48,7 @@ public class ContainerUtil {
 		slot.onTake(player, stackInSlot);
 		return originalStack;
 	}
-
+	
 	private static boolean shiftItemStack(List inventorySlots, ItemStack stackInSlot, int slotIndex, int numSlots) {
 		if (isInPlayerInventory(slotIndex)) {
 			if (shiftToInventory(inventorySlots, stackInSlot, numSlots)) {
@@ -63,7 +63,7 @@ public class ContainerUtil {
 			return shiftToPlayerInventory(inventorySlots, stackInSlot);
 		}
 	}
-
+	
 	private static boolean shiftToPlayerInventory(List inventorySlots, ItemStack stackInSlot) {
 		int playerHotbarStart = SIZE_PLAYER_INV - SIVE_HOTBAR;
 		// try to merge with existing stacks, hotbar first
@@ -74,15 +74,15 @@ public class ContainerUtil {
 		shifted |= shiftItemStackToRangeOpenSlots(inventorySlots, stackInSlot, 0, playerHotbarStart);
 		return shifted;
 	}
-
+	
 	private static boolean shiftToPlayerInventoryNoHotbar(List inventorySlots, ItemStack stackInSlot) {
 		return shiftItemStackToRange(inventorySlots, stackInSlot, 0, SIZE_PLAYER_INV - SIVE_HOTBAR);
 	}
-
+	
 	private static boolean shiftToHotbar(List inventorySlots, ItemStack stackInSlot) {
 		return shiftItemStackToRange(inventorySlots, stackInSlot, SIZE_PLAYER_INV - SIVE_HOTBAR, SIVE_HOTBAR);
 	}
-
+	
 	private static boolean shiftToInventory(List inventorySlots, ItemStack stackToShift, int numSlots) {
 		boolean success = false;
 		if (stackToShift.isStackable()) {
@@ -93,7 +93,7 @@ public class ContainerUtil {
 		}
 		return success;
 	}
-
+	
 	// if mergeOnly = true, don't shift into empty slots.
 	private static boolean shiftToMachineInventory(List inventorySlots, ItemStack stackToShift, int numSlots, boolean mergeOnly) {
 		for (int machineIndex = SIZE_PLAYER_INV; machineIndex < numSlots; machineIndex++) {
@@ -110,13 +110,13 @@ public class ContainerUtil {
 		}
 		return false;
 	}
-
+	
 	private static boolean shiftItemStackToRange(List inventorySlots, ItemStack stackToShift, int start, int count) {
 		boolean changed = shiftItemStackToRangeMerge(inventorySlots, stackToShift, start, count);
 		changed |= shiftItemStackToRangeOpenSlots(inventorySlots, stackToShift, start, count);
 		return changed;
 	}
-
+	
 	private static boolean shiftItemStackToRangeMerge(List inventorySlots, ItemStack stackToShift, int start, int count) {
 		if (stackToShift == null || !stackToShift.isStackable() || stackToShift.getCount() <= 0) {
 			return false;
@@ -143,7 +143,7 @@ public class ContainerUtil {
 		}
 		return changed;
 	}
-
+	
 	private static boolean shiftItemStackToRangeOpenSlots(List inventorySlots, ItemStack stackToShift, int start, int count) {
 		if (stackToShift == null || stackToShift.getCount() <= 0) {
 			return false;
@@ -164,15 +164,15 @@ public class ContainerUtil {
 		}
 		return changed;
 	}
-
+	
 	private static boolean isInPlayerInventory(int slotIndex) {
 		return slotIndex < SIZE_PLAYER_INV;
 	}
-
+	
 	public static boolean isSlotInRange(int slotIndex, int start, int count) {
 		return slotIndex >= start && slotIndex < start + count;
 	}
-
+	
 	private static boolean isInPlayerHotbar(int slotIndex) {
 		return isSlotInRange(slotIndex, SIZE_PLAYER_INV - SIVE_HOTBAR, SIZE_PLAYER_INV);
 	}
@@ -180,37 +180,37 @@ public class ContainerUtil {
 	/**
 	 * Open a gui and transfer the held item of the players.
 	 */
-	public static void openGuiSave(ILocatableSource source, int guiID){
+	public static void openGuiSave(ILocatableSource source, int guiID) {
 		openOrCloseGuiSave(source, guiID, true);
 	}
 	
-	public static EntityPlayer getPlayer(Container container){
+	public static EntityPlayer getPlayer(Container container) {
 		Slot slot = container.getSlot(0);
-		if(slot != null && slot.inventory instanceof InventoryPlayer){
+		if (slot != null && slot.inventory instanceof InventoryPlayer) {
 			InventoryPlayer inv = (InventoryPlayer) slot.inventory;
 			return inv.player;
 		}
 		return null;
 	}
 	
-	public static void openOrCloseGuiSave(ILocatableSource source, int guiID, boolean openGui){
+	public static void openOrCloseGuiSave(ILocatableSource source, int guiID, boolean openGui) {
 		ILocatable locatable = source.getLocatable();
-		if(locatable != null){
+		if (locatable != null) {
 			World world = locatable.getWorldObj();
 			BlockPos position = locatable.getCoordinates();
-			if(world instanceof WorldServer){
+			if (world instanceof WorldServer) {
 				WorldServer server = (WorldServer) world;
 				for (EntityPlayer player : server.playerEntities) {
-					if(!(player instanceof EntityPlayerMP) || player instanceof FakePlayer){
+					if (!(player instanceof EntityPlayerMP) || player instanceof FakePlayer) {
 						continue;
 					}
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					if (player.openContainer instanceof BaseContainer) {
 						BaseContainer container = (BaseContainer) player.openContainer;
 						if (container.getSource() == source) {
-							if(!openGui){
+							if (!openGui) {
 								player.closeScreen();
-							}else{
+							} else {
 								ItemStack itemStack = ItemUtil.empty();
 								InventoryPlayer inv = player.inventory;
 								if (!inv.getItemStack().isEmpty()) {
@@ -229,5 +229,5 @@ public class ContainerUtil {
 			}
 		}
 	}
-
+	
 }

@@ -15,7 +15,7 @@ import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleKineticMachine;
 
 public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IModuleJei, IModuleMode {
-
+	
 	public final ItemHandlerModule itemHandler;
 	public final IMode defaultMode;
 	public IMode mode;
@@ -45,12 +45,12 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 		setCurrentMode(compound.getInteger("Mode"));
 		return compound;
 	}
-
+	
 	@Override
 	protected IRecipeConsumer[] getConsumers() {
 		return new IRecipeConsumer[]{itemHandler};
 	}
-
+	
 	@Override
 	public RecipeItem[] getInputs() {
 		return itemHandler.getInputs();
@@ -60,12 +60,12 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}
-
+	
 	@Override
 	public String[] getJeiRecipeCategorys() {
-		return new String[] { MachineCategorys.LATHE };
+		return new String[]{MachineCategorys.LATHE};
 	}
-
+	
 	@Override
 	public String getRecipeCategory() {
 		return MachineCategorys.LATHE;
@@ -76,7 +76,7 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 		super.createComponents();
 		addComponent(new ModuleComponentLathe(this));
 	}
-
+	
 	@Override
 	protected boolean isRecipeValid(IRecipeMode recipe) {
 		if (super.isRecipeValid(recipe)) {
@@ -86,17 +86,17 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 		}
 		return false;
 	}
-
+	
 	@Override
 	public IMode getCurrentMode() {
 		return mode;
 	}
-
+	
 	@Override
 	public void setCurrentMode(int ordinal) {
 		mode = mode.getMode(ordinal);
 	}
-
+	
 	@Override
 	public IMode getDefaultMode() {
 		return defaultMode;

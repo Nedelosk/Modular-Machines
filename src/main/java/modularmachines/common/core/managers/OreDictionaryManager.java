@@ -14,7 +14,7 @@ import modularmachines.common.materials.MaterialList;
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
 public class OreDictionaryManager {
-
+	
 	public static void registerOres() {
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileIron, 1, OreDictionary.WILDCARD_VALUE));
 		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
@@ -59,7 +59,7 @@ public class OreDictionaryManager {
 			}
 		}
 	}
-
+	
 	private static void registerComponentOres(String preFix, ItemComponent component) {
 		for (EnumMaterial material : component.materials) {
 			ItemStack stack = component.getStack(material);

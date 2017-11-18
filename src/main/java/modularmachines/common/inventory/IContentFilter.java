@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import modularmachines.api.modules.Module;
 
 public interface IContentFilter<C, M extends Module> {
-
+	
 	/**
 	 * Test if a item valid for the index.
 	 */

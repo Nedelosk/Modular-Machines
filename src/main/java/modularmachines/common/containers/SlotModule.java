@@ -12,19 +12,19 @@ import modularmachines.common.inventory.ItemContainer;
 import modularmachines.common.inventory.ItemHandlerModule;
 
 public class SlotModule extends SlotItemHandler {
-
+	
 	public ItemContainer container;
 	
 	public SlotModule(ItemHandlerModule itemHandler, int index, int xPosition, int yPosition) {
 		super(itemHandler, index, xPosition, yPosition);
 		this.container = itemHandler.getContainer(index);
 	}
-
+	
 	@Override
 	public void onSlotChanged() {
 		container.markDirty();
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public TextureAtlasSprite getBackgroundSprite() {

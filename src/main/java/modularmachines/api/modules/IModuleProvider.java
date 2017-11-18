@@ -15,7 +15,7 @@ public interface IModuleProvider {
 	
 	IModuleContainer getContainer();
 	
-	default boolean isValidModule(IModulePosition position, IModuleDataContainer dataContainer){
+	default boolean isValidModule(IModulePosition position, IModuleDataContainer dataContainer) {
 		return dataContainer.getData().isValidPosition(position);
 	}
 }

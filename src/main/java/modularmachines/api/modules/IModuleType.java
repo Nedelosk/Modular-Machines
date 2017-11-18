@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 public interface IModuleType {
 	
 	/**
- 	 * @param count the count of modules of this type in the inventory of this {@link IAssembler}.
+	 * @param count the count of modules of this type in the inventory of this {@link IAssembler}.
 	 *
 	 * @return true if this type of module can by used by so many modules.
 	 */

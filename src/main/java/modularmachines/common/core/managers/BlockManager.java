@@ -18,7 +18,7 @@ public class BlockManager {
 	public static BlockModuleStorage moduleStorage;
 	public static BlockOre blockOres;
 	public static BlockMetalBlock blockMetalBlocks;
-
+	
 	public static void registerBlocks() {
 		blockOres = new BlockOre();
 		register(blockOres, new ItemBlockForest(blockOres));
@@ -27,17 +27,17 @@ public class BlockManager {
 		moduleStorage = new BlockModuleStorage();
 		register(moduleStorage, new ItemBlockForest(moduleStorage));
 	}
-
+	
 	public static void registerTiles() {
 		GameRegistry.registerTileEntity(TileModuleStorage.class, "modularmachines.module");
 	}
-
+	
 	public static <B extends Block> B register(B block) {
 		String name = block.getUnlocalizedName().replace("tile.", "").replace("forest.tile.", "");
 		Registry.register(block, name);
 		return block;
 	}
-
+	
 	public static <B extends Block> B register(B block, ItemBlock item) {
 		String name = block.getUnlocalizedName().replace("tile.", "").replace("forest.tile.", "");
 		Registry.register(block, name);

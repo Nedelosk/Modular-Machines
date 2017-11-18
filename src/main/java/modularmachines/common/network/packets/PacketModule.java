@@ -10,10 +10,10 @@ import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.PacketBufferMM;
 
 public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
-
+	
 	protected int index;
 	protected int componentIndex;
-
+	
 	public PacketModule() {
 	}
 	
@@ -24,11 +24,11 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	public PacketModule(Module module) {
 		this(module.getContainer(), module.getIndex(), -1);
 	}
-
+	
 	public PacketModule(Module module, ModuleComponent component) {
 		this(module.getContainer(), module.getIndex(), component.getIndex());
 	}
-
+	
 	public PacketModule(IModuleContainer provider, int index, int componentIndex) {
 		super(provider);
 		this.index = index;
@@ -41,7 +41,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 		data.writeInt(index);
 		data.writeInt(componentIndex);
 	}
-
+	
 	@Nullable
 	protected static Module getModule(@Nullable IModuleContainer provider, PacketBufferMM data) {
 		if (provider == null) {
@@ -53,7 +53,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	@Nullable
 	protected static ModuleComponent getComponent(@Nullable IModuleContainer provider, PacketBufferMM data) {
 		Module module = getModule(provider, data);
-		if(module == null){
+		if (module == null) {
 			return null;
 		}
 		return module.getComponent(data.readInt());

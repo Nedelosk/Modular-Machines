@@ -37,12 +37,12 @@ public class ModuleComponent<P extends Module> implements IModuleComponent<P> {
 	}
 	
 	@Override
-	public String getTitle(){
+	public String getTitle() {
 		return parent.getData().getDisplayName();
 	}
 	
 	@Override
-	public void detectAndSendChanges(){
+	public void detectAndSendChanges() {
 	}
 	
 	@Override

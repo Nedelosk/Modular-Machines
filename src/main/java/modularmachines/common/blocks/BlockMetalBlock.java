@@ -21,41 +21,41 @@ import modularmachines.common.utils.content.IColoredBlock;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItemModelRegister, IBlockWithMeta {
-
+	
 	public static final PropertyEnum<Metals> TYPE = PropertyEnum.create("type", Metals.class);
-
+	
 	public BlockMetalBlock() {
 		super(Material.IRON, TabModularMachines.tabModularMachines);
 		setUnlocalizedName("metal_blocks");
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, Metals.TIN));
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
 		return state.getValue(TYPE).color;
 	}
-
+	
 	@Override
 	public String getNameFromMeta(int meta) {
 		return Metals.values()[meta].getName();
 	}
-
+	
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, TYPE);
 	}
-
+	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(TYPE, Metals.values()[meta]);
 	}
-
+	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(TYPE).ordinal();
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
@@ -63,7 +63,7 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 			manager.registerItemModel(item, type.ordinal());
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> subItems) {
@@ -71,20 +71,20 @@ public class BlockMetalBlock extends BlockForest implements IColoredBlock, IItem
 			subItems.add(new ItemStack(this, 1, i));
 		}
 	}
-
-	public static enum Metals implements IStringSerializable {
+	
+	public enum Metals implements IStringSerializable {
 		TIN(0xCACECF, "tin", "Tin"), COPPER(0xCC6410, "copper", "Copper"), BRONZE(0xCA9956, "bronze", "Bronze"), STEEL(0xA0A0A0, "steel", "Steel"), INVAR(0xA1A48C, "invar", "Invar");
-
+		
 		public int color;
 		public String name;
 		public String[] oreDict;
-
-		private Metals(int color, String name, String... oreDict) {
+		
+		Metals(int color, String name, String... oreDict) {
 			this.color = color;
 			this.name = name;
 			this.oreDict = oreDict;
 		}
-
+		
 		@Override
 		public String getName() {
 			return name;

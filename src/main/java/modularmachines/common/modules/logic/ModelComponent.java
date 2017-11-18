@@ -15,7 +15,7 @@ public class ModelComponent extends LogicComponent {
 	
 	@SideOnly(Side.CLIENT)
 	protected final Map<Integer, IBakedModel> models = new HashMap<>();
-
+	
 	@SideOnly(Side.CLIENT)
 	public void setModel(int index, IBakedModel model) {
 		models.put(index, model);

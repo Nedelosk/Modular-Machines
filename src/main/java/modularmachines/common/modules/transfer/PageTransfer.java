@@ -28,7 +28,7 @@ public abstract class PageTransfer<M extends ModuleTransfer<H>, H> extends PageW
 	}
 	
 	@Override
-	public void drawBackground(int mouseX, int mouseY){
+	public void drawBackground(int mouseX, int mouseY) {
 		super.drawBackground(mouseX, mouseY);
 		RenderUtil.texture(WIDGETS);
 		gui.drawTexturedModalRect(gui.getGuiLeft() + 176, gui.getGuiTop() + 8, 0, 0, 110, 228);
@@ -54,16 +54,16 @@ public abstract class PageTransfer<M extends ModuleTransfer<H>, H> extends PageW
 	@Override
 	public void addWidgets() {
 		super.addWidgets();
-		int index = ((ModuleComponentTransfer)component).index;
+		int index = ((ModuleComponentTransfer) component).index;
 		addWidget(new WidgetTransferButton(151, 62, true, this));
 		addWidget(new WidgetTransferButton(151, 86, false, this));
-		for(int i = 0;i < 6;i++){
+		for (int i = 0; i < 6; i++) {
 			List<ITransferCycle<H>> cycles = module.getTransferCycles();
 			ITransferCycle<H> cycle = null;
-			if(index + i < cycles.size()){
+			if (index + i < cycles.size()) {
 				cycle = cycles.get(index + i);
 			}
-			if(cycle != null){
+			if (cycle != null) {
 				addWidget(new WidgetTransfer(8, 15 + i * 23, cycle));
 			}
 		}
@@ -71,12 +71,12 @@ public abstract class PageTransfer<M extends ModuleTransfer<H>, H> extends PageW
 	}
 	
 	@Override
-	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton){
+	public void handleMouseClicked(int mouseX, int mouseY, int mouseButton) {
 		int posX = mouseX - gui.getGuiLeft();
 		int posY = mouseY - gui.getGuiTop();
 		Widget widget = widgetManager.getWidgetAtMouse(posX, posY);
-		if(widget != null && widget instanceof WidgetTransfer){
-			if(selectedWidget != widget && selectedWidget != null){
+		if (widget != null && widget instanceof WidgetTransfer) {
+			if (selectedWidget != widget && selectedWidget != null) {
 				selectedWidget.setSelected(false);
 			}
 			selectedWidget = (WidgetTransfer) widget;

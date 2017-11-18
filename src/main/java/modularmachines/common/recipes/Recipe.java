@@ -33,7 +33,7 @@ public abstract class Recipe implements IRecipe {
 	public RecipeItem[] getOutputItems() {
 		return outputItems;
 	}
-
+	
 	@Override
 	public int getSpeed() {
 		return speed;

@@ -1,5 +1,6 @@
 package modularmachines.api.modules;
 
+import javax.annotation.Nullable;
 import java.util.Locale;
 
 import net.minecraft.util.text.translation.I18n;
@@ -24,20 +25,20 @@ public enum EnumModuleSizes {
 	/* L * 3 */
 	LARGEST(9),
 	UNKNOWN(0);
-
+	
 	public int slotNumbers;
 	public static final EnumModuleSizes[] VALUES = values();
-
-	private EnumModuleSizes(int slotNumbers) {
+	
+	EnumModuleSizes(int slotNumbers) {
 		this.slotNumbers = slotNumbers;
 	}
-
-	public static EnumModuleSizes getSize(EnumModuleSizes firstSize, EnumModuleSizes secondSize) {
+	
+	public static EnumModuleSizes getSize(@Nullable EnumModuleSizes firstSize, @Nullable EnumModuleSizes secondSize) {
 		if (firstSize == null && secondSize != null) {
 			return secondSize;
 		} else if (firstSize != null && secondSize == null) {
 			return firstSize;
-		} else if (firstSize == null && secondSize == null) {
+		} else if (firstSize == null) {
 			return UNKNOWN;
 		} else if (firstSize == LARGE && secondSize == LARGE) {
 			return LARGER;
@@ -52,11 +53,11 @@ public enum EnumModuleSizes {
 		}
 		return UNKNOWN;
 	}
-
+	
 	public String getLocalizedName() {
 		return I18n.translateToLocal("module.size." + name().toLowerCase(Locale.ENGLISH) + ".name");
 	}
-
+	
 	public String getName() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}

@@ -18,10 +18,10 @@ import modularmachines.common.utils.content.IColoredItem;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemMetal extends Item implements IItemModelRegister, IColoredItem {
-
+	
 	private final MaterialList[] materials;
 	private final String uln;
-
+	
 	public ItemMetal(String uln, MaterialList... materials) {
 		setCreativeTab(TabModularMachines.tabModularMachines);
 		setUnlocalizedName(uln);
@@ -29,7 +29,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		this.materials = materials;
 		this.uln = uln;
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
@@ -41,16 +41,16 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 			listIndex++;
 		}
 	}
-
+	
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		return getColor(stack.getItemDamage());
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		if(isInCreativeTab(tab)) {
+		if (isInCreativeTab(tab)) {
 			for (MaterialList list : materials) {
 				for (EnumMaterial material : list.getMaterials()) {
 					subItems.add(getStack(material));
@@ -58,21 +58,21 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 			}
 		}
 	}
-
+	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		return getMaterial(stack.getItemDamage()).getLocalizedName() + " " + Translator.translateToLocal("component." + uln + ".name");
 	}
-
+	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
 		return Registry.setUnlocalizedItemName(uln + getName(itemstack.getItemDamage()));
 	}
-
+	
 	public ItemStack getStack(EnumMaterial material) {
 		return getStack(material, 1);
 	}
-
+	
 	public ItemStack getStack(EnumMaterial material, int size) {
 		int listIndex = 0;
 		for (MaterialList list : materials) {
@@ -84,11 +84,11 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		}
 		return null;
 	}
-
+	
 	public ItemStack getStack(String oreDict) {
 		return getStack(oreDict, 1);
 	}
-
+	
 	public ItemStack getStack(String oreDict, int size) {
 		int listIndex = 0;
 		for (MaterialList list : materials) {
@@ -100,7 +100,7 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		}
 		return null;
 	}
-
+	
 	private EnumMaterial getMaterial(int index) {
 		int listIndex = 0;
 		while (index > 9) {
@@ -109,11 +109,11 @@ public class ItemMetal extends Item implements IItemModelRegister, IColoredItem 
 		}
 		return materials[listIndex].get(index);
 	}
-
+	
 	private String getName(int index) {
 		return getMaterial(index).getName();
 	}
-
+	
 	private int getColor(int index) {
 		int listIndex = 0;
 		while (index > 9) {

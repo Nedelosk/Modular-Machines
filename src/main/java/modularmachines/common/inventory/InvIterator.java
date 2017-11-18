@@ -11,7 +11,7 @@ public class InvIterator implements Iterator<InvSlot> {
 	private final IItemHandler inv;
 	private final int[] slots;
 	private int slot = 0;
-
+	
 	public InvIterator(IItemHandler inv) {
 		this.inv = inv;
 		this.slots = ItemUtil.getSlots(inv);
@@ -21,12 +21,12 @@ public class InvIterator implements Iterator<InvSlot> {
 		this.inv = inv;
 		this.slots = slots;
 	}
-
+	
 	@Override
 	public boolean hasNext() {
 		return slot < slots.length;
 	}
-
+	
 	@Override
 	public InvSlot next() {
 		if (!hasNext()) {

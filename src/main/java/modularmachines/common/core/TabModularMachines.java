@@ -7,16 +7,16 @@ import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.materials.EnumMaterial;
 
 public class TabModularMachines extends CreativeTabs {
-
+	
 	public static CreativeTabs tabModularMachines = new TabModularMachines(0, "modularmachines");
 	public static CreativeTabs tabModules = new TabModularMachines(1, "modularmachines.modules");
 	private final int tabIcon;
-
+	
 	private TabModularMachines(int tabIcon, String label) {
 		super(label);
 		this.tabIcon = tabIcon;
 	}
-
+	
 	@Override
 	public ItemStack getTabIconItem() {
 		ItemStack stack = ItemStack.EMPTY;

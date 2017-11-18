@@ -16,15 +16,15 @@ import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
 public abstract class WidgetEnergy extends Widget {
-
+	
 	public static final NumberFormat FORMAT = NumberFormat.getIntegerInstance();
 	protected IEnergyStorage storage;
-
+	
 	public WidgetEnergy(int posX, int posY, int width, int height, IEnergyStorage storage) {
 		super(posX, posY, width, height);
 		this.storage = storage;
 	}
-
+	
 	@Override
 	public List<String> getTooltip() {
 		List<String> description = new ArrayList<>();
@@ -36,12 +36,12 @@ public abstract class WidgetEnergy extends Widget {
 		}
 		return description;
 	}
-
+	
 	protected int getEnergyStoredScaled(int energy) {
 		int scale = pos.height;
 		return (int) MathHelper.clamp(Math.round(scale * getEnergyStoredRatio(energy)), 0, scale);
 	}
-
+	
 	private double getEnergyStoredRatio(int energy) {
 		if (energy <= 0) {
 			return 0;

@@ -19,11 +19,11 @@ public class ModuleRegistry {
 	
 	private static final List<IModuleDataContainer> CONTAINERS = new ArrayList<>();
 	
-	public static void registerContainer(IModuleDataContainer container){
+	public static void registerContainer(IModuleDataContainer container) {
 		CONTAINERS.add(container);
 	}
 	
-	public static List<IModuleDataContainer> getContainers(){
+	public static List<IModuleDataContainer> getContainers() {
 		return CONTAINERS;
 	}
 }

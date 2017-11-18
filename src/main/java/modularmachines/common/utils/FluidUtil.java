@@ -6,8 +6,8 @@ import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.fluid.FluidTransferCycle;
 
 public class FluidUtil {
-
-	public void transferFluids(ModuleTransfer<IFluidHandler> module, FluidTransferCycle cycle){
+	
+	public void transferFluids(ModuleTransfer<IFluidHandler> module, FluidTransferCycle cycle) {
 		
 	}
 	

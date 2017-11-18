@@ -4,7 +4,7 @@ import modularmachines.api.recipes.IRecipeHeat;
 import modularmachines.api.recipes.RecipeItem;
 
 public abstract class RecipeHeat extends Recipe implements IRecipeHeat {
-
+	
 	protected final double heatToRemove;
 	protected final double requiredHeat;
 	
@@ -13,15 +13,15 @@ public abstract class RecipeHeat extends Recipe implements IRecipeHeat {
 		this.heatToRemove = heatToRemove;
 		this.requiredHeat = requiredHeat;
 	}
-
+	
 	@Override
 	public double getHeatToRemove() {
 		return heatToRemove;
 	}
-
+	
 	@Override
 	public double getRequiredHeat() {
 		return requiredHeat;
 	}
-
+	
 }

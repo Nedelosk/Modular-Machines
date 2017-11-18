@@ -7,11 +7,11 @@ public enum Mod {
 	JEI("jei");
 	
 	private final String modID;
-
+	
 	Mod(String modID) {
 		this.modID = modID;
 	}
-
+	
 	public boolean active() {
 		return Loader.isModLoaded(this.modID);
 	}

@@ -11,7 +11,7 @@ import modularmachines.api.modules.IModulePosition;
 import modularmachines.common.modules.storages.ModuleContainer;
 
 public class ModuleCasing extends ModuleContainer {
-
+	
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F);
 	
 	public ModuleCasing() {
@@ -28,15 +28,15 @@ public class ModuleCasing extends ModuleContainer {
 	public IModulePosition getPosition(RayTraceResult hit) {
 		EnumFacing sideHit = hit.sideHit;
 		EnumFacing facing = container.getFacing();
-		if(facing == null){
+		if (facing == null) {
 			facing = EnumFacing.NORTH;
 		}
-		if(sideHit.getAxis() == EnumFacing.Axis.Y){
+		if (sideHit.getAxis() == EnumFacing.Axis.Y) {
 			return null;
 		}
-		if(facing.rotateY() == sideHit){
+		if (facing.rotateY() == sideHit) {
 			return EnumModulePositions.LEFT;
-		} else if(sideHit.rotateY() == facing){
+		} else if (sideHit.rotateY() == facing) {
 			return EnumModulePositions.RIGHT;
 		}
 		return null;

@@ -35,10 +35,9 @@ public interface IModuleHandler {
 	/**
 	 * Tries to inserts a module at the given position and return if it has inserted it.
 	 *
-	 * @param position Position to insert to.
+	 * @param position  Position to insert to.
 	 * @param container
 	 * @param itemStack
-	 *
 	 * @return True if the modules was inserted at the position.
 	 */
 	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack);

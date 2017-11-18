@@ -4,7 +4,7 @@ import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.recipes.RecipeHeat;
 
-public class RecipeAlloySmelter extends RecipeHeat{
+public class RecipeAlloySmelter extends RecipeHeat {
 	
 	public RecipeAlloySmelter(RecipeItem inputFirst, RecipeItem inputSecond, RecipeItem[] outputItems, int speed, double heatToRemove, double requiredHeat) {
 		super(new RecipeItem[]{inputFirst, inputSecond}, outputItems, speed, heatToRemove, requiredHeat);
@@ -18,10 +18,10 @@ public class RecipeAlloySmelter extends RecipeHeat{
 			double requiredHeat) {
 		super(inputItems, outputItems, speed, heatToRemove, requiredHeat);
 	}
-
+	
 	@Override
 	public String getRecipeCategory() {
 		return MachineCategorys.ALLOY_SMELTER;
 	}
-
+	
 }

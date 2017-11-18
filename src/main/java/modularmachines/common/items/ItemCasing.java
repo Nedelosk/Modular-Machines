@@ -14,15 +14,15 @@ import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemCasing extends Item implements IItemModelRegister {
-
-	private String[] casings = new String[] { "wood", "bronze", "iron", "steel", "magmarium" };
-
+	
+	private String[] casings = new String[]{"wood", "bronze", "iron", "steel", "magmarium"};
+	
 	public ItemCasing() {
 		setUnlocalizedName("casing");
 		setHasSubtypes(true);
 		setCreativeTab(TabModularMachines.tabModules);
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(Item item, ModelManager manager) {
@@ -30,16 +30,16 @@ public class ItemCasing extends Item implements IItemModelRegister {
 			manager.registerItemModel(item, i, "casing/" + casings[i]);
 		}
 	}
-
+	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		return Registry.setUnlocalizedItemName(getUnlocalizedName().replace("item.", "") + "." + casings[stack.getItemDamage()]);
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
-		if(isInCreativeTab(tab)) {
+		if (isInCreativeTab(tab)) {
 			for (int i = 0; i < casings.length; i++) {
 				subItems.add(new ItemStack(this, 1, i));
 			}

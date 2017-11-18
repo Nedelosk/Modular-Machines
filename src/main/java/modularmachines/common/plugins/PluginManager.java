@@ -8,15 +8,15 @@ import org.apache.logging.log4j.Level;
 import modularmachines.common.utils.Log;
 
 public class PluginManager {
-
+	
 	public final List<Plugin> loadedPlugins = new ArrayList<>();
 	public final List<Plugin> registeredPlugins = new ArrayList<>();
-
+	
 	private void registerPlugin(Plugin plugin) {
 		registeredPlugins.add(plugin);
 		Log.logPlugin(Level.INFO, "Register Plugin: " + plugin.getMod());
 	}
-
+	
 	private void loadPlugins() {
 		registerPlugins();
 		for (Plugin plugin : registeredPlugins) {
@@ -27,10 +27,10 @@ public class PluginManager {
 		}
 	}
 	
-	public void registerPlugins(){
+	public void registerPlugins() {
 		
 	}
-
+	
 	public void preInit() {
 		loadPlugins();
 		for (Plugin plugin : loadedPlugins) {
@@ -52,7 +52,7 @@ public class PluginManager {
 			}
 		}
 	}
-
+	
 	public void postInit() {
 		for (Plugin plugin : loadedPlugins) {
 			try {

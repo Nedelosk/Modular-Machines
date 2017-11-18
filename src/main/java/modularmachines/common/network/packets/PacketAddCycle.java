@@ -22,7 +22,7 @@ import modularmachines.common.utils.ContainerUtil;
 import modularmachines.common.utils.ModuleUtil;
 
 public class PacketAddCycle extends PacketModule {
-
+	
 	protected ITransferCycle cycle;
 	
 	public PacketAddCycle() {
@@ -44,7 +44,7 @@ public class PacketAddCycle extends PacketModule {
 		return PacketId.ADD_CYCLE;
 	}
 	
-	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
@@ -54,12 +54,12 @@ public class PacketAddCycle extends PacketModule {
 			Module module = getModule(logic, data);
 			//page index
 			int page = data.readInt();
-			if(module instanceof ModuleTransfer){
+			if (module instanceof ModuleTransfer) {
 				ModuleTransfer transfer = (ModuleTransfer) module;
 				transfer.addCycle(transfer.getCycle(data.readCompoundTag()));
 			}
 		}
-	
+		
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
@@ -68,7 +68,7 @@ public class PacketAddCycle extends PacketModule {
 			Module module = getModule(logic, data);
 			//page index
 			int page = data.readInt();
-			if(module instanceof ModuleTransfer){
+			if (module instanceof ModuleTransfer) {
 				ModuleTransfer transfer = (ModuleTransfer) module;
 				ITransferCycle cycle = transfer.getCycle(data.readCompoundTag());
 				transfer.addCycle(cycle);
@@ -77,5 +77,5 @@ public class PacketAddCycle extends PacketModule {
 			}
 		}
 	}
-
+	
 }

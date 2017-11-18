@@ -6,7 +6,6 @@
 package modularmachines.common.modules.transfer.items;
 
 import javax.annotation.Nonnull;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class ItemFilterCache {
 	}
 	
 	public boolean match(ItemStack stack) {
-		if(!stack.isEmpty()) {
+		if (!stack.isEmpty()) {
 			boolean match = false;
 			
 			if (oredictMode) {

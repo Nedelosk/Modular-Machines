@@ -33,13 +33,13 @@ import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
 
 public class ModuleUtil {
-
+	
 	public static void tryEmptyContainer(int inputSlot, int outputSlot, IItemHandler inventory, IFluidHandler handler) {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
-			if(ItemUtil.isNotEmpty(stack)){
+			if (ItemUtil.isNotEmpty(stack)) {
 				FluidActionResult result = FluidUtil.tryEmptyContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false);
-				if(result.isSuccess()){
+				if (result.isSuccess()) {
 					ItemStack containerStack = result.getResult();
 					if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
 						if (ItemUtil.isEmpty(inventory.insertItem(outputSlot, containerStack, true))) {
@@ -52,13 +52,13 @@ public class ModuleUtil {
 			}
 		}
 	}
-
+	
 	public static void tryFillContainer(int inputSlot, int outputSlot, IItemHandler inventory, IFluidHandler handler) {
 		if (inventory != null && handler != null) {
 			ItemStack stack = inventory.getStackInSlot(inputSlot);
-			if(ItemUtil.isNotEmpty(stack)){
-				FluidActionResult result =  FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false);
-				if(result.isSuccess()){
+			if (ItemUtil.isNotEmpty(stack)) {
+				FluidActionResult result = FluidUtil.tryFillContainer(stack, handler, Fluid.BUCKET_VOLUME, null, false);
+				if (result.isSuccess()) {
 					ItemStack containerStack = result.getResult();
 					if (ItemUtil.isNotEmpty(containerStack)) {
 						if (ItemUtil.isNotEmpty(inventory.extractItem(inputSlot, 1, true))) {
@@ -84,7 +84,7 @@ public class ModuleUtil {
 		}
 		return modules;
 	}
-
+	
 	@Nullable
 	public static <M> M getModule(IModuleContainer provider, Class<? extends M> moduleClass) {
 		Preconditions.checkNotNull(moduleClass);
@@ -97,58 +97,58 @@ public class ModuleUtil {
 	}
 	
 	@Nullable
-	public static IModuleContainer getContainer(ILocatable locatable){
+	public static IModuleContainer getContainer(ILocatable locatable) {
 		return getContainer(locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
 	@Nullable
-	public static IModuleGuiLogic getGuiLogic(IModuleContainer provider, EntityPlayer player){
+	public static IModuleGuiLogic getGuiLogic(IModuleContainer provider, EntityPlayer player) {
 		return getGuiLogic(player.world, provider.getLocatable().getCoordinates(), player.getGameProfile());
 	}
 	
 	@Nullable
-	public static IModuleGuiLogic getGuiLogic(BlockPos pos, EntityPlayer player){
+	public static IModuleGuiLogic getGuiLogic(BlockPos pos, EntityPlayer player) {
 		return getGuiLogic(player.world, pos, player.getGameProfile());
 	}
 	
 	@Nullable
-	public static IModuleGuiLogic getGuiLogic(World world, BlockPos pos, @Nullable GameProfile player){
+	public static IModuleGuiLogic getGuiLogic(World world, BlockPos pos, @Nullable GameProfile player) {
 		String filename = "guiLogic." + (player == null ? "common" : player.getId());
 		GuiLogicCache cache = (GuiLogicCache) world.loadData(GuiLogicCache.class, filename);
-
+		
 		// Create a cache if there is none yet.
 		if (cache == null) {
 			cache = new GuiLogicCache(filename);
 			world.setData(filename, cache);
 		}
-
+		
 		return cache.getLogic(world, pos);
 	}
 	
 	@Nullable
-	public static ModelComponent getModel(IModuleContainer container){
+	public static ModelComponent getModel(IModuleContainer container) {
 		return container.getComponent(LogicComponent.MODEL);
 	}
 	
 	@Nullable
-	public static HeatComponent getHeat(IModuleContainer provider){
+	public static HeatComponent getHeat(IModuleContainer provider) {
 		return provider.getComponent(LogicComponent.HEAT);
 	}
 	
 	@Nullable
-	public static EnergyStorageComponent getEnergy(IModuleContainer provider){
+	public static EnergyStorageComponent getEnergy(IModuleContainer provider) {
 		return provider.getComponent(LogicComponent.ENERGY);
 	}
 	
 	@Nullable
-	public static UpdateComponent getUpdate(IModuleContainer provider){
+	public static UpdateComponent getUpdate(IModuleContainer provider) {
 		return provider.getComponent(LogicComponent.UPDATE);
 	}
 	
 	@Nullable
-	public static IModuleContainer getContainer(BlockPos pos, IBlockAccess world){
+	public static IModuleContainer getContainer(BlockPos pos, IBlockAccess world) {
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_CONTAINER, null)){
+		if (tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_CONTAINER, null)) {
 			return tileEntity.getCapability(ModuleRegistry.MODULE_CONTAINER, null);
 		}
 		return null;

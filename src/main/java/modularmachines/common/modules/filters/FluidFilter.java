@@ -10,9 +10,9 @@ import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 
 public class FluidFilter implements IContentFilter<FluidStack, Module> {
-
+	
 	private static final Map<Fluid, FluidFilter> FILTERS = new HashMap<>();
-
+	
 	public static FluidFilter get(Fluid fluidFilter) {
 		if (!FILTERS.containsKey(fluidFilter)) {
 			FILTERS.put(fluidFilter, new FluidFilter(fluidFilter));
@@ -20,13 +20,13 @@ public class FluidFilter implements IContentFilter<FluidStack, Module> {
 		}
 		return FILTERS.get(fluidFilter);
 	}
-
+	
 	private Fluid fluidFilter;
-
+	
 	private FluidFilter(Fluid fluidFilter) {
 		this.fluidFilter = fluidFilter;
 	}
-
+	
 	@Override
 	public boolean isValid(int index, FluidStack content, Module module) {
 		if (content == null) {

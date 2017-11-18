@@ -13,7 +13,7 @@ import modularmachines.common.modules.transfer.TransferCycle;
 import modularmachines.common.utils.ItemUtil;
 
 public class ItemTransferCycle extends TransferCycle<IItemHandler> {
-
+	
 	protected final int[] slots;
 	protected final int[] insertSlots;
 	protected Predicate<ItemStack> matcher;
@@ -55,19 +55,19 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 		slots = compound.getIntArray("Slots");
 		insertSlots = compound.getIntArray("InsertSlots");
 	}
-
+	
 	@Override
 	public void work(int ticks) {
 		if (ticks % time == 0) {
 			ItemUtil.transferStacks(moduleTransfer, this);
 		}
 	}
-
+	
 	@Override
 	public boolean canWork() {
 		return true;
 	}
-
+	
 	protected int[] generateDefaultSlots(IItemHandler handler) {
 		return ItemUtil.getSlots(handler);
 	}
@@ -75,16 +75,16 @@ public class ItemTransferCycle extends TransferCycle<IItemHandler> {
 	public int[] getSlots() {
 		return slots;
 	}
-
+	
 	public int[] getInsertSlots() {
 		return insertSlots;
 	}
-
+	
 	@Override
 	public int getComplexity() {
 		return 0;
 	}
-
+	
 	@Override
 	public Predicate<ItemStack> getFilter() {
 		return matcher;

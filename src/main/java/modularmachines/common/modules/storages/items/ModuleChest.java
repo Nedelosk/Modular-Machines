@@ -7,7 +7,7 @@ import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.DefaultFilter;
 
 public class ModuleChest extends Module {
-
+	
 	public final ItemHandlerModule itemHandler;
 	
 	public ModuleChest() {
@@ -42,5 +42,5 @@ public class ModuleChest extends Module {
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}
-
+	
 }

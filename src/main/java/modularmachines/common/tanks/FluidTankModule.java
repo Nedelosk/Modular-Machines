@@ -11,12 +11,12 @@ import modularmachines.common.inventory.IContentFilter;
 import modularmachines.common.utils.IContentContainer;
 
 public class FluidTankModule extends FluidTank implements IContentContainer<FluidStack> {
-
+	
 	protected final boolean isInput;
 	protected final Module module;
 	protected final int index;
 	protected final List<IContentFilter<FluidStack, Module>> filters;
-
+	
 	public FluidTankModule(int capacity, int index, boolean isInput, Module module) {
 		super(capacity);
 		this.index = index;
@@ -24,15 +24,15 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 		this.isInput = isInput;
 		this.filters = new ArrayList<>();
 	}
-
+	
 	public float getFilledRatio() {
 		return (float) getFluidAmount() / getCapacity();
 	}
-
+	
 	public boolean isFull() {
 		return getFluidAmount() >= getCapacity();
 	}
-
+	
 	public boolean isEmpty() {
 		return getFluidAmount() <= 0;
 	}
@@ -68,7 +68,7 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public void markDirty(){
+	public void markDirty() {
 		module.sendModuleUpdate();
 		module.getContainer().getLocatable().markLocatableDirty();
 	}
@@ -79,7 +79,7 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public FluidTankModule addFilter(IContentFilter<FluidStack, Module> filter){
+	public FluidTankModule addFilter(IContentFilter<FluidStack, Module> filter) {
 		filters.add(filter);
 		return this;
 	}
@@ -114,17 +114,17 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	public boolean canFill() {
 		return isInput;
 	}
-
+	
 	@Override
 	public boolean canDrainFluidType(FluidStack resource) {
 		return super.canDrainFluidType(resource) && isValid(resource);
 	}
-
+	
 	@Override
 	public boolean canFillFluidType(FluidStack fluid) {
 		return super.canFillFluidType(fluid) && isValid(fluid);
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof FluidTankModule)) {

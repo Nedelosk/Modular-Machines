@@ -38,7 +38,7 @@ public class ModuleHandler implements IModuleHandler {
 	public ModuleHandler(IModuleProvider provider, IModulePosition... positions) {
 		this.provider = provider;
 		this.modules = new HashMap<>(positions.length);
-		for(IModulePosition position : positions){
+		for (IModulePosition position : positions) {
 			modules.put(position, null);
 		}
 		this.positions = ImmutableList.copyOf(positions);
@@ -67,7 +67,7 @@ public class ModuleHandler implements IModuleHandler {
 	
 	@Override
 	public boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack) {
-		if(hasModule(position) || !provider.isValidModule(position, container)){
+		if (hasModule(position) || !provider.isValidModule(position, container)) {
 			return false;
 		}
 		Module module = container.getData().createModule(this, position, container, itemStack);
@@ -77,11 +77,11 @@ public class ModuleHandler implements IModuleHandler {
 		//locatable.markBlockUpdate();
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			int index = provider instanceof Module ? ((Module) provider).getIndex() : -1;
 			PacketHandler.sendToNetwork(new PacketInjectModule(provider.getContainer(), index, getPositionIndex(position), itemStack.copy()), blockPos, (WorldServer) world);
-		}else {
-			if(provider instanceof Module){
+		} else {
+			if (provider instanceof Module) {
 				Module parent = (Module) provider;
 				parent.setModelNeedReload(true);
 			}
@@ -96,11 +96,11 @@ public class ModuleHandler implements IModuleHandler {
 		return ItemStack.EMPTY;
 	}
 	
-	public NBTTagCompound writeToNBT(NBTTagCompound compound){
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList tagList = new NBTTagList();
-		for(Map.Entry<IModulePosition, Module> entry : modules.entrySet()){
+		for (Map.Entry<IModulePosition, Module> entry : modules.entrySet()) {
 			Module module = entry.getValue();
-			if(module == null){
+			if (module == null) {
 				continue;
 			}
 			ModuleData moduleData = module.getData();
@@ -114,22 +114,22 @@ public class ModuleHandler implements IModuleHandler {
 		return compound;
 	}
 	
-	public void readFromNBT(NBTTagCompound compound){
-		for(IModulePosition position : positions){
+	public void readFromNBT(NBTTagCompound compound) {
+		for (IModulePosition position : positions) {
 			modules.put(position, null);
 		}
 		NBTTagList tagList = compound.getTagList("Modules", 10);
-		for(int i = 0;i < tagList.tagCount();i++){
+		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
 			int index = tagCompound.getInteger("I");
 			String registryName = tagCompound.getString("D");
 			ModuleData data = ModularMachines.dataRegistry.getValue(new ResourceLocation(registryName));
-			if(data == null){
+			if (data == null) {
 				Log.warn("Failed to load a module of a module handler.");
 				continue;
 			}
 			IModulePosition position = getPosition(index);
-			if(position == null){
+			if (position == null) {
 				Log.warn("Failed to load a module of a module handler: Data:{}", data);
 				continue;
 			}
@@ -141,8 +141,8 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Nullable
-	public IModulePosition getPosition(int index){
-		if(index < 0 || index >= positions.size()){
+	public IModulePosition getPosition(int index) {
+		if (index < 0 || index >= positions.size()) {
 			return null;
 		}
 		return positions.get(index);

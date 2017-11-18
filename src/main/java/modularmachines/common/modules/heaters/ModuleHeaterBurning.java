@@ -8,7 +8,7 @@ import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 
 public class ModuleHeaterBurning extends ModuleHeater {
-
+	
 	public final ItemHandlerModule itemHandler;
 	
 	public ModuleHeaterBurning(double maxHeat, int heatModifier) {
@@ -34,17 +34,17 @@ public class ModuleHeaterBurning extends ModuleHeater {
 	public ItemHandlerModule getItemHandler() {
 		return itemHandler;
 	}
-
+	
 	@Override
 	protected boolean canAddHeat() {
 		return fuel > 0;
 	}
-
+	
 	@Override
 	protected void afterAddHeat() {
-		fuel-=25 * getData().getSize().ordinal();
+		fuel -= 25 * getData().getSize().ordinal();
 	}
-
+	
 	@Override
 	protected boolean updateFuel() {
 		ItemStack input = itemHandler.getStackInSlot(0);

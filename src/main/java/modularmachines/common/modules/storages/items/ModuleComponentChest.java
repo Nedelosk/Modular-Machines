@@ -7,7 +7,7 @@ import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
 
 public class ModuleComponentChest extends ModuleComponent<ModuleChest> {
-
+	
 	public ModuleComponentChest(ModuleChest parent) {
 		super(parent);
 	}

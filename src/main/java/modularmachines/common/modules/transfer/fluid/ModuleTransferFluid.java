@@ -20,11 +20,11 @@ import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.modules.transfer.TransferWrapperModule;
 import modularmachines.common.modules.transfer.TransferWrapperTileEntity;
 
-public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
-
+public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler> {
+	
 	public ModuleTransferFluid() {
 	}
-
+	
 	@Override
 	public Class<IFluidHandler> getHandlerClass() {
 		return IFluidHandler.class;
@@ -32,17 +32,17 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 	
 	@Override
 	public ITransferHandlerWrapper<IFluidHandler> getWrapper(NBTBase compound) {
-		if(compound instanceof NBTTagShort){
+		if (compound instanceof NBTTagShort) {
 			EnumFacing facing = EnumFacing.VALUES[((NBTTagShort) compound).getShort()];
 			ITransferHandlerWrapper wrapper = tileWrappers.get(facing);
-			if(wrapper == null){
+			if (wrapper == null) {
 				tileWrappers.put(facing, wrapper = createTileWrapper(facing));
 			}
 			return wrapper;
-		}else{
-			int index = ((NBTTagInt)compound).getInt();
+		} else {
+			int index = ((NBTTagInt) compound).getInt();
 			ITransferHandlerWrapper wrapper = moduleWrappers.get(index);
-			if(wrapper == null){
+			if (wrapper == null) {
 				moduleWrappers.put(index, wrapper = createModuleWrapper(index));
 			}
 			return wrapper;
@@ -51,21 +51,21 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 	
 	@Override
 	public NBTBase writeWrapper(ITransferHandlerWrapper<IFluidHandler> wrapper) {
-		if(wrapper instanceof TransferWrapperTileEntity){
+		if (wrapper instanceof TransferWrapperTileEntity) {
 			TransferWrapperTileEntity tileWrapper = (TransferWrapperTileEntity) wrapper;
 			return new NBTTagShort((short) tileWrapper.getFacing().ordinal());
-		}else if(wrapper instanceof TransferWrapperModule){
+		} else if (wrapper instanceof TransferWrapperModule) {
 			TransferWrapperModule moduleWrapper = (TransferWrapperModule) wrapper;
 			return new NBTTagInt(moduleWrapper.getIndex());
 		}
 		return new NBTTagInt(0);
 	}
-
+	
 	@Override
 	public ITransferHandlerWrapper<IFluidHandler> createModuleWrapper(int moduleIndex) {
 		return new TransferWrapperModule<>(this, moduleIndex);
 	}
-
+	
 	@Override
 	public ITransferHandlerWrapper<IFluidHandler> createTileWrapper(EnumFacing facing) {
 		return new TransferWrapperTileEntity(this, facing);
@@ -73,12 +73,12 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 	
 	@Override
 	public IFluidHandler getHandler(ITransferHandlerWrapper<IFluidHandler> wrapper) {
-		if(wrapper instanceof TransferWrapperTileEntity){
+		if (wrapper instanceof TransferWrapperTileEntity) {
 			TransferWrapperTileEntity tileWrapper = (TransferWrapperTileEntity) wrapper;
 			TileEntity tile = tileWrapper.getTileEntity();
 			EnumFacing facing = tileWrapper.getFacing();
 			return tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite());
-		}else if(wrapper instanceof TransferWrapperModule){
+		} else if (wrapper instanceof TransferWrapperModule) {
 			TransferWrapperModule moduleWrapper = (TransferWrapperModule) wrapper;
 			Module module = moduleWrapper.getModule();
 			return module.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
@@ -88,12 +88,12 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 	
 	@Override
 	public boolean isValid(ITransferHandlerWrapper<IFluidHandler> wrapper) {
-		if(wrapper instanceof TransferWrapperTileEntity){
+		if (wrapper instanceof TransferWrapperTileEntity) {
 			TransferWrapperTileEntity tileWrapper = (TransferWrapperTileEntity) wrapper;
 			TileEntity tile = tileWrapper.getTileEntity();
 			EnumFacing facing = tileWrapper.getFacing();
 			return tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite());
-		}else if(wrapper instanceof TransferWrapperModule){
+		} else if (wrapper instanceof TransferWrapperModule) {
 			TransferWrapperModule moduleWrapper = (TransferWrapperModule) wrapper;
 			Module module = moduleWrapper.getModule();
 			return module.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
@@ -103,17 +103,17 @@ public class ModuleTransferFluid extends ModuleTransfer<IFluidHandler>{
 	
 	@Override
 	protected ModuleComponentTransfer createComponent(ModuleTransfer<IFluidHandler> parent, int index) {
-		return new ModuleComponentTransfer(this, index){
+		return new ModuleComponentTransfer(this, index) {
 			@Override
 			public IPage createPage(GuiContainer gui) {
 				return new PageTransferFluid(this, gui);
 			}
 		};
 	}
-
+	
 	@Override
 	public ITransferCycle<IFluidHandler> getCycle(NBTTagCompound compound) {
 		return new FluidTransferCycle(this, compound);
 	}
-
+	
 }

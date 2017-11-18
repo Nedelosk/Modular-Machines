@@ -20,12 +20,12 @@ import modularmachines.common.network.PacketId;
 import modularmachines.common.utils.ModuleUtil;
 
 public class PacketSyncMode extends PacketModule {
-
+	
 	private int mode;
-
+	
 	public PacketSyncMode() {
 	}
-
+	
 	public PacketSyncMode(Module module, IModuleMode moduleMode) {
 		super(module);
 		this.mode = moduleMode.getCurrentMode().ordinal();
@@ -35,15 +35,15 @@ public class PacketSyncMode extends PacketModule {
 		super(module);
 		this.mode = ordinal;
 	}
-
+	
 	@Override
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(mode);
 	}
-
-	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer{
 	
+	public static final class Handler implements IPacketHandlerClient, IPacketHandlerServer {
+		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
@@ -55,12 +55,12 @@ public class PacketSyncMode extends PacketModule {
 				int index = data.readVarInt();
 				Module module = provider.getModule(index);
 				int mode = data.readVarInt();
-				if(module instanceof IModuleMode){
+				if (module instanceof IModuleMode) {
 					((IModuleMode) module).setCurrentMode(mode);
 				}
 			}
 		}
-	
+		
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayerMP player) throws IOException {
 			World world = player.getEntityWorld();
@@ -71,14 +71,14 @@ public class PacketSyncMode extends PacketModule {
 				int index = data.readVarInt();
 				Module module = provider.getModule(index);
 				int mode = data.readVarInt();
-				if(module instanceof IModuleMode){
+				if (module instanceof IModuleMode) {
 					((IModuleMode) module).setCurrentMode(mode);
 				}
 				PacketHandler.sendToNetwork(new PacketSyncMode(module, mode), pos, player.getServerWorld());
 			}
 		}
 	}
-
+	
 	@Override
 	public PacketId getPacketId() {
 		return PacketId.SYNC_MODE;

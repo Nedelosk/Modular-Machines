@@ -7,13 +7,13 @@ import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 
 public class ContentContainer<C> implements IContentContainer<C> {
-
+	
 	protected final boolean isInput;
 	protected final int index;
 	protected final List<IContentFilter<C, Module>> filters;
 	protected final Module module;
 	protected C content;
-
+	
 	public ContentContainer(int index, boolean isInput, Module module) {
 		this.index = index;
 		this.isInput = isInput;
@@ -22,7 +22,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	}
 	
 	@Override
-	public boolean hasContent(){
+	public boolean hasContent() {
 		return this.content != null;
 	}
 	
@@ -52,12 +52,12 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	}
 	
 	@Override
-	public void markDirty(){
+	public void markDirty() {
 		module.getContainer().getLocatable().markLocatableDirty();
 	}
 	
 	@Override
-	public IContentContainer<C> addFilter(IContentFilter<C, Module> filter){
+	public IContentContainer<C> addFilter(IContentFilter<C, Module> filter) {
 		filters.add(filter);
 		return this;
 	}

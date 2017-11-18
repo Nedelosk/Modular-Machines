@@ -11,7 +11,7 @@ import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.utils.ModuleUtil;
 
 public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMachine<R> {
-
+	
 	protected double heatToRemove = 0;
 	protected double heatRequired = 0;
 	
@@ -38,7 +38,7 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 					recipe = validRecipe;
 					workTimeTotal = createWorkTimeTotal(validRecipe.getSpeed());
 					chance = rand.nextFloat();
-					if(validRecipe instanceof IRecipeHeat){
+					if (validRecipe instanceof IRecipeHeat) {
 						IRecipeHeat heatRecipe = recipe;
 						heatToRemove = heatRecipe.getHeatToRemove() / workTimeTotal;
 						heatRequired = heatRecipe.getRequiredHeat();
@@ -54,7 +54,7 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 				}
 				if (workTime > 0) {
 					needUpdate = true;
-					this.workTime+=workTime;
+					this.workTime += workTime;
 				}
 			}
 			if (needUpdate) {
@@ -65,14 +65,11 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 	
 	@Override
 	protected boolean isRecipeValid(R recipe) {
-		if(!super.isRecipeValid(recipe)){
+		if (!super.isRecipeValid(recipe)) {
 			return false;
 		}
 		IHeatSource heatBuffer = ModuleUtil.getHeat(container);
-		if (recipe.getRequiredHeat() > heatBuffer.getHeatStored()) {
-			return false;
-		}
-		return true;
+		return !(recipe.getRequiredHeat() > heatBuffer.getHeatStored());
 	}
 	
 	@Override
@@ -89,5 +86,5 @@ public abstract class ModuleHeatMachine<R extends IRecipeHeat> extends ModuleMac
 			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
 		}
 	}
-
+	
 }

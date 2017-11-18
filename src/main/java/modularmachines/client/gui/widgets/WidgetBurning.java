@@ -9,26 +9,26 @@ import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetBurning<M extends IModuleBurning> extends Widget {
-
+	
 	protected M module;
 	
 	public WidgetBurning(int posX, int posY, M module) {
 		super(posX, posY, 14, 14);
 		this.module = module;
 	}
-
+	
 	@Override
 	public List<String> getTooltip() {
 		return Collections.emptyList();
 	}
-
+	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (Mod.JEI.active()) {
 			PluginUtil.show(PluginUtil.FUEL);
 		}
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		RenderUtil.texture(widgetTexture);

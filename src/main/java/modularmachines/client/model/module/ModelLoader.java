@@ -1,6 +1,5 @@
 package modularmachines.client.model.module;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
@@ -12,13 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModel;
@@ -37,9 +36,10 @@ import modularmachines.common.utils.ModuleUtil;
 
 @SideOnly(Side.CLIENT)
 public class ModelLoader {
-
+	
+	@Nullable
 	private static ImmutableMap<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> models;
-
+	
 	@SuppressWarnings("unchecked")
 	public static void loadModels() {
 		IModel missingModel = ModelLoaderRegistry.getMissingModel();
@@ -48,12 +48,12 @@ public class ModelLoader {
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
 		ModularMachines.dataRegistry.getValues().stream()
 				.filter(Objects::nonNull)
-				.map(d-> {
-					IModelData<IBakedModel> modelData = d.getModel(TileEntity.class);
-					if(modelData == null){
+				.map(data -> {
+					IModelData modelData = data.getModel();
+					if (modelData == null) {
 						return Collections.<ResourceLocation>emptyList();
 					}
-					return modelData.getValidLocations();
+					return modelData.locations().values();
 				})
 				.flatMap(Collection::stream)
 				.filter(l -> Objects.nonNull(l) && !modelLocations.contains(l))
@@ -92,10 +92,10 @@ public class ModelLoader {
 		ModelLoader.models = modelBaker.build();
 		loadingExceptions.values().forEach(Throwable::printStackTrace);
 	}
-
-	public static enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite> {
+	
+	public enum DefaultTextureGetter implements Function<ResourceLocation, TextureAtlasSprite> {
 		INSTANCE;
-
+		
 		@Override
 		public TextureAtlasSprite apply(ResourceLocation location) {
 			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
@@ -105,36 +105,45 @@ public class ModelLoader {
 	@Nullable
 	public static IBakedModel getModel(Module module, IModelState modelState, VertexFormat vertex) {
 		IModuleContainer container = module.getContainer();
-		if(container == null){
-			return null;
-		}
 		ModelComponent component = ModuleUtil.getModel(container);
-		if(component == null){
+		if (component == null) {
 			return null;
 		}
 		IBakedModel model = component.getModel(module.getIndex());
-		IModelData<IBakedModel> data = getModelData(module);
-		if(data == null){
+		IModelData data = getModelData(module);
+		if (data == null) {
 			return null;
 		}
 		if (module.isModelNeedReload() || model == null) {
-			component.setModel(module.getIndex(), model = data.getModel(module, modelState, vertex, DefaultTextureGetter.INSTANCE));
+			ModelList modelList = new ModelList(data.locations(), vertex, modelState);
+			data.addModel(modelList, module);
+			if (modelList.empty()) {
+				model = modelList.missingModel();
+			} else {
+				List<IBakedModel> models = modelList.models();
+				if (models.size() == 1) {
+					model = models.get(0);
+				} else {
+					model = new BakedMultiModel(models);
+				}
+			}
+			component.setModel(module.getIndex(), model);
 			module.setModelNeedReload(false);
 		}
 		return model;
 	}
 	
 	@Nullable
-	private static IModelData<IBakedModel> getModelData(@Nullable Module module){
-		if(module == null){
+	private static IModelData getModelData(@Nullable Module module) {
+		if (module == null) {
 			return null;
 		}
-		return module.getData().getModel(TileEntity.class);
+		return module.getData().getModel();
 	}
-
+	
 	@Nullable
 	public static IBakedModel getModel(ResourceLocation location, VertexFormat format) {
-		if (!models.containsKey(location)) {
+		if (models == null || !models.containsKey(location)) {
 			return null;
 		}
 		if (!models.get(location).containsKey(format)) {

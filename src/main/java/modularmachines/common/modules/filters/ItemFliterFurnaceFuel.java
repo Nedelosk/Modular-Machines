@@ -7,12 +7,12 @@ import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
 
 public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, Module> {
-
+	
 	public static final ItemFliterFurnaceFuel INSTANCE = new ItemFliterFurnaceFuel();
-
+	
 	private ItemFliterFurnaceFuel() {
 	}
-
+	
 	@Override
 	public boolean isValid(int index, ItemStack content, Module module) {
 		if (content == null) {

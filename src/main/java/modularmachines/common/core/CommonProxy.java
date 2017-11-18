@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class CommonProxy {
-
+	
 	public void preInit() {
 		
 	}
@@ -32,20 +32,20 @@ public class CommonProxy {
 	public World getRenderWorld() {
 		throw new IllegalStateException("Cannot get render world on server");
 	}
-
+	
 	public Minecraft getClientInstance() {
 		return FMLClientHandler.instance().getClient();
 	}
-
+	
 	public EntityPlayer getPlayer() {
 		throw new IllegalStateException("Can't call getPlayer on the server");
 	}
-
+	
 	public void playButtonClick() {
-
+	
 	}
 	
-	public void loadModuleModels(){
+	public void loadModuleModels() {
 		
 	}
 	
@@ -53,18 +53,18 @@ public class CommonProxy {
 		return Collections.emptyList();
 	}
 	
-	public void onAssemblerGuiChange(){
+	public void onAssemblerGuiChange() {
 	}
-
+	
 	public void registerStateMapper(Block block, IStateMapper mapper) {
 	}
-
+	
 	public void registerFluidStateMapper(Block block, Fluid fluid) {
 	}
-
+	
 	public void registerBlock(Block block) {
 	}
-
+	
 	public void registerItem(Item item) {
 	}
 	

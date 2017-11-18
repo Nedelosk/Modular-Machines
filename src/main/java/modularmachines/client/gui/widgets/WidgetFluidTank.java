@@ -44,11 +44,11 @@ import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
 public class WidgetFluidTank extends Widget {
-
+	
 	private static final int TEX_WIDTH = 14;
 	private static final int TEX_HEIGHT = 14;
 	private static final int MIN_FLUID_HEIGHT = 1;
-
+	
 	public IFluidTank tank;
 	
 	public WidgetFluidTank(int posX, int posY, IFluidTank tank) {
@@ -56,7 +56,7 @@ public class WidgetFluidTank extends Widget {
 		
 		this.tank = tank;
 	}
-
+	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (tank != null && tank.getFluid() != null) {
@@ -65,7 +65,7 @@ public class WidgetFluidTank extends Widget {
 			}
 		}
 	}
-
+	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
 		GlStateManager.enableBlend();
@@ -83,7 +83,7 @@ public class WidgetFluidTank extends Widget {
 		GlStateManager.disableAlpha();
 		GlStateManager.disableBlend();
 	}
-
+	
 	private void drawFluid(final int xPosition, final int yPosition, @Nullable FluidStack fluidStack) {
 		if (fluidStack == null) {
 			return;
@@ -130,14 +130,14 @@ public class WidgetFluidTank extends Widget {
 			}
 		}
 	}
-
+	
 	private static void setGLColorFromInt(int color) {
 		float red = (color >> 16 & 0xFF) / 255.0F;
 		float green = (color >> 8 & 0xFF) / 255.0F;
 		float blue = (color & 0xFF) / 255.0F;
 		GlStateManager.color(red, green, blue, 1.0F);
 	}
-
+	
 	private static void drawFluidTexture(double xCoord, double yCoord, TextureAtlasSprite textureSprite, int maskTop, int maskRight, double zLevel) {
 		double uMin = textureSprite.getMinU();
 		double uMax = textureSprite.getMaxU();
@@ -154,7 +154,7 @@ public class WidgetFluidTank extends Widget {
 		buffer.pos(xCoord, yCoord + maskTop, zLevel).tex(uMin, vMin).endVertex();
 		tessellator.draw();
 	}
-
+	
 	@Override
 	public List<String> getTooltip() {
 		ArrayList<String> description = new ArrayList<>();

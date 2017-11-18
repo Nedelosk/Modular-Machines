@@ -10,7 +10,7 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
 
 public class ModuleWoodcutter extends Module implements ITickable {
-
+	
 	private BlockPos currentPos;
 	
 	public ModuleWoodcutter() {
@@ -29,15 +29,15 @@ public class ModuleWoodcutter extends Module implements ITickable {
 		super.readFromNBT(compound);
 		currentPos = NBTUtil.getPosFromTag(compound.getCompoundTag("Pos"));
 	}
-
+	
 	@Override
 	public void update() {
 		ILocatable locatable = container.getLocatable();
 		BlockPos pos = locatable.getCoordinates();
 		World world = locatable.getWorldObj();
-		if(currentPos == BlockPos.ORIGIN){
+		if (currentPos == BlockPos.ORIGIN) {
 			//currentPos = pos.add(x, y, z)
 		}
 	}
-
+	
 }
