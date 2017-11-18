@@ -1,19 +1,13 @@
 package modularmachines.common.modules.storages.items;
 
-import modularmachines.api.modules.storages.EnumStoragePosition;
-import modularmachines.api.modules.storages.IStoragePosition;
-import modularmachines.common.modules.storages.ModuleDataStorage;
+import modularmachines.api.modules.EnumModulePositions;
+import modularmachines.api.modules.IModulePosition;
+import modularmachines.api.modules.ModuleData;
 
-public class ModuleDataChest extends ModuleDataStorage {
+public class ModuleDataChest extends ModuleData {
 	
-	@Override
-	public boolean isPositionValid(IStoragePosition position) {
-		return position == EnumStoragePosition.CASING;
-	}
-	
-	@Override
-	public boolean isStorage(IStoragePosition position) {
-		return position == EnumStoragePosition.LEFT || position == EnumStoragePosition.RIGHT || position == EnumStoragePosition.BACK;
+	public ModuleDataChest(IModulePosition... positions) {
+		super(EnumModulePositions.RIGHT, EnumModulePositions.LEFT, EnumModulePositions.FRONT, EnumModulePositions.BACK);
 	}
 	
 }

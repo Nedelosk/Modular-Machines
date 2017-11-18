@@ -14,9 +14,11 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.EnumModulePositions;
+import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.storages.IStorage;
+import modularmachines.common.modules.storages.modules.ModuleCasing;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataCasing extends ModelData {
@@ -34,21 +36,24 @@ public class ModelDataCasing extends ModelData {
 	}
 	
 	@Override
-	public IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
+	public IBakedModel getModel(Module module, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
-		/*IModuleLogic logic = module.getLogic();
-		if (logic.getStorage(EnumStoragePosition.LEFT)	== null) {
+		IModuleHandler moduleHandler = module.getParent();
+		if(module instanceof ModuleCasing){
+			moduleHandler = ((ModuleCasing) module).getHandler();
+		}
+		if (!moduleHandler.hasModule(EnumModulePositions.LEFT)) {
 			models.add(ModelLoader.getModel(get(CASING_LEFT), format));
 		}
-		if (logic.getStorage(EnumStoragePosition.RIGHT)	== null) {
+		if (!moduleHandler.hasModule(EnumModulePositions.RIGHT)) {
 			models.add(ModelLoader.getModel(get(CASING_RIGHT), format));
-		}*/
+		}
 		models.add(ModelLoader.getModel(get(CASING), format));
-		for (Module otherModule : storage.getModules().getModules()) {
+		/*for (Module otherModule : storage.getModules().getModules()) {
 			if(otherModule != module){
 				models.add(ModelLoader.getModel(otherModule, storage, modelState, format));
 			}
-		}
+		}*/
 		return new BakedMultiModel(models);
 	}
 }

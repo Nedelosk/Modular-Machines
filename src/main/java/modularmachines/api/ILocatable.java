@@ -20,6 +20,8 @@ public interface ILocatable {
 	/** Must not be named "markDirty" to avoid SpecialSource issue https://github.com/md-5/SpecialSource/issues/12 */
 	void markLocatableDirty();
 	
+	void markBlockUpdate();
+	
 	/**
 	 * @return the facing of this locatable
 	 */

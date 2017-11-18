@@ -48,7 +48,7 @@ public class PacketRemoveCycle extends PacketModule {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
-			IModuleContainer provider = PacketLocatable.getProvider(data, world);
+			IModuleContainer provider = PacketLocatable.getContainer(data, world);
 			Module module = getModule(provider, data);
 			//page index
 			int page = data.readInt();

@@ -19,17 +19,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.EnumWallType;
-import modularmachines.api.modules.IModuleStorage;
+import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.storages.EnumStoragePosition;
-import modularmachines.api.modules.storages.IStorage;
-import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.model.TRSRBakedModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelDataModuleStorage extends ModelData {
+public class ModelDataModuleRack extends ModelData {
 
 	public static final String STORAGE = "storage";
 	public static final String TOP = "top";
@@ -45,7 +43,7 @@ public class ModelDataModuleStorage extends ModelData {
 	public static final String LARGE = "large";
 	
 	public static void initModelData(ModelLocationBuilder basicLocation){
-		ModelDataModuleStorage storage = new ModelDataModuleStorage();
+		ModelDataModuleRack storage = new ModelDataModuleRack();
 		storage.addLocation(STORAGE, new ModelLocationBuilder(basicLocation).addPreFix("storage"));
 		storage.addLocation(TOP, new ModelLocationBuilder(basicLocation).addPreFix("top"));
 		storage.addLocation(BACK, new ModelLocationBuilder(basicLocation).addPreFix("back"));
@@ -60,32 +58,30 @@ public class ModelDataModuleStorage extends ModelData {
 		basicLocation.getData().addModel(TileEntity.class, storage);
 	}
 
-	private List<IBakedModel> getStorageModels(IStorage storage, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+	private List<IBakedModel> getStorageModels(IModuleHandler handler, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
 		List<IBakedModel> models = new ArrayList<>();
 		EnumModuleSizes size = null;
-		for (Module module : storage.getModules().getModules()) {
-			if(module != storage.getModule()){
-				EnumModuleSizes moduleSize = module.getData().getSize();
-				IBakedModel model = ModelLoader.getModel(module, storage, modelState, format);
-				if (model != null) {
-					if (size == null) {
-						models.add(model);
-					} else if (size == EnumModuleSizes.SMALL) {
-						models.add(createModel(model, -0.25F));
-					} else {
-						models.add(createModel(model, -0.5F));
-					}
+		for (Module module : handler.getModules()) {
+			EnumModuleSizes moduleSize = module.getData().getSize();
+			IBakedModel model = ModelLoader.getModel(module, modelState, format);
+			if (model != null) {
+				if (size == null) {
+					models.add(model);
+				} else if (size == EnumModuleSizes.SMALL) {
+					models.add(createModel(model, -0.25F));
+				} else {
+					models.add(createModel(model, -0.5F));
 				}
-				size = EnumModuleSizes.getSize(size, moduleSize);
-				addWallModels(module, size, moduleSize, module.getWallType(), format, models);
 			}
+			size = EnumModuleSizes.getSize(size, moduleSize);
+			addWallModels(module, size, moduleSize, module.getWallType(), format, models);
 		}
 		if (size == null) {
-			models.add(ModelLoader.getModel(get(LARGE), format));
+			//models.add(ModelLoader.getModel(get(LARGE), format));
 		} else if (size == EnumModuleSizes.SMALL) {
-			models.add(ModelLoader.getModel(get(MEDIUM_MEDIUM), format));
+			//models.add(ModelLoader.getModel(get(MEDIUM_MEDIUM), format));
 		} else if (size == EnumModuleSizes.MEDIUM) {
-			models.add(ModelLoader.getModel(get(SMALL_DOWN), format));
+			//models.add(ModelLoader.getModel(get(SMALL_DOWN), format));
 		}
 		return models;
 		
@@ -152,7 +148,7 @@ public class ModelDataModuleStorage extends ModelData {
 		return ModelLoader.getModel(module.getWindowLocation(), format);
 	}
 
-	@Override
+	/*@Override
 	public IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		IStoragePosition position = storage.getPosition();
 		IModuleStorage moduleStorage = storage.getModules();
@@ -189,6 +185,49 @@ public class ModelDataModuleStorage extends ModelData {
 				bakedModel = ModelLoaderRegistry.getMissingModel().bake(modelState, format, bakedTextureGetter);
 			}
 		}
+		return bakedModel;
+	}*/
+	
+	@Override
+	public IBakedModel getModel(Module module, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
+		IModuleHandler moduleHandler = module.getParent();
+		if(module instanceof IModuleProvider){
+			moduleHandler = ((IModuleProvider) module).getHandler();
+		}
+		//IStoragePosition position = moduleHandler.getPosition();
+		IBakedModel bakedModel;
+		/*if (position == EnumStoragePosition.TOP) {
+			List<IBakedModel> models = new ArrayList<>();
+			models.add(ModelLoader.getModel(get(TOP), format));
+			models.addAll(getStorageModels(moduleHandler, modelState, format, bakedTextureGetter));
+			bakedModel = new BakedMultiModel(models);
+		} else if (position == EnumStoragePosition.BACK) {
+			List<IBakedModel> models = new ArrayList<>();
+			models.add(ModelLoader.getModel(get(BACK), format));
+			models.addAll(getStorageModels(moduleHandler, modelState, format, bakedTextureGetter));
+			bakedModel = new BakedMultiModel(models);
+		}else{*/
+			List<IBakedModel> models = new ArrayList<>();
+			models.add(ModelLoader.getModel(get(STORAGE), format));
+			EnumModuleSizes size = null;
+			for (Module module1 : moduleHandler.getModules()) {
+				ModuleData data = module1.getData();
+				//if (!(data.isStorage(position))) {
+					size = EnumModuleSizes.getSize(size, module1.getData().getSize());
+					if (size == EnumModuleSizes.MEDIUM) {
+						models.add(ModelLoader.getModel(get(WALL), format));
+					} else if (size == EnumModuleSizes.SMALL) {
+						models.add(new TRSRBakedModel(ModelLoader.getModel(get(WALL), format), 0F, 0.25F, 0F));
+					}
+				//}
+			}
+			models.addAll(getStorageModels(moduleHandler, modelState, format, bakedTextureGetter));
+			if(!models.isEmpty()){
+				bakedModel = new BakedMultiModel(models);
+			}else{
+				bakedModel = ModelLoaderRegistry.getMissingModel().bake(modelState, format, bakedTextureGetter);
+			}
+		//}
 		return bakedModel;
 	}
 }

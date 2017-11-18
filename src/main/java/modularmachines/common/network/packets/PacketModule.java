@@ -7,7 +7,6 @@ import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.common.containers.ContainerModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 
 public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
@@ -16,10 +15,6 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	protected int componentIndex;
 
 	public PacketModule() {
-	}
-	
-	public PacketModule(ContainerModuleLogic container) {
-		this(container.getGuiLogic());
 	}
 	
 	public PacketModule(IModuleGuiLogic logic) {
@@ -56,7 +51,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	}
 	
 	@Nullable
-	protected static ModuleComponent getPage(@Nullable IModuleContainer provider, PacketBufferMM data) {
+	protected static ModuleComponent getComponent(@Nullable IModuleContainer provider, PacketBufferMM data) {
 		Module module = getModule(provider, data);
 		if(module == null){
 			return null;

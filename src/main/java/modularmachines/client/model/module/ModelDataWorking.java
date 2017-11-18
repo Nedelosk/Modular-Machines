@@ -15,7 +15,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.IModuleWorking;
 
 @SideOnly(Side.CLIENT)
@@ -32,7 +31,7 @@ public class ModelDataWorking extends ModelData {
 	}
 	
 	@Override
-	public IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
+	public IBakedModel getModel(Module module, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		if(module instanceof IModuleWorking){
 			IModuleWorking working = (IModuleWorking) module;
 			if (working.isWorking()) {

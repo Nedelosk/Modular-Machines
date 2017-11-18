@@ -34,9 +34,8 @@ import org.lwjgl.input.Keyboard;
 import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.ModuleHelper;
 import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.client.gui.GuiAssembler;
 import modularmachines.client.model.ModelManager;
-import modularmachines.client.model.block.ModelModular;
+import modularmachines.client.model.block.ModuleStorageModelBaked;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
@@ -49,7 +48,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		ModelManager.getInstance().registerModels();
-		MinecraftForge.EVENT_BUS.register(ModelModular.class);
+		MinecraftForge.EVENT_BUS.register(ModuleStorageModelBaked.class);
 	}
 	
 	@Override
@@ -112,10 +111,10 @@ public class ClientProxy extends CommonProxy {
 	public void onAssemblerGuiChange() {
 		GuiScreen screen = getClientInstance().currentScreen;
 		if(screen != null){
-			if(screen instanceof GuiAssembler){
+			/*if(screen instanceof GuiAssembler){
 				GuiAssembler assembler = (GuiAssembler) screen;
 				assembler.setHasChange();
-			}
+			}*/
 		}
 	}
 

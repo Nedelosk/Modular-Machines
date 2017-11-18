@@ -2,7 +2,6 @@ package modularmachines.common.core.managers;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
@@ -25,17 +24,13 @@ import modularmachines.api.modules.IModulePosition;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.api.modules.containers.ModuleDataContainer;
 import modularmachines.api.modules.containers.ModuleDataContainerCapability;
 import modularmachines.api.modules.containers.ModuleDataContainerDamage;
 import modularmachines.api.modules.containers.ModuleDataContainerNBT;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.modules.ModuleDefinition;
-import modularmachines.common.modules.assembler.Assembler;
-import modularmachines.common.modules.logic.ModuleLogic;
 
 public class ModuleManager {
 	
@@ -302,8 +297,8 @@ public class ModuleManager {
 	}*/
 
 	public static void registerCapability() {
-		CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
-		CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
+		//CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
+		//CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
 		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), ()-> new IModuleContainer(){
 			@Override
 			public void addComponent(String identifier, LogicComponent component) {

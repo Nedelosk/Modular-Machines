@@ -24,11 +24,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.api.modules.storages.IStorage;
+import modularmachines.common.utils.BoundingBoxHelper;
 
 public class Module implements ICapabilityProvider {
 
@@ -66,6 +64,7 @@ public class Module implements ICapabilityProvider {
 		return components;
 	}
 	
+	@Nullable
 	public ModuleComponent getComponent(int index){
 		if(index >= components.size() || index < 0){
 			return null;
@@ -85,14 +84,6 @@ public class Module implements ICapabilityProvider {
 	 */
 	public List<ItemStack> getDrops(){
 		return Collections.singletonList(parentItem);
-	}
-	
-	public void onLoad(){
-		
-	}
-	
-	public void onAssemble(IAssembler assembler, IModuleLogic logic, IStorage storage){
-		
 	}
 	
 	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem){
@@ -178,8 +169,24 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@Nullable
-	private AxisAlignedBB getCollisionBox(){
+	public AxisAlignedBB getCollisionBox(){
 		AxisAlignedBB boundingBox = getBoundingBox();
+		IModuleProvider provider = parent.getProvider();
+		if(boundingBox != null && provider instanceof Module){
+			Module module = (Module) provider;
+			IModulePosition parentPosition = module.position;
+			EnumFacing facing = position.getFacing();
+			EnumFacing containerFacing = container.getFacing();
+			if(containerFacing == EnumFacing.SOUTH){
+				facing = facing.rotateY().rotateY();
+			}else if(containerFacing == EnumFacing.EAST){
+				facing = facing.rotateY();
+			}else if(containerFacing == EnumFacing.WEST){
+				facing = facing.rotateY().rotateY().rotateY();
+			}
+			BoundingBoxHelper helper = new BoundingBoxHelper(facing);
+			return helper.rotateBox(boundingBox);
+		}
 		return boundingBox == null ? null : boundingBox.offset(getBoundingBoxOffset());
 	}
 	
@@ -188,7 +195,7 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@Nullable
-	public AxisAlignedBB getBoundingBox(){
+	protected AxisAlignedBB getBoundingBox(){
 		return null;
 	}
 	

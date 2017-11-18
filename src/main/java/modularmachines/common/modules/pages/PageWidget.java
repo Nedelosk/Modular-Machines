@@ -20,15 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.pages.IModuleComponent;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.api.modules.pages.Page;
-import modularmachines.api.modules.pages.IModuleComponent;
-import modularmachines.client.gui.GuiModuleLogic;
 import modularmachines.client.gui.WidgetManager;
 import modularmachines.client.gui.widgets.Widget;
-import modularmachines.client.gui.widgets.WidgetAssembleTab;
-import modularmachines.client.gui.widgets.WidgetModuleTab;
-import modularmachines.client.gui.widgets.WidgetPageTab;
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
@@ -51,11 +47,11 @@ public class PageWidget<M extends Module> extends Page {
 	
 	@Override
 	public void init(){
-		if(gui instanceof GuiModuleLogic){
-			widgetManager = ((GuiModuleLogic) gui).getWidgetManager();
-		}else{
+		//if(gui instanceof GuiModuleLogic){
+			//widgetManager = ((GuiModuleLogic) gui).getWidgetManager();
+		//}else{
 			widgetManager = null;
-		}
+		//}
 	}
 	
 	public M getModule(){
@@ -70,25 +66,25 @@ public class PageWidget<M extends Module> extends Page {
 			for (i = 0; i < modulesWithPages.size(); i++) {
 				Module module = modulesWithPages.get(i);
 				boolean isRight = i >= 7;
-				addWidget(new WidgetModuleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), module, isRight));
+			//	addWidget(new WidgetModuleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), module, isRight));
 			}
 		}
 		boolean isRight = i >= 7;
-		Widget widget = new WidgetAssembleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), isRight);
-		addWidget(widget);
+		//Widget widget = new WidgetAssembleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), isRight);
+	//	addWidget(widget);
 		List<ModuleComponent> pages = module.getComponents();
 		if (!pages.isEmpty() && pages.size() > 1) {
 			for (int pageIndex = 0; pageIndex < pages.size(); pageIndex++) {
 				ModuleComponent page = pages.get(pageIndex);
-				addWidget(new WidgetPageTab(pageIndex > 4 ? 12 + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : -19, page));
+			//	addWidget(new WidgetPageTab(pageIndex > 4 ? 12 + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : -19, page));
 			}
 		}
 	}
 	
 	public void addWidget(Widget widget){
-		if(gui instanceof GuiModuleLogic){
-			widgetManager.add(widget);
-		}
+	//	if(gui instanceof GuiModuleLogic){
+			//widgetManager.add(widget);
+		//}
 	}
 
 	protected ResourceLocation getGuiTexture(){

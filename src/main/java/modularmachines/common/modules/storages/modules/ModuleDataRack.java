@@ -1,23 +1,11 @@
 package modularmachines.common.modules.storages.modules;
 
-import modularmachines.api.modules.EnumModuleSizes;
-import modularmachines.api.modules.storages.EnumStoragePosition;
-import modularmachines.api.modules.storages.IStoragePosition;
+import modularmachines.api.modules.EnumModulePositions;
+import modularmachines.api.modules.ModuleData;
 
-public class ModuleDataRack extends ModuleDataStorageModule {
-
-	public ModuleDataRack(EnumModuleSizes storageSize) {
-		super(storageSize);
-	}
+public class ModuleDataRack extends ModuleData {
 	
-	@Override
-	public boolean isPositionValid(IStoragePosition position) {
-		return false;
+	public ModuleDataRack() {
+		super(EnumModulePositions.LEFT, EnumModulePositions.RIGHT);
 	}
-	
-	@Override
-	public boolean isStorage(IStoragePosition position) {
-		return position == EnumStoragePosition.LEFT || position == EnumStoragePosition.RIGHT;
-	}
-
 }

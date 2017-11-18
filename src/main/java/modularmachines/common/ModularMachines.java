@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
@@ -34,7 +33,6 @@ import modularmachines.common.core.managers.ModuleManager;
 import modularmachines.common.core.managers.OreDictionaryManager;
 import modularmachines.common.event.EventHandler;
 import modularmachines.common.modules.ModuleDefinition;
-import modularmachines.common.modules.ModuleHelper;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.PluginManager;
 
@@ -55,7 +53,6 @@ public class ModularMachines {
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FluidRegistry.enableUniversalBucket();
 		dataRegistry = new RegistryBuilder<ModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(ModuleData.class).create();
-		ModuleRegistry.helper = new ModuleHelper();
 	}
 	
 	@Mod.EventHandler

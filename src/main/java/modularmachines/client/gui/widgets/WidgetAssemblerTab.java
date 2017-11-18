@@ -1,25 +1,6 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.Arrays;
-import java.util.List;
-
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-
-import modularmachines.api.ILocatable;
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.assemblers.IStoragePage;
-import modularmachines.api.modules.storages.IStoragePosition;
-import modularmachines.client.gui.GuiBase;
-import modularmachines.common.ModularMachines;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketAssemblerPosition;
-import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
-
-public class WidgetAssemblerTab extends Widget<IAssembler> {
+/*public class WidgetAssemblerTab extends Widget<IAssembler> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	protected final IStoragePosition position;
@@ -65,4 +46,4 @@ public class WidgetAssemblerTab extends Widget<IAssembler> {
 	public List<String> getTooltip() {
 		return Arrays.asList(Translator.translateToLocal("module.storage." + position.getName() + ".name"));
 	}
-}
+}*/

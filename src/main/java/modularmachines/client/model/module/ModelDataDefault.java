@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.storages.IStorage;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataDefault extends ModelData {
@@ -27,7 +26,7 @@ public class ModelDataDefault extends ModelData {
 	}
 	
 	@Override
-	public IBakedModel getModel(Module state, IStorage storage, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
+	public IBakedModel getModel(Module module, IModelState modelState, VertexFormat format, Function bakedTextureGetter) {
 		return ModelLoader.getModel(get(DEFAULT), format);
 	}
 }

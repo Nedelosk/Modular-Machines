@@ -7,8 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.IStreamable;
 import modularmachines.common.network.PacketBufferMM;
@@ -50,20 +50,21 @@ public class PacketUpdateModule extends PacketModule{
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
+			IModuleContainer container = PacketLocatable.getContainer(data, player.world);
 			int index = data.readInt();
+			int componentIndex = data.readInt();
 			if (index > 0) {
-				IModuleLogic logic = PacketLocatable.getLogic(data, player.world);
-				Module module = logic.getModule(index);
-				int pageIndex = data.readInt();
-				if (pageIndex > 0) {
-					ModuleComponent page = module.getComponent(pageIndex);
+				Module module = container.getModule(index);
+				if(module == null){
+					return;
+				}
+				if (componentIndex > 0) {
+					ModuleComponent page = module.getComponent(componentIndex);
 					if (page instanceof IStreamable) {
 						((IStreamable) page).readData(data);
 					}
-				} else {
-					if (module instanceof IStreamable) {
-						((IStreamable) module).readData(data);
-					}
+				} else if (module instanceof IStreamable) {
+					((IStreamable) module).readData(data);
 				}
 			}
 		}

@@ -13,10 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.modules.logic.UpdateComponent;
 import modularmachines.common.utils.ModuleUtil;
 
@@ -50,10 +47,10 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void onAssemble(IAssembler assembler, IModuleLogic logic, IStorage storage) {
 		createWrappers();
-	}
+	}*/
 	
 	private void createWrappers(){
 		if(wasCreated){

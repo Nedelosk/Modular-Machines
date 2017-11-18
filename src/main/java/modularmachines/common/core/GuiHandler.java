@@ -9,9 +9,6 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.logic.IModuleLogic;
-
 public class GuiHandler implements IGuiHandler {
 	
 	@Nullable
@@ -22,14 +19,14 @@ public class GuiHandler implements IGuiHandler {
 			switch (ID) {
 				case 0: {
 					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null)) {
-						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
-						return assembler.createContainer(player.inventory);
+						//IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
+						//return assembler.createContainer(player.inventory);
 					}
 				}
 				case 1: {
 					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null)) {
-						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
-						return logic.createContainer(player.inventory);
+						//IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
+						//return logic.createContainer(player.inventory);
 					}
 				}
 				default:
@@ -47,14 +44,14 @@ public class GuiHandler implements IGuiHandler {
 			switch (ID) {
 				case 0: {
 					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null)) {
-						IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
-						return assembler.createGui(player.inventory);
+						//IAssembler assembler = tile.getCapability(modularmachines.api.modules.ModuleRegistry.ASSEMBLER, null);
+						//return assembler.createGui(player.inventory);
 					}
 				}
 				case 1: {
 					if (tile.hasCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null)) {
-						IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
-						return logic.createGui(player.inventory);
+						//IModuleLogic logic = tile.getCapability(modularmachines.api.modules.ModuleRegistry.MODULE_LOGIC, null);
+						//return logic.createGui(player.inventory);
 					}
 				}
 				default:

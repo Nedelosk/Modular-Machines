@@ -1,7 +1,5 @@
 package modularmachines.common.blocks;
 
-import com.google.common.collect.Lists;
-
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
@@ -17,10 +15,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -38,40 +36,28 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.items.IItemHandler;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModuleContainer;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.api.modules.listeners.IDropListener;
 import modularmachines.api.modules.listeners.INeighborBlockListener;
 import modularmachines.api.modules.listeners.IRedstoneListener;
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.IModuleComponent;
-import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.core.ClientProxy;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
-import modularmachines.common.blocks.tile.TileEntityMachine;
 import modularmachines.common.blocks.tile.TileModuleStorage;
 import modularmachines.common.config.Config;
-import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RayTraceHelper;
-import modularmachines.common.utils.WorldUtil;
-import modularmachines.common.utils.capabilitys.CapabilityUtils;
 import modularmachines.common.utils.content.IClientContentHandler;
 import modularmachines.common.utils.content.IItemModelRegister;
 
+@SuppressWarnings("deprecation")
 public class BlockModuleStorage extends Block implements IItemModelRegister, IClientContentHandler {
 	
 	public BlockModuleStorage() {
@@ -125,35 +111,8 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 		return true;
 	}
 	
-	@Nullable
-	@Override
-	protected RayTraceResult rayTrace(BlockPos pos, Vec3d start, Vec3d end, AxisAlignedBB boundingBox) {
-		return super.rayTrace(pos, start, end, boundingBox);
-	}
-	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		/*TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
-		if (tile != null) {
-			if(tile.isAssembled()){
-				IModuleLogic logic = tile.logic;
-				if(ModuleHelper.getModulesWithComponents(logic).isEmpty()){
-					return false;
-				}
-			}else{
-				EnumFacing facing = tile.facing;
-				EnumStoragePosition position = EnumStoragePosition.getPositionFromFacing(side, facing);
-				if(position != EnumStoragePosition.NONE) {
-					IStoragePage page = tile.assembler.getPage(position);
-					if(page != null){
-					}
-				}
-			}
-			if (!world.isRemote) {
-				player.openGui(ModularMachines.instance, tile.isAssembled() ? 1: 0, world, pos.getX(), pos.getY(), pos.getZ());
-			}
-			return true;
-		}*/
 		IModuleContainer container = ModuleUtil.getContainer(pos, world);
 		if(container == null){
 			return false;
@@ -174,6 +133,34 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 			return null;
 		}
 		return container.collisionRayTrace(pos, start, end);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
+		if(container == null){
+			return;
+		}
+		container.setFacing(placer.getHorizontalFacing().getOpposite());
+	}
+	
+	@Override
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
+		if(container == null){
+			return FULL_BLOCK_AABB.offset(pos);
+		}
+		return container.getBoundingBox().offset(pos);
+	}
+	
+	@Nullable
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, worldIn);
+		if(container == null){
+			return FULL_BLOCK_AABB;
+		}
+		return container.getBoundingBox();
 	}
 	
 	@Override
@@ -200,15 +187,15 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 	
 	@Override
 	public void onBlockDestroyedByExplosion(World world, BlockPos pos, Explosion explosionIn) {
-		dropModules(world, pos, null);
+		//dropModules(world, pos, null);
 	}
 	
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState blockState, EntityPlayer player) {
-		dropModules(world, pos, player);
+		//dropModules(world, pos, player);
 	}
 	
-	public void dropModules(World world, BlockPos pos, @Nullable EntityPlayer player){
+	/*public void dropModules(World world, BlockPos pos, @Nullable EntityPlayer player){
 		if (!world.isRemote) {
 			IModuleLogic tileLogic = CapabilityUtils.getCapability(world, pos, ModuleRegistry.MODULE_LOGIC,null);
 			IAssembler assembler = CapabilityUtils.getCapability(world, pos, ModuleRegistry.ASSEMBLER,null);
@@ -223,7 +210,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 					}
 					if (level >= 0) {
 						drops.add(ModuleHelper.saveModularToItem(new ItemStack(this), tileLogic, player));
-					} else {*/
+					} else {
 					for (Module module : tileLogic.getModules()) {
 						for (IModuleComponent component : module.getComponents()) {
 							if (component instanceof IDropListener) {
@@ -258,7 +245,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 				WorldUtil.dropItems(world, pos, drops);
 			}
 		}
-	}
+	}*/
 	
 	private ItemStack getDropStack(ItemStack stack, Random random) {
 		if (!Config.destroyModules) {
@@ -274,7 +261,7 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 		return stack;
 	}
 	
-	@Override
+	/*@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 		IModuleLogic itemLogic = CapabilityUtils.getCapability(stack, ModuleRegistry.MODULE_LOGIC, null);
@@ -286,18 +273,20 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 			return stack;
 		}
 		return stack;
-	}
+	}*/
 	
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-		TileEntityMachine tile = WorldUtil.getTile(world, pos, TileEntityMachine.class);
-		if (tile != null) {
-			if (tile.getFacing() != axis) {
-				tile.setFacing(axis);
-				tile.markLocatableDirty();
-				world.markBlockRangeForRenderUpdate(pos, pos);
-				return true;
-			}
+		IModuleContainer container = ModuleUtil.getContainer(pos, world);
+		if(container == null){
+			return false;
+		}
+		EnumFacing facing = container.getFacing();
+		if(facing != axis){
+			container.setFacing(axis);
+			container.getLocatable().markLocatableDirty();
+			world.markBlockRangeForRenderUpdate(pos, pos);
+			return true;
 		}
 		return false;
 	}

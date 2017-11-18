@@ -31,7 +31,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelData;
-import modularmachines.api.modules.storages.IStorage;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.logic.ModelComponent;
 import modularmachines.common.utils.ModuleUtil;
@@ -101,27 +100,6 @@ public class ModelLoader {
 		public TextureAtlasSprite apply(ResourceLocation location) {
 			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
 		}
-	}
-
-	@Nullable
-	public static IBakedModel getModel(Module module, IStorage storage, IModelState modelState, VertexFormat vertex) {
-		ModelComponent component = ModuleUtil.getModel(module.getContainer());
-		if(component == null){
-			return null;
-		}
-		IBakedModel model = component.getModel(module.getIndex());
-		IModelData<IBakedModel> data = getModelData(module);
-		if(data == null){
-			return null;
-		}
-		if (module.isModelNeedReload() || model == null) {
-			//component.setModel(module.getIndex(), model = data.getModel(module, storage, modelState, vertex, DefaultTextureGetter.INSTANCE));
-			module.setModelNeedReload(false);
-		}
-		if (model != null) {
-			return model;
-		}
-		return null;
 	}
 	
 	@Nullable

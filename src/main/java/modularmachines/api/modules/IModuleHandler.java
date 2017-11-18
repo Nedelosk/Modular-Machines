@@ -20,6 +20,8 @@ public interface IModuleHandler {
 	@Nullable
 	Module getModule(IModulePosition position);
 	
+	boolean hasModule(IModulePosition position);
+	
 	/**
 	 * @return A collection filled with all module positions that are available for this handler.
 	 */
@@ -42,6 +44,11 @@ public interface IModuleHandler {
 	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack);
 	
 	ItemStack extractModule(IModulePosition position);
+	
+	int getPositionIndex(IModulePosition position);
+	
+	@Nullable
+	IModulePosition getPosition(int index);
 	
 	IModuleProvider getProvider();
 }

@@ -10,7 +10,6 @@ import modularmachines.common.items.ItemMetal;
 import modularmachines.common.items.ItemModuleMeta;
 import modularmachines.common.items.ItemToolCrafting;
 import modularmachines.common.items.ItemWrench;
-import modularmachines.common.items.blocks.ItemBlockChassis;
 import modularmachines.common.materials.EnumMaterial;
 import modularmachines.common.materials.MaterialList;
 
@@ -52,7 +51,7 @@ public class ItemManager {
 
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());
-		itemChassis = Registry.register(new ItemBlockChassis(BlockManager.blockMachine));
+		//itemChassis = Registry.register(new ItemBlockChassis(BlockManager.blockMachine));
 		itemFileIron = register(new ItemToolCrafting("file.iron", 150, 2));
 		itemFileDiamond = register(new ItemToolCrafting("file.diamond", 300, 1));
 		itemHammer = register(new ItemToolCrafting("hammer", 300, 15));

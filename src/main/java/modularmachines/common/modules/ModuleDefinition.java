@@ -20,7 +20,7 @@ import modularmachines.api.modules.containers.ModuleDataContainerNBT;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
-import modularmachines.client.model.module.ModelDataModuleStorage;
+import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
@@ -31,12 +31,13 @@ import modularmachines.common.modules.storages.items.ModuleDataChest;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
+import modularmachines.common.modules.storages.modules.ModuleModuleRack;
 import modularmachines.common.modules.transfer.ModuleDataTransfer;
 import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 
 public enum ModuleDefinition implements IModuleFactory {
-	CASING_WOOD(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.wood", 0, EnumModuleSizes.LARGE){
+	CASING_WOOD(new ModuleDataCasing(), "casing.wood", 0, EnumModuleSizes.LARGE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -60,7 +61,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_BRONZE(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.bronze", 0, EnumModuleSizes.NONE){
+	CASING_BRONZE(new ModuleDataCasing(), "casing.bronze", 0, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -84,7 +85,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_IRON(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.iron", 0, EnumModuleSizes.NONE){
+	CASING_IRON(new ModuleDataCasing(), "casing.iron", 0, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -108,7 +109,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_STEEL(new ModuleDataCasing(EnumModuleSizes.LARGEST), "casing.steel", 0, EnumModuleSizes.NONE){
+	CASING_STEEL(new ModuleDataCasing(), "casing.steel", 0, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -132,7 +133,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_WOOD(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.wood", 1, EnumModuleSizes.NONE){
+	MODULE_RACK_WOOD(new ModuleDataRack(), "rack.wood", 1, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -141,7 +142,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		
 		@Override
 		public Module createModule() {
-			return new Module();
+			return new ModuleModuleRack();
 		}
 
 		@Override
@@ -152,11 +153,11 @@ public enum ModuleDefinition implements IModuleFactory {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleStorage.initModelData(new ModelLocationBuilder(data()).addFolder("wood/module_storage"));
+			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("wood/module_storage"));
 		}
 		
 	},
-	MODULE_RACK_BRONZE(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.bronze", 2, EnumModuleSizes.NONE){
+	MODULE_RACK_BRONZE(new ModuleDataRack(), "rack.bronze", 2, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -165,7 +166,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		
 		@Override
 		public Module createModule() {
-			return new Module();
+			return new ModuleModuleRack();
 		}
 
 		@Override
@@ -176,11 +177,11 @@ public enum ModuleDefinition implements IModuleFactory {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleStorage.initModelData(new ModelLocationBuilder(data()).addFolder("bronze/module_storage"));
+			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("bronze/module_storage"));
 		}
 		
 	},
-	MODULE_RACK_IRON(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.iron", 3, EnumModuleSizes.NONE){
+	MODULE_RACK_IRON(new ModuleDataRack(), "rack.iron", 3, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -189,7 +190,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		
 		@Override
 		public Module createModule() {
-			return new Module();
+			return new ModuleModuleRack();
 		}
 
 		@Override
@@ -200,11 +201,11 @@ public enum ModuleDefinition implements IModuleFactory {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleStorage.initModelData(new ModelLocationBuilder(data()).addFolder("iron/module_storage"));
+			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("iron/module_storage"));
 		}
 		
 	},
-	MODULE_RACK_STEEL(new ModuleDataRack(EnumModuleSizes.LARGE), "rack.steel", 4, EnumModuleSizes.NONE){
+	MODULE_RACK_STEEL(new ModuleDataRack(), "rack.steel", 4, EnumModuleSizes.NONE){
 
 		@Override
 		protected void initData(ModuleData data) {
@@ -213,7 +214,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		
 		@Override
 		public Module createModule() {
-			return new Module();
+			return new ModuleModuleRack();
 		}
 
 		@Override
@@ -224,7 +225,7 @@ public enum ModuleDefinition implements IModuleFactory {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleStorage.initModelData(new ModelLocationBuilder(data()).addFolder("steel/module_storage"));
+			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("steel/module_storage"));
 		}
 		
 	},

@@ -13,14 +13,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.assemblers.AssemblerError;
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.assemblers.IStoragePage;
 import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.model.IModelData;
-import modularmachines.api.modules.storages.IStorage;
-import modularmachines.api.modules.storages.IStoragePosition;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	
@@ -32,8 +26,12 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
     private String unlocalizedName;
     private IModuleFactory factory = DefaultModuleFactory.INSTANCE;
-    private IModulePosition position = EnumModulePositions.CASING;
+    private final IModulePosition[] positions;
     
+	public ModuleData(IModulePosition... positions) {
+		this.positions = positions;
+	}
+	
 	/**
 	 * A description of this module. It would be displayed in jei and the item tooltip.
 	 */
@@ -109,9 +107,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		this.dropChance = dropChance;
 	}
 	
-	public void canAssemble(IAssembler assembler, List<AssemblerError> errors){
-	}
-	
 	public Module createModule(IModuleHandler handler, IModulePosition position, IModuleDataContainer container, ItemStack itemStack){
 		Module module = createModule();
 		module.onCreateModule(handler, position, container, itemStack);
@@ -130,50 +125,16 @@ public class ModuleData extends IForgeRegistryEntry.Impl<ModuleData> {
 		return new IModuleType[0];
 	}
 	
-	/* STORAGE */
-	public boolean isItemValid(IAssembler assembler, IStoragePosition position, ItemStack stack){
-		return true;
-	}
-	
-	public boolean isPositionValid(IStoragePosition position){
-		return true;
-	}
-	
 	/**
 	 * Checks if the position is a valid position for this module.
 	 */
 	public boolean isValidPosition(IModulePosition position){
-		return this.position == position;
-	}
-	
-	/**
-	 * Sets a valid position for this module.
-	 */
-	public void setPosition(IModulePosition position) {
-		this.position = position;
-	}
-	
-	/* OWN STORAGE */
-	@Nullable
-	public IStorage createStorage(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page) {
-		return null;
-	}
-	
-	/**
-	 * Creates a storage that is only used to render the modules.
-	 */
-	@SideOnly(Side.CLIENT)
-	@Nullable
-	public IStorage createStorageCache(IModuleLogic moduleLogic, IStoragePosition position, @Nullable IStoragePage page){
-		return null;
-	}
-	
-	public boolean isStorage(IStoragePosition position){
+		for(IModulePosition otherPosition : positions){
+			if(position == otherPosition){
+				return true;
+			}
+		}
 		return false;
-	}
-	
-	public IStoragePage createStoragePage(IAssembler assembler, IStoragePosition position, @Nullable IStorage storage){
-		return null;
 	}
 
 	/* ITEM INFO */

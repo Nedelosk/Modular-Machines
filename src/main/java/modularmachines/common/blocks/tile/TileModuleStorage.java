@@ -15,10 +15,12 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -83,11 +85,6 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	}
 	
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		super.handleUpdateTag(tag);
-	}
-	
-	@Override
 	public BlockPos getCoordinates() {
 		return pos;
 	}
@@ -100,6 +97,12 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	@Override
 	public void markLocatableDirty() {
 		markDirty();
+	}
+	
+	@Override
+	public void markBlockUpdate() {
+		IBlockState blockState = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, blockState, blockState, 0);
 	}
 	
 	@Override
@@ -195,14 +198,24 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 		}
 		IModuleProvider provider = (IModuleProvider) module;
 		IModuleHandler moduleHandler = provider.getHandler();
-		/*if(!module.hasCapability(ModuleRegistry.MODULE_HANDLER, null)){
-			return;
-		}
-		IModuleHandler moduleHandler = module.getCapability(ModuleRegistry.MODULE_HANDLER, null);
-		if(moduleHandler == null){
-			return;
-		}*/
 		moduleHandler.getModules().forEach(m -> addToList(modules, m));
+	}
+	
+	@Override
+	public AxisAlignedBB getBoundingBox() {
+		AxisAlignedBB boundingBox = null;
+		for(Module module : getModules()){
+			AxisAlignedBB alignedBB = module.getCollisionBox();
+			if(alignedBB == null){
+				continue;
+			}
+			if(boundingBox == null){
+				boundingBox = alignedBB;
+				continue;
+			}
+			boundingBox = boundingBox.union(alignedBB);
+		}
+		return boundingBox == null ? Block.FULL_BLOCK_AABB : boundingBox;
 	}
 	
 	@Override
@@ -242,12 +255,22 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 			return false;
 		}
 		if(rayTraceResult.subHit == -1){
-			IModulePosition position = getPosition(rayTraceResult);
-			if(position != null){
-				return moduleHandler.insertModule(position, dataContainer, itemStack);
-			}
+			return insertModule(this, itemStack, dataContainer, rayTraceResult);
 		}
-		return false;
+		Module module = getModule(rayTraceResult.subHit);
+		if(!(module instanceof IModuleProvider)){
+			return false;
+		}
+		IModuleProvider provider = (IModuleProvider) module;
+		return insertModule(provider, itemStack, dataContainer, rayTraceResult);
+	}
+	
+	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult){
+		IModulePosition position = provider.getPosition(rayTraceResult);
+		if(position == null) {
+			return false;
+		}
+		return provider.getHandler().insertModule(position, dataContainer, itemStack);
 	}
 	
 	@Override

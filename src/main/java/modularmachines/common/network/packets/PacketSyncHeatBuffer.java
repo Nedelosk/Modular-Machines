@@ -37,7 +37,7 @@ public class PacketSyncHeatBuffer extends PacketLocatable {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
-			IModuleContainer provider = getProvider(data, player.world);
+			IModuleContainer provider = getContainer(data, player.world);
 			if (provider != null) {
 				IHeatSource heatSource = ModuleUtil.getHeat(provider);
 				heatSource.setHeatStored(data.readDouble());

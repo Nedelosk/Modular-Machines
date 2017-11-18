@@ -7,6 +7,9 @@ import modularmachines.api.modules.energy.IKineticSource;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.common.utils.ModuleUtil;
 
+/**
+ * A module that uses kinetic energy to produce things.
+ */
 public abstract class ModuleKineticMachine<R extends IRecipe> extends ModuleMachine<R> {
 
 	protected final double maxSpeed;

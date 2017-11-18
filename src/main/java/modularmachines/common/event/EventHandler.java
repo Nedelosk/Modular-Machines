@@ -1,11 +1,7 @@
 package modularmachines.common.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.tileentity.TileEntity;
@@ -26,14 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.storages.EnumStoragePosition;
-import modularmachines.api.modules.storages.IStorage;
-import modularmachines.api.modules.storages.IStoragePosition;
 import modularmachines.client.model.ModelManager;
-import modularmachines.client.model.block.ModelModular;
 import modularmachines.client.model.block.ModuleStorageModelBaked;
 import modularmachines.client.model.module.ModelLoader;
 import modularmachines.common.ModularMachines;
@@ -58,8 +48,8 @@ public class EventHandler {
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
 		IRegistry<ModelResourceLocation, IBakedModel> registry = event.getModelRegistry();
-		registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
-		registry.putObject(new ModelResourceLocation("modularmachines:machine", "inventory"), new ModelModular());
+		//registry.putObject(new ModelResourceLocation("modularmachines:modular"), new ModelModular());
+		//registry.putObject(new ModelResourceLocation("modularmachines:machine", "inventory"), new ModelModular());
 		registry.putObject(new ModelResourceLocation("modularmachines:module_storage"), new ModuleStorageModelBaked());
 		ModelLoader.loadModels();
 		ModelManager.getInstance().onBakeModels(event);
@@ -78,7 +68,7 @@ public class EventHandler {
 			EnumFacing facing = posHit.sideHit;
 			TileEntity tileEntity = WorldUtil.getTile(world, pos, TileEntity.class);
 			if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite())){
-				IModuleLogic logic = tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite());
+				/*IModuleLogic logic = tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, facing.getOpposite());
 				if(logic != null){
 					FontRenderer fontRenderer = mc.fontRenderer;
 					IStoragePosition position = EnumStoragePosition.getPositionFromFacing(facing, logic.getLocatable().getFacing());
@@ -119,7 +109,7 @@ public class EventHandler {
 							RenderHelper.disableStandardItemLighting();
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}

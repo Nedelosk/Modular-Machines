@@ -1,7 +1,6 @@
 package modularmachines.client.gui.widgets;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,12 +9,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.client.gui.GuiModuleLogic;
 import modularmachines.common.modules.IModuleJei;
 import modularmachines.common.modules.IModuleWorking;
 import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
-import modularmachines.common.utils.Translator;
 
 @SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
@@ -43,11 +40,11 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 			list.add(module.getWorkTime() + " / " + module.getWorkTimeTotal());
 		}
 		if (jeiTooltip == null) {
-			if (gui instanceof GuiModuleLogic) {
+			/*f (gui instanceof GuiModuleLogic) {
 				if (module instanceof IModuleJei) {
 					jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
 				}
-			}
+			}*/
 			if (jeiTooltip == null) {
 				jeiTooltip = new ArrayList<>();
 			}

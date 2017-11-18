@@ -2,6 +2,7 @@ package modularmachines.api.recipes;
 
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
@@ -98,6 +99,7 @@ public class RecipeRegistry {
 	/**
 	 * @return A recipe handler from the matching recipeCategory.
 	 */
+	@Nullable
 	public static IRecipeHandler getRecipeHandler(String recipeCategory) {
 		return handlers.get(recipeCategory);
 	}

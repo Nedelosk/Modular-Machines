@@ -14,15 +14,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.storages.IStorage;
 
 @SideOnly(Side.CLIENT)
 public interface IModelData<M> {
-
-	default M getModel(Module module, IStorage storage, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter){
-		return null;
-	}
-	
 	default M getModel(Module module, IModelState modelState, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter){
 		return null;
 	}

@@ -5,12 +5,8 @@
  */
 package modularmachines.api.modules;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.assemblers.AssemblerError;
-import modularmachines.api.modules.assemblers.IAssembler;
 
 /**
  * Types can by used to regulate which modules can by used at the same time.
@@ -26,5 +22,5 @@ public interface IModuleType {
 	 *
 	 * @return true if this type of module can by used by so many modules.
 	 */
-	void isValidModuleCount(IAssembler assembler, int count, List<AssemblerError> errors);
+	//void isValidModuleCount(IAssembler assembler, int count, List<AssemblerError> errors);
 }

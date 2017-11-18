@@ -3,14 +3,12 @@ package modularmachines.api.modules;
 import com.google.common.collect.Lists;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.api.modules.logic.IModuleLogic;
 
 public class ModuleHelper {
 	
@@ -29,25 +27,6 @@ public class ModuleHelper {
 		}
 		return validModules;
 	}
-	
-	public static List<Module> getModules(IModuleLogic logic, Class<? extends Module> moduleClass){
-		List<Module> modules = new ArrayList<>();
-		for(Module module : logic.getModules()){
-			if(moduleClass.isAssignableFrom(module.getClass())){
-				modules.add(module);
-			}
-		}
-		return modules;
-	}
-	
-	public static Module getModule(IModuleLogic logic, Class<? extends Module> moduleClass){
-		for(Module module : logic.getModules()){
-			if(moduleClass.isAssignableFrom(module.getClass())){
-				return module;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * @return The matching module container for the stack.
@@ -61,15 +40,6 @@ public class ModuleHelper {
 			if (container.matches(stack)) {
 				return container;
 			}
-		}
-		return null;
-	}
-	
-	@Nullable
-	public static Module createModule(IModuleStorage storage, ItemStack stack){
-		IModuleDataContainer container = getContainerFromItem(stack);
-		if(container != null && container.getData() != null){
-			//return container.getData().createModule(storage, container, stack);
 		}
 		return null;
 	}

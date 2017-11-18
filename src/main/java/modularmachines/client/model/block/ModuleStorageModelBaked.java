@@ -1,13 +1,11 @@
 package modularmachines.client.model.block;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -18,17 +16,12 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
@@ -39,13 +32,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.TRSRBakedModel;
 import modularmachines.client.model.module.BakedMultiModel;
 import modularmachines.client.model.module.ModelLoader;
-import modularmachines.client.model.module.ModelLoader.DefaultTextureGetter;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.utils.ModuleUtil;
@@ -53,24 +43,22 @@ import modularmachines.common.utils.ModuleUtil;
 @SideOnly(Side.CLIENT)
 public class ModuleStorageModelBaked implements IBakedModel {
 	
-	private static final Cache<IModuleLogic, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
-	private static final ItemOverrideList overrideList = new ItemOverrideListModular();
+	//private static final Cache<IModuleLogic, IBakedModel> inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
+	//private static final ItemOverrideList overrideList = new ItemOverrideListModular();
+	@Nullable
 	private static IBakedModel missingModel;
-	private static IBakedModel assemblerModel;
 	
 	@SubscribeEvent
 	public static void onBakeModel(ModelBakeEvent event) {
-		inventoryCache.invalidateAll();
-		assemblerModel = null;
+		//inventoryCache.invalidateAll();
 		missingModel = null;
 	}
 	
 	@Nullable
 	private static IBakedModel bakeModel(IModuleContainer container, VertexFormat vertex, @Nullable EnumFacing facing) {
 		IModelState modelState = ModelManager.getInstance().getDefaultBlockState();
-		List<IBakedModel> models = new ArrayList<>();
-		models.add(bakeModel(container, modelState, vertex));
-		if (!models.isEmpty()) {
+		IBakedModel bakedModel = bakeModel(container, modelState, vertex);
+		if (bakedModel != null) {
 			float rotation = 0F;
 			if (facing != null) {
 				if (facing == EnumFacing.SOUTH) {
@@ -81,14 +69,12 @@ public class ModuleStorageModelBaked implements IBakedModel {
 					rotation = (float) -(Math.PI / 2);
 				}
 			}
-			return new PerspectiveMapWrapper(new TRSRBakedModel(new BakedMultiModel(models), 0F, 0F, 0F, 0F, rotation, 0F, 1F), modelState);
+			return new PerspectiveMapWrapper(new TRSRBakedModel(bakedModel, 0F, 0F, 0F, 0F, rotation, 0F, 1F), modelState);
 		}
-		if (missingModel == null) {
-			missingModel = ModelLoaderRegistry.getMissingModel().bake(modelState, vertex, DefaultTextureGetter.INSTANCE);
-		}
-		return missingModel;
+		return null;
 	}
 	
+	@Nullable
 	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex){
 		List<IBakedModel> models = new ArrayList<>();
 		for(Module module : provider.getHandler().getModules()){
@@ -96,11 +82,21 @@ public class ModuleStorageModelBaked implements IBakedModel {
 			if (model == null) {
 				continue;
 			}
-			float rotation = module.getPosition().getRotation();
+			float rotation = module.getPosition().getRotationAngle();
 			if(rotation > 0.0F || rotation < 0.0F){
 				model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, rotation, 0F, 1F);
 			}
+			if(module instanceof IModuleProvider){
+				IModuleProvider moduleProvider = (IModuleProvider) module;
+				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex);
+				if(bakedModel != null) {
+					model = new BakedMultiModel(ImmutableList.of(model, bakedModel));
+				}
+			}
 			models.add(model);
+		}
+		if(models.isEmpty()){
+			return null;
 		}
 		return new BakedMultiModel(models);
 	}
@@ -124,7 +120,7 @@ public class ModuleStorageModelBaked implements IBakedModel {
 		return Collections.emptyList();
 	}
 
-	private static class ItemOverrideListModular extends ItemOverrideList {
+	/*private static class ItemOverrideListModular extends ItemOverrideList {
 
 		public ItemOverrideListModular() {
 			super(Collections.emptyList());
@@ -158,7 +154,7 @@ public class ModuleStorageModelBaked implements IBakedModel {
 			return provider.getCapability(ModuleRegistry.MODULE_LOGIC, null);
 		}
 		return null;
-	}
+	}*/
 
 	@Override
 	public boolean isAmbientOcclusion() {
@@ -187,6 +183,6 @@ public class ModuleStorageModelBaked implements IBakedModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return overrideList;
+		return ItemOverrideList.NONE;
 	}
 }

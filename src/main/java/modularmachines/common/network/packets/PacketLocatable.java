@@ -8,8 +8,6 @@ import net.minecraft.world.World;
 
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.modules.IModuleContainer;
-import modularmachines.api.modules.assemblers.IAssembler;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.utils.ModuleUtil;
 
@@ -34,17 +32,7 @@ public abstract class PacketLocatable<S extends ILocatableSource> extends Packet
 	}
 	
 	@Nullable
-	protected static IAssembler getAssembler(PacketBufferMM data, World world){
-		return ModuleUtil.getAssembler(getPos(data), world);
-	}
-	
-	@Nullable
-	protected static IModuleLogic getLogic(PacketBufferMM data, World world){
-		return ModuleUtil.getLogic(getPos(data), world);
-	}
-	
-	@Nullable
-	protected static IModuleContainer getProvider(PacketBufferMM data, World world){
+	protected static IModuleContainer getContainer(PacketBufferMM data, World world){
 		return ModuleUtil.getContainer(getPos(data), world);
 	}
 }

@@ -50,7 +50,7 @@ public class PacketAddCycle extends PacketModule {
 		@Override
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
-			IModuleContainer logic = PacketLocatable.getProvider(data, world);
+			IModuleContainer logic = PacketLocatable.getContainer(data, world);
 			Module module = getModule(logic, data);
 			//page index
 			int page = data.readInt();

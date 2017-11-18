@@ -1,21 +1,6 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.Arrays;
-import java.util.List;
-
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-
-import modularmachines.api.IGuiProvider;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
-import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.client.gui.WidgetManager;
-import modularmachines.common.containers.ContainerModuleLogic;
-import modularmachines.common.ModularMachines;
-import modularmachines.common.utils.RenderUtil;
-
-public class WidgetPageTab extends Widget<IModuleLogic> {
+/*public class WidgetPageTab extends Widget<IModuleLogic> {
 
 	protected static final ResourceLocation guiTexture = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	public final ModuleComponent page;
@@ -65,4 +50,4 @@ public class WidgetPageTab extends Widget<IModuleLogic> {
 	public List getTooltip() {
 		return Arrays.asList(page.getTitle());
 	}
-}
+}*/

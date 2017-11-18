@@ -1,16 +1,17 @@
 package modularmachines.api.modules;
 
+import net.minecraft.util.EnumFacing;
+
 /**
  * Describes a possible position of a module in a {@link IModuleHandler}.
  */
 public interface IModulePosition {
 	
-	/**
-	 * Checks if the module of the data can be placed at this position.
-	 */
-	boolean isValidModule(ModuleData moduleData);
-	
-	default float getRotation(){
+	default float getRotationAngle(){
 		return 0.0F;
+	}
+	
+	default EnumFacing getFacing(){
+		return EnumFacing.fromAngle(Math.toDegrees(getRotationAngle()));
 	}
 }

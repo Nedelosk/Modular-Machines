@@ -4,8 +4,10 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -36,6 +38,10 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	@Nullable
 	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
 	
+	default AxisAlignedBB getBoundingBox(){
+		return Block.FULL_BLOCK_AABB;
+	}
+	
 	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult);
 	
 	@Override
@@ -46,5 +52,8 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	@Nullable
 	default EnumFacing getFacing(){
 		return null;
+	}
+	
+	default void setFacing(EnumFacing facing){
 	}
 }

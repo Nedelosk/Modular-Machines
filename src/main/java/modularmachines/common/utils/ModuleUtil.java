@@ -25,9 +25,7 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.assemblers.IAssembler;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.IModuleLogic;
 import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
@@ -104,16 +102,6 @@ public class ModuleUtil {
 	}
 	
 	@Nullable
-	public static IModuleLogic getLogic(ILocatable locatable){
-		return getLogic(locatable.getCoordinates(), locatable.getWorldObj());
-	}
-	
-	@Nullable
-	public static IAssembler getAssembler(ILocatable locatable){
-		return getAssembler(locatable.getCoordinates(), locatable.getWorldObj());
-	}
-	
-	@Nullable
 	public static IModuleGuiLogic getGuiLogic(IModuleContainer provider, EntityPlayer player){
 		return getGuiLogic(player.world, provider.getLocatable().getCoordinates(), player.getGameProfile());
 	}
@@ -162,24 +150,6 @@ public class ModuleUtil {
 		TileEntity tileEntity = world.getTileEntity(pos);
 		if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_CONTAINER, null)){
 			return tileEntity.getCapability(ModuleRegistry.MODULE_CONTAINER, null);
-		}
-		return null;
-	}
-	
-	@Nullable
-	public static IModuleLogic getLogic(BlockPos pos, IBlockAccess world){
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_LOGIC, null)){
-			return tileEntity.getCapability(ModuleRegistry.MODULE_LOGIC, null);
-		}
-		return null;
-	}
-	
-	@Nullable
-	public static IAssembler getAssembler(BlockPos pos, IBlockAccess world){
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity != null && tileEntity.hasCapability(ModuleRegistry.ASSEMBLER, null)){
-			return tileEntity.getCapability(ModuleRegistry.ASSEMBLER, null);
 		}
 		return null;
 	}

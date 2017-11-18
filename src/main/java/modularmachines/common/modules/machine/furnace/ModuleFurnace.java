@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-import modularmachines.api.modules.IModuleStorage;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.IRecipeHeat;
 import modularmachines.api.recipes.RecipeItem;
