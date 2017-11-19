@@ -3,8 +3,6 @@ package modularmachines.common.network.packets;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-import net.minecraft.item.ItemStack;
-
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.common.network.PacketBufferMM;
@@ -13,16 +11,14 @@ public abstract class PacketModuleProvider extends PacketLocatable<IModuleContai
 	
 	protected int index;
 	protected int positionIndex;
-	protected ItemStack itemStack;
 	
 	public PacketModuleProvider() {
 	}
 	
-	public PacketModuleProvider(IModuleContainer provider, int index, int positionIndex, ItemStack itemStack) {
+	public PacketModuleProvider(IModuleContainer provider, int index, int positionIndex) {
 		super(provider);
 		this.index = index;
 		this.positionIndex = positionIndex;
-		this.itemStack = itemStack;
 	}
 	
 	@Override
@@ -30,7 +26,6 @@ public abstract class PacketModuleProvider extends PacketLocatable<IModuleContai
 		super.writeData(data);
 		data.writeVarInt(index);
 		data.writeVarInt(positionIndex);
-		data.writeItemStack(itemStack);
 	}
 	
 	@Nullable

@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleHandler;
@@ -26,6 +25,7 @@ import modularmachines.api.modules.ModuleData;
 import modularmachines.api.modules.containers.IModuleDataContainer;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.network.PacketHandler;
+import modularmachines.common.network.packets.PacketExtractModule;
 import modularmachines.common.network.packets.PacketInjectModule;
 import modularmachines.common.utils.Log;
 
@@ -56,6 +56,11 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Override
+	public boolean canHandle(IModulePosition position) {
+		return modules.containsKey(position);
+	}
+	
+	@Override
 	public Collection<IModulePosition> getValidPositions() {
 		return positions;
 	}
@@ -67,13 +72,15 @@ public class ModuleHandler implements IModuleHandler {
 	
 	@Override
 	public boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate) {
-		if (hasModule(position) || !modules.containsKey(position) || !provider.isValidModule(position, container)) {
+		if (hasModule(position) || !canHandle(position) || !provider.isValidModule(position, container)) {
 			return false;
 		}
 		if (simulate) {
 			return true;
 		}
-		Module module = container.getData().createModule(this, position, container, itemStack);
+		ItemStack moduleStack = itemStack.copy();
+		moduleStack.setCount(1);
+		Module module = container.getData().createModule(this, position, container, moduleStack);
 		modules.put(position, module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
@@ -81,7 +88,7 @@ public class ModuleHandler implements IModuleHandler {
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {
 			int index = provider instanceof Module ? ((Module) provider).getIndex() : -1;
-			PacketHandler.sendToNetwork(new PacketInjectModule(provider.getContainer(), index, getPositionIndex(position), itemStack.copy()), blockPos, (WorldServer) world);
+			PacketHandler.sendToNetwork(new PacketInjectModule(provider.getContainer(), index, getPositionIndex(position), itemStack.copy()), blockPos, world);
 		} else {
 			if (provider instanceof Module) {
 				Module parent = (Module) provider;
@@ -93,9 +100,31 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Override
-	public ItemStack extractModule(IModulePosition position) {
-		provider.getContainer().getLocatable().markLocatableDirty();
-		return ItemStack.EMPTY;
+	public ItemStack extractModule(IModulePosition position, boolean simulate) {
+		if (!hasModule(position) || !canHandle(position)) {
+			return ItemStack.EMPTY;
+		}
+		Module module = modules.get(position);
+		ItemStack itemStack = module.createItem();
+		if (simulate) {
+			return itemStack;
+		}
+		modules.put(position, null);
+		ILocatable locatable = provider.getContainer().getLocatable();
+		locatable.markLocatableDirty();
+		World world = locatable.getWorldObj();
+		BlockPos blockPos = locatable.getCoordinates();
+		if (!world.isRemote) {
+			int index = provider instanceof Module ? ((Module) provider).getIndex() : -1;
+			PacketHandler.sendToNetwork(new PacketExtractModule(provider.getContainer(), index, getPositionIndex(position)), blockPos, world);
+		} else {
+			if (provider instanceof Module) {
+				Module parent = (Module) provider;
+				parent.setModelNeedReload(true);
+			}
+			world.markBlockRangeForRenderUpdate(blockPos, blockPos);
+		}
+		return itemStack;
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {

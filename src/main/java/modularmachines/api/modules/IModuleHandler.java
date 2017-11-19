@@ -22,6 +22,8 @@ public interface IModuleHandler {
 	
 	boolean hasModule(IModulePosition position);
 	
+	boolean canHandle(IModulePosition position);
+	
 	/**
 	 * @return A collection filled with all module positions that are available for this handler.
 	 */
@@ -42,7 +44,7 @@ public interface IModuleHandler {
 	 */
 	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate);
 	
-	ItemStack extractModule(IModulePosition position);
+	ItemStack extractModule(IModulePosition position, boolean simulate);
 	
 	int getPositionIndex(IModulePosition position);
 	

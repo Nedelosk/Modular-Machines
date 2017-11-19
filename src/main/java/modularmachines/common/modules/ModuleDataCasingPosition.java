@@ -6,6 +6,6 @@ import modularmachines.api.modules.ModuleData;
 public class ModuleDataCasingPosition extends ModuleData {
 	
 	public ModuleDataCasingPosition() {
-		super(EnumCasingPositions.CASING);
+		super(EnumCasingPositions.CENTER);
 	}
 }

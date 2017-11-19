@@ -16,11 +16,17 @@ import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
 public class PacketInjectModule extends PacketModuleProvider {
-	public PacketInjectModule() {
-	}
+	protected ItemStack itemStack;
 	
 	public PacketInjectModule(IModuleContainer provider, int index, int positionIndex, ItemStack itemStack) {
-		super(provider, index, positionIndex, itemStack);
+		super(provider, index, positionIndex);
+		this.itemStack = itemStack;
+	}
+	
+	@Override
+	protected void writeData(PacketBufferMM data) throws IOException {
+		super.writeData(data);
+		data.writeItemStack(itemStack);
 	}
 	
 	@Override
@@ -57,9 +63,7 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (dataContainer == null) {
 					return;
 				}
-				if (!handler.insertModule(position, dataContainer, itemStack, false)) {
-					return;
-				}
+				handler.insertModule(position, dataContainer, itemStack, false);
 			}
 		}
 	}

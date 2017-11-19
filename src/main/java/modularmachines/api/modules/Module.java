@@ -84,7 +84,11 @@ public class Module implements ICapabilityProvider {
 	 * @return The item that the module drop.
 	 */
 	public List<ItemStack> getDrops() {
-		return Collections.singletonList(parentItem);
+		return Collections.singletonList(createItem());
+	}
+	
+	public ItemStack createItem() {
+		return parentItem.copy();
 	}
 	
 	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {

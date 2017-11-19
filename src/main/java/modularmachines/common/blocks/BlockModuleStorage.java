@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +26,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -36,6 +38,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -120,7 +123,27 @@ public class BlockModuleStorage extends Block implements IItemModelRegister, ICl
 		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
 		RayTraceResult hit = collisionRayTrace(state, world, pos, vectors.getKey(), vectors.getValue());
 		if (hit != null) {
-			return container.insertModule(player.getHeldItem(hand), hit, world.isRemote);
+			if (player.isSneaking()) {
+				ItemStack itemStack = container.extractModule(hit, world.isRemote);
+				if (itemStack.isEmpty()) {
+					return false;
+				}
+				ItemHandlerHelper.giveItemToPlayer(player, itemStack);
+			} else {
+				if (container.insertModule(player.getHeldItem(hand), hit, world.isRemote)) {
+					ItemStack itemStack = player.getHeldItem(hand);
+					itemStack.shrink(1);
+					if (itemStack.isEmpty()) {
+						player.setHeldItem(hand, ItemStack.EMPTY);
+					}
+					if (world.isRemote) {
+						world.playSound(player, player.posX, player.posY, player.posZ,
+								SoundEvents.ENTITY_ITEMFRAME_PLACE, SoundCategory.PLAYERS, 0.6F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+					}
+					return true;
+				}
+				return false;
+			}
 		}
 		return true;
 	}

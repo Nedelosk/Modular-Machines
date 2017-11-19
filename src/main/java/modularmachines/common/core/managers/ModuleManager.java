@@ -362,6 +362,11 @@ public class ModuleManager {
 				return false;
 			}
 			
+			@Override
+			public ItemStack extractModule(RayTraceResult rayTraceResult, boolean simulate) {
+				return ItemStack.EMPTY;
+			}
+			
 			@Nullable
 			@Override
 			public IModulePosition getPosition(RayTraceResult hit) {

@@ -1,7 +1,7 @@
 package modularmachines.api.modules;
 
 public enum EnumCasingPositions implements IModulePosition {
-	CASING,
+	CENTER,
 	FRONT,
 	TOP,
 	UP,

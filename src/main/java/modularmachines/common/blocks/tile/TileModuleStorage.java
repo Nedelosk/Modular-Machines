@@ -56,7 +56,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	public ModuleHandler moduleHandler;
 	
 	public TileModuleStorage() {
-		this.moduleHandler = new ModuleHandler(this, EnumCasingPositions.CASING);
+		this.moduleHandler = new ModuleHandler(this, EnumCasingPositions.CENTER);
 		this.facing = EnumFacing.NORTH;
 		this.componentMap = new LinkedHashMap<>();
 		this.validIndexes = new BitSet();
@@ -244,6 +244,20 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	}
 	
 	@Override
+	public ItemStack extractModule(RayTraceResult rayTraceResult, boolean simulate) {
+		if (rayTraceResult.subHit == -1) {
+			return moduleHandler.extractModule(EnumCasingPositions.CENTER, simulate);
+		}
+		Module module = getModule(rayTraceResult.subHit);
+		if (module == null) {
+			return ItemStack.EMPTY;
+		}
+		IModulePosition position = module.getPosition();
+		IModuleHandler parent = module.getParent();
+		return parent.extractModule(position, simulate);
+	}
+	
+	@Override
 	public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate) {
 		if (itemStack.isEmpty()) {
 			return false;
@@ -263,6 +277,10 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 		return insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
 	}
 	
+	private ItemStack extractModule(IModuleHandler parent, IModulePosition position, boolean simulate) {
+		return parent.extractModule(position, simulate);
+	}
+	
 	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
 		IModulePosition position = provider.getPosition(rayTraceResult);
 		if (position == null) {
@@ -273,7 +291,7 @@ public class TileModuleStorage extends TileBase implements ILocatable, IModuleCo
 	
 	@Override
 	public IModulePosition getPosition(RayTraceResult hit) {
-		return EnumCasingPositions.CASING;
+		return EnumCasingPositions.CENTER;
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 import net.minecraftforge.common.util.FakePlayer;
@@ -29,6 +30,7 @@ import modularmachines.common.network.packets.IPacket;
 import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
 import modularmachines.common.network.packets.PacketAddCycle;
+import modularmachines.common.network.packets.PacketExtractModule;
 import modularmachines.common.network.packets.PacketInjectModule;
 import modularmachines.common.network.packets.PacketRemoveCycle;
 import modularmachines.common.network.packets.PacketSelectModulePage;
@@ -52,6 +54,7 @@ public class PacketHandler {
 		registerClientPacket(PacketId.SYNC_MODE, new PacketSyncMode.Handler());
 		registerServerPacket(PacketId.SYNC_MODE, new PacketSyncMode.Handler());
 		registerClientPacket(PacketId.ADD_MODULE, new PacketInjectModule.Handler());
+		registerClientPacket(PacketId.REMOVE_MODULE, new PacketExtractModule.Handler());
 		/*registerClientPacket(new PacketModuleCleaner());
 		registerServerPacket(new PacketModuleCleaner());
 		registerClientPacket(new PacketSyncRedstoneMode());
@@ -77,11 +80,11 @@ public class PacketHandler {
 		packetID.setHandlerServer(packet);
 	}
 	
-	public static void sendToNetwork(IPacket packet, BlockPos pos, WorldServer world) {
-		if (packet == null) {
+	public static void sendToNetwork(IPacket packet, BlockPos pos, World world) {
+		if (!(world instanceof WorldServer)) {
 			return;
 		}
-		WorldServer worldServer = world;
+		WorldServer worldServer = (WorldServer) world;
 		PlayerChunkMap playerManager = worldServer.getPlayerChunkMap();
 		int chunkX = pos.getX() >> 4;
 		int chunkZ = pos.getZ() >> 4;

@@ -44,6 +44,8 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate);
 	
+	ItemStack extractModule(RayTraceResult rayTraceResult, boolean simulate);
+	
 	@Override
 	default IModuleContainer getContainer() {
 		return this;
