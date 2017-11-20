@@ -42,7 +42,7 @@ public class ModuleHeaterBurning extends ModuleHeater {
 	
 	@Override
 	protected void afterAddHeat() {
-		fuel -= 25 * getData().getSize().ordinal();
+		fuel -= 25 * 1/*getData().getSize().ordinal()*/;
 	}
 	
 	@Override

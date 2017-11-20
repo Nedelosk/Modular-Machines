@@ -23,7 +23,6 @@ public class ItemManager {
 	public static Item itemEngineSteam;
 	public static Item itemEngineElectric;
 	public static Item itemTurbineSteam;
-	public static Item itemModuleCore;
 	public static Item itemCasings;
 	public static MaterialList alloys = new MaterialList(EnumMaterial.BRONZE, EnumMaterial.INVAR);
 	public static MaterialList default_metals = new MaterialList(EnumMaterial.COPPER, EnumMaterial.TIN, EnumMaterial.SILVER, EnumMaterial.LEAD, EnumMaterial.NICKEL, EnumMaterial.ALUMINIUM,
@@ -46,7 +45,6 @@ public class ItemManager {
 		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemEngineElectric = register(new ItemModuleMeta("engine_electric", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemTurbineSteam = register(new ItemModuleMeta("turbine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));
-		itemModuleCore = register(new ItemModuleMeta("module_core", new String[]{"basic", "normal", "improved", "advanced"}));
 	}
 	
 	public static <I extends Item> I register(I item) {

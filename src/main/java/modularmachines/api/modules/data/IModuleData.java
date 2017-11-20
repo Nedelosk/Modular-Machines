@@ -12,7 +12,6 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelData;
@@ -53,15 +52,6 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	IModuleData setFactory(Supplier<Module> factory);
 	
 	/**
-	 * @return The size of this module.
-	 */
-	@Deprecated
-	EnumModuleSizes getSize();
-	
-	@Deprecated
-	void setSize(EnumModuleSizes size);
-	
-	/**
 	 * The chance that the module drops if a player breaks the block that contains this module.
 	 */
 	float getDropChance();
@@ -83,9 +73,9 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	IModuleData setPositions(IModulePosition... positions);
 	
 	@Nullable
-	ResourceLocation getWindowLocation();
+	ResourceLocation getWallModelLocation();
 	
-	IModuleData setWindowLocation(ResourceLocation windowLocation);
+	IModuleData setWallModelLocation(ResourceLocation WallModelLocation);
 	
 	/* ITEM INFO */
 	void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleDataContainer container);

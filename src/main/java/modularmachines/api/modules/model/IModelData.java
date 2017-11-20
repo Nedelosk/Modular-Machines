@@ -10,6 +10,10 @@ public interface IModelData {
 	
 	void addModel(IModelList modelList, Module module, IModuleModelState modelState);
 	
+	default boolean handlesChildren() {
+		return false;
+	}
+	
 	default IModuleModelState createState(Module module) {
 		return EmptyModelState.INSTANCE;
 	}

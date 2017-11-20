@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -99,7 +100,11 @@ public enum ModuleModelLoader {
 					if (modelData == null) {
 						return Collections.<ResourceLocation>emptyList();
 					}
-					return modelData.locations().values();
+					List<ResourceLocation> locations = new LinkedList<>(modelData.locations().values());
+					if (data.getWallModelLocation() != null) {
+						locations.add(data.getWallModelLocation());
+					}
+					return locations;
 				})
 				.flatMap(Collection::stream)
 				.filter(Objects::nonNull).collect(Collectors.toSet());

@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,6 +26,7 @@ import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
+import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
@@ -341,7 +343,7 @@ public enum ModuleDefinition implements Supplier<Module> {
 		
 		@Override
 		protected void initData(ModuleData data) {
-			super.initData(data);
+			data.setWallModelLocation(new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -401,6 +403,7 @@ public enum ModuleDefinition implements Supplier<Module> {
 	public static void registerModuleContainers() {
 		for (ModuleDefinition definition : values()) {
 			definition.registerContainers();
+			definition.registerContainers(ModuleManager.factory, ModuleManager.helper);
 		}
 	}
 	

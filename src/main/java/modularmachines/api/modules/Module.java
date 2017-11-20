@@ -59,7 +59,7 @@ public class Module implements ICapabilityProvider {
 	
 	@SideOnly(Side.CLIENT)
 	@Nullable
-	public ResourceLocation getWindowLocation() {
+	public ResourceLocation getWallModelLocation() {
 		return null;
 	}
 	

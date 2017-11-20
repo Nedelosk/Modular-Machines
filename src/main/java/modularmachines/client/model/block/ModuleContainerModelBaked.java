@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -32,6 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.model.IModelData;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.TRSRBakedModel;
 import modularmachines.client.model.module.BakedMultiModel;
@@ -79,16 +82,19 @@ public class ModuleContainerModelBaked implements IBakedModel {
 			if (model == null) {
 				continue;
 			}
-			if (module instanceof IModuleProvider) {
+			IModelData data = module.getData().getModel();
+			if (module instanceof IModuleProvider && (data == null || !data.handlesChildren())) {
 				IModuleProvider moduleProvider = (IModuleProvider) module;
 				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex);
 				if (bakedModel != null) {
 					model = BakedMultiModel.create(ImmutableList.of(model, bakedModel));
 				}
 			}
-			float rotation = module.getPosition().getRotationAngle();
-			if (rotation > 0.0F || rotation < 0.0F) {
-				model = new TRSRBakedModel(model, 0F, 0F, 0F, 0F, rotation, 0F, 1F);
+			IModulePosition position = module.getPosition();
+			Vec3d offset = position.getOffset();
+			float rotation = position.getRotationAngle();
+			if (rotation > 0.0F || rotation < 0.0F || Vec3d.ZERO.equals(offset)) {
+				model = new TRSRBakedModel(model, (float) offset.x, (float) offset.y, (float) offset.z, 0F, rotation, 0F, 1F);
 			}
 			models.add(model);
 		}

@@ -49,7 +49,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	
 	@Override
 	protected void afterAddHeat() {
-		fuel -= 10 * getData().getSize().ordinal();
+		fuel -= 10 * 1/*getData().getSize().ordinal()*/;
 	}
 	
 	@Override

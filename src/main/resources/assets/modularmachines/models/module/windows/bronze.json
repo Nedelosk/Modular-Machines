@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/default/windows/small",
+  "textures": {
+    "window": "modularmachines:modules/bronze_window_small"
+  }
+}

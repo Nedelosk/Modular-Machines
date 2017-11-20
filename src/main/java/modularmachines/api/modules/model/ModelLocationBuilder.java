@@ -87,12 +87,6 @@ public class ModelLocationBuilder {
 		if (preFix == null) {
 			preFix = "";
 		}
-		if (formattings.contains(ModelFormatting.SIZE)) {
-			if (!preFix.isEmpty()) {
-				preFix += "_";
-			}
-			preFix += data.getSize().getName();
-		}
 		if (formattings.contains(ModelFormatting.STATUS)) {
 			preFix += (!preFix.isEmpty() ? "_" : "") + (status ? "on" : "off");
 		}

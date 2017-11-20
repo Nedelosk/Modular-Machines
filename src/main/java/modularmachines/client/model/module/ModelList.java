@@ -79,7 +79,7 @@ public class ModelList implements IModelList {
 	
 	@Nullable
 	@Override
-	public IBakedModel get(@Nullable Module module) {
+	public IBakedModel getModel(@Nullable Module module) {
 		if (module == null) {
 			return null;
 		}
@@ -88,7 +88,7 @@ public class ModelList implements IModelList {
 	
 	@Nullable
 	@Override
-	public IBakedModel get(@Nullable ResourceLocation location) {
+	public IBakedModel getModel(@Nullable ResourceLocation location) {
 		if (location == null) {
 			return null;
 		}
@@ -97,8 +97,8 @@ public class ModelList implements IModelList {
 	
 	@Nullable
 	@Override
-	public IBakedModel get(IModelProperty key) {
-		return get(cache.get(key));
+	public IBakedModel getModel(IModelProperty key) {
+		return getModel(cache.get(key));
 	}
 	
 	@Override

@@ -29,13 +29,13 @@ public interface IModelList {
 	void add(@Nullable IBakedModel model, Function<IBakedModel, IBakedModel> modelWrapper);
 	
 	@Nullable
-	IBakedModel get(@Nullable Module module);
+	IBakedModel getModel(@Nullable Module module);
 	
 	@Nullable
-	IBakedModel get(@Nullable ResourceLocation location);
+	IBakedModel getModel(@Nullable ResourceLocation location);
 	
 	@Nullable
-	IBakedModel get(IModelProperty key);
+	IBakedModel getModel(IModelProperty key);
 	
 	boolean empty();
 	

@@ -99,10 +99,6 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemTurbineSteam, 1, 1), "SPR", "PBP", "RPS", 'R', "rodIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
 		addShapedRecipe(new ItemStack(ItemManager.itemTurbineSteam, 1, 2), "SPR", "PBP", "RPS", 'R', "rodSteel", 'B', "blockSteel", 'P', "plateSteel", 'S', "screwSteel");
 		addShapedRecipe(new ItemStack(ItemManager.itemTurbineSteam, 1, 3), "SPR", "PBP", "RPS", 'R', "rodMagmarium", 'B', "blockMagmarium", 'P', "plateMagmarium", 'S', "screwMagmarium");
-		// Module Cores
-		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore), "PWP", "WRW", "PWP", 'P', "plateBronze", 'W', "wireBronze", 'R', "dustRedstone");
-		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 1), "BWB", "PRP", "BWB", 'P', "plateIron", 'W', "wireIron", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
-		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2), "BWB", "PSP", "BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
 		// Boilers
 		/*addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[0]), "PPP", "GCG", "PPP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
 		addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[1]), "PGP", "COC", "PGP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O',

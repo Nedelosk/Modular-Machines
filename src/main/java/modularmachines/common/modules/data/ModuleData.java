@@ -14,7 +14,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.DefaultModuleFactory;
-import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.data.IModuleData;
@@ -29,12 +28,11 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	private int complexity = 0;
 	private int allowedComplexity = 0;
 	private float dropChance = 1.0F;
-	private EnumModuleSizes size = EnumModuleSizes.MEDIUM;
 	private String unlocalizedName = "null";
 	private Supplier<Module> factory = DefaultModuleFactory.INSTANCE;
 	private IModulePosition[] positions;
 	@Nullable
-	private ResourceLocation windowLocation;
+	private ResourceLocation wallModelLocation;
 	
 	public ModuleData(IModulePosition... positions) {
 		this.positions = positions;
@@ -95,19 +93,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	}
 	
 	/**
-	 * @return The size of this module.
-	 */
-	@Deprecated
-	public EnumModuleSizes getSize() {
-		return size;
-	}
-	
-	@Deprecated
-	public void setSize(EnumModuleSizes size) {
-		this.size = size;
-	}
-	
-	/**
 	 * The chance that the module drops if a player breaks the block that contains this module.
 	 */
 	public float getDropChance() {
@@ -153,13 +138,13 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	
 	@Nullable
 	@Override
-	public ResourceLocation getWindowLocation() {
-		return windowLocation;
+	public ResourceLocation getWallModelLocation() {
+		return wallModelLocation;
 	}
 	
 	@Override
-	public IModuleData setWindowLocation(ResourceLocation windowLocation) {
-		this.windowLocation = windowLocation;
+	public IModuleData setWallModelLocation(ResourceLocation WallModelLocation) {
+		this.wallModelLocation = WallModelLocation;
 		return this;
 	}
 	

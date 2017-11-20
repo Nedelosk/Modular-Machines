@@ -1,0 +1,66 @@
+{
+  "textures": {
+    "front": "blocks/furnace_front_on"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        0
+      ],
+      "to": [
+        15,
+        15,
+        1
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            1,
+            15,
+            15,
+            16
+          ],
+          "texture": "#front"
+        },
+        "up": {
+          "uv": [
+            1,
+            1,
+            15,
+            2
+          ],
+          "texture": "#front"
+        },
+        "north": {
+          "uv": [
+            1,
+            1,
+            15,
+            16
+          ],
+          "texture": "#front"
+        },
+        "west": {
+          "uv": [
+            14,
+            1,
+            15,
+            16
+          ],
+          "texture": "#front"
+        },
+        "east": {
+          "uv": [
+            1,
+            1,
+            2,
+            16
+          ],
+          "texture": "#front"
+        }
+      }
+    }
+  ]
+}
