@@ -24,9 +24,9 @@ import net.minecraftforge.items.IItemHandler;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleRegistry;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.logic.LogicComponent;
+import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.logic.EnergyStorageComponent;
 import modularmachines.common.modules.logic.HeatComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
@@ -142,8 +142,8 @@ public class ModuleUtil {
 	@Nullable
 	public static IModuleContainer getContainer(BlockPos pos, IBlockAccess world) {
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_CONTAINER, null)) {
-			return tileEntity.getCapability(ModuleRegistry.MODULE_CONTAINER, null);
+		if (tileEntity != null && tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, null)) {
+			return tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, null);
 		}
 		return null;
 	}

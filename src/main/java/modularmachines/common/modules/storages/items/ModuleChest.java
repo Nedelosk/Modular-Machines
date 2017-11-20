@@ -24,7 +24,7 @@ public class ModuleChest extends Module {
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentChest(this));
 	}

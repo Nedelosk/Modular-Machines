@@ -20,7 +20,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.data.IModuleData;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
@@ -29,10 +31,11 @@ import modularmachines.common.core.RecipeManager;
 import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.core.managers.FluidManager;
 import modularmachines.common.core.managers.ItemManager;
-import modularmachines.common.core.managers.ModuleManager;
+import modularmachines.common.core.managers.ModuleManagerOld;
 import modularmachines.common.core.managers.OreDictionaryManager;
 import modularmachines.common.event.EventHandler;
 import modularmachines.common.modules.ModuleDefinition;
+import modularmachines.common.modules.ModuleFactory;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.plugins.PluginManager;
 
@@ -45,18 +48,20 @@ public class ModularMachines {
 	@SidedProxy(clientSide = "modularmachines.client.core.ClientProxy", serverSide = "modularmachines.common.core.CommonProxy")
 	public static CommonProxy proxy;
 	
-	public static IForgeRegistry<ModuleData> dataRegistry;
+	public static IForgeRegistry<IModuleData> dataRegistry;
 	public static final PluginManager PLUGIN_MANAGER = new PluginManager();
 	public static Config config;
 	
 	public ModularMachines() {
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FluidRegistry.enableUniversalBucket();
-		dataRegistry = new RegistryBuilder<ModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(ModuleData.class).create();
+		dataRegistry = new RegistryBuilder<IModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleData.class).create();
 	}
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		ModuleManager.factory = ModuleFactory.INSTANCE;
+		ModuleManager.helper = ModuleHelper.INSTANCE;
 		//new ModuleLoadManager();
 		//configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
 		//configFile = new File(configFolder, "Modular-Machines.cfg");
@@ -64,7 +69,7 @@ public class ModularMachines {
 		//config = new Config();
 		//Config.config = new Configuration(ModularMachines.configFile);
 		//Config.syncConfig(true);
-		ModuleManager.registerCapability();
+		ModuleManagerOld.registerCapability();
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		FluidManager.registerFluids();

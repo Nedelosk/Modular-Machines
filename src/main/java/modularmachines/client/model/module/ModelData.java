@@ -22,6 +22,10 @@ public abstract class ModelData<M extends Module> implements IModelData {
 	}
 	
 	public void add(IModelProperty key, ModelLocationBuilder location) {
+		locations.add(key, location.build());
+	}
+	
+	public void add(IModelProperty key, ResourceLocation location) {
 		locations.add(key, location);
 	}
 	

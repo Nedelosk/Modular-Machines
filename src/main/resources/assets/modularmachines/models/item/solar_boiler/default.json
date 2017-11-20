@@ -1,6 +1,0 @@
-{
-"parent" : "modularmachines:item/solar_boiler/solar_boiler",
-"textures": {
-    "wall": "modularmachines:modules/solar_boiler_default"
-}
-}

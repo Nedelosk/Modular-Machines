@@ -45,7 +45,7 @@ public class BakedMultiModel implements IBakedModel {
 	
 	@Override
 	public boolean isAmbientOcclusion() {
-		return true;
+		return false;
 	}
 	
 	@Override

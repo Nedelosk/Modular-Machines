@@ -37,7 +37,7 @@ public class ModulePulverizer extends ModuleKineticMachine {
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentPulverizer(this));
 	}

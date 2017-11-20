@@ -59,7 +59,7 @@ public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 		if (module == null) {
 			return ItemStack.EMPTY;
 		}
-		return module.getParentItem().copy();
+		return module.getItemStack().copy();
 	}
 	
 }

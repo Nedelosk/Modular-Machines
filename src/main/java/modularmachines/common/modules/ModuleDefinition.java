@@ -1,5 +1,7 @@
 package modularmachines.common.modules;
 
+import java.util.function.Supplier;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,23 +13,22 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.EnumModuleSizes;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleRegistry;
-import modularmachines.api.modules.containers.IModuleDataContainer;
-import modularmachines.api.modules.containers.ModuleDataContainer;
-import modularmachines.api.modules.containers.ModuleDataContainerCapability;
-import modularmachines.api.modules.containers.ModuleDataContainerDamage;
-import modularmachines.api.modules.containers.ModuleDataContainerNBT;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.ModelLocationBuilder;
+import modularmachines.api.modules.positions.EnumRackPositions;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.managers.ItemManager;
+import modularmachines.common.modules.data.ModuleData;
+import modularmachines.common.modules.data.ModuleDataContainer;
+import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.heaters.ModuleHeaterBurning;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
 import modularmachines.common.modules.machine.furnace.ModuleFurnace;
@@ -40,15 +41,50 @@ import modularmachines.common.modules.transfer.ModuleDataTransfer;
 import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 
-public enum ModuleDefinition implements IModuleFactory {
-	CASING_WOOD(new ModuleDataCasing(), "casing.wood", 0, EnumModuleSizes.LARGE) {
+public enum ModuleDefinition implements Supplier<Module> {
+	CHEST(new ModuleDataHorizontal(), "chest", 4) {
+		@Override
+		public Module get() {
+			return new ModuleChest();
+		}
+		
+		@Override
+		public void registerContainers() {
+			register(new ItemStack(Blocks.CHEST));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataDefault.addModelData(data());
+		}
+	},
+	
+	FURNACE(new ModuleDataHorizontal(), "furnace", 1) {
+		@Override
+		public Module get() {
+			return new ModuleFurnace(32);
+		}
+		
+		@Override
+		public void registerContainers() {
+			registerDamage(new ItemStack(Blocks.FURNACE));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataWorking.addModelData(data());
+		}
+	},
+	CASING_WOOD(new ModuleDataCasing(), "casing.wood", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(9);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleCasing();
 		}
 		
@@ -64,14 +100,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_BRONZE(new ModuleDataCasing(), "casing.bronze", 0, EnumModuleSizes.NONE) {
+	CASING_BRONZE(new ModuleDataCasing(), "casing.bronze", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(18);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleCasing();
 		}
 		
@@ -87,14 +123,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_IRON(new ModuleDataCasing(), "casing.iron", 0, EnumModuleSizes.NONE) {
+	CASING_IRON(new ModuleDataCasing(), "casing.iron", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(27);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleCasing();
 		}
 		
@@ -110,14 +146,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	CASING_STEEL(new ModuleDataCasing(), "casing.steel", 0, EnumModuleSizes.NONE) {
+	CASING_STEEL(new ModuleDataCasing(), "casing.steel", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(36);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleCasing();
 		}
 		
@@ -133,14 +169,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_WOOD(new ModuleDataRack(), "rack.wood", 1, EnumModuleSizes.NONE) {
+	MODULE_RACK_WOOD(new ModuleDataRack(), "rack.wood", 1) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(3);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleModuleRack();
 		}
 		
@@ -156,20 +192,20 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_BRICK(new ModuleDataRack(), "rack.brick", 1, EnumModuleSizes.NONE) {
+	MODULE_RACK_BRICK(new ModuleDataRack(), "rack.brick", 1) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(3);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleModuleRack();
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1));
+		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+			helper.registerContainer(factory.createDamageContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1), data()));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -179,14 +215,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_BRONZE(new ModuleDataRack(), "rack.bronze", 2, EnumModuleSizes.NONE) {
+	MODULE_RACK_BRONZE(new ModuleDataRack(), "rack.bronze", 2) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(6);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleModuleRack();
 		}
 		
@@ -202,14 +238,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_IRON(new ModuleDataRack(), "rack.iron", 3, EnumModuleSizes.NONE) {
+	MODULE_RACK_IRON(new ModuleDataRack(), "rack.iron", 3) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(12);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleModuleRack();
 		}
 		
@@ -225,14 +261,14 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	MODULE_RACK_STEEL(new ModuleDataRack(), "rack.steel", 4, EnumModuleSizes.NONE) {
+	MODULE_RACK_STEEL(new ModuleDataRack(), "rack.steel", 4) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(24);
 		}
 		
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleModuleRack();
 		}
 		
@@ -248,9 +284,9 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 		
 	},
-	TRANSFER_ITEM(new ModuleDataTransfer(), "transfer_item", 4, EnumModuleSizes.LARGE) {
+	TRANSFER_ITEM(new ModuleDataTransfer(), "transfer_item", 4) {
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleTransferItem();
 		}
 		
@@ -259,9 +295,9 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.RAIL));
 		}
 	},
-	TRANSFER_FLUID(new ModuleDataTransfer(), "transfer_fluid", 4, EnumModuleSizes.LARGE) {
+	TRANSFER_FLUID(new ModuleDataTransfer(), "transfer_fluid", 4) {
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleTransferFluid();
 		}
 		
@@ -270,26 +306,9 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
 		}
 	},
-	FURNACE(new ModuleDataHorizontal(), "furnace", 1, EnumModuleSizes.LARGE) {
+	HEATER(new ModuleDataSide(), "heater", 4) {
 		@Override
-		public Module createModule() {
-			return new ModuleFurnace(32);
-		}
-		
-		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.FURNACE));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataWorking.initModelData(new ModelLocationBuilder(data()).addFolder("minecraft").addPreFix("furnace"), new ModelLocationBuilder(data()).addFolder("minecraft").addPreFix("furnace"));
-		}
-	},
-	HEATER(new ModuleDataSide(), "heater", 4, EnumModuleSizes.LARGE) {
-		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleHeaterBurning(150, 2);
 		}
 		
@@ -298,9 +317,9 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Items.BLAZE_ROD));
 		}
 	},
-	BOILER(new ModuleDataSide(), "boiler", 4, EnumModuleSizes.LARGE) {
+	BOILER(new ModuleDataSide(), "boiler", 4) {
 		@Override
-		public Module createModule() {
+		public Module get() {
 			return new ModuleBoiler(6);
 		}
 		
@@ -309,31 +328,35 @@ public enum ModuleDefinition implements IModuleFactory {
 			registerDamage(new ItemStack(Blocks.BRICK_BLOCK));
 		}
 	},
-	CHEST(new ModuleDataHorizontal(), "chest", 4, EnumModuleSizes.LARGEST) {
+	ENGINE(new ModuleData(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN), "engine", 4) {
 		@Override
-		public Module createModule() {
-			return new ModuleChest();
+		public void registerContainers() {
+			registerDamage(new ItemStack(ItemManager.itemEngineSteam));
 		}
 		
 		@Override
-		public void registerContainers() {
-			register(new ItemStack(Blocks.CHEST));
+		public Module get() {
+			return new Module();
+		}
+		
+		@Override
+		protected void initData(ModuleData data) {
+			super.initData(data);
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataDefault.initModelData(new ModelLocationBuilder(data()).addFolder("wood/chest").addSize());
+			ModelDataDefault.addModelData(data(), "s/bronze");
 		}
 	};
 	
 	private final ModuleData data;
 	
-	ModuleDefinition(ModuleData data, String registry, int complexity, EnumModuleSizes size) {
+	ModuleDefinition(ModuleData data, String registry, int complexity) {
 		this.data = data;
 		data.setRegistryName(registry);
 		data.setComplexity(complexity);
-		data.setSize(size);
 		data.setUnlocalizedName(registry);
 		data.setFactory(this);
 		initData(data);
@@ -349,19 +372,22 @@ public enum ModuleDefinition implements IModuleFactory {
 		
 	}
 	
+	protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+	}
+	
 	protected ModuleData createData() {
 		return new ModuleData();
 	}
 	
-	public abstract void registerContainers();
+	public void registerContainers() {
+	}
 	
 	@SideOnly(Side.CLIENT)
 	public void registerModelData() {
-		
 	}
 	
 	@SubscribeEvent
-	public static void onModuleRegister(RegistryEvent.Register<ModuleData> event){
+	public static void onModuleRegister(RegistryEvent.Register<IModuleData> event) {
 		for(ModuleDefinition definition : values()) {
 			event.getRegistry().register(definition.data());
 		}
@@ -378,28 +404,20 @@ public enum ModuleDefinition implements IModuleFactory {
 		}
 	}
 	
-	public ModuleData data() {
+	public IModuleData data() {
 		return data;
 	}
 	
 	protected void register(ItemStack parent) {
-		ModuleRegistry.registerContainer(new ModuleDataContainer(parent, data()));
-	}
-	
-	protected void registerCapability(ItemStack parent) {
-		ModuleRegistry.registerContainer(new ModuleDataContainerCapability(parent, data()));
-	}
-	
-	protected void registerNBT(ItemStack parent) {
-		ModuleRegistry.registerContainer(new ModuleDataContainerNBT(parent, data()));
+		ModuleManager.helper.registerContainer(new ModuleDataContainer(parent, data()));
 	}
 	
 	protected void registerDamage(ItemStack parent) {
-		ModuleRegistry.registerContainer(new ModuleDataContainerDamage(parent, data()));
+		ModuleManager.helper.registerContainer(new ModuleDataContainerDamage(parent, data()));
 	}
 	
 	protected void register(IModuleDataContainer container) {
-		ModuleRegistry.registerContainer(container);
+		ModuleManager.helper.registerContainer(container);
 	}
 	
 }

@@ -8,9 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
-import modularmachines.api.modules.EnumRackPositions;
-import modularmachines.api.modules.IModulePosition;
-import modularmachines.common.modules.storages.ModuleContainer;
+import modularmachines.api.modules.positions.EnumRackPositions;
+import modularmachines.api.modules.positions.IModulePosition;
 
 public class ModuleModuleRack extends ModuleContainer {
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F);

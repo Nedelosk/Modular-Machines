@@ -2,10 +2,12 @@ package modularmachines.api.modules;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.positions.IModulePosition;
 
 /**
  * Implement this interface as a capability which should handle modules.
@@ -44,7 +46,7 @@ public interface IModuleHandler {
 	 */
 	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate);
 	
-	ItemStack extractModule(IModulePosition position, boolean simulate);
+	List<ItemStack> extractModule(IModulePosition position, boolean simulate);
 	
 	int getPositionIndex(IModulePosition position);
 	

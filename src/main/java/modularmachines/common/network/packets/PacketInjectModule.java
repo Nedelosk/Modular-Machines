@@ -7,11 +7,11 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.IModulePosition;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
@@ -59,7 +59,7 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (position == null) {
 					return;
 				}
-				IModuleDataContainer dataContainer = ModuleHelper.getContainerFromItem(itemStack);
+				IModuleDataContainer dataContainer = ModuleManager.helper.getContainerFromItem(itemStack);
 				if (dataContainer == null) {
 					return;
 				}

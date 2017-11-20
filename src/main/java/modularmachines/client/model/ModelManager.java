@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.client.model.block.ModuleStorageModel;
+import modularmachines.client.model.block.ModuleContainerModel;
 import modularmachines.common.core.Constants;
 import modularmachines.common.utils.ModelUtil;
 import modularmachines.common.utils.content.IClientContentHandler;
@@ -95,7 +95,7 @@ public class ModelManager {
 	
 	public ImmutableMap<String, IModel> getBuiltInModels() {
 		ImmutableMap.Builder<String, IModel> builder = new ImmutableMap.Builder<>();
-		builder.put("module_storage", new ModuleStorageModel());
+		builder.put("module_container", new ModuleContainerModel());
 		return builder.build();
 	}
 	

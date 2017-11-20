@@ -6,9 +6,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 
-import modularmachines.api.modules.EnumCasingPositions;
-import modularmachines.api.modules.IModulePosition;
-import modularmachines.common.modules.storages.ModuleContainer;
+import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.IModulePosition;
 
 public class ModuleCasing extends ModuleContainer {
 	

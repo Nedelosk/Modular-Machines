@@ -23,7 +23,6 @@ import modularmachines.common.materials.MaterialList;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.pulverizer.RecipePulverizer;
 import modularmachines.common.recipes.RecipeHandler;
-import modularmachines.common.utils.capabilitys.EnergyStorageItem;
 
 public class RecipeManager {
 	
@@ -104,8 +103,6 @@ public class RecipeManager {
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore), "PWP", "WRW", "PWP", 'P', "plateBronze", 'W', "wireBronze", 'R', "dustRedstone");
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 1), "BWB", "PRP", "BWB", 'P', "plateIron", 'W', "wireIron", 'R', "blockRedstone", 'B', new ItemStack(ItemManager.itemModuleCore));
 		addShapedRecipe(new ItemStack(ItemManager.itemModuleCore, 1, 2), "BWB", "PSP", "BWB", 'P', "plateSteel", 'W', "wireSteel", 'S', "blockSteel", 'B', new ItemStack(ItemManager.itemModuleCore, 1, 1));
-		// Batterys
-		addShapedRecipe(EnergyStorageItem.createItemStack(ItemManager.itemBattery, 1, 0, true), "+d+", "+d+", "+d+", '+', "logWood", 'd', "dustRedstone");
 		// Boilers
 		/*addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[0]), "PPP", "GCG", "PPP", 'G', "blockGlass", 'P', "plateBronze", 'C', new ItemStack(ItemManager.itemModuleCore));
 		addShapedModuleRecipe(createDefaultStack(ModuleManager.moduleBoilerContainers[1]), "PGP", "COC", "PGP", 'G', "blockGlass", 'P', "plateIron", 'C', new ItemStack(ItemManager.itemModuleCore, 1, 1), 'O',
@@ -160,11 +157,6 @@ public class RecipeManager {
 	}
 	
 	private static void addNormalRecipes() {
-		addShapedRecipe("hammer", new ItemStack(ItemManager.itemHammer), "+S+", "+S+", " - ", '+', "ingotIron", 'S', "stone", '-', "stickWood");
-		addShapedRecipe("file_iron", new ItemStack(ItemManager.itemFileIron), true, "  I", "FIF", "S  ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe("file_diamond", new ItemStack(ItemManager.itemFileDiamond), true, "  D", "FDF", "S  ", 'D', "gemDiamond", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe("file_cutter", new ItemStack(ItemManager.itemCutter), "  S", "FS ", "IF ", 'I', "ingotIron", 'F', Items.FLINT, 'S', "stickWood");
-		addShapedRecipe("file_wrench", new ItemStack(ItemManager.itemWrench), "I I", " I ", " I ", 'I', "ingotIron");
 	}
 	
 	private static void addMachineRecipes() {

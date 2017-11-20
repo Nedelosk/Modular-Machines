@@ -1,7 +1,7 @@
 package modularmachines.common.modules;
 
-import modularmachines.api.modules.EnumCasingPositions;
-import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.common.modules.data.ModuleData;
 
 public class ModuleDataCasingPosition extends ModuleData {
 	

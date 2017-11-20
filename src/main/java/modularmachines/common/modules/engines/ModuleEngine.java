@@ -1,7 +1,6 @@
 package modularmachines.common.modules.engines;
 
 import net.minecraft.util.ITickable;
-import net.minecraft.world.WorldServer;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
@@ -65,7 +64,7 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
 		}
 	}
 	
@@ -87,13 +86,13 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	}
 
 	@Override
-	public EnumWallType getWallType(IModuleState state) {
+	public EnumWallType getWallType() {
 		return EnumWallType.WINDOW;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
+	public ResourceLocation getWindowLocation() {
 		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
 	}*/
 }

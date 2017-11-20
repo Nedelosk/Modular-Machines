@@ -6,19 +6,21 @@ import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.IRecipeHeat;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.IModuleJei;
 import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.OutputFilter;
+import modularmachines.common.modules.integration.IModuleJEI;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleHeatMachine;
 
-public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IModuleJei {
+public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IModuleJEI {
 	
+	public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(1.0F / 16.0F, 0.0F, 15.0F / 16F, 15.0F / 16.0F, 15.0F / 16.0F, 1.0F);
 	public static final List<IRecipeHeat> FURNACE_RECIPES = new ArrayList<>();
 	public final ItemHandlerModule itemHandler;
 	
@@ -30,7 +32,12 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	}
 	
 	@Override
-	public String[] getJeiRecipeCategorys() {
+	protected AxisAlignedBB getBoundingBox() {
+		return BOUNDING_BOX;
+	}
+	
+	@Override
+	public String[] getJeiRecipeCategories() {
 		return new String[]{MachineCategorys.FURNACE};
 	}
 	
@@ -50,7 +57,7 @@ public class ModuleFurnace extends ModuleHeatMachine<IRecipeHeat> implements IMo
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentFurnace(this));
 	}

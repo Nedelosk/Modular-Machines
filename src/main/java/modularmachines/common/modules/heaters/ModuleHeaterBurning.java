@@ -59,7 +59,7 @@ public class ModuleHeaterBurning extends ModuleHeater {
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentBurningHeater(this));
 	}

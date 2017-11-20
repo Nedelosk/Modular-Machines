@@ -9,13 +9,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.data.IModuleData;
 
 @SideOnly(Side.CLIENT)
 public class ModelLocationBuilder {
 	
 	protected final Set<ModelFormatting> formattings;
-	protected final ModuleData data;
+	protected final IModuleData data;
 	@Nullable
 	protected String preFix;
 	@Nullable
@@ -26,7 +26,7 @@ public class ModelLocationBuilder {
 		this(location.formattings, location.data, location.preFix, location.folder, location.status);
 	}
 	
-	private ModelLocationBuilder(Set<ModelFormatting> formattings, ModuleData data, @Nullable String preFix, @Nullable String folder, boolean status) {
+	private ModelLocationBuilder(Set<ModelFormatting> formattings, IModuleData data, @Nullable String preFix, @Nullable String folder, boolean status) {
 		this.formattings = formattings;
 		this.data = data;
 		this.preFix = preFix;
@@ -34,18 +34,18 @@ public class ModelLocationBuilder {
 		this.status = status;
 	}
 	
-	public ModelLocationBuilder(ModuleData data) {
+	public ModelLocationBuilder(IModuleData data) {
 		this.data = data;
 		this.formattings = new HashSet<>();
 		this.preFix = "";
 	}
 	
-	public ModelLocationBuilder addPreFix(String preFix) {
+	public ModelLocationBuilder setPreFix(String preFix) {
 		this.preFix = preFix;
 		return this;
 	}
 	
-	public ModelLocationBuilder addToPreFix(String preFix) {
+	public ModelLocationBuilder addPreFix(String preFix) {
 		this.preFix += preFix;
 		return this;
 	}
@@ -73,7 +73,7 @@ public class ModelLocationBuilder {
 		return this;
 	}
 	
-	public ModuleData data() {
+	public IModuleData data() {
 		return data;
 	}
 	

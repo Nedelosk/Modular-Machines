@@ -5,18 +5,9 @@
  */
 package modularmachines.common.modules.transfer;
 
-import net.minecraft.item.ItemStack;
-
-import modularmachines.api.modules.IModuleType;
 import modularmachines.common.modules.ModuleDataHorizontal;
-import modularmachines.common.modules.ModuleType;
 
 public class ModuleDataTransfer extends ModuleDataHorizontal {
 	public ModuleDataTransfer() {
-	}
-	
-	@Override
-	public IModuleType[] getTypes(ItemStack itemStack) {
-		return new IModuleType[]{ModuleType.TRANSFER};
 	}
 }

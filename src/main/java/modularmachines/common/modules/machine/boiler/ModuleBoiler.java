@@ -2,7 +2,6 @@ package modularmachines.common.modules.machine.boiler;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.WorldServer;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -16,10 +15,10 @@ import modularmachines.common.core.managers.FluidManager;
 import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.energy.HeatManager;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.IModuleJei;
 import modularmachines.common.modules.filters.FluidFilter;
 import modularmachines.common.modules.filters.ItemFilterFluid;
 import modularmachines.common.modules.filters.OutputFilter;
+import modularmachines.common.modules.integration.IModuleJEI;
 import modularmachines.common.modules.logic.HeatComponent;
 import modularmachines.common.modules.logic.UpdateComponent;
 import modularmachines.common.modules.machine.MachineCategorys;
@@ -30,7 +29,7 @@ import modularmachines.common.tanks.FluidTankHandler;
 import modularmachines.common.tanks.FluidTankModule;
 import modularmachines.common.utils.ModuleUtil;
 
-public class ModuleBoiler extends Module implements ITickable, IModuleJei {
+public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
 	
 	public final ItemHandlerModule itemHandler;
 	public final FluidTankHandler fluidHandler;
@@ -69,13 +68,13 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
 		if (locatable != null) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
+			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), locatable.getWorldObj());
 		}
 	}
 	
 	@Override
-	public String[] getJeiRecipeCategorys() {
+	public String[] getJeiRecipeCategories() {
 		return new String[]{MachineCategorys.BOILER};
 	}
 	
@@ -128,7 +127,7 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJei {
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new BoilerModuleComponent(this));
 	}

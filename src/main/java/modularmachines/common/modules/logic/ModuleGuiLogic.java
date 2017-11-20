@@ -5,7 +5,7 @@ import java.util.List;
 
 import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.logic.IModuleGuiLogic;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.common.network.PacketHandler;
@@ -20,7 +20,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	
 	public ModuleGuiLogic(IModuleContainer provider) {
 		this.provider = provider;
-		List<Module> modules = ModuleHelper.getModulesWithComponents(provider);
+		List<Module> modules = ModuleManager.helper.getModulesWithComponents(provider);
 		if (!modules.isEmpty()) {
 			setCurrentPage(modules.get(0).getComponent(0), false);
 		}
@@ -28,7 +28,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	
 	public ModuleGuiLogic(IModuleContainer provider, int moduleIndex, int pageIndex) {
 		this.provider = provider;
-		List<Module> modules = ModuleHelper.getModulesWithComponents(provider);
+		List<Module> modules = ModuleManager.helper.getModulesWithComponents(provider);
 		if (!modules.isEmpty()) {
 			if (moduleIndex < 0) {
 				moduleIndex = modules.get(0).getIndex();

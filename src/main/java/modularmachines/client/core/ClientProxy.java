@@ -31,9 +31,9 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import org.lwjgl.input.Keyboard;
 
-import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.ModuleHelper;
-import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.client.model.BuiltInModelLoader;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.module.ModuleModelLoader;
@@ -91,10 +91,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public List<String> addModuleInfo(ItemStack itemStack) {
 		List<String> tooltip = new ArrayList<>();
-		IModuleDataContainer container = ModuleHelper.getContainerFromItem(itemStack);
+		IModuleDataContainer container = ModuleManager.helper.getContainerFromItem(itemStack);
 		if (container != null) {
 			if (Keyboard.isKeyDown(MODULE_INFO.getKeyCode())) {
-				ModuleData data = container.getData();
+				IModuleData data = container.getData();
 				List<String> moduleTooltip = new ArrayList<>();
 				tooltip.add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
 				data.addTooltip(moduleTooltip, itemStack, container);

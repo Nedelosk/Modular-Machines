@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -18,11 +20,11 @@ import net.minecraft.world.World;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.IModulePosition;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleData;
-import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketExtractModule;
@@ -100,14 +102,14 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Override
-	public ItemStack extractModule(IModulePosition position, boolean simulate) {
+	public List<ItemStack> extractModule(IModulePosition position, boolean simulate) {
 		if (!hasModule(position) || !canHandle(position)) {
-			return ItemStack.EMPTY;
+			return Collections.emptyList();
 		}
 		Module module = modules.get(position);
-		ItemStack itemStack = module.createItem();
+		List<ItemStack> itemStacks = module.getDrops();
 		if (simulate) {
-			return itemStack;
+			return itemStacks;
 		}
 		modules.put(position, null);
 		ILocatable locatable = provider.getContainer().getLocatable();
@@ -124,7 +126,7 @@ public class ModuleHandler implements IModuleHandler {
 			}
 			world.markBlockRangeForRenderUpdate(blockPos, blockPos);
 		}
-		return itemStack;
+		return itemStacks;
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -134,7 +136,7 @@ public class ModuleHandler implements IModuleHandler {
 			if (module == null) {
 				continue;
 			}
-			ModuleData moduleData = module.getData();
+			IModuleData moduleData = module.getData();
 			NBTTagCompound tagCompound = new NBTTagCompound();
 			module.writeToNBT(tagCompound);
 			tagCompound.setString("D", moduleData.getRegistryName().toString());
@@ -154,7 +156,7 @@ public class ModuleHandler implements IModuleHandler {
 			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
 			int index = tagCompound.getInteger("I");
 			String registryName = tagCompound.getString("D");
-			ModuleData data = ModularMachines.dataRegistry.getValue(new ResourceLocation(registryName));
+			IModuleData data = ModularMachines.dataRegistry.getValue(new ResourceLocation(registryName));
 			if (data == null) {
 				Log.warn("Failed to load a module of a module handler.");
 				continue;

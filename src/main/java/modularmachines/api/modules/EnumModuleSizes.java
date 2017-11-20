@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import net.minecraft.util.text.translation.I18n;
 
+@Deprecated
 public enum EnumModuleSizes {
 	NONE(0),
 	/* S * 1 */

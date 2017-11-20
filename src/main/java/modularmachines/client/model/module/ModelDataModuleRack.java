@@ -10,7 +10,7 @@ import modularmachines.api.modules.EnumWallType;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleData;
+import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
@@ -26,17 +26,17 @@ public class ModelDataModuleRack extends ModelData {
 	
 	public static void initModelData(ModelLocationBuilder basicLocation) {
 		ModelDataModuleRack storage = new ModelDataModuleRack();
-		storage.add(Property.STORAGE, basicLocation.copy().addPreFix("storage"));
-		storage.add(Property.TOP, basicLocation.copy().addPreFix("top"));
-		storage.add(Property.BACK, basicLocation.addPreFix("back"));
-		storage.add(Property.STICK_DOWN, basicLocation.copy().addPreFix("front_walls/stick_down"));
-		storage.add(Property.STICK_UP, basicLocation.copy().addPreFix("front_walls/stick_up"));
-		storage.add(Property.SMALL_DOWN, basicLocation.copy().addPreFix("front_walls/small_down"));
-		storage.add(Property.SMALL_MEDIUM, basicLocation.copy().addPreFix("front_walls/small_medium"));
-		storage.add(Property.SMALL_UP, basicLocation.copy().addPreFix("front_walls/small_up"));
-		storage.add(Property.MEDIUM_MEDIUM, basicLocation.copy().addPreFix("front_walls/medium_medium"));
-		storage.add(Property.MEDIUM_UP, basicLocation.copy().addPreFix("front_walls/medium_up"));
-		storage.add(Property.LARGE, basicLocation.copy().addPreFix("front_walls/large"));
+		storage.add(Property.STORAGE, basicLocation.copy().setPreFix("storage"));
+		storage.add(Property.TOP, basicLocation.copy().setPreFix("top"));
+		storage.add(Property.BACK, basicLocation.setPreFix("back"));
+		storage.add(Property.STICK_DOWN, basicLocation.copy().setPreFix("front_walls/stick_down"));
+		storage.add(Property.STICK_UP, basicLocation.copy().setPreFix("front_walls/stick_up"));
+		storage.add(Property.SMALL_DOWN, basicLocation.copy().setPreFix("front_walls/small_down"));
+		storage.add(Property.SMALL_MEDIUM, basicLocation.copy().setPreFix("front_walls/small_medium"));
+		storage.add(Property.SMALL_UP, basicLocation.copy().setPreFix("front_walls/small_up"));
+		storage.add(Property.MEDIUM_MEDIUM, basicLocation.copy().setPreFix("front_walls/medium_medium"));
+		storage.add(Property.MEDIUM_UP, basicLocation.copy().setPreFix("front_walls/medium_up"));
+		storage.add(Property.LARGE, basicLocation.copy().setPreFix("front_walls/large"));
 		basicLocation.data().setModel(storage);
 	}
 	
@@ -62,7 +62,7 @@ public class ModelDataModuleRack extends ModelData {
 		modelList.add(get(Property.STORAGE));
 		EnumModuleSizes size = null;
 		for (Module otherModule : moduleHandler.getModules()) {
-			ModuleData data = otherModule.getData();
+			IModuleData data = otherModule.getData();
 			size = EnumModuleSizes.getSize(size, data.getSize());
 			if (size == EnumModuleSizes.MEDIUM) {
 				modelList.add(Property.WALL);

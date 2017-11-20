@@ -24,9 +24,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.containers.IModuleDataContainer;
+import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.utils.BoundingBoxHelper;
 
 public class Module implements ICapabilityProvider {
@@ -42,8 +44,8 @@ public class Module implements ICapabilityProvider {
 	protected IModuleHandler parent;
 	protected IModuleContainer container;
 	protected int index;
-	protected ModuleData data;
-	private ItemStack parentItem = ItemStack.EMPTY;
+	protected IModuleData data;
+	private ItemStack itemStack = ItemStack.EMPTY;
 	
 	public Module() {
 		components = new ArrayList<>();
@@ -61,10 +63,16 @@ public class Module implements ICapabilityProvider {
 		return null;
 	}
 	
+	/**
+	 * @return A list with all components of this module
+	 */
 	public List<ModuleComponent> getComponents() {
 		return components;
 	}
 	
+	/**
+	 * Returns the component at the give index of the component list.
+	 */
 	@Nullable
 	public ModuleComponent getComponent(int index) {
 		if (index >= components.size() || index < 0) {
@@ -73,6 +81,11 @@ public class Module implements ICapabilityProvider {
 		return components.get(index);
 	}
 	
+	/**
+	 * Adds a component to this module.
+	 *
+	 * You can use {@link #createComponents()} to add components.
+	 */
 	protected void addComponent(ModuleComponent component) {
 		if (!components.contains(component)) {
 			component.setIndex(components.size());
@@ -81,35 +94,51 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	/**
-	 * @return The item that the module drop.
+	 * Can be used to add components to this module.
+	 * Called at the module constructor.
+	 */
+	public void createComponents() {
+	}
+	
+	/**
+	 * A list with all items should drop if the block that contains this module will be destroyed or if a player removes
+	 * this module from the container.
 	 */
 	public List<ItemStack> getDrops() {
 		return Collections.singletonList(createItem());
 	}
 	
-	public ItemStack createItem() {
-		return parentItem.copy();
+	/**
+	 * Creates a that represents the current state of this module.
+	 */
+	protected ItemStack createItem() {
+		return itemStack.copy();
 	}
 	
+	/**
+	 * Called after this module was added to the give parent.
+	 */
 	public void onCreateModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
-		this.parentItem = parentItem;
+		this.itemStack = parentItem;
 		this.data = container.getData();
 		
 		this.container.onModuleAdded(this);
 	}
 	
+	/**
+	 * Called when the {@link IModuleHandler} load this module from the NBT-Data.
+	 *
+	 * Called before {@link #readFromNBT(NBTTagCompound)}.
+	 */
 	public void onLoadModule(IModuleHandler parent, IModulePosition position) {
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
 		
 		this.container.onModuleAdded(this);
-	}
-	
-	protected void createComponents() {
 	}
 	
 	public boolean isClean() {
@@ -120,33 +149,54 @@ public class Module implements ICapabilityProvider {
 		
 	}
 	
+	/**
+	 * Writes the current state of this module to the NBT-Data.
+	 */
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		compound.setTag("Parent", parentItem.serializeNBT());
+		compound.setTag("Parent", itemStack.serializeNBT());
 		compound.setString("Data", data.getRegistryName().toString());
 		return compound;
 	}
 	
+	/**
+	 * Reads the current state of this module from the NBT-Data.
+	 */
 	public void readFromNBT(NBTTagCompound compound) {
-		parentItem = new ItemStack(compound.getCompoundTag("Parent"));
-		data = GameRegistry.findRegistry(ModuleData.class).getValue(new ResourceLocation(compound.getString("Data")));
+		itemStack = new ItemStack(compound.getCompoundTag("Parent"));
+		data = GameRegistry.findRegistry(IModuleData.class).getValue(new ResourceLocation(compound.getString("Data")));
 	}
 	
+	/**
+	 * @return The module handler that contains this module.
+	 */
 	public IModuleHandler getParent() {
 		return parent;
 	}
 	
+	/**
+	 * @return The module container that contains every module.
+	 */
 	public IModuleContainer getContainer() {
 		return container;
 	}
 	
+	/**
+	 * @return The position of this module at the parent.
+	 */
 	public IModulePosition getPosition() {
 		return position;
 	}
 	
-	public ItemStack getParentItem() {
-		return parentItem;
+	/**
+	 * @return The item that was used to create this module.
+	 */
+	public ItemStack getItemStack() {
+		return itemStack;
 	}
 	
+	/**
+	 * @return The index of this module.
+	 */
 	public int getIndex() {
 		return index;
 	}
@@ -155,7 +205,7 @@ public class Module implements ICapabilityProvider {
 		this.index = index;
 	}
 	
-	public ModuleData getData() {
+	public IModuleData getData() {
 		return data;
 	}
 	
@@ -176,7 +226,7 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@Nullable
-	public AxisAlignedBB getCollisionBox() {
+	public final AxisAlignedBB getCollisionBox() {
 		AxisAlignedBB boundingBox = getBoundingBox();
 		IModuleProvider provider = parent.getProvider();
 		if (boundingBox != null && provider instanceof Module) {
@@ -184,21 +234,23 @@ public class Module implements ICapabilityProvider {
 			IModulePosition parentPosition = module.position;
 			EnumFacing facing = position.getFacing();
 			EnumFacing containerFacing = container.getFacing();
-			if (containerFacing == EnumFacing.SOUTH) {
+			if (containerFacing == null) {
+				containerFacing = EnumFacing.NORTH;
+			}
+			double rotation = containerFacing.getHorizontalAngle();
+			rotation += parentPosition.getRotationAngle();
+			rotation += facing.getHorizontalAngle();
+			/*if (containerFacing == EnumFacing.SOUTH) {
 				facing = facing.rotateY().rotateY();
 			} else if (containerFacing == EnumFacing.EAST) {
-				facing = facing.rotateY();
-			} else if (containerFacing == EnumFacing.WEST) {
 				facing = facing.rotateY().rotateY().rotateY();
-			}
-			BoundingBoxHelper helper = new BoundingBoxHelper(facing);
+			} else if (containerFacing == EnumFacing.WEST) {
+				facing = facing.rotateY();
+			}*/
+			BoundingBoxHelper helper = new BoundingBoxHelper(EnumFacing.fromAngle(rotation));
 			return helper.rotateBox(boundingBox);
 		}
-		return boundingBox == null ? null : boundingBox.offset(getBoundingBoxOffset());
-	}
-	
-	protected Vec3d getBoundingBoxOffset() {
-		return Vec3d.ZERO;
+		return boundingBox;
 	}
 	
 	@Nullable

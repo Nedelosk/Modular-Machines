@@ -2,6 +2,7 @@ package modularmachines.api.modules;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
@@ -33,8 +34,6 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	Collection<Module> getModules();
 	
-	Collection<Module> getModules(IModuleType type);
-	
 	@Nullable
 	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
 	
@@ -44,7 +43,7 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate);
 	
-	ItemStack extractModule(RayTraceResult rayTraceResult, boolean simulate);
+	List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate);
 	
 	@Override
 	default IModuleContainer getContainer() {

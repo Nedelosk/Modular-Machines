@@ -143,7 +143,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		transferCycles = new ArrayList<>();
 		addComponent(createComponent(this, 0));

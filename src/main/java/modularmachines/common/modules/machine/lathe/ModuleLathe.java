@@ -7,14 +7,14 @@ import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.IRecipeMode;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.IModuleJei;
 import modularmachines.common.modules.IModuleMode;
 import modularmachines.common.modules.filters.FilterMachine;
 import modularmachines.common.modules.filters.OutputFilter;
+import modularmachines.common.modules.integration.IModuleJEI;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.modules.machine.ModuleKineticMachine;
 
-public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IModuleJei, IModuleMode {
+public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IModuleJEI, IModuleMode {
 	
 	public final ItemHandlerModule itemHandler;
 	public final IMode defaultMode;
@@ -62,7 +62,7 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	}
 	
 	@Override
-	public String[] getJeiRecipeCategorys() {
+	public String[] getJeiRecipeCategories() {
 		return new String[]{MachineCategorys.LATHE};
 	}
 	
@@ -72,7 +72,7 @@ public class ModuleLathe extends ModuleKineticMachine<IRecipeMode> implements IM
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentLathe(this));
 	}

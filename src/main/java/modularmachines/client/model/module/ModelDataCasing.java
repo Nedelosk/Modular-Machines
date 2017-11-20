@@ -3,13 +3,13 @@ package modularmachines.client.model.module;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.EnumCasingPositions;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
+import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 
 @SideOnly(Side.CLIENT)
@@ -21,9 +21,9 @@ public class ModelDataCasing extends ModelData {
 	
 	public static void initModelData(ModelLocationBuilder location) {
 		ModelDataCasing casing = new ModelDataCasing();
-		casing.add(Property.BASE, location.copy().addPreFix("casing"));
-		casing.add(Property.LEFT, location.copy().addPreFix("side_left"));
-		casing.add(Property.RIGHT, location.copy().addPreFix("side_right"));
+		casing.add(Property.BASE, location.copy().setPreFix("casing"));
+		casing.add(Property.LEFT, location.copy().setPreFix("side_left"));
+		casing.add(Property.RIGHT, location.copy().setPreFix("side_right"));
 		location.data().setModel(casing);
 	}
 	

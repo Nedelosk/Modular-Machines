@@ -104,7 +104,7 @@ public class ModuleHeaterSteam extends ModuleHeater {
 	}*/
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentSteamHeater(this));
 	}

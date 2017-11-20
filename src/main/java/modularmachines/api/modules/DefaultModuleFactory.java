@@ -1,6 +1,8 @@
 package modularmachines.api.modules;
 
-public class DefaultModuleFactory implements IModuleFactory {
+import java.util.function.Supplier;
+
+public class DefaultModuleFactory implements Supplier<Module> {
 	
 	public static final DefaultModuleFactory INSTANCE = new DefaultModuleFactory();
 	
@@ -8,7 +10,7 @@ public class DefaultModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public Module createModule() {
+	public Module get() {
 		return new Module();
 	}
 	

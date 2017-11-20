@@ -4,8 +4,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.oredict.OreDictionary;
-
 import modularmachines.common.blocks.BlockMetalBlock.Metals;
 import modularmachines.common.items.ItemComponent;
 import modularmachines.common.materials.EnumMaterial;
@@ -16,10 +14,6 @@ import static net.minecraftforge.oredict.OreDictionary.registerOre;
 public class OreDictionaryManager {
 	
 	public static void registerOres() {
-		registerOre("toolFile", new ItemStack(ItemManager.itemFileIron, 1, OreDictionary.WILDCARD_VALUE));
-		registerOre("toolFile", new ItemStack(ItemManager.itemFileDiamond, 1, OreDictionary.WILDCARD_VALUE));
-		registerOre("toolHammer", new ItemStack(ItemManager.itemHammer, 1, OreDictionary.WILDCARD_VALUE));
-		registerOre("toolCutter", new ItemStack(ItemManager.itemCutter, 1, OreDictionary.WILDCARD_VALUE));
 		for (MaterialList metals : ItemManager.metals) {
 			for (EnumMaterial material : metals) {
 				for (String oreDict : material.getOreDicts()) {
@@ -49,9 +43,7 @@ public class OreDictionaryManager {
 		registerOre("itemCoal", new ItemStack(Items.COAL));
 		registerComponentOres("plate", ItemManager.itemCompPlates);
 		registerComponentOres("rod", ItemManager.itemCompRods);
-		registerComponentOres("screw", ItemManager.itemCompScrews);
 		registerComponentOres("gear", ItemManager.itemCompGears);
-		registerComponentOres("wire", ItemManager.itemCompWires);
 		for (Metals type : Metals.values()) {
 			ItemStack stack = new ItemStack(BlockManager.blockMetalBlocks, 1, type.ordinal());
 			for (String oreDict : type.oreDict) {

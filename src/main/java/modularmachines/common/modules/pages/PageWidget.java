@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleHelper;
+import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.pages.IModuleComponent;
 import modularmachines.api.modules.pages.ModuleComponent;
 import modularmachines.api.modules.pages.Page;
@@ -60,7 +60,7 @@ public class PageWidget<M extends Module> extends Page {
 	
 	@Override
 	public void addWidgets() {
-		List<Module> modulesWithPages = ModuleHelper.getModulesWithComponents(module.getContainer());
+		List<Module> modulesWithPages = ModuleManager.helper.getModulesWithComponents(module.getContainer());
 		int i = 0;
 		if (!modulesWithPages.isEmpty() && modulesWithPages.size() > 1) {
 			for (i = 0; i < modulesWithPages.size(); i++) {

@@ -37,7 +37,7 @@ public class ModuleAlloySmelter extends ModuleHeatMachine {
 	}
 	
 	@Override
-	protected void createComponents() {
+	public void createComponents() {
 		super.createComponents();
 		addComponent(new ModuleComponentAlloySmelter(this));
 	}
