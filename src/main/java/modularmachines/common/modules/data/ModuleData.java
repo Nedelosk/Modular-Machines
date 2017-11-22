@@ -2,7 +2,6 @@ package modularmachines.common.modules.data;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Supplier;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -13,9 +12,6 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.DefaultModuleFactory;
-import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.IModelData;
@@ -29,7 +25,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	private int allowedComplexity = 0;
 	private float dropChance = 1.0F;
 	private String unlocalizedName = "null";
-	private Supplier<Module> factory = DefaultModuleFactory.INSTANCE;
 	private IModulePosition[] positions;
 	@Nullable
 	private ResourceLocation wallModelLocation;
@@ -85,14 +80,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	}
 	
 	/**
-	 * The module factory creates the module out of this data if a player adds it to a {@link IModuleHandler}.
-	 */
-	public IModuleData setFactory(Supplier<Module> factory) {
-		this.factory = factory;
-		return this;
-	}
-	
-	/**
 	 * The chance that the module drops if a player breaks the block that contains this module.
 	 */
 	public float getDropChance() {
@@ -101,21 +88,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	
 	public void setDropChance(float dropChance) {
 		this.dropChance = dropChance;
-	}
-	
-	public Module createModule(IModuleHandler handler, IModulePosition position, IModuleDataContainer container, ItemStack itemStack) {
-		Module module = createModule();
-		module.onCreateModule(handler, position, container, itemStack);
-		module.createComponents();
-		return module;
-	}
-	
-	
-	/**
-	 * Uses the module factory to create a new instance of a module.
-	 */
-	public Module createModule() {
-		return factory.get();
 	}
 	
 	/**

@@ -15,9 +15,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import modularmachines.api.components.EnumComponentTag;
-import modularmachines.api.components.IComponent;
 import modularmachines.api.components.IComponentTag;
-import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
@@ -26,23 +24,22 @@ import modularmachines.common.utils.ItemUtil;
 
 import static net.minecraft.item.ItemStack.EMPTY;
 
-public class ItemHandlerModule extends ModuleComponent implements IItemHandlerModifiable, IRecipeConsumer, IComponent {
+public class ItemHandlerModule extends ModuleComponent implements IItemHandlerModifiable, IRecipeConsumer {
 	
 	protected final NonNullList<ItemContainer> containers;
 	
-	public ItemHandlerModule(Module module) {
-		super(module);
+	public ItemHandlerModule() {
 		this.containers = NonNullList.create();
 	}
 	
 	public ItemContainer addSlot(boolean isInput) {
-		ItemContainer container = new ItemContainer(containers.size(), isInput, module);
+		ItemContainer container = new ItemContainer(containers.size(), isInput, provider);
 		containers.add(container);
 		return container;
 	}
 	
 	public ItemContainer addContainer(boolean isInput, String backgroundTexture) {
-		ItemContainer container = new ItemContainer(containers.size(), isInput, module, backgroundTexture);
+		ItemContainer container = new ItemContainer(containers.size(), isInput, provider, backgroundTexture);
 		containers.add(container);
 		return container;
 	}
@@ -326,10 +323,6 @@ public class ItemHandlerModule extends ModuleComponent implements IItemHandlerMo
 			}
 		}
 		return true;
-	}
-	
-	public Module getModule() {
-		return module;
 	}
 	
 	@Nullable

@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.common.network.IStreamable;
@@ -19,11 +19,11 @@ public class PacketUpdateModule extends PacketModule {
 	public PacketUpdateModule() {
 	}
 	
-	public PacketUpdateModule(Module module) {
+	public PacketUpdateModule(IModule module) {
 		super(module);
 	}
 	
-	public PacketUpdateModule(Module module, PageComponent page) {
+	public PacketUpdateModule(IModule module, PageComponent page) {
 		super(module, page);
 	}
 	
@@ -31,7 +31,7 @@ public class PacketUpdateModule extends PacketModule {
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		if (index > 0) {
-			Module module = source.getModule(index);
+			IModule module = source.getModule(index);
 			if (componentIndex > 0) {
 				PageComponent page = module.getComponent(componentIndex);
 				if (page instanceof IStreamable) {
@@ -54,7 +54,7 @@ public class PacketUpdateModule extends PacketModule {
 			int index = data.readInt();
 			int componentIndex = data.readInt();
 			if (index > 0) {
-				Module module = container.getModule(index);
+				IModule module = container.getModule(index);
 				if (module == null) {
 					return;
 				}

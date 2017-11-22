@@ -1,34 +1,6 @@
 package modularmachines.common.modules.machine.boiler;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
-
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-
-import modularmachines.api.ILocatable;
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.energy.HeatLevel;
-import modularmachines.common.core.managers.FluidManager;
-import modularmachines.common.energy.HeatBuffer;
-import modularmachines.common.energy.HeatManager;
-import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.container.components.HeatComponent;
-import modularmachines.common.modules.container.components.UpdateComponent;
-import modularmachines.common.modules.filters.FluidFilter;
-import modularmachines.common.modules.filters.ItemFilterFluid;
-import modularmachines.common.modules.filters.OutputFilter;
-import modularmachines.common.modules.integration.IModuleJEI;
-import modularmachines.common.modules.machine.MachineCategorys;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncHeatBuffer;
-import modularmachines.common.network.packets.PacketSyncModule;
-import modularmachines.common.tanks.FluidTankHandler;
-import modularmachines.common.tanks.FluidTankModule;
-import modularmachines.common.utils.ModuleUtil;
-
-public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
+/*public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
 	
 	public final ItemHandlerModule itemHandler;
 	public final FluidTankHandler fluidHandler;
@@ -147,5 +119,5 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
 	@Override
 	public ResourceLocation getWindowLocation(IModuleItemContainer container) {
 		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
-	}*/
-}
+	}
+}*/

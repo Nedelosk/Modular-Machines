@@ -6,18 +6,18 @@ import java.util.List;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 import modularmachines.common.utils.IContentContainer;
 
 public class FluidTankModule extends FluidTank implements IContentContainer<FluidStack> {
 	
 	protected final boolean isInput;
-	protected final Module module;
+	protected final IModule module;
 	protected final int index;
-	protected final List<IContentFilter<FluidStack, Module>> filters;
+	protected final List<IContentFilter<FluidStack, IModule>> filters;
 	
-	public FluidTankModule(int capacity, int index, boolean isInput, Module module) {
+	public FluidTankModule(int capacity, int index, boolean isInput, IModule module) {
 		super(capacity);
 		this.index = index;
 		this.module = module;
@@ -63,13 +63,13 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public Module getModule() {
+	public IModule getModule() {
 		return module;
 	}
 	
 	@Override
 	public void markDirty() {
-		module.sendModuleUpdate();
+		module.sendToClient();
 		module.getContainer().getLocatable().markLocatableDirty();
 	}
 	
@@ -79,13 +79,13 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public FluidTankModule addFilter(IContentFilter<FluidStack, Module> filter) {
+	public FluidTankModule addFilter(IContentFilter<FluidStack, IModule> filter) {
 		filters.add(filter);
 		return this;
 	}
 	
 	@Override
-	public List<IContentFilter<FluidStack, Module>> getFilters() {
+	public List<IContentFilter<FluidStack, IModule>> getFilters() {
 		return filters;
 	}
 	
@@ -97,7 +97,7 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 		if (filters.isEmpty()) {
 			return !isInput;
 		}
-		for (IContentFilter<FluidStack, Module> filter : filters) {
+		for (IContentFilter<FluidStack, IModule> filter : filters) {
 			if (filter.isValid(index, content, module)) {
 				return true;
 			}

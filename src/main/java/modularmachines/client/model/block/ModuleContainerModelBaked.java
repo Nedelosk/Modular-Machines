@@ -31,7 +31,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.positions.IModulePosition;
@@ -41,6 +40,7 @@ import modularmachines.client.model.module.BakedMultiModel;
 import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
+import modularmachines.common.modules.Module;
 import modularmachines.common.utils.ModuleUtil;
 
 @SideOnly(Side.CLIENT)

@@ -1,23 +1,6 @@
 package modularmachines.common.modules.transfer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.PageComponent;
-import modularmachines.common.modules.container.components.UpdateComponent;
-import modularmachines.common.utils.ModuleUtil;
-
-public abstract class ModuleTransfer<H> extends Module implements ITickable, IModuleTransfer<H> {
+/*public abstract class ModuleTransfer<H> extends Module implements ITickable, IModuleTransfer<H> {
 	
 	protected List<ITransferCycle<H>> transferCycles;
 	public boolean wasCreated;
@@ -50,7 +33,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	/*@Override
 	public void onAssemble(IAssembler assembler, IModuleLogic logic, IStorage storage) {
 		createWrappers();
-	}*/
+	}
 	
 	private void createWrappers() {
 		if (wasCreated) {
@@ -154,4 +137,4 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	public List<ITransferCycle<H>> getTransferCycles() {
 		return transferCycles;
 	}
-}
+}*/

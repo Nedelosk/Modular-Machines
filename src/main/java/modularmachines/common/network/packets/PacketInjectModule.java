@@ -5,9 +5,9 @@ import java.io.IOException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
@@ -46,7 +46,7 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (handlerIndex == -1) {
 					handler = container.getHandler();
 				} else {
-					Module module = container.getModule(handlerIndex);
+					IModule module = container.getModule(handlerIndex);
 					if (module instanceof IModuleProvider) {
 						IModuleProvider provider = (IModuleProvider) module;
 						handler = provider.getHandler();

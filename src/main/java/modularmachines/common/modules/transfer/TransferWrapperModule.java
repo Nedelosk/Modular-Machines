@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.common.modules.Module;
 
 public class TransferWrapperModule<H> implements ITransferHandlerWrapper<H> {
 	

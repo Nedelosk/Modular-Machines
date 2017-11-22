@@ -1,17 +1,8 @@
 package modularmachines.common.modules;
 
-import modularmachines.api.modules.IModuleComponent;
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.common.utils.components.Component;
 
-public class ModuleComponent extends Component implements IModuleComponent {
-	protected final Module module;
-	
-	public ModuleComponent(Module module) {
-		this.module = module;
-	}
-	
-	public Module getModule() {
-		return module;
-	}
+public class ModuleComponent extends Component<IModule> implements IModuleComponent {
 }

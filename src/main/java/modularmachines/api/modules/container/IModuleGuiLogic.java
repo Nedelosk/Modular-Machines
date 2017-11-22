@@ -2,7 +2,7 @@ package modularmachines.api.modules.container;
 
 import javax.annotation.Nullable;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.pages.PageComponent;
 
 public interface IModuleGuiLogic {
@@ -12,7 +12,7 @@ public interface IModuleGuiLogic {
 	void setCurrentPage(@Nullable PageComponent page, boolean sendToServer);
 	
 	@Nullable
-	Module getCurrentModule();
+	IModule getCurrentModule();
 	
 	@Nullable
 	PageComponent getCurrentComponent();

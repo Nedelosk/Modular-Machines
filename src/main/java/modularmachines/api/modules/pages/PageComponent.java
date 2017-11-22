@@ -11,9 +11,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.components.IComponentTag;
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 
-public class PageComponent<P extends Module> implements IPageComponent<P> {
+public class PageComponent<P extends IModule> implements IPageComponent<P> {
 	protected final P parent;
 	protected int index = -1;
 	

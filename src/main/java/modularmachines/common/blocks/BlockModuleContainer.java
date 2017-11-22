@@ -39,12 +39,13 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IBoundingBoxComponent;
+import modularmachines.api.modules.components.INeighborBlockComponent;
+import modularmachines.api.modules.components.IRedstoneComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
-import modularmachines.api.modules.listeners.INeighborBlockListener;
-import modularmachines.api.modules.listeners.IRedstoneListener;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
@@ -145,11 +146,15 @@ public class BlockModuleContainer extends Block {
 		if (hit == null) {
 			return FULL_BLOCK_AABB.offset(pos);
 		}
-		Module module = container.getModule(hit.subHit);
+		IModule module = container.getModule(hit.subHit);
 		if (module == null) {
 			return FULL_BLOCK_AABB.offset(pos);
 		}
-		return module.getCollisionBox().offset(pos);
+		IBoundingBoxComponent component = module.getInterface(IBoundingBoxComponent.class);
+		if (component == null) {
+			return FULL_BLOCK_AABB.offset(pos);
+		}
+		return component.getCollisionBox().offset(pos);
 	}
 	
 	@Nullable
@@ -169,7 +174,7 @@ public class BlockModuleContainer extends Block {
 		}
 		IModuleContainer provider = ModuleUtil.getContainer(pos, world);
 		if (provider != null) {
-			for (IRedstoneListener listener : ModuleUtil.getModules(provider, IRedstoneListener.class)) {
+			for (IRedstoneComponent listener : ModuleUtil.getModules(provider, IRedstoneComponent.class)) {
 				if (listener.canProvidePower(state, world, pos, side)) {
 					return true;
 				}
@@ -295,7 +300,7 @@ public class BlockModuleContainer extends Block {
 		super.onNeighborChange(world, pos, neighbor);
 		IModuleContainer tileLogic = ModuleUtil.getContainer(pos, world);
 		if (tileLogic != null) {
-			for (INeighborBlockListener changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockListener.class)) {
+			for (INeighborBlockComponent changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockComponent.class)) {
 				changeListener.onNeighborChange(world, pos, neighbor);
 			}
 		}

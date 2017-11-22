@@ -4,7 +4,7 @@ import modularmachines.api.components.IComponent;
 import modularmachines.api.components.IComponentProvider;
 
 public class Component<P extends IComponentProvider> implements IComponent<P> {
-	private P provider;
+	protected P provider;
 	
 	public Component() {
 	}

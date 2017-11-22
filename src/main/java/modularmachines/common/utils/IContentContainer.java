@@ -2,7 +2,7 @@ package modularmachines.common.utils;
 
 import java.util.List;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 
 public interface IContentContainer<C> {
@@ -17,13 +17,13 @@ public interface IContentContainer<C> {
 	
 	int getIndex();
 	
-	Module getModule();
+	IModule getModule();
 	
 	void markDirty();
 	
-	IContentContainer<C> addFilter(IContentFilter<C, Module> filter);
+	IContentContainer<C> addFilter(IContentFilter<C, IModule> filter);
 	
-	List<IContentFilter<C, Module>> getFilters();
+	List<IContentFilter<C, IModule>> getFilters();
 	
 	boolean isValid(C content);
 	

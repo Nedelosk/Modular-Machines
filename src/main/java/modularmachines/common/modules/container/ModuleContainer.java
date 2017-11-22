@@ -29,13 +29,15 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IBoundingBoxComponent;
+import modularmachines.api.modules.components.IInteractionComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
@@ -98,15 +100,17 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	public AxisAlignedBB getBoundingBox() {
 		AxisAlignedBB boundingBox = null;
 		for (Module module : getModules()) {
-			AxisAlignedBB alignedBB = module.getCollisionBox();
-			if (alignedBB == null) {
-				continue;
+			for (IBoundingBoxComponent component : module.getInterfaces(IBoundingBoxComponent.class)) {
+				AxisAlignedBB alignedBB = component.getCollisionBox();
+				if (alignedBB == null) {
+					continue;
+				}
+				if (boundingBox == null) {
+					boundingBox = alignedBB;
+					continue;
+				}
+				boundingBox = boundingBox.union(alignedBB);
 			}
-			if (boundingBox == null) {
-				boundingBox = alignedBB;
-				continue;
-			}
-			boundingBox = boundingBox.union(alignedBB);
 		}
 		return boundingBox == null ? Block.FULL_BLOCK_AABB : boundingBox;
 	}
@@ -138,7 +142,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			return true;
 		}
 		Module module = getModule(hit.subHit);
-		return module != null && module.onActivated(player, hand, hit);
+		return module != null && module.getInterfaces(IInteractionComponent.class).stream().anyMatch(c -> c.onActivated(player, hand, hit));
 	}
 	
 	public void onClick(EntityPlayer player, RayTraceResult hit) {
@@ -146,7 +150,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (module == null) {
 			return;
 		}
-		module.onClick(player, hit);
+		module.getInterfaces(IInteractionComponent.class).forEach(c -> c.onClick(player, hit));
 	}
 	
 	@Override
@@ -163,7 +167,9 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		}
 		return modules
 				.stream()
-				.map(m -> m.collisionRayTrace(startVec, endVec))
+				.map(m -> m.getInterfaces(IBoundingBoxComponent.class))
+				.flatMap(Collection::stream)
+				.map(c -> c.collisionRayTrace(startVec, endVec))
 				.filter(Objects::nonNull)
 				.min(Comparator.comparingDouble(hit -> hit.hitVec.squareDistanceTo(startVec)))
 				.map(r -> {

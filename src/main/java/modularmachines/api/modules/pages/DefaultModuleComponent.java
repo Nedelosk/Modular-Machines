@@ -7,9 +7,9 @@ package modularmachines.api.modules.pages;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 
-public class DefaultModuleComponent<P extends Module> extends PageComponent<P> {
+public class DefaultModuleComponent<P extends IModule> extends PageComponent<P> {
 	private final IPageFactory factory;
 	
 	public DefaultModuleComponent(P parent, IPageFactory factory) {

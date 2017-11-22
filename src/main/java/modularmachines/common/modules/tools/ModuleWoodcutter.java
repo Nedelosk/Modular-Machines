@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.Module;
+import modularmachines.common.modules.Module;
 
 public class ModuleWoodcutter extends Module implements ITickable {
 	

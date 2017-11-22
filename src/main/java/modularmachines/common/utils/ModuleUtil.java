@@ -22,9 +22,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.container.components.EnergyStorageComponent;
 import modularmachines.common.modules.container.components.HeatComponent;

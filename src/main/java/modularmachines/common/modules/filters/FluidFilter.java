@@ -6,10 +6,10 @@ import java.util.Map;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 
-public class FluidFilter implements IContentFilter<FluidStack, Module> {
+public class FluidFilter implements IContentFilter<FluidStack, IModule> {
 	
 	private static final Map<Fluid, FluidFilter> FILTERS = new HashMap<>();
 	
@@ -28,7 +28,7 @@ public class FluidFilter implements IContentFilter<FluidStack, Module> {
 	}
 	
 	@Override
-	public boolean isValid(int index, FluidStack content, Module module) {
+	public boolean isValid(int index, FluidStack content, IModule module) {
 		if (content == null) {
 			return false;
 		}

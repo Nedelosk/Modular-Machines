@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelLocations;
 import modularmachines.api.modules.model.IModelProperty;
@@ -79,7 +79,7 @@ public class ModelList implements IModelList {
 	
 	@Nullable
 	@Override
-	public IBakedModel getModel(@Nullable Module module) {
+	public IBakedModel getModel(@Nullable IModule module) {
 		if (module == null) {
 			return null;
 		}

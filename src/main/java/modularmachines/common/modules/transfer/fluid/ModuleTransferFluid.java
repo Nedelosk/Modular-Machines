@@ -11,8 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.pages.IPage;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 import modularmachines.common.modules.transfer.ModuleComponentTransfer;

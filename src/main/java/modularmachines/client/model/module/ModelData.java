@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
@@ -15,7 +15,7 @@ import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 
 @SideOnly(Side.CLIENT)
-public class ModelData<M extends Module> implements IModelData {
+public class ModelData implements IModelData {
 	
 	protected final ModelLocations locations;
 	
@@ -42,7 +42,7 @@ public class ModelData<M extends Module> implements IModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, Module module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
 		for (IModelProperty property : locations.getProperties()) {
 			if (modelState.get(property) || !modelState.has(property)) {
 				modelList.add(property);

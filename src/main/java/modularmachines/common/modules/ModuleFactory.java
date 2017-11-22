@@ -1,20 +1,22 @@
 package modularmachines.common.modules;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.components.IComponentProvider;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleFactory;
+import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.container.ModuleContainer;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerCapability;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.data.ModuleDataContainerNBT;
-import modularmachines.common.utils.components.ComponentProvider;
 
 public enum ModuleFactory implements IModuleFactory {
 	INSTANCE;
@@ -50,7 +52,19 @@ public enum ModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public IComponentProvider createComponentProvider() {
-		return new ComponentProvider();
+	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
+		IModule module = new Module(parent, position, container, parentItem);
+		container.getData().getDefinition().addComponents(module);
+		return module;
 	}
+	
+	@Override
+	public IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position) {
+		IModule module = new Module(parent, moduleData, position);
+		moduleData.getDefinition().addComponents(module);
+		module.readFromNBT(compound);
+		return module;
+	}
+	
+	
 }

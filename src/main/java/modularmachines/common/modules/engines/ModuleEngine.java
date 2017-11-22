@@ -1,15 +1,6 @@
 package modularmachines.common.modules.engines;
 
-import net.minecraft.util.ITickable;
-
-import modularmachines.api.ILocatable;
-import modularmachines.api.modules.Module;
-import modularmachines.common.energy.KineticBuffer;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModule;
-import modularmachines.common.utils.ModuleUtil;
-
-public abstract class ModuleEngine extends Module implements ITickable {
+/*public abstract class ModuleEngine extends IModule implements ITickable {
 	
 	protected final int materialPerWork;
 	protected final double kineticModifier;
@@ -69,7 +60,7 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	}
 	
 	//TODO:model system
-	/*@SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IModelHandler createModelHandler(IModuleState state) {
 		IModuleItemContainer container = state.getContainer().getItemContainer();
@@ -94,5 +85,5 @@ public abstract class ModuleEngine extends Module implements ITickable {
 	@Override
 	public ResourceLocation getWindowLocation() {
 		return ModuleModelLoader.getModelLocation(getRegistryName().getResourceDomain(), container.getMaterial().getName(), "windows", container.getSize());
-	}*/
-}
+	}
+}*/

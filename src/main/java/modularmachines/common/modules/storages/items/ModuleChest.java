@@ -1,16 +1,6 @@
 package modularmachines.common.modules.storages.items;
 
-import java.util.List;
-
-import net.minecraft.nbt.NBTTagCompound;
-
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.PageComponent;
-import modularmachines.common.containers.SlotModule;
-import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.filters.DefaultFilter;
-
-public class ModuleChest extends Module {
+/*public class ModuleChest extends Module {
 	
 	public final ItemHandlerModule itemHandler;
 	
@@ -64,4 +54,4 @@ public class ModuleChest extends Module {
 		}
 	}
 	
-}
+}*/

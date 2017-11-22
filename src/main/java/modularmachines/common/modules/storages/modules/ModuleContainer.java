@@ -1,18 +1,6 @@
 package modularmachines.common.modules.storages.modules;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
-import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.positions.IModulePosition;
-import modularmachines.common.modules.ModuleHandler;
-
-public abstract class ModuleContainer extends Module implements IModuleProvider {
+/*public abstract class ModuleContainer extends Module implements IModuleProvider {
 	
 	public ModuleHandler moduleHandler;
 	
@@ -50,4 +38,4 @@ public abstract class ModuleContainer extends Module implements IModuleProvider 
 		moduleHandler.getModules().forEach(m -> drops.addAll(m.getDrops()));
 		return drops;
 	}
-}
+}*/

@@ -1,7 +1,7 @@
 package modularmachines.common.modules.filters;
 
-import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.IContentFilter;
+import modularmachines.common.modules.Module;
 
 public class OutputFilter implements IContentFilter {
 	

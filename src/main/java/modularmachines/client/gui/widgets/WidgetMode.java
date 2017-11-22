@@ -5,10 +5,10 @@ import java.util.List;
 
 import net.minecraft.client.renderer.GlStateManager;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IMode;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.IModuleMode;
+import modularmachines.common.modules.Module;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncMode;
 import modularmachines.common.utils.RenderUtil;

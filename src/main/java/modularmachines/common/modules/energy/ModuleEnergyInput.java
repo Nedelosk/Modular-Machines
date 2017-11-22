@@ -10,8 +10,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.components.EnumComponentTag;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.common.modules.Module;
 
 public class ModuleEnergyInput extends Module {
 	

@@ -16,20 +16,16 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.components.EnumComponentTag;
 import modularmachines.api.components.IComponentTag;
-import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
 import modularmachines.common.modules.ModuleComponent;
 
 public class FluidTankHandler extends ModuleComponent implements IFluidHandler, IRecipeConsumer {
-	
-	protected final Module module;
+
 	protected final NonNullList<FluidTankModule> containers;
 	
-	public FluidTankHandler(Module module) {
-		super(module);
-		this.module = module;
+	public FluidTankHandler() {
 		this.containers = NonNullList.create();
 	}
 	
@@ -48,7 +44,7 @@ public class FluidTankHandler extends ModuleComponent implements IFluidHandler, 
 	}
 	
 	public FluidTankModule addTank(boolean isInput, int capacity) {
-		FluidTankModule container = new FluidTankModule(capacity, containers.size(), isInput, module);
+		FluidTankModule container = new FluidTankModule(capacity, containers.size(), isInput, provider);
 		containers.add(container);
 		return container;
 	}

@@ -5,7 +5,5 @@
  */
 package modularmachines.common.modules.fluid;
 
-import modularmachines.api.modules.Module;
-
-public class ModulePump extends Module {
+public class ModulePump {
 }

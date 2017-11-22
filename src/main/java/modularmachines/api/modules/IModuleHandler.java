@@ -20,7 +20,7 @@ public interface IModuleHandler {
 	 * @return The module that is currently at that position.
 	 */
 	@Nullable
-	Module getModule(IModulePosition position);
+	IModule getModule(IModulePosition position);
 	
 	boolean hasModule(IModulePosition position);
 	
@@ -34,7 +34,7 @@ public interface IModuleHandler {
 	/**
 	 * @return A collection filled with all modules of this handler.
 	 */
-	Collection<Module> getModules();
+	Collection<IModule> getModules();
 	
 	/**
 	 * Tries to inserts a module at the given position and return if it has inserted it.

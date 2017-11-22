@@ -1,21 +1,6 @@
 package modularmachines.common.modules.machine.pulverizer;
 
-import java.util.List;
-
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Slot;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IPageComponent;
-import modularmachines.client.gui.widgets.WidgetProgressBar;
-import modularmachines.common.containers.SlotModule;
-import modularmachines.common.inventory.ItemHandlerModule;
-import modularmachines.common.modules.pages.PageWidget;
-
-public class ModuleComponentPulverizer extends DefaultModuleComponent<ModulePulverizer> {
+/*public class ModuleComponentPulverizer extends DefaultModuleComponent<ModulePulverizer> {
 	
 	public ModuleComponentPulverizer(ModulePulverizer parent) {
 		super(parent, PagePulverizer::new);
@@ -44,4 +29,4 @@ public class ModuleComponentPulverizer extends DefaultModuleComponent<ModulePulv
 			addWidget(new WidgetProgressBar(82, 35, module));
 		}
 	}
-}
+}*/

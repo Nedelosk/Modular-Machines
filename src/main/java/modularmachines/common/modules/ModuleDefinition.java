@@ -1,7 +1,5 @@
 package modularmachines.common.modules;
 
-import java.util.function.Supplier;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -15,11 +13,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.components.IComponentProvider;
-import modularmachines.api.modules.IModuleComponent;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
@@ -36,31 +32,20 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.components.BoundingBoxComponent;
 import modularmachines.common.modules.components.FuelComponent;
 import modularmachines.common.modules.components.HeaterComponent;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
-import modularmachines.common.modules.energy.ModuleEnergyInput;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
-import modularmachines.common.modules.machine.boiler.ModuleBoiler;
-import modularmachines.common.modules.machine.furnace.ModuleFurnace;
-import modularmachines.common.modules.storages.items.ModuleChest;
-import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataCasing;
 import modularmachines.common.modules.storages.modules.ModuleDataRack;
-import modularmachines.common.modules.storages.modules.ModuleModuleRack;
 import modularmachines.common.modules.transfer.ModuleDataTransfer;
-import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
-import modularmachines.common.modules.transfer.items.ModuleTransferItem;
 import modularmachines.common.utils.IContentContainer;
 
-public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
+public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleDataHorizontal(), "chest", 4) {
-		@Override
-		public Module get() {
-			return new ModuleChest();
-		}
 		
 		@Override
 		public void registerContainers() {
@@ -75,10 +60,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 	},
 	
 	FURNACE(new ModuleDataHorizontal(), "furnace", 1) {
-		@Override
-		public Module get() {
-			return new ModuleFurnace(32);
-		}
 		
 		@Override
 		public void registerContainers() {
@@ -95,11 +76,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(9);
-		}
-		
-		@Override
-		public Module get() {
-			return new ModuleCasing();
 		}
 		
 		@Override
@@ -121,11 +97,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new ModuleCasing();
-		}
-		
-		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 1));
 		}
@@ -141,11 +112,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(27);
-		}
-		
-		@Override
-		public Module get() {
-			return new ModuleCasing();
 		}
 		
 		@Override
@@ -167,11 +133,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new ModuleCasing();
-		}
-		
-		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 3));
 		}
@@ -187,11 +148,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(3);
-		}
-		
-		@Override
-		public Module get() {
-			return new ModuleModuleRack();
 		}
 		
 		@Override
@@ -213,11 +169,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new ModuleModuleRack();
-		}
-		
-		@Override
 		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
 			helper.registerContainer(factory.createDamageContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1), data()));
 		}
@@ -233,11 +184,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(6);
-		}
-		
-		@Override
-		public Module get() {
-			return new ModuleModuleRack();
 		}
 		
 		@Override
@@ -259,11 +205,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new ModuleModuleRack();
-		}
-		
-		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 3));
 		}
@@ -282,11 +223,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new ModuleModuleRack();
-		}
-		
-		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 4));
 		}
@@ -299,10 +235,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		
 	},
 	TRANSFER_ITEM(new ModuleDataTransfer(), "transfer_item", 4) {
-		@Override
-		public Module get() {
-			return new ModuleTransferItem();
-		}
 		
 		@Override
 		public void registerContainers() {
@@ -310,10 +242,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 	},
 	TRANSFER_FLUID(new ModuleDataTransfer(), "transfer_fluid", 4) {
-		@Override
-		public Module get() {
-			return new ModuleTransferFluid();
-		}
 		
 		@Override
 		public void registerContainers() {
@@ -322,19 +250,13 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 	},
 	HEATER(new ModuleDataSide(), "heater", 4) {
 		@Override
-		public Module get() {
-			return new Module();
-			//return new ModuleHeaterBurning(150, 2);
-		}
-		
-		@Override
-		public void addComponents(Module module, IComponentProvider<IModuleComponent> provider) {
-			super.addComponents(module, provider);
-			ItemHandlerModule itemHandler = new ItemHandlerModule(module);
+		public void addComponents(IModule module) {
+			super.addComponents(module);
+			ItemHandlerModule itemHandler = new ItemHandlerModule();
 			IContentContainer fuelSlot = itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
-			provider.addComponent(itemHandler);
-			provider.addComponent(new FuelComponent.Items(module, 25, fuelSlot.getIndex()));
-			provider.addComponent(new HeaterComponent(module, 150, 2));
+			module.addComponent(itemHandler);
+			module.addComponent(new FuelComponent.Items(25, fuelSlot.getIndex()));
+			module.addComponent(new HeaterComponent(150, 2));
 		}
 		
 		@Override
@@ -343,10 +265,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 	},
 	BOILER(new ModuleDataSide(), "boiler", 4) {
-		@Override
-		public Module get() {
-			return new ModuleBoiler(6);
-		}
 		
 		@Override
 		public void registerContainers() {
@@ -360,13 +278,9 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 		
 		@Override
-		public Module get() {
-			return new Module() {
-				@Override
-				protected AxisAlignedBB getBoundingBox() {
-					return new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F);
-				}
-			};
+		public void addComponents(IModule module) {
+			super.addComponents(module);
+			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
 		}
 		
 		@Override
@@ -387,11 +301,6 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		}
 	},
 	ENERGY_INPUT(new ModuleData(), "energy_input", 4) {
-		@Override
-		public Module get() {
-			return new ModuleEnergyInput();
-		}
-		
 		@Override
 		protected void initData(ModuleData data) {
 			super.initData(data);
@@ -418,13 +327,11 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 		data.setRegistryName(registry);
 		data.setComplexity(complexity);
 		data.setUnlocalizedName(registry);
-		data.setFactory(this);
 		initData(data);
 	}
 	
 	ModuleDefinition() {
 		this.data = createData();
-		this.data.setFactory(this);
 		initData(data);
 	}
 	
@@ -483,7 +390,7 @@ public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 	}
 	
 	@Override
-	public void addComponents(Module module, IComponentProvider<IModuleComponent> provider) {
+	public void addComponents(IModule module) {
 	
 	}
 }

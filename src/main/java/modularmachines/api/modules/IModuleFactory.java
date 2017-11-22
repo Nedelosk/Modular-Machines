@@ -1,12 +1,13 @@
 package modularmachines.api.modules;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.positions.IModulePosition;
 
 public interface IModuleFactory {
 	
@@ -22,5 +23,7 @@ public interface IModuleFactory {
 	
 	IModuleContainer createContainer(ILocatable locatable);
 	
-	IComponentProvider createComponentProvider();
+	IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem);
+	
+	IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position);
 }

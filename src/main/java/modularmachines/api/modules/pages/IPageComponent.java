@@ -10,9 +10,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.components.IComponent;
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 
-public interface IPageComponent<P extends Module> extends IComponent {
+public interface IPageComponent<P extends IModule> extends IComponent {
 	
 	@SideOnly(Side.CLIENT)
 	IPage createPage(GuiContainer gui);

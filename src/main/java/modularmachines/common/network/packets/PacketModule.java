@@ -3,7 +3,7 @@ package modularmachines.common.network.packets;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.api.modules.pages.PageComponent;
@@ -21,11 +21,11 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 		this(logic.getCurrentModule(), logic.getCurrentComponent());
 	}
 	
-	public PacketModule(Module module) {
+	public PacketModule(IModule module) {
 		this(module.getContainer(), module.getIndex(), -1);
 	}
 	
-	public PacketModule(Module module, PageComponent component) {
+	public PacketModule(IModule module, PageComponent component) {
 		this(module.getContainer(), module.getIndex(), component.getIndex());
 	}
 	
@@ -43,7 +43,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	}
 	
 	@Nullable
-	protected static Module getModule(@Nullable IModuleContainer provider, PacketBufferMM data) {
+	protected static IModule getModule(@Nullable IModuleContainer provider, PacketBufferMM data) {
 		if (provider == null) {
 			return null;
 		}
@@ -52,7 +52,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	
 	@Nullable
 	protected static PageComponent getComponent(@Nullable IModuleContainer provider, PacketBufferMM data) {
-		Module module = getModule(provider, data);
+		IModule module = getModule(provider, data);
 		if (module == null) {
 			return null;
 		}

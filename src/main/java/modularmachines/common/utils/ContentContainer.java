@@ -3,18 +3,18 @@ package modularmachines.common.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 
 public class ContentContainer<C> implements IContentContainer<C> {
 	
 	protected final boolean isInput;
 	protected final int index;
-	protected final List<IContentFilter<C, Module>> filters;
-	protected final Module module;
+	protected final List<IContentFilter<C, IModule>> filters;
+	protected final IModule module;
 	protected C content;
 	
-	public ContentContainer(int index, boolean isInput, Module module) {
+	public ContentContainer(int index, boolean isInput, IModule module) {
 		this.index = index;
 		this.isInput = isInput;
 		this.module = module;
@@ -47,7 +47,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	}
 	
 	@Override
-	public Module getModule() {
+	public IModule getModule() {
 		return module;
 	}
 	
@@ -57,13 +57,13 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	}
 	
 	@Override
-	public IContentContainer<C> addFilter(IContentFilter<C, Module> filter) {
+	public IContentContainer<C> addFilter(IContentFilter<C, IModule> filter) {
 		filters.add(filter);
 		return this;
 	}
 	
 	@Override
-	public List<IContentFilter<C, Module>> getFilters() {
+	public List<IContentFilter<C, IModule>> getFilters() {
 		return filters;
 	}
 	
@@ -75,7 +75,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 		if (filters.isEmpty()) {
 			return !isInput;
 		}
-		for (IContentFilter<C, Module> filter : filters) {
+		for (IContentFilter<C, IModule> filter : filters) {
 			if (filter.isValid(index, content, module)) {
 				return true;
 			}

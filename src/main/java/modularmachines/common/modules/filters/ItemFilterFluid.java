@@ -11,10 +11,10 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 
-public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
+public class ItemFilterFluid implements IContentFilter<ItemStack, IModule> {
 	
 	public static final ItemFilterFluid INSTANCE = new ItemFilterFluid(true);
 	private static final Map<Fluid, ItemFilterFluid> FILTERS = new HashMap<>();
@@ -44,7 +44,7 @@ public class ItemFilterFluid implements IContentFilter<ItemStack, Module> {
 	}
 	
 	@Override
-	public boolean isValid(int index, ItemStack content, Module module) {
+	public boolean isValid(int index, ItemStack content, IModule module) {
 		if (content == null) {
 			return false;
 		}

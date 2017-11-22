@@ -11,8 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.pages.IPage;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.transfer.ITransferCycle;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
 import modularmachines.common.modules.transfer.ModuleComponentTransfer;

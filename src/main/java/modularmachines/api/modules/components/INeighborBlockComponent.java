@@ -3,12 +3,12 @@
  *
  * This work (the MOD) is licensed under the "MIT" License, see LICENSE for details.
  */
-package modularmachines.api.modules.listeners;
+package modularmachines.api.modules.components;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public interface INeighborBlockListener {
+public interface INeighborBlockComponent {
 	
 	void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor);
 	

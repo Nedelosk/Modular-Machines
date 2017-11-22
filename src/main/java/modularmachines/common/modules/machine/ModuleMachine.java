@@ -1,21 +1,6 @@
 package modularmachines.common.modules.machine;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
-
-import modularmachines.api.modules.Module;
-import modularmachines.api.recipes.IRecipe;
-import modularmachines.api.recipes.IRecipeConsumer;
-import modularmachines.api.recipes.RecipeItem;
-import modularmachines.api.recipes.RecipeRegistry;
-import modularmachines.common.modules.IModuleWorking;
-
-public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
+/*public abstract class ModuleMachine<R extends IRecipe> extends Module implements ITickable, IModuleWorking {
 	
 	private static final Random RANDOM = new Random();
 	
@@ -39,7 +24,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 			/*ILocatable locatable = logic.getLocatable();
 			if(locatable != null){
 				rand = locatable.getWorldObj().rand;
-			}else{*/
+			}else{
 			rand = RANDOM;
 			//}
 		}
@@ -78,7 +63,7 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 		/*ILocatable locatable = logic.getLocatable();
 		if (locatable != null) {
 			PacketHandler.sendToNetwork(new PacketSyncModule(this),locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
-		}*/
+		}
 	}
 	
 	public abstract RecipeItem[] getInputs();
@@ -218,5 +203,5 @@ public abstract class ModuleMachine<R extends IRecipe> extends Module implements
 	@Override
 	public EnumWallType getWallType(IModuleState state) {
 		return EnumWallType.NONE;
-	}*/
-}
+	}
+}*/

@@ -1,10 +1,6 @@
 package modularmachines.common.modules.engines;
 
-import net.minecraftforge.energy.IEnergyStorage;
-
-import modularmachines.common.utils.ModuleUtil;
-
-public class ModuleEngineElectric extends ModuleEngine {
+/*public class ModuleEngineElectric extends ModuleEngine {
 	
 	public ModuleEngineElectric(int capacity, int maxTransfer, int energyPerWork, double kineticModifier) {
 		super(capacity, maxTransfer, energyPerWork, kineticModifier);
@@ -42,4 +38,4 @@ public class ModuleEngineElectric extends ModuleEngine {
 	protected double getKineticModifier() {
 		return kineticModifier;
 	}
-}
+}*/

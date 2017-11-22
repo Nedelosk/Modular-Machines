@@ -4,12 +4,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
 import modularmachines.common.modules.storages.modules.ModuleModuleRack;
 

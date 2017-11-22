@@ -35,7 +35,8 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.common.ModularMachines;
@@ -124,16 +125,20 @@ public enum ModuleModelLoader {
 	}
 	
 	@Nullable
-	public static IBakedModel getModel(Module module, IModelState modelState, VertexFormat vertex) {
-		IModuleModelState moduleModelState = module.getModelState();
+	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex) {
+		IModelComponent component = module.getComponent(IModelComponent.class);
+		if (component == null) {
+			return null;
+		}
+		IModuleModelState moduleModelState = component.getModelState();
 		IBakedModel model = cachedModels.getIfPresent(Pair.of(module.getData().getRegistryName(), moduleModelState));
 		IModelData data = getModelData(module);
 		if (data == null) {
 			return null;
 		}
-		if (module.isModelNeedReload() || model == null) {
+		if (component.isModelNeedReload() || model == null) {
 			ModelList modelList = new ModelList(data.locations(), vertex, modelState, DefaultTextureGetter.INSTANCE);
-			module.setModelState(moduleModelState = data.createState(module));
+			component.setModelState(moduleModelState = data.createState(module));
 			data.addModel(modelList, module, moduleModelState);
 			if (modelList.empty()) {
 				model = modelList.missingModel();
@@ -141,13 +146,13 @@ public enum ModuleModelLoader {
 				model = BakedMultiModel.create(modelList.models());
 			}
 			cachedModels.put(Pair.of(module.getData().getRegistryName(), moduleModelState), model);
-			module.setModelNeedReload(false);
+			component.setModelNeedReload(false);
 		}
 		return model;
 	}
 	
 	@Nullable
-	private static IModelData getModelData(@Nullable Module module) {
+	private static IModelData getModelData(@Nullable IModule module) {
 		if (module == null) {
 			return null;
 		}

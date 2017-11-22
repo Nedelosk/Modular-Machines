@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.common.modules.Module;
 import modularmachines.common.modules.transfer.ModuleTransfer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
@@ -36,7 +36,7 @@ public class PacketExtractModule extends PacketModuleProvider {
 				if (handlerIndex == -1) {
 					handler = container.getHandler();
 				} else {
-					Module module = container.getModule(handlerIndex);
+					IModule module = container.getModule(handlerIndex);
 					if (module instanceof IModuleProvider) {
 						IModuleProvider provider = (IModuleProvider) module;
 						handler = provider.getHandler();

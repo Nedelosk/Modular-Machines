@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.IModelList;
@@ -32,7 +32,7 @@ public class ModelDataWorking extends ModelData {
 	}
 	
 	@Override
-	public IModuleModelState createState(Module module) {
+	public IModuleModelState createState(IModule module) {
 		boolean isWorking = false;
 		if (module instanceof IModuleWorking) {
 			IModuleWorking working = (IModuleWorking) module;
@@ -44,7 +44,7 @@ public class ModelDataWorking extends ModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, Module module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
 		if (modelState.get(DefaultProperty.ON)) {
 			modelList.add(DefaultProperty.ON);
 		} else {

@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.util.ITickable;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.common.modules.Module;
 
 public class UpdateComponent extends ContainerComponent {
 	

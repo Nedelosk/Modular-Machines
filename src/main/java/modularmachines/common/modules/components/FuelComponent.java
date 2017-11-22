@@ -10,7 +10,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
-import modularmachines.api.modules.Module;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.tanks.FluidTankHandler;
@@ -21,8 +20,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 	protected int fuelTotal;
 	private final int fuelPerUse;
 	
-	public FuelComponent(Module module, int fuelPerUse) {
-		super(module);
+	public FuelComponent(int fuelPerUse) {
 		this.fuelPerUse = fuelPerUse;
 	}
 	
@@ -61,19 +59,19 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		private final Function<ItemStack, Integer> fuelGetter;
 		private final int fuelSlot;
 		
-		public Items(Module module, int fuelPerUse, int fuelSlot) {
-			this(module, fuelPerUse, TileEntityFurnace::getItemBurnTime, fuelSlot);
+		public Items(int fuelPerUse, int fuelSlot) {
+			this(fuelPerUse, TileEntityFurnace::getItemBurnTime, fuelSlot);
 		}
 		
-		public Items(Module module, int fuelPerUse, Function<ItemStack, Integer> fuelGetter, int fuelSlot) {
-			super(module, fuelPerUse);
+		public Items(int fuelPerUse, Function<ItemStack, Integer> fuelGetter, int fuelSlot) {
+			super(fuelPerUse);
 			this.fuelGetter = fuelGetter;
 			this.fuelSlot = fuelSlot;
 		}
 		
 		@Override
 		public boolean updateFuel() {
-			ItemHandlerModule itemHandler = module.getComponentProvider().getComponent(ItemHandlerModule.class);
+			ItemHandlerModule itemHandler = provider.getComponentProvider().getComponent(ItemHandlerModule.class);
 			if (itemHandler == null) {
 				return false;
 			}
@@ -97,8 +95,8 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		private final int neededAmount;
 		private final int fuelSlot;
 		
-		public Fluids(Module module, int fuelPerUse, Function<FluidStack, Integer> fuelGetter, int fuelSlot, int neededAmount) {
-			super(module, fuelPerUse);
+		public Fluids(int fuelPerUse, Function<FluidStack, Integer> fuelGetter, int fuelSlot, int neededAmount) {
+			super(fuelPerUse);
 			this.fuelGetter = fuelGetter;
 			this.fuelSlot = fuelSlot;
 			this.neededAmount = neededAmount;
@@ -106,7 +104,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public boolean updateFuel() {
-			FluidTankHandler fluidHandler = module.getComponentProvider().getComponent(FluidTankHandler.class);
+			FluidTankHandler fluidHandler = provider.getComponentProvider().getComponent(FluidTankHandler.class);
 			if (fluidHandler == null) {
 				return false;
 			}

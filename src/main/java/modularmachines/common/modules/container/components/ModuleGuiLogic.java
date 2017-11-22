@@ -3,11 +3,11 @@ package modularmachines.common.modules.container.components;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.api.modules.pages.PageComponent;
+import modularmachines.common.modules.Module;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 

@@ -2,6 +2,7 @@ package modularmachines.common.utils.components;
 
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,10 @@ import java.util.Map;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.EnumFacing;
+
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import modularmachines.api.components.IComponent;
 import modularmachines.api.components.IComponentProvider;
@@ -170,5 +175,27 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		for (INetworkComponent component : getInterfaces(INetworkComponent.class)) {
 			component.readData(data);
 		}
+	}
+	
+	@Override
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+		for (ICapabilityProvider component : getInterfaces(ICapabilityProvider.class)) {
+			if (component.hasCapability(capability, facing)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Nullable
+	@Override
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		for (ICapabilityProvider component : getInterfaces(ICapabilityProvider.class)) {
+			T value = component.getCapability(capability, facing);
+			if (value != null) {
+				return value;
+			}
+		}
+		return null;
 	}
 }

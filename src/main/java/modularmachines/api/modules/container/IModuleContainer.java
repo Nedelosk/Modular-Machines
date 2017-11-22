@@ -16,16 +16,16 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.components.IComponentProvider;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.listeners.IModuleListener;
 
 public interface IModuleContainer extends ILocatableSource, IModuleListener, IModuleProvider, ICapabilityProvider, IComponentProvider<ContainerComponent> {
 	
 	@Nullable
-	Module getModule(int index);
+	IModule getModule(int index);
 	
-	Collection<Module> getModules();
+	Collection<IModule> getModules();
 	
 	@Nullable
 	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
@@ -47,7 +47,7 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	void readFromNBT(NBTTagCompound compound);
 	
-	void sendModuleToClient(Module module);
+	void sendModuleToClient(IModule module);
 	
 	void sendToClient();
 }

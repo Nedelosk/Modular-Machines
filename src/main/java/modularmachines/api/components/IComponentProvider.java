@@ -3,10 +3,12 @@ package modularmachines.api.components;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
 
-public interface IComponentProvider<C extends IComponent> extends INBTReadable, INBTWritable, INetworkComponent {
+public interface IComponentProvider<C extends IComponent> extends INBTReadable, INBTWritable, INetworkComponent, ICapabilityProvider {
 	Collection<C> getComponents();
 	
 	void addComponent(C component);

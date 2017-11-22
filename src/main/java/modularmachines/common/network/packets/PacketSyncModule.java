@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
@@ -21,7 +21,7 @@ public class PacketSyncModule extends PacketModule {
 	public PacketSyncModule() {
 	}
 	
-	public PacketSyncModule(Module module) {
+	public PacketSyncModule(IModule module) {
 		super(module);
 		this.nbt = module.writeToNBT(new NBTTagCompound());
 	}
@@ -44,7 +44,7 @@ public class PacketSyncModule extends PacketModule {
 		public void onPacketData(PacketBufferMM data, EntityPlayer player) throws IOException {
 			World world = player.world;
 			IModuleContainer provider = PacketLocatable.getContainer(data, world);
-			Module module = getModule(provider, data);
+			IModule module = getModule(provider, data);
 			//page index
 			int page = data.readInt();
 			module.readFromNBT(data.readCompoundTag());

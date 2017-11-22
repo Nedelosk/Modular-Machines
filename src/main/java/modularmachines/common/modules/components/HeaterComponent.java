@@ -2,7 +2,6 @@ package modularmachines.common.modules.components;
 
 import net.minecraft.util.ITickable;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.modules.container.components.HeatComponent;
@@ -13,16 +12,15 @@ public class HeaterComponent extends ModuleComponent implements ITickable {
 	protected final double maxHeat;
 	protected final int heatModifier;
 	
-	public HeaterComponent(Module module, double maxHeat, int heatModifier) {
-		super(module);
+	public HeaterComponent(double maxHeat, int heatModifier) {
 		this.maxHeat = maxHeat;
 		this.heatModifier = heatModifier;
 	}
 	
 	@Override
 	public void update() {
-		FuelComponent fuelComponent = module.getComponentProvider().getComponent(FuelComponent.class);
-		IModuleContainer container = module.getContainer();
+		FuelComponent fuelComponent = provider.getComponentProvider().getComponent(FuelComponent.class);
+		IModuleContainer container = provider.getContainer();
 		UpdateComponent updateComponent = ModuleUtil.getUpdate(container);
 		if (fuelComponent == null || updateComponent == null || !updateComponent.updateOnInterval(20)) {
 			return;
@@ -38,7 +36,7 @@ public class HeaterComponent extends ModuleComponent implements ITickable {
 		}
 		
 		if (needUpdate) {
-			container.sendModuleToClient(module);
+			container.sendModuleToClient(provider);
 			container.sendToClient();
 		}
 	}

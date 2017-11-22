@@ -5,30 +5,8 @@
  */
 package modularmachines.common.modules.pages;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Slot;
-import net.minecraft.util.ResourceLocation;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.Module;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.pages.IPageComponent;
-import modularmachines.api.modules.pages.Page;
-import modularmachines.api.modules.pages.PageComponent;
-import modularmachines.client.gui.WidgetManager;
-import modularmachines.client.gui.widgets.Widget;
-import modularmachines.common.utils.RenderUtil;
-
-@SideOnly(Side.CLIENT)
-public class PageWidget<M extends Module> extends Page {
+/*@SideOnly(Side.CLIENT)
+public class PageWidget<M extends IModule> extends Page {
 	protected static final ResourceLocation modularWdgets = new ResourceLocation("modularmachines", "textures/gui/modular_widgets.png");
 	
 	@Nullable
@@ -60,11 +38,11 @@ public class PageWidget<M extends Module> extends Page {
 	
 	@Override
 	public void addWidgets() {
-		List<Module> modulesWithPages = ModuleManager.helper.getModulesWithComponents(module.getContainer());
+		List<IModule> modulesWithPages = ModuleManager.helper.getModulesWithComponents(module.getContainer());
 		int i = 0;
 		if (!modulesWithPages.isEmpty() && modulesWithPages.size() > 1) {
 			for (i = 0; i < modulesWithPages.size(); i++) {
-				Module module = modulesWithPages.get(i);
+				IModule module = modulesWithPages.get(i);
 				boolean isRight = i >= 7;
 				//	addWidget(new WidgetModuleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), module, isRight));
 			}
@@ -142,4 +120,4 @@ public class PageWidget<M extends Module> extends Page {
 			GlStateManager.disableAlpha();
 		}
 	}
-}
+}*/

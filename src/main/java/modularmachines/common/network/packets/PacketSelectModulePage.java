@@ -11,10 +11,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.api.modules.pages.PageComponent;
+import modularmachines.common.modules.Module;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.PacketId;

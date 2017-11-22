@@ -21,9 +21,10 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.components.IComponent;
 import modularmachines.api.components.IComponentTag;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
@@ -326,11 +327,6 @@ public class ModuleManagerOld {
 				return false;
 			}
 			
-			@Override
-			public <T extends ContainerComponent> T getComponent(Class<T> componentClass) {
-				return null;
-			}
-			
 			@Nullable
 			@Override
 			public <T> T getInterface(Class<T> interfaceClass) {
@@ -381,17 +377,6 @@ public class ModuleManagerOld {
 			
 			@Nullable
 			@Override
-			public Module getModule(int index) {
-				return null;
-			}
-			
-			@Override
-			public Collection<Module> getModules() {
-				return null;
-			}
-			
-			@Nullable
-			@Override
 			public RayTraceResult collisionRayTrace(BlockPos blockPos, Vec3d start, Vec3d end) {
 				return null;
 			}
@@ -412,11 +397,6 @@ public class ModuleManagerOld {
 			}
 			
 			@Override
-			public void sendModuleToClient(Module module) {
-			
-			}
-			
-			@Override
 			public void sendToClient() {
 			
 			}
@@ -427,6 +407,27 @@ public class ModuleManagerOld {
 			
 			@Override
 			public void readData(PacketBuffer data) throws IOException {
+			}
+			
+			@Nullable
+			@Override
+			public IModule getModule(int index) {
+				return null;
+			}
+			
+			@Override
+			public Collection<IModule> getModules() {
+				return null;
+			}
+			
+			@Override
+			public void sendModuleToClient(IModule module) {
+			
+			}
+			
+			@Override
+			public <T extends IComponent> T getComponent(Class<T> componentClass) {
+				return null;
 			}
 		});
 	}

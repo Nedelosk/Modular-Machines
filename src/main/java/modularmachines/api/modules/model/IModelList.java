@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.model.IModelState;
 
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.IModule;
 
 public interface IModelList {
 	void add(IModelProperty key);
@@ -29,7 +29,7 @@ public interface IModelList {
 	void add(@Nullable IBakedModel model, Function<IBakedModel, IBakedModel> modelWrapper);
 	
 	@Nullable
-	IBakedModel getModel(@Nullable Module module);
+	IBakedModel getModel(@Nullable IModule module);
 	
 	@Nullable
 	IBakedModel getModel(@Nullable ResourceLocation location);
