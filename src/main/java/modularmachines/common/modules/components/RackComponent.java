@@ -1,9 +1,8 @@
-package modularmachines.common.modules.storages.modules;
+package modularmachines.common.modules.components;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -11,23 +10,16 @@ import net.minecraft.util.math.Vec3d;
 import modularmachines.api.modules.positions.EnumRackPositions;
 import modularmachines.api.modules.positions.IModulePosition;
 
-public class ModuleModuleRack extends ModuleContainer {
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F);
-	
-	public ModuleModuleRack() {
+public class RackComponent extends ModuleProviderComponent {
+	public RackComponent() {
 		super(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN);
-	}
-	
-	@Override
-	protected AxisAlignedBB getBoundingBox() {
-		return BOUNDING_BOX;
 	}
 	
 	@Nullable
 	@Override
 	public IModulePosition getPosition(RayTraceResult hit) {
 		EnumFacing facing = hit.sideHit;
-		BlockPos blockPos = container.getLocatable().getCoordinates();
+		BlockPos blockPos = provider.getContainer().getLocatable().getCoordinates();
 		Vec3d vec = hit.hitVec.subtract((double) blockPos.getX(), (double) blockPos.getY(), (double) blockPos.getZ());
 		switch (facing) {
 			case NORTH:

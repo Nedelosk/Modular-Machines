@@ -121,7 +121,7 @@ public class ModuleHandler implements IModuleHandler {
 		}
 		NonNullList<ItemStack> drops = NonNullList.create();
 		drops.add(itemStack);
-		module.getInterfaces(IDropComponent.class).forEach(c -> c.getDrops(drops));
+		module.getInterfaces(IDropComponent.class).forEach(c -> c.addDrops(drops));
 		if (simulate) {
 			return drops;
 		}

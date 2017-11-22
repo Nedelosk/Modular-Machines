@@ -47,7 +47,5 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	void readFromNBT(NBTTagCompound compound);
 	
-	void sendModuleToClient(IModule module);
-	
 	void sendToClient();
 }

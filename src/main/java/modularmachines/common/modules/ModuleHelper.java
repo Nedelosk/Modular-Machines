@@ -1,4 +1,4 @@
-package modularmachines.api.modules;
+package modularmachines.common.modules;
 
 import com.google.common.collect.Lists;
 
@@ -9,10 +9,9 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
-import modularmachines.common.modules.IModuleHelper;
-import modularmachines.common.modules.Module;
 
 public enum ModuleHelper implements IModuleHelper {
 	INSTANCE;
@@ -22,12 +21,12 @@ public enum ModuleHelper implements IModuleHelper {
 	/**
 	 * @return All modules of an IModular that have a page.
 	 */
-	public List<Module> getModulesWithComponents(@Nullable IModuleContainer provider) {
+	public List<IModule> getModulesWithComponents(@Nullable IModuleContainer provider) {
 		if (provider == null) {
 			return Collections.emptyList();
 		}
-		List<Module> validModules = Lists.newArrayList();
-		for (Module module : provider.getModules()) {
+		List<IModule> validModules = Lists.newArrayList();
+		for (IModule module : provider.getModules()) {
 			if (module != null && !module.getComponents().isEmpty()) {
 				validModules.add(module);
 			}

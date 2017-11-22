@@ -4,8 +4,8 @@ import java.util.Random;
 
 import net.minecraft.util.ITickable;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.ContainerComponent;
-import modularmachines.common.modules.Module;
 
 public class UpdateComponent extends ContainerComponent {
 	
@@ -16,7 +16,7 @@ public class UpdateComponent extends ContainerComponent {
 	public void update() {
 		if (container != null) {
 			tickCount++;
-			for (Module module : container.getModules()) {
+			for (IModule module : container.getModules()) {
 				if (module instanceof ITickable) {
 					ITickable tickable = (ITickable) module;
 					tickable.update();

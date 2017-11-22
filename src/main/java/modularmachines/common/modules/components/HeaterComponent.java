@@ -19,7 +19,7 @@ public class HeaterComponent extends ModuleComponent implements ITickable {
 	
 	@Override
 	public void update() {
-		FuelComponent fuelComponent = provider.getComponentProvider().getComponent(FuelComponent.class);
+		FuelComponent fuelComponent = provider.getComponent(FuelComponent.class);
 		IModuleContainer container = provider.getContainer();
 		UpdateComponent updateComponent = ModuleUtil.getUpdate(container);
 		if (fuelComponent == null || updateComponent == null || !updateComponent.updateOnInterval(20)) {
@@ -36,7 +36,7 @@ public class HeaterComponent extends ModuleComponent implements ITickable {
 		}
 		
 		if (needUpdate) {
-			container.sendModuleToClient(provider);
+			provider.sendToClient();
 			container.sendToClient();
 		}
 	}

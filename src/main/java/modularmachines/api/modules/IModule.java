@@ -40,6 +40,8 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 */
 	int getIndex();
 	
+	void setIndex(int index);
+	
 	IModuleData getData();
 	
 	/* FACING */

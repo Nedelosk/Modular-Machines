@@ -1,11 +1,10 @@
 package modularmachines.common.modules.components;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
@@ -47,9 +46,7 @@ public abstract class ModuleProviderComponent extends ModuleComponent implements
 	}
 	
 	@Override
-	public List<ItemStack> getDrops() {
-		List<ItemStack> drops = new LinkedList<>();
-		moduleHandler.getModules().stream().map(m -> m.getInterfaces(IDropComponent.class)).flatMap(Collection::stream).forEach(c -> drops.addAll(c.getDrops()));
-		return drops;
+	public void addDrops(NonNullList<ItemStack> drops) {
+		moduleHandler.getModules().stream().map(m -> m.getInterfaces(IDropComponent.class)).flatMap(Collection::stream).forEach(c -> c.addDrops(drops));
 	}
 }

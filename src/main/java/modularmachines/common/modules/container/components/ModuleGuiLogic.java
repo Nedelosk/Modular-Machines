@@ -3,24 +3,22 @@ package modularmachines.common.modules.container.components;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.api.modules.pages.PageComponent;
-import modularmachines.common.modules.Module;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSelectModulePage;
 
 public class ModuleGuiLogic implements IModuleGuiLogic {
 	private final IModuleContainer provider;
 	@Nullable
-	private Module currentModule;
+	private IModule currentModule;
 	@Nullable
 	private PageComponent currentComponent;
 	
 	public ModuleGuiLogic(IModuleContainer provider) {
 		this.provider = provider;
-		List<Module> modules = ModuleManager.helper.getModulesWithComponents(provider);
+		List<IModule> modules = ModuleManager.helper.getModulesWithComponents(provider);
 		if (!modules.isEmpty()) {
 			setCurrentPage(modules.get(0).getComponent(0), false);
 		}
@@ -28,7 +26,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	
 	public ModuleGuiLogic(IModuleContainer provider, int moduleIndex, int pageIndex) {
 		this.provider = provider;
-		List<Module> modules = ModuleManager.helper.getModulesWithComponents(provider);
+		List<IModule> modules = ModuleManager.helper.getModulesWithComponents(provider);
 		if (!modules.isEmpty()) {
 			if (moduleIndex < 0) {
 				moduleIndex = modules.get(0).getIndex();
@@ -50,7 +48,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 			this.currentModule = page.getParent();
 			this.currentComponent = page;
 			if (sendToServer) {
-				PacketHandler.sendToServer(new PacketSelectModulePage(provider, page));
+				//PacketHandler.sendToServer(new PacketSelectModulePage(provider, page));
 			}
 		} else {
 			this.currentModule = null;
@@ -59,7 +57,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	}
 	
 	@Override
-	public Module getCurrentModule() {
+	public IModule getCurrentModule() {
 		return currentModule;
 	}
 	

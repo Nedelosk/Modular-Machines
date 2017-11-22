@@ -3,15 +3,15 @@ package modularmachines.client.model.module;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
-import modularmachines.common.modules.Module;
-import modularmachines.common.modules.storages.modules.ModuleCasing;
-import modularmachines.common.modules.storages.modules.ModuleModuleRack;
+import modularmachines.common.modules.components.RackComponent;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataCasing extends ModelData {
@@ -29,21 +29,21 @@ public class ModelDataCasing extends ModelData {
 	}
 	
 	@Override
-	public IModuleModelState createState(Module module) {
+	public IModuleModelState createState(IModule module) {
 		IModuleHandler moduleHandler = module.getParent();
-		if (module instanceof ModuleCasing) {
-			moduleHandler = ((ModuleCasing) module).getHandler();
+		if (module instanceof IModuleProvider) {
+			moduleHandler = ((IModuleProvider) module).getHandler();
 		}
 		ModuleModelState modelState = new ModuleModelState();
-		Module left = moduleHandler.getModule(EnumCasingPositions.LEFT);
-		Module right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
-		modelState.set(Property.LEFT, left == null || !(left instanceof ModuleModuleRack));
-		modelState.set(Property.RIGHT, right == null || !(left instanceof ModuleModuleRack));
+		IModule left = moduleHandler.getModule(EnumCasingPositions.LEFT);
+		IModule right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
+		modelState.set(Property.LEFT, left == null || !left.hasComponent(RackComponent.class));
+		modelState.set(Property.RIGHT, right == null || !right.hasComponent(RackComponent.class));
 		return modelState;
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, Module module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
 		if (modelState.get(Property.LEFT)) {
 			modelList.add(Property.LEFT);
 		}

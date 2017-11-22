@@ -5,12 +5,10 @@
  */
 package modularmachines.api.modules.components;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
 public interface IDropComponent extends IModuleComponent {
 	
-	List<ItemStack> getDrops(NonNullList<ItemStack> drops);
+	void addDrops(NonNullList<ItemStack> drops);
 }

@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModelData;
@@ -40,7 +41,6 @@ import modularmachines.client.model.module.BakedMultiModel;
 import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
-import modularmachines.common.modules.Module;
 import modularmachines.common.utils.ModuleUtil;
 
 @SideOnly(Side.CLIENT)
@@ -77,7 +77,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	@Nullable
 	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex) {
 		List<IBakedModel> models = new ArrayList<>();
-		for (Module module : provider.getHandler().getModules()) {
+		for (IModule module : provider.getHandler().getModules()) {
 			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex);
 			if (model == null) {
 				continue;

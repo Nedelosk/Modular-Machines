@@ -318,6 +318,11 @@ public class ModuleManagerOld {
 			}
 			
 			@Override
+			public void addComponent(ContainerComponent... component) {
+			
+			}
+			
+			@Override
 			public Class<?>[] getComponentInterfaces(Class<? extends ContainerComponent> componentClass) {
 				return new Class[0];
 			}

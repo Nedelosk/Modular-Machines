@@ -27,6 +27,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleManager;
@@ -40,7 +41,6 @@ import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.Module;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModule;
 import modularmachines.common.network.packets.PacketSyncModuleContainer;
 import modularmachines.common.utils.components.ComponentProvider;
 
@@ -75,18 +75,18 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	@Override
-	public Module getModule(int index) {
+	public IModule getModule(int index) {
 		return getModules().stream().filter(m -> m.getIndex() == index).findAny().orElse(null);
 	}
 	
 	@Override
-	public Collection<Module> getModules() {
-		Set<Module> modules = new HashSet<>();
+	public Collection<IModule> getModules() {
+		Set<IModule> modules = new HashSet<>();
 		moduleHandler.getModules().forEach(m -> addToList(modules, m));
 		return modules;
 	}
 	
-	private void addToList(Set<Module> modules, Module module) {
+	private void addToList(Set<IModule> modules, IModule module) {
 		modules.add(module);
 		if (!(module instanceof IModuleProvider)) {
 			return;
@@ -99,7 +99,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Override
 	public AxisAlignedBB getBoundingBox() {
 		AxisAlignedBB boundingBox = null;
-		for (Module module : getModules()) {
+		for (IModule module : getModules()) {
 			for (IBoundingBoxComponent component : module.getInterfaces(IBoundingBoxComponent.class)) {
 				AxisAlignedBB alignedBB = component.getCollisionBox();
 				if (alignedBB == null) {
@@ -141,12 +141,12 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			}
 			return true;
 		}
-		Module module = getModule(hit.subHit);
+		IModule module = getModule(hit.subHit);
 		return module != null && module.getInterfaces(IInteractionComponent.class).stream().anyMatch(c -> c.onActivated(player, hand, hit));
 	}
 	
 	public void onClick(EntityPlayer player, RayTraceResult hit) {
-		Module module = getModule(hit.subHit);
+		IModule module = getModule(hit.subHit);
 		if (module == null) {
 			return;
 		}
@@ -157,7 +157,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	public RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end) {
 		Vec3d startVec = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
 		Vec3d endVec = end.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-		Collection<Module> modules = moduleHandler.getModules();
+		Collection<IModule> modules = moduleHandler.getModules();
 		if (modules.isEmpty()) {
 			RayTraceResult old = Block.FULL_BLOCK_AABB.calculateIntercept(startVec, endVec);
 			if (old == null) {
@@ -181,13 +181,13 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 				.orElse(null);
 	}
 	
-	private int createPositionIndex(Module module) {
+	private int createPositionIndex(IModule module) {
 		//List<Module> modules = new LinkedList<>();
 		//addPosition(module, modules);
 		int value = 0;
 		Object provider = module;
 		do {
-			Module otherModule = (Module) provider;
+			IModule otherModule = (IModule) provider;
 			IModuleHandler moduleHandler = otherModule.getParent();
 			IModulePosition position = otherModule.getPosition();
 			int positionIndex = moduleHandler.getPositionIndex(position);
@@ -197,7 +197,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 				value = value | 1 << 4;
 			}
 			provider = otherModule.getParent().getProvider();
-		} while (provider == module || provider instanceof Module);
+		} while (provider == module || provider instanceof IModule);
 		/*for(int i = 0;i < modules.size();i++){
 			Module otherModule = modules.get(i);
 			IModuleHandler moduleHandler = otherModule.getParent();
@@ -224,7 +224,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (rayTraceResult.subHit == -1) {
 			return moduleHandler.extractModule(EnumCasingPositions.CENTER, simulate);
 		}
-		Module module = getModule(rayTraceResult.subHit);
+		IModule module = getModule(rayTraceResult.subHit);
 		if (module == null) {
 			return Collections.emptyList();
 		}
@@ -244,7 +244,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (rayTraceResult.subHit == -1) {
 			return insertModule(this, itemStack.copy(), dataContainer, rayTraceResult, simulate);
 		}
-		Module module = getModule(rayTraceResult.subHit);
+		IModule module = getModule(rayTraceResult.subHit);
 		if (!(module instanceof IModuleProvider)) {
 			return false;
 		}
@@ -266,15 +266,15 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	@Override
-	public void onModuleAdded(Module module) {
+	public void onModuleAdded(IModule module) {
 		int index = createPositionIndex(module);
 		module.setIndex(index);
 	}
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		for (Module module : getModules()) {
-			if (module.canHandle(facing) && module.hasCapability(capability, facing)) {
+		for (IModule module : getModules()) {
+			if (module.hasCapability(capability, facing)) {
 				return true;
 			}
 		}
@@ -284,17 +284,12 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		for (Module module : getModules()) {
-			if (module.canHandle(facing) && module.hasCapability(capability, facing)) {
+		for (IModule module : getModules()) {
+			if (module.hasCapability(capability, facing)) {
 				return module.getCapability(capability, facing);
 			}
 		}
 		return null;
-	}
-	
-	@Override
-	public void sendModuleToClient(Module module) {
-		PacketHandler.sendToNetwork(new PacketSyncModule(module), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
 	@Override

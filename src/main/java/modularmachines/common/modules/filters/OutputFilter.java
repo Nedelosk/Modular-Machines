@@ -1,7 +1,7 @@
 package modularmachines.common.modules.filters;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
-import modularmachines.common.modules.Module;
 
 public class OutputFilter implements IContentFilter {
 	
@@ -11,7 +11,7 @@ public class OutputFilter implements IContentFilter {
 	}
 	
 	@Override
-	public boolean isValid(int index, Object content, Module module) {
+	public boolean isValid(int index, Object content, IModule module) {
 		return true;
 	}
 }

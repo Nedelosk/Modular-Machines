@@ -29,11 +29,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.common.network.packets.IPacket;
 import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
-import modularmachines.common.network.packets.PacketAddCycle;
 import modularmachines.common.network.packets.PacketExtractModule;
 import modularmachines.common.network.packets.PacketInjectModule;
-import modularmachines.common.network.packets.PacketRemoveCycle;
-import modularmachines.common.network.packets.PacketSelectModulePage;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.network.packets.PacketSyncMode;
 import modularmachines.common.network.packets.PacketSyncModule;
@@ -48,8 +45,8 @@ public class PacketHandler {
 	
 	public PacketHandler() {
 		channel.register(this);
-		registerClientPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
-		registerServerPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
+		//registerClientPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
+		//registerServerPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
 		registerClientPacket(PacketId.SYNC_MODULE, new PacketSyncModule.Handler());
 		registerClientPacket(PacketId.UPDATE_MODULE, new PacketUpdateModule.Handler());
 		registerClientPacket(PacketId.SYNC_MODE, new PacketSyncMode.Handler());
@@ -67,10 +64,10 @@ public class PacketHandler {
 		registerServerPacket(new PacketSyncRedstoneMode());
 		registerClientPacket(new PacketSyncPermission());
 		registerServerPacket(new PacketSyncPermission());*/
-		registerClientPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
+		/*registerClientPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
 		registerServerPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
 		registerClientPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
-		registerServerPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
+		registerServerPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());*/
 		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
 	}
 	

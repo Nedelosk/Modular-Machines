@@ -22,9 +22,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
-import modularmachines.common.modules.Module;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.container.components.EnergyStorageComponent;
 import modularmachines.common.modules.container.components.HeatComponent;
@@ -75,7 +75,7 @@ public class ModuleUtil {
 	public static <M> List<M> getModules(IModuleContainer provider, Class<? extends M> moduleClass) {
 		Preconditions.checkNotNull(moduleClass);
 		List<M> modules = Lists.newArrayList();
-		for (Module module : provider.getModules()) {
+		for (IModule module : provider.getModules()) {
 			if (moduleClass.isAssignableFrom(module.getClass())) {
 				modules.add((M) module);
 			}
@@ -86,7 +86,7 @@ public class ModuleUtil {
 	@Nullable
 	public static <M> M getModule(IModuleContainer provider, Class<? extends M> moduleClass) {
 		Preconditions.checkNotNull(moduleClass);
-		for (Module module : provider.getModules()) {
+		for (IModule module : provider.getModules()) {
 			if (moduleClass.isAssignableFrom(module.getClass())) {
 				return (M) module;
 			}

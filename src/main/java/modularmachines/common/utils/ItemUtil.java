@@ -11,10 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-import modularmachines.common.inventory.ItemTransferHelper;
-import modularmachines.common.modules.transfer.ModuleTransfer;
-import modularmachines.common.modules.transfer.items.ItemTransferCycle;
-
 public class ItemUtil {
 	
 	public static void setCount(ItemStack itemStack, int count) {
@@ -53,7 +49,7 @@ public class ItemUtil {
 		return slots;
 	}
 	
-	public static void transferStacks(ModuleTransfer<IItemHandler> module, ItemTransferCycle cycle) {
+	/*public static void transferStacks(ModuleTransfer<IItemHandler> module, ItemTransferCycle cycle) {
 		IItemHandler startHandler = module.getHandler(cycle.getStartHandler());
 		ItemTransferHelper helper = new ItemTransferHelper(module.getHandler(cycle.getEndHandler()), cycle.getInsertSlots());
 		int amount = cycle.getAmount();
@@ -73,7 +69,7 @@ public class ItemUtil {
 				}
 			}
 		}
-	}
+	}*/
 	
 	public static boolean isIdenticalItem(ItemStack lhs, ItemStack rhs) {
 		return isIdenticalItem(lhs, rhs, false);

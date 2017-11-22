@@ -71,6 +71,13 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		}
 	}
 	
+	@Override
+	public void addComponent(C... components) {
+		for (C component : components) {
+			addComponent(component);
+		}
+	}
+	
 	public Collection<C> getComponents() {
 		return this.componentMap.values();
 	}

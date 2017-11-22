@@ -13,6 +13,8 @@ public interface IComponentProvider<C extends IComponent> extends INBTReadable, 
 	
 	void addComponent(C component);
 	
+	void addComponent(C... components);
+	
 	/* CLASSES */
 	Class<?>[] getComponentInterfaces(Class<? extends C> componentClass);
 	

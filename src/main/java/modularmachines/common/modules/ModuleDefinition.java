@@ -33,15 +33,14 @@ import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.components.BoundingBoxComponent;
+import modularmachines.common.modules.components.CasingComponent;
 import modularmachines.common.modules.components.FuelComponent;
 import modularmachines.common.modules.components.HeaterComponent;
+import modularmachines.common.modules.components.RackComponent;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
-import modularmachines.common.modules.storages.modules.ModuleDataCasing;
-import modularmachines.common.modules.storages.modules.ModuleDataRack;
-import modularmachines.common.modules.transfer.ModuleDataTransfer;
 import modularmachines.common.utils.IContentContainer;
 
 public enum ModuleDefinition implements IModuleDefinition {
@@ -58,7 +57,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataDefault.addModelData(data());
 		}
 	},
-	
 	FURNACE(new ModuleDataHorizontal(), "furnace", 1) {
 		
 		@Override
@@ -72,7 +70,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataWorking.addModelData(data());
 		}
 	},
-	CASING_WOOD(new ModuleDataCasing(), "casing.wood", 0) {
+	CASING_WOOD("casing.wood", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(9);
@@ -90,7 +88,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	CASING_BRONZE(new ModuleDataCasing(), "casing.bronze", 0) {
+	CASING_BRONZE("casing.bronze", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(18);
@@ -107,8 +105,14 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("bronze/casings"));
 		}
 		
+		@Override
+		public void addComponents(IModule module) {
+			super.addComponents(module);
+			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F)));
+			module.addComponent(new CasingComponent());
+		}
 	},
-	CASING_IRON(new ModuleDataCasing(), "casing.iron", 0) {
+	CASING_IRON("casing.iron", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(27);
@@ -126,7 +130,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	CASING_STEEL(new ModuleDataCasing(), "casing.steel", 0) {
+	CASING_STEEL("casing.steel", 0) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(36);
@@ -144,7 +148,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	MODULE_RACK_WOOD(new ModuleDataRack(), "rack.wood", 1) {
+	MODULE_RACK_WOOD("rack.wood", 1) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(3);
@@ -162,10 +166,11 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	MODULE_RACK_BRICK(new ModuleDataRack(), "rack.brick", 1) {
+	MODULE_RACK_BRICK("rack.brick", 1) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(3);
+			data.setPositions(EnumCasingPositions.CENTER);
 		}
 		
 		@Override
@@ -179,11 +184,18 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("brick/module_storage"));
 		}
 		
+		@Override
+		public void addComponents(IModule module) {
+			super.addComponents(module);
+			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F)));
+			module.addComponent(new RackComponent());
+		}
 	},
-	MODULE_RACK_BRONZE(new ModuleDataRack(), "rack.bronze", 2) {
+	MODULE_RACK_BRONZE("rack.bronze", 2) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(6);
+			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT);
 		}
 		
 		@Override
@@ -198,7 +210,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	MODULE_RACK_IRON(new ModuleDataRack(), "rack.iron", 3) {
+	MODULE_RACK_IRON("rack.iron", 3) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(12);
@@ -216,7 +228,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	MODULE_RACK_STEEL(new ModuleDataRack(), "rack.steel", 4) {
+	MODULE_RACK_STEEL("rack.steel", 4) {
 		@Override
 		protected void initData(ModuleData data) {
 			data.setAllowedComplexity(24);
@@ -234,14 +246,14 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	TRANSFER_ITEM(new ModuleDataTransfer(), "transfer_item", 4) {
+	TRANSFER_ITEM("transfer_item", 4) {
 		
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.RAIL));
 		}
 	},
-	TRANSFER_FLUID(new ModuleDataTransfer(), "transfer_fluid", 4) {
+	TRANSFER_FLUID("transfer_fluid", 4) {
 		
 		@Override
 		public void registerContainers() {
@@ -300,7 +312,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			data.setModel(model);
 		}
 	},
-	ENERGY_INPUT(new ModuleData(), "energy_input", 4) {
+	ENERGY_INPUT("energy_input", 4) {
 		@Override
 		protected void initData(ModuleData data) {
 			super.initData(data);
@@ -321,6 +333,14 @@ public enum ModuleDefinition implements IModuleDefinition {
 	};
 	
 	protected final ModuleData data;
+	
+	ModuleDefinition(String name, int complexity) {
+		this.data = new ModuleData();
+		data.setRegistryName(name);
+		data.setComplexity(complexity);
+		data.setUnlocalizedName(name);
+		initData(data);
+	}
 	
 	ModuleDefinition(ModuleData data, String registry, int complexity) {
 		this.data = data;

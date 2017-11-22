@@ -1,7 +1,6 @@
 package modularmachines.common.core;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -12,17 +11,11 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import modularmachines.api.recipes.IRecipeHandler;
-import modularmachines.api.recipes.OreStack;
-import modularmachines.api.recipes.RecipeRegistry;
 import modularmachines.common.blocks.BlockMetalBlock.Metals;
 import modularmachines.common.core.managers.BlockManager;
 import modularmachines.common.core.managers.ItemManager;
 import modularmachines.common.materials.EnumMaterial;
 import modularmachines.common.materials.MaterialList;
-import modularmachines.common.modules.machine.MachineCategorys;
-import modularmachines.common.modules.machine.pulverizer.RecipePulverizer;
-import modularmachines.common.recipes.RecipeHandler;
 
 public class RecipeManager {
 	
@@ -281,10 +274,10 @@ public class RecipeManager {
 	
 	private static void registerPulverizerRecipes() {
 		// ORES TO DUST 
-		IRecipeHandler handler = RecipeRegistry.registerRecipeHandler(new RecipeHandler(MachineCategorys.PULVERIZER));
+		//IRecipeHandler handler = RecipeRegistry.registerRecipeHandler(new RecipeHandler(MachineCategorys.PULVERIZER));
 		//handler.addRecipe(new RecipePulverizer(new OreStack("oreCoal"), ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2), new ItemStack(Items.COAL), 0.15F , 15));
 		//RecipeUtil.addPulverizer("ObsidianBlockToDust", new OreStack("blockObsidian"), new RecipeItem[] { new RecipeItem(ItemManager.itemDusts.getStack(EnumVanillaMaterials.OBSIDIAN, 2)) }, 15);
-		handler.addRecipe(new RecipePulverizer(new OreStack("oreIron"), ItemManager.itemDusts.getStack(EnumMaterial.IRON, 2), 15));
+		/*handler.addRecipe(new RecipePulverizer(new OreStack("oreIron"), ItemManager.itemDusts.getStack(EnumMaterial.IRON, 2), 15));
 		handler.addRecipe(new RecipePulverizer(new OreStack("oreGold"), ItemManager.itemDusts.getStack(EnumMaterial.GOLD, 2), ItemManager.itemDusts.getStack(EnumMaterial.COPPER, 1), 0.20F, 15));
 		//handler.addRecipe(new RecipePulverizer(new OreStack("oreDiamond"), ItemManager.itemDusts.getStack(EnumVanillaMaterials.DIAMOND, 2), 15);
 		handler.addRecipe(new RecipePulverizer(new OreStack("oreCopper"), ItemManager.itemDusts.getStack(EnumMaterial.COPPER, 2), ItemManager.itemDusts.getStack(EnumMaterial.GOLD, 1), 0.15F, 12));
@@ -295,7 +288,7 @@ public class RecipeManager {
 		handler.addRecipe(new RecipePulverizer(new OreStack("oreAluminum"), ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM, 2), 15));
 		handler.addRecipe(new RecipePulverizer(new OreStack("oreAluminium"), ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM, 2), 15));
 		handler.addRecipe(new RecipePulverizer(new OreStack("oreRedstone"), new ItemStack(Items.REDSTONE, 8), 15));
-		//	handler.addRecipe(new RecipePulverizer(new OreStack("itemCoal"), ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2), 7));
+		//	handler.addRecipe(new RecipePulverizer(new OreStack("itemCoal"), ItemManager.itemDusts.getStack(EnumVanillaMaterials.COAL, 2), 7));*/
 		// INGOTS TO DUST 
 		/*for (IMaterial material : MaterialRegistry.getMaterials()) {
 			if (!(material instanceof EnumVanillaMaterials)) {

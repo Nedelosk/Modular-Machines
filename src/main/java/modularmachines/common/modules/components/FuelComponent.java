@@ -71,7 +71,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public boolean updateFuel() {
-			ItemHandlerModule itemHandler = provider.getComponentProvider().getComponent(ItemHandlerModule.class);
+			ItemHandlerModule itemHandler = provider.getComponent(ItemHandlerModule.class);
 			if (itemHandler == null) {
 				return false;
 			}
@@ -104,7 +104,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public boolean updateFuel() {
-			FluidTankHandler fluidHandler = provider.getComponentProvider().getComponent(FluidTankHandler.class);
+			FluidTankHandler fluidHandler = provider.getComponent(FluidTankHandler.class);
 			if (fluidHandler == null) {
 				return false;
 			}

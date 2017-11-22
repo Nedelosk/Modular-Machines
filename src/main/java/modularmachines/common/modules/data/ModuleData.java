@@ -12,6 +12,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.IModelData;
@@ -28,6 +29,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	private IModulePosition[] positions;
 	@Nullable
 	private ResourceLocation wallModelLocation;
+	private IModuleDefinition definition = d -> {
+	};
 	
 	public ModuleData(IModulePosition... positions) {
 		this.positions = positions;
@@ -125,6 +128,17 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		if (I18n.canTranslate(getUnlocalizedDescription())) {
 			tooltip.add(getDescription());
 		}
+	}
+	
+	@Override
+	public IModuleData setDefinition(IModuleDefinition definition) {
+		this.definition = definition;
+		return this;
+	}
+	
+	@Override
+	public IModuleDefinition getDefinition() {
+		return definition;
 	}
 	
 	/* MODEL */

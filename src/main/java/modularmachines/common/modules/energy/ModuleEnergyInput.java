@@ -1,19 +1,6 @@
 package modularmachines.common.modules.energy;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collection;
-
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-
-import net.minecraftforge.common.capabilities.Capability;
-
-import modularmachines.api.components.EnumComponentTag;
-import modularmachines.api.modules.container.ContainerComponent;
-import modularmachines.common.modules.Module;
-
-public class ModuleEnergyInput extends Module {
+/*public class ModuleEnergyInput extends Module {
 	
 	@Override
 	protected AxisAlignedBB getBoundingBox() {
@@ -38,4 +25,4 @@ public class ModuleEnergyInput extends Module {
 	}
 	
 	
-}
+}*/
