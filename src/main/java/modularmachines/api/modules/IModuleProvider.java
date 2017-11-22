@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.util.math.RayTraceResult;
 
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 

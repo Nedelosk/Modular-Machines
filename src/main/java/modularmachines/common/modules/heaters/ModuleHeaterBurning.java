@@ -1,7 +1,6 @@
 package modularmachines.common.modules.heaters;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -9,25 +8,10 @@ import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 
 public class ModuleHeaterBurning extends ModuleHeater {
 	
-	public final ItemHandlerModule itemHandler;
+	public ItemHandlerModule itemHandler;
 	
 	public ModuleHeaterBurning(double maxHeat, int heatModifier) {
 		super(maxHeat, heatModifier);
-		itemHandler = new ItemHandlerModule(this);
-		itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
-	}
-	
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		itemHandler.writeToNBT(compound);
-		return compound;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		itemHandler.readFromNBT(compound);
 	}
 	
 	@Override
@@ -61,6 +45,9 @@ public class ModuleHeaterBurning extends ModuleHeater {
 	@Override
 	public void createComponents() {
 		super.createComponents();
+		itemHandler = new ItemHandlerModule(this);
+		itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
+		addComponent(itemHandler);
 		addComponent(new ModuleComponentBurningHeater(this));
 	}
 	

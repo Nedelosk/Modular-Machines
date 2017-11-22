@@ -12,11 +12,13 @@ public interface IModuleListener {
 	/**
 	 * Called after a module was removed from a {@link modularmachines.api.modules.IModuleHandler}.
 	 */
-	void onModuleRemoved(Module module);
+	default void onModuleRemoved(Module module) {
+	}
 	
 	/**
 	 * Called after a module was added to a {@link modularmachines.api.modules.IModuleHandler}.
 	 */
-	void onModuleAdded(Module module);
+	default void onModuleAdded(Module module) {
+	}
 	
 }

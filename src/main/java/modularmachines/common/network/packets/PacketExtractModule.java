@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;

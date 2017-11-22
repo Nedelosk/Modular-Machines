@@ -13,8 +13,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.common.modules.logic.UpdateComponent;
+import modularmachines.api.modules.pages.PageComponent;
+import modularmachines.common.modules.container.components.UpdateComponent;
 import modularmachines.common.utils.ModuleUtil;
 
 public abstract class ModuleTransfer<H> extends Module implements ITickable, IModuleTransfer<H> {
@@ -88,7 +88,7 @@ public abstract class ModuleTransfer<H> extends Module implements ITickable, IMo
 	}
 	
 	public void updateCycleWidgets() {
-		ModuleComponent page = getComponent(0);
+		PageComponent page = getComponent(0);
 		if (page instanceof ModuleComponentTransfer) {
 			ModuleComponentTransfer transferPage = (ModuleComponentTransfer) page;
 			

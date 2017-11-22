@@ -9,9 +9,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.components.IComponent;
 import modularmachines.api.modules.Module;
 
-public interface IModuleComponent<P extends Module> {
+public interface IPageComponent<P extends Module> extends IComponent {
 	
 	@SideOnly(Side.CLIENT)
 	IPage createPage(GuiContainer gui);

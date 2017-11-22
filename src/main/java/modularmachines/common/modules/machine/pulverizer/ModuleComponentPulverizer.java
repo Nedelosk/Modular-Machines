@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -34,7 +34,7 @@ public class ModuleComponentPulverizer extends DefaultModuleComponent<ModulePulv
 	
 	@SideOnly(Side.CLIENT)
 	public static class PagePulverizer extends PageWidget<ModulePulverizer> {
-		public PagePulverizer(IModuleComponent<ModulePulverizer> component, GuiContainer gui) {
+		public PagePulverizer(IPageComponent<ModulePulverizer> component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

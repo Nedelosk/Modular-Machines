@@ -3,10 +3,10 @@ package modularmachines.common.network.packets;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.container.IModuleGuiLogic;
+import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.common.network.PacketBufferMM;
 
 public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
@@ -25,7 +25,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 		this(module.getContainer(), module.getIndex(), -1);
 	}
 	
-	public PacketModule(Module module, ModuleComponent component) {
+	public PacketModule(Module module, PageComponent component) {
 		this(module.getContainer(), module.getIndex(), component.getIndex());
 	}
 	
@@ -51,7 +51,7 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	}
 	
 	@Nullable
-	protected static ModuleComponent getComponent(@Nullable IModuleContainer provider, PacketBufferMM data) {
+	protected static PageComponent getComponent(@Nullable IModuleContainer provider, PacketBufferMM data) {
 		Module module = getModule(provider, data);
 		if (module == null) {
 			return null;

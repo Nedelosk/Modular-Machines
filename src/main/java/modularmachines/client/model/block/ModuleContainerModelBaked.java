@@ -30,9 +30,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.client.model.ModelManager;
@@ -93,7 +93,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 			IModulePosition position = module.getPosition();
 			Vec3d offset = position.getOffset();
 			float rotation = position.getRotationAngle();
-			if (rotation > 0.0F || rotation < 0.0F || Vec3d.ZERO.equals(offset)) {
+			if (rotation > 0.0F || rotation < 0.0F || !Vec3d.ZERO.equals(offset)) {
 				model = new TRSRBakedModel(model, (float) offset.x, (float) offset.y, (float) offset.z, 0F, rotation, 0F, 1F);
 			}
 			models.add(model);
@@ -113,7 +113,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 			if (pos != null && world != null) {
 				IModuleContainer container = ModuleUtil.getContainer(pos, world);
 				if (container != null) {
-					IBakedModel model = bakeModel(container, DefaultVertexFormats.BLOCK, container.getFacing());
+					IBakedModel model = bakeModel(container, DefaultVertexFormats.BLOCK, container.getLocatable().getFacing());
 					if (model != null) {
 						return model.getQuads(state, side, rand);
 					}

@@ -28,4 +28,6 @@ public interface ILocatable {
 	@Nullable
 	EnumFacing getFacing();
 	
+	void setFacing(EnumFacing facing);
+	
 }

@@ -26,7 +26,7 @@ public class ModuleCasing extends ModuleContainer {
 	@Override
 	public IModulePosition getPosition(RayTraceResult hit) {
 		EnumFacing sideHit = hit.sideHit;
-		EnumFacing facing = container.getFacing();
+		EnumFacing facing = container.getLocatable().getFacing();
 		if (facing == null) {
 			facing = EnumFacing.NORTH;
 		}

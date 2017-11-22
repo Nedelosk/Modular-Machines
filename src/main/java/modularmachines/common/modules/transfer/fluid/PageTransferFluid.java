@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetTextField;
 import modularmachines.client.gui.widgets.WidgetTransferHandler;
 import modularmachines.common.modules.transfer.ITransferHandlerWrapper;
@@ -56,7 +56,7 @@ public class PageTransferFluid extends PageTransfer<ModuleTransferFluid, IFluidH
 		}
 	}
 	
-	public PageTransferFluid(IModuleComponent<ModuleTransferFluid> module, GuiContainer gui) {
+	public PageTransferFluid(IPageComponent<ModuleTransferFluid> module, GuiContainer gui) {
 		super(module, gui);
 	}
 	

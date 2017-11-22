@@ -9,7 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 
 import modularmachines.api.modules.Module;
 
-public class DefaultModuleComponent<P extends Module> extends ModuleComponent<P> {
+public class DefaultModuleComponent<P extends Module> extends PageComponent<P> {
 	private final IPageFactory factory;
 	
 	public DefaultModuleComponent(P parent, IPageFactory factory) {
@@ -23,6 +23,6 @@ public class DefaultModuleComponent<P extends Module> extends ModuleComponent<P>
 	}
 	
 	public interface IPageFactory {
-		IPage createPage(IModuleComponent component, GuiContainer gui);
+		IPage createPage(IPageComponent component, GuiContainer gui);
 	}
 }

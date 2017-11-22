@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.Widget;
 import modularmachines.client.gui.widgets.WidgetTransfer;
 import modularmachines.client.gui.widgets.WidgetTransferButton;
@@ -23,7 +23,7 @@ public abstract class PageTransfer<M extends ModuleTransfer<H>, H> extends PageW
 	@Nullable
 	public WidgetTransfer selectedWidget = null;
 	
-	public PageTransfer(IModuleComponent<M> component, GuiContainer gui) {
+	public PageTransfer(IPageComponent<M> component, GuiContainer gui) {
 		super(component, gui);
 	}
 	

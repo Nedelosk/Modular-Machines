@@ -15,6 +15,8 @@ public interface IModuleModelState {
 	
 	boolean get(IModelProperty property);
 	
+	boolean has(IModelProperty property);
+	
 	Collection<IModelProperty> getProperties();
 	
 	boolean isEmpty();

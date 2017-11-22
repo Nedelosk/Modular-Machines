@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import modularmachines.api.ILocatableSource;
-import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.utils.ModuleUtil;
 

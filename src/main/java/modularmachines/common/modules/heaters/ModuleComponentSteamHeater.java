@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetFluidTank;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -39,7 +39,7 @@ public class ModuleComponentSteamHeater extends DefaultModuleComponent<ModuleHea
 	
 	@SideOnly(Side.CLIENT)
 	public static class PageSteamHeater extends PageWidget<ModuleHeaterSteam> {
-		public PageSteamHeater(IModuleComponent component, GuiContainer gui) {
+		public PageSteamHeater(IPageComponent component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

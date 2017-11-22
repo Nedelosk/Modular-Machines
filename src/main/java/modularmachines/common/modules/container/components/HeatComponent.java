@@ -1,17 +1,20 @@
-package modularmachines.common.modules.logic;
+package modularmachines.common.modules.container.components;
+
+import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.WorldServer;
+import net.minecraft.network.PacketBuffer;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
 
-public class HeatComponent extends LogicComponent implements IHeatSource {
+public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent {
 	
 	protected final HeatBuffer buffer;
 	
@@ -49,13 +52,13 @@ public class HeatComponent extends LogicComponent implements IHeatSource {
 	@Override
 	public void update() {
 		super.update();
-		UpdateComponent update = ModuleUtil.getUpdate(provider);
+		UpdateComponent update = ModuleUtil.getUpdate(container);
 		if (update.updateOnInterval(20)) {
 			double oldHeat = buffer.getHeatStored();
 			buffer.reduceHeat(1);
 			if (oldHeat != buffer.getHeatStored()) {
-				ILocatable locatable = provider.getLocatable();
-				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(provider), locatable.getCoordinates(), (WorldServer) locatable.getWorldObj());
+				ILocatable locatable = container.getLocatable();
+				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), locatable.getWorldObj());
 			}
 		}
 	}
@@ -84,4 +87,13 @@ public class HeatComponent extends LogicComponent implements IHeatSource {
 		return buffer;
 	}
 	
+	@Override
+	public void writeData(PacketBuffer data) {
+		buffer.writeData(data);
+	}
+	
+	@Override
+	public void readData(PacketBuffer data) throws IOException {
+		buffer.readData(data);
+	}
 }

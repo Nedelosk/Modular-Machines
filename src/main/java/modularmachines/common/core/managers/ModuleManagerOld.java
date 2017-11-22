@@ -1,15 +1,16 @@
 package modularmachines.common.core.managers;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -20,10 +21,11 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.LogicComponent;
+import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 
 @Deprecated
@@ -292,21 +294,78 @@ public class ModuleManagerOld {
 	}*/
 	
 	public static void registerCapability() {
-		//CapabilityManager.INSTANCE.register(IModuleLogic.class, new DefaultStorage(), () -> new ModuleLogic(null, Collections.emptyList()));
-		//CapabilityManager.INSTANCE.register(IAssembler.class, new DefaultStorage(), () -> new Assembler(null, Collections.emptyList()));
 		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> new IModuleContainer() {
-			@Override
-			public void addComponent(String identifier, LogicComponent component) {
-			}
 			
-			@Nullable
 			@Override
-			public <T extends LogicComponent> T getComponent(String identifier) {
+			public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 				return null;
 			}
 			
 			@Override
-			public Map<String, LogicComponent> getComponents() {
+			public void readFromNBT(NBTTagCompound compound) {
+			
+			}
+			
+			@Override
+			public Collection<ContainerComponent> getComponents() {
+				return null;
+			}
+			
+			@Override
+			public void addComponent(ContainerComponent component) {
+			
+			}
+			
+			@Override
+			public Class<?>[] getComponentInterfaces(Class<? extends ContainerComponent> componentClass) {
+				return new Class[0];
+			}
+			
+			@Override
+			public boolean hasComponent(Class<?> componentClass) {
+				return false;
+			}
+			
+			@Override
+			public <T extends ContainerComponent> T getComponent(Class<T> componentClass) {
+				return null;
+			}
+			
+			@Nullable
+			@Override
+			public <T> T getInterface(Class<T> interfaceClass) {
+				return null;
+			}
+			
+			@Override
+			public <T> Collection<T> getInterfaces(Class<T> interfaceClass) {
+				return null;
+			}
+			
+			@Nullable
+			@Override
+			public <T> T getComponent(IComponentTag tag) {
+				return null;
+			}
+			
+			@Override
+			public <T> Collection<T> getComponents(IComponentTag tag) {
+				return null;
+			}
+			
+			@Override
+			public boolean hasComponent(IComponentTag tag) {
+				return false;
+			}
+			
+			@Override
+			public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+				return false;
+			}
+			
+			@Nullable
+			@Override
+			public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 				return null;
 			}
 			
@@ -331,16 +390,6 @@ public class ModuleManagerOld {
 				return null;
 			}
 			
-			@Override
-			public void onModuleRemoved(Module module) {
-			
-			}
-			
-			@Override
-			public void onModuleAdded(Module module) {
-			
-			}
-			
 			@Nullable
 			@Override
 			public RayTraceResult collisionRayTrace(BlockPos blockPos, Vec3d start, Vec3d end) {
@@ -348,19 +397,36 @@ public class ModuleManagerOld {
 			}
 			
 			@Override
-			public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate) {
+			public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
 				return false;
 			}
 			
 			@Override
-			public List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
-				return Collections.emptyList();
+			public void onClick(EntityPlayer player, RayTraceResult hit) {
 			}
 			
 			@Nullable
 			@Override
 			public IModulePosition getPosition(RayTraceResult hit) {
 				return null;
+			}
+			
+			@Override
+			public void sendModuleToClient(Module module) {
+			
+			}
+			
+			@Override
+			public void sendToClient() {
+			
+			}
+			
+			@Override
+			public void writeData(PacketBuffer data) {
+			}
+			
+			@Override
+			public void readData(PacketBuffer data) throws IOException {
 			}
 		});
 	}

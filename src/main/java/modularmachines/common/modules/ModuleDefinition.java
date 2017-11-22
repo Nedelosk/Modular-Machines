@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,13 +15,19 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.components.IComponentProvider;
+import modularmachines.api.modules.IModuleComponent;
+import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.ModelLocationBuilder;
+import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.EnumRackPositions;
+import modularmachines.client.model.module.ModelData;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataModuleRack;
@@ -28,10 +35,14 @@ import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
+import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.components.FuelComponent;
+import modularmachines.common.modules.components.HeaterComponent;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
-import modularmachines.common.modules.heaters.ModuleHeaterBurning;
+import modularmachines.common.modules.energy.ModuleEnergyInput;
+import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 import modularmachines.common.modules.machine.boiler.ModuleBoiler;
 import modularmachines.common.modules.machine.furnace.ModuleFurnace;
 import modularmachines.common.modules.storages.items.ModuleChest;
@@ -42,8 +53,9 @@ import modularmachines.common.modules.storages.modules.ModuleModuleRack;
 import modularmachines.common.modules.transfer.ModuleDataTransfer;
 import modularmachines.common.modules.transfer.fluid.ModuleTransferFluid;
 import modularmachines.common.modules.transfer.items.ModuleTransferItem;
+import modularmachines.common.utils.IContentContainer;
 
-public enum ModuleDefinition implements Supplier<Module> {
+public enum ModuleDefinition implements Supplier<Module>, IModuleDefinition {
 	CHEST(new ModuleDataHorizontal(), "chest", 4) {
 		@Override
 		public Module get() {
@@ -311,7 +323,18 @@ public enum ModuleDefinition implements Supplier<Module> {
 	HEATER(new ModuleDataSide(), "heater", 4) {
 		@Override
 		public Module get() {
-			return new ModuleHeaterBurning(150, 2);
+			return new Module();
+			//return new ModuleHeaterBurning(150, 2);
+		}
+		
+		@Override
+		public void addComponents(Module module, IComponentProvider<IModuleComponent> provider) {
+			super.addComponents(module, provider);
+			ItemHandlerModule itemHandler = new ItemHandlerModule(module);
+			IContentContainer fuelSlot = itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
+			provider.addComponent(itemHandler);
+			provider.addComponent(new FuelComponent.Items(module, 25, fuelSlot.getIndex()));
+			provider.addComponent(new HeaterComponent(module, 150, 2));
 		}
 		
 		@Override
@@ -338,7 +361,12 @@ public enum ModuleDefinition implements Supplier<Module> {
 		
 		@Override
 		public Module get() {
-			return new Module();
+			return new Module() {
+				@Override
+				protected AxisAlignedBB getBoundingBox() {
+					return new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F);
+				}
+			};
 		}
 		
 		@Override
@@ -349,11 +377,41 @@ public enum ModuleDefinition implements Supplier<Module> {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataDefault.addModelData(data(), "s/bronze");
+			//	ModelDataDefault.addModelData(data(), "s/bronze");
+			ModelData model = new ModelData();
+			model.add(DefaultProperty.FIRST, new ResourceLocation(Constants.MOD_ID, "module/" + data.getRegistryName().getResourcePath() + /*(fileName != null ? fileName : "")*/"s/bronze"));
+			if (data.getWallModelLocation() != null) {
+				model.add(DefaultProperty.SECOND, data.getWallModelLocation());
+			}
+			data.setModel(model);
+		}
+	},
+	ENERGY_INPUT(new ModuleData(), "energy_input", 4) {
+		@Override
+		public Module get() {
+			return new ModuleEnergyInput();
+		}
+		
+		@Override
+		protected void initData(ModuleData data) {
+			super.initData(data);
+			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT, EnumCasingPositions.BACK, EnumCasingPositions.FRONT);
+		}
+		
+		@Override
+		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+			helper.registerContainer(factory.createContainer(new ItemStack(Items.APPLE), data));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			super.registerModelData();
+			ModelDataDefault.addModelData(data);
 		}
 	};
 	
-	private final ModuleData data;
+	protected final ModuleData data;
 	
 	ModuleDefinition(ModuleData data, String registry, int complexity) {
 		this.data = data;
@@ -373,6 +431,7 @@ public enum ModuleDefinition implements Supplier<Module> {
 	protected void initData(ModuleData data) {
 		
 	}
+	
 	
 	protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
 	}
@@ -423,4 +482,8 @@ public enum ModuleDefinition implements Supplier<Module> {
 		ModuleManager.helper.registerContainer(container);
 	}
 	
+	@Override
+	public void addComponents(Module module, IComponentProvider<IModuleComponent> provider) {
+	
+	}
 }

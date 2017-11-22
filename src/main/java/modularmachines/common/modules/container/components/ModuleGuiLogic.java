@@ -1,13 +1,13 @@
-package modularmachines.common.modules.logic;
+package modularmachines.common.modules.container.components;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.container.IModuleGuiLogic;
+import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSelectModulePage;
 
@@ -16,7 +16,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	@Nullable
 	private Module currentModule;
 	@Nullable
-	private ModuleComponent currentComponent;
+	private PageComponent currentComponent;
 	
 	public ModuleGuiLogic(IModuleContainer provider) {
 		this.provider = provider;
@@ -45,7 +45,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	}
 	
 	@Override
-	public void setCurrentPage(@Nullable ModuleComponent page, boolean sendToServer) {
+	public void setCurrentPage(@Nullable PageComponent page, boolean sendToServer) {
 		if (page != null) {
 			this.currentModule = page.getParent();
 			this.currentComponent = page;
@@ -64,7 +64,7 @@ public class ModuleGuiLogic implements IModuleGuiLogic {
 	}
 	
 	@Override
-	public ModuleComponent getCurrentComponent() {
+	public PageComponent getCurrentComponent() {
 		return currentComponent;
 	}
 	

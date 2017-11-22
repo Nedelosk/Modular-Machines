@@ -22,14 +22,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.logic.LogicComponent;
+import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.common.modules.ModuleCapabilities;
-import modularmachines.common.modules.logic.EnergyStorageComponent;
-import modularmachines.common.modules.logic.HeatComponent;
-import modularmachines.common.modules.logic.UpdateComponent;
+import modularmachines.common.modules.container.components.EnergyStorageComponent;
+import modularmachines.common.modules.container.components.HeatComponent;
+import modularmachines.common.modules.container.components.UpdateComponent;
 
 public class ModuleUtil {
 	
@@ -126,17 +125,17 @@ public class ModuleUtil {
 	
 	@Nullable
 	public static HeatComponent getHeat(IModuleContainer provider) {
-		return provider.getComponent(LogicComponent.HEAT);
+		return provider.getComponent(HeatComponent.class);
 	}
 	
 	@Nullable
 	public static EnergyStorageComponent getEnergy(IModuleContainer provider) {
-		return provider.getComponent(LogicComponent.ENERGY);
+		return provider.getComponent(EnergyStorageComponent.class);
 	}
 	
 	@Nullable
 	public static UpdateComponent getUpdate(IModuleContainer provider) {
-		return provider.getComponent(LogicComponent.UPDATE);
+		return provider.getComponent(UpdateComponent.class);
 	}
 	
 	@Nullable

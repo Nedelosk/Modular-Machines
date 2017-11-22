@@ -1,4 +1,4 @@
-package modularmachines.common.modules.logic;
+package modularmachines.common.modules.container.components;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -6,9 +6,9 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
-import modularmachines.api.modules.logic.LogicComponent;
+import modularmachines.api.modules.container.ContainerComponent;
 
-public class EnergyComponent extends LogicComponent implements IEnergyStorage {
+public class EnergyComponent extends ContainerComponent implements IEnergyStorage {
 	
 	private final EnergyStorage energyStorage;
 	

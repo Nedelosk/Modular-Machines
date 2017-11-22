@@ -2,6 +2,7 @@ package modularmachines.common.tanks;
 
 import com.google.common.collect.Lists;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,21 +14,31 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import modularmachines.api.components.EnumComponentTag;
+import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
+import modularmachines.common.modules.ModuleComponent;
 
-public class FluidTankHandler implements IFluidHandler, IRecipeConsumer {
+public class FluidTankHandler extends ModuleComponent implements IFluidHandler, IRecipeConsumer {
 	
 	protected final Module module;
 	protected final NonNullList<FluidTankModule> containers;
 	
 	public FluidTankHandler(Module module) {
+		super(module);
 		this.module = module;
 		this.containers = NonNullList.create();
 	}
 	
+	@Override
+	public IComponentTag[] getTags() {
+		return new IComponentTag[]{EnumComponentTag.FLUIDS};
+	}
+	
+	@Nullable
 	public FluidTankModule getContainer(int index) {
 		return containers.get(index);
 	}

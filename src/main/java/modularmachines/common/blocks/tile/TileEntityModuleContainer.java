@@ -1,30 +1,13 @@
 package modularmachines.common.blocks.tile;
 
-import com.google.common.base.Preconditions;
-
-import javax.annotation.Nullable;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import com.mojang.authlib.GameProfile;
@@ -32,37 +15,30 @@ import com.mojang.authlib.GameProfile;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModuleContainer;
-import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.data.IModuleDataContainer;
-import modularmachines.api.modules.logic.LogicComponent;
-import modularmachines.api.modules.positions.EnumCasingPositions;
-import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.ModuleHandler;
-import modularmachines.common.modules.logic.EnergyStorageComponent;
-import modularmachines.common.modules.logic.HeatComponent;
-import modularmachines.common.modules.logic.UpdateComponent;
+import modularmachines.common.modules.container.components.EnergyStorageComponent;
+import modularmachines.common.modules.container.components.HeatComponent;
+import modularmachines.common.modules.container.components.UpdateComponent;
 
-public class TileEntityModuleContainer extends TileEntityBase implements ILocatable, IModuleContainer {
+public class TileEntityModuleContainer extends TileEntityBase implements ILocatable {
 	
-	private final Map<String, LogicComponent> componentMap;
-	private final BitSet validIndexes;
+	private final Map<String, ContainerComponent> componentMap;
 	public EnumFacing facing;
 	public GameProfile owner;
 	public ModuleHandler moduleHandler;
+	public IModuleContainer moduleContainer;
 	
 	public TileEntityModuleContainer() {
-		this.moduleHandler = new ModuleHandler(this, EnumCasingPositions.CENTER);
+		this.moduleContainer = ModuleManager.factory.createContainer(this);
 		this.facing = EnumFacing.NORTH;
 		this.componentMap = new LinkedHashMap<>();
-		this.validIndexes = new BitSet();
-		addComponent(LogicComponent.ENERGY, new EnergyStorageComponent());
-		addComponent(LogicComponent.UPDATE, new UpdateComponent());
-		addComponent(LogicComponent.HEAT, new HeatComponent());
+		moduleContainer.addComponent(new EnergyStorageComponent());
+		moduleContainer.addComponent(new UpdateComponent());
+		moduleContainer.addComponent(new HeatComponent());
 	}
 	
 	@Override
@@ -72,7 +48,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	@Override
 	public void updateServer() {
-		for (LogicComponent component : componentMap.values()) {
+		for (ContainerComponent component : componentMap.values()) {
 			component.update();
 		}
 	}
@@ -112,7 +88,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setShort("Facing", (short) facing.ordinal());
-		moduleHandler.writeToNBT(compound);
+		moduleContainer.writeToNBT(compound);
 		return compound;
 	}
 	
@@ -120,8 +96,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		facing = EnumFacing.VALUES[compound.getShort("Facing")];
-		validIndexes.clear();
-		moduleHandler.readFromNBT(compound);
+		moduleContainer.readFromNBT(compound);
 	}
 	
 	@Override
@@ -132,7 +107,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == ModuleCapabilities.MODULE_CONTAINER) {
-			return ModuleCapabilities.MODULE_CONTAINER.cast(this);
+			return ModuleCapabilities.MODULE_CONTAINER.cast(moduleContainer);
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -143,162 +118,5 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	public void setFacing(EnumFacing facing) {
 		this.facing = facing;
-	}
-	
-	@Override
-	public void addComponent(String identifier, LogicComponent component) {
-		Preconditions.checkNotNull(component, "Can't have a null logic component!");
-		component.setProvider(this);
-		this.componentMap.put(identifier, component);
-	}
-	
-	@Override
-	public Map<String, LogicComponent> getComponents() {
-		return this.componentMap;
-	}
-	
-	@Override
-	@Nullable
-	public <T extends LogicComponent> T getComponent(String identifier) {
-		return (T) this.componentMap.get(identifier);
-	}
-	
-	public boolean hasComponent(String identifier) {
-		return this.componentMap.containsKey(identifier);
-	}
-	
-	@Override
-	public ILocatable getLocatable() {
-		return this;
-	}
-	
-	@Override
-	public IModuleHandler getHandler() {
-		return moduleHandler;
-	}
-	
-	@Override
-	public Module getModule(int index) {
-		return getModules().stream().filter(m -> m.getIndex() == index).findAny().orElse(null);
-	}
-	
-	@Override
-	public Collection<Module> getModules() {
-		Set<Module> modules = new HashSet<>();
-		moduleHandler.getModules().forEach(m -> addToList(modules, m));
-		return modules;
-	}
-	
-	private void addToList(Set<Module> modules, Module module) {
-		modules.add(module);
-		if (!(module instanceof IModuleProvider)) {
-			return;
-		}
-		IModuleProvider provider = (IModuleProvider) module;
-		IModuleHandler moduleHandler = provider.getHandler();
-		moduleHandler.getModules().forEach(m -> addToList(modules, m));
-	}
-	
-	@Override
-	public AxisAlignedBB getBoundingBox() {
-		AxisAlignedBB boundingBox = null;
-		for (Module module : getModules()) {
-			AxisAlignedBB alignedBB = module.getCollisionBox();
-			if (alignedBB == null) {
-				continue;
-			}
-			if (boundingBox == null) {
-				boundingBox = alignedBB;
-				continue;
-			}
-			boundingBox = boundingBox.union(alignedBB);
-		}
-		return boundingBox == null ? Block.FULL_BLOCK_AABB : boundingBox;
-	}
-	
-	@Override
-	public RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end) {
-		Vec3d startVec = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-		Vec3d endVec = end.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-		Collection<Module> modules = getModules();
-		if (modules.isEmpty()) {
-			RayTraceResult old = Block.FULL_BLOCK_AABB.calculateIntercept(startVec, endVec);
-			if (old == null) {
-				return null;
-			}
-			return new RayTraceResult(old.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), old.sideHit, pos);
-		}
-		return modules
-				.stream()
-				.map(m -> Pair.of(m, m.collisionRayTrace(startVec, endVec)))
-				.filter(p -> p.getValue() != null)
-				.min(Comparator.comparingDouble(hit -> hit.getValue().hitVec.squareDistanceTo(startVec)))
-				.map(p -> {
-					RayTraceResult old = p.getValue();
-					RayTraceResult result = new RayTraceResult(old.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), old.sideHit, pos);
-					result.subHit = p.getKey().getIndex();
-					result.hitInfo = old;
-					return result;
-				})
-				.orElse(null);
-	}
-	
-	@Override
-	public List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
-		if (rayTraceResult.subHit == -1) {
-			return moduleHandler.extractModule(EnumCasingPositions.CENTER, simulate);
-		}
-		Module module = getModule(rayTraceResult.subHit);
-		if (module == null) {
-			return Collections.emptyList();
-		}
-		IModulePosition position = module.getPosition();
-		IModuleHandler parent = module.getParent();
-		return parent.extractModule(position, simulate);
-	}
-	
-	@Override
-	public boolean insertModule(ItemStack itemStack, RayTraceResult rayTraceResult, boolean simulate) {
-		if (itemStack.isEmpty()) {
-			return false;
-		}
-		IModuleDataContainer dataContainer = ModuleManager.helper.getContainerFromItem(itemStack);
-		if (dataContainer == null) {
-			return false;
-		}
-		if (rayTraceResult.subHit == -1) {
-			return insertModule(this, itemStack.copy(), dataContainer, rayTraceResult, simulate);
-		}
-		Module module = getModule(rayTraceResult.subHit);
-		if (!(module instanceof IModuleProvider)) {
-			return false;
-		}
-		IModuleProvider provider = (IModuleProvider) module;
-		return insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
-	}
-	
-	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
-		IModulePosition position = provider.getPosition(rayTraceResult);
-		if (position == null) {
-			return false;
-		}
-		return provider.getHandler().insertModule(position, dataContainer, itemStack, simulate);
-	}
-	
-	@Override
-	public IModulePosition getPosition(RayTraceResult hit) {
-		return EnumCasingPositions.CENTER;
-	}
-	
-	@Override
-	public void onModuleRemoved(Module module) {
-		validIndexes.clear(module.getIndex());
-	}
-	
-	@Override
-	public void onModuleAdded(Module module) {
-		int index = validIndexes.nextClearBit(0);
-		module.setIndex(index);
-		validIndexes.set(index);
 	}
 }

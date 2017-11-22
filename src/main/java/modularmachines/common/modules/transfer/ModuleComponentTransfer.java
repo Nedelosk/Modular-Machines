@@ -1,8 +1,8 @@
 package modularmachines.common.modules.transfer;
 
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.pages.PageComponent;
 
-public abstract class ModuleComponentTransfer<M extends ModuleTransfer<H>, H> extends ModuleComponent<M> {
+public abstract class ModuleComponentTransfer<M extends ModuleTransfer<H>, H> extends PageComponent<M> {
 	public final int index;
 	
 	public ModuleComponentTransfer(M parent, int index) {

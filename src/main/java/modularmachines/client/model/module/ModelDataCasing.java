@@ -11,6 +11,7 @@ import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.common.modules.storages.modules.ModuleCasing;
+import modularmachines.common.modules.storages.modules.ModuleModuleRack;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataCasing extends ModelData {
@@ -34,8 +35,10 @@ public class ModelDataCasing extends ModelData {
 			moduleHandler = ((ModuleCasing) module).getHandler();
 		}
 		ModuleModelState modelState = new ModuleModelState();
-		modelState.set(Property.LEFT, !moduleHandler.hasModule(EnumCasingPositions.LEFT));
-		modelState.set(Property.RIGHT, !moduleHandler.hasModule(EnumCasingPositions.RIGHT));
+		Module left = moduleHandler.getModule(EnumCasingPositions.LEFT);
+		Module right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
+		modelState.set(Property.LEFT, left == null || !(left instanceof ModuleModuleRack));
+		modelState.set(Property.RIGHT, right == null || !(left instanceof ModuleModuleRack));
 		return modelState;
 	}
 	

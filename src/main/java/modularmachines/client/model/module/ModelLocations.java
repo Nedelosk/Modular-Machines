@@ -27,6 +27,10 @@ public class ModelLocations implements IModelLocations {
 		return locations.values();
 	}
 	
+	public Collection<IModelProperty> getProperties() {
+		return locations.keySet();
+	}
+	
 	@Override
 	public Iterator<ResourceLocation> iterator() {
 		return locations.values().iterator();

@@ -23,7 +23,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetButtonLabeled;
 import modularmachines.client.gui.widgets.WidgetFilterSlot;
 import modularmachines.client.gui.widgets.WidgetTextField;
@@ -79,7 +79,7 @@ public class PageTransferItem extends PageTransfer<ModuleTransferItem, IItemHand
 		}
 	}
 	
-	public PageTransferItem(IModuleComponent<ModuleTransferItem> module, GuiContainer gui) {
+	public PageTransferItem(IPageComponent<ModuleTransferItem> module, GuiContainer gui) {
 		super(module, gui);
 	}
 	

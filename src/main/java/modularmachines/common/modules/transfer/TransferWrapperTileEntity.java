@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.utils.WorldUtil;
 

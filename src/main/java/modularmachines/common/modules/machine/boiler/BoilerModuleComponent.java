@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetFluidTank;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -32,7 +32,7 @@ public class BoilerModuleComponent extends DefaultModuleComponent<ModuleBoiler> 
 	
 	@SideOnly(Side.CLIENT)
 	public static class PageBoiler extends PageWidget<ModuleBoiler> {
-		public PageBoiler(IModuleComponent<ModuleBoiler> component, GuiContainer gui) {
+		public PageBoiler(IPageComponent<ModuleBoiler> component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

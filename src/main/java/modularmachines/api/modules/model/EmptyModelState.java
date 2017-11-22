@@ -16,6 +16,11 @@ public enum  EmptyModelState implements IModuleModelState {
 	}
 	
 	@Override
+	public boolean has(IModelProperty property) {
+		return false;
+	}
+	
+	@Override
 	public Collection<IModelProperty> getProperties() {
 		return Collections.emptySet();
 	}

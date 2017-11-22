@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;

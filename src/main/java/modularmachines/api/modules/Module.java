@@ -1,13 +1,19 @@
 package modularmachines.api.modules;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
@@ -24,16 +30,20 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.components.IComponentProvider;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.IModuleModelState;
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.utils.BoundingBoxHelper;
 
-public class Module implements ICapabilityProvider {
+public class Module implements ICapabilityProvider, INBTReadable, INBTWritable {
 	
-	protected final List<ModuleComponent> components;
+	@Nullable
+	protected final IComponentProvider<IModuleComponent> componentProvider;
+	protected final List<PageComponent> components;
 	/**
 	 * The position of the module at the handler.
 	 */
@@ -43,12 +53,14 @@ public class Module implements ICapabilityProvider {
 	 */
 	protected IModuleHandler parent;
 	protected IModuleContainer container;
-	protected int index;
+	private int index;
 	protected IModuleData data;
 	private ItemStack itemStack = ItemStack.EMPTY;
+	private EnumFacing facing;
 	
 	public Module() {
 		components = new ArrayList<>();
+		componentProvider = ModuleManager.factory != null ? ModuleManager.factory.createComponentProvider() : null;
 		createComponents();
 	}
 	
@@ -66,7 +78,7 @@ public class Module implements ICapabilityProvider {
 	/**
 	 * @return A list with all components of this module
 	 */
-	public List<ModuleComponent> getComponents() {
+	public List<PageComponent> getComponents() {
 		return components;
 	}
 	
@@ -74,7 +86,7 @@ public class Module implements ICapabilityProvider {
 	 * Returns the component at the give index of the component list.
 	 */
 	@Nullable
-	public ModuleComponent getComponent(int index) {
+	public PageComponent getComponent(int index) {
 		if (index >= components.size() || index < 0) {
 			return null;
 		}
@@ -86,7 +98,7 @@ public class Module implements ICapabilityProvider {
 	 *
 	 * You can use {@link #createComponents()} to add components.
 	 */
-	protected void addComponent(ModuleComponent component) {
+	protected void addComponent(PageComponent component) {
 		if (!components.contains(component)) {
 			component.setIndex(components.size());
 			components.add(component);
@@ -98,6 +110,17 @@ public class Module implements ICapabilityProvider {
 	 * Called at the module constructor.
 	 */
 	public void createComponents() {
+	}
+	
+	@Nullable
+	public IComponentProvider<IModuleComponent> getComponentProvider() {
+		return componentProvider;
+	}
+	
+	protected void addComponent(IModuleComponent component) {
+		if (componentProvider != null) {
+			componentProvider.addComponent(component);
+		}
 	}
 	
 	/**
@@ -124,6 +147,7 @@ public class Module implements ICapabilityProvider {
 		this.position = position;
 		this.itemStack = parentItem;
 		this.data = container.getData();
+		this.facing = getFacing();
 		
 		this.container.onModuleAdded(this);
 	}
@@ -219,10 +243,47 @@ public class Module implements ICapabilityProvider {
 		return null;
 	}
 	
+	public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
+		return false;
+	}
+	
+	public void onClick(EntityPlayer player, RayTraceResult hit) {
+	}
+	
 	@Nullable
 	public RayTraceResult collisionRayTrace(Vec3d start, Vec3d end) {
-		AxisAlignedBB boundingBox = getCollisionBox();
-		return boundingBox == null ? null : boundingBox.calculateIntercept(start, end);
+		RayTraceResult traceResult = rayTrace(start, end, this, getCollisionBox());
+		if (traceResult == null) {
+			return null;
+		}
+		double distance = traceResult.hitVec.squareDistanceTo(start);
+		if (this instanceof IModuleProvider) {
+			IModuleHandler handler = ((IModuleProvider) this).getHandler();
+			Optional<RayTraceResult> result = handler.getModules().stream().map(m -> m.collisionRayTrace(start, end)).filter(Objects::nonNull).min(Comparator.comparingDouble(hit -> hit.hitVec.squareDistanceTo(start)));
+			if (result.isPresent()) {
+				RayTraceResult rayTraceResult = result.get();
+				double secondD = rayTraceResult.hitVec.squareDistanceTo(start);
+				if (secondD <= distance) {
+					return rayTraceResult;
+				}
+			}
+		}
+		return traceResult;
+	}
+	
+	@Nullable
+	protected RayTraceResult rayTrace(Vec3d start, Vec3d end, Module module, @Nullable AxisAlignedBB boundingBox) {
+		if (boundingBox == null) {
+			return null;
+		}
+		RayTraceResult rayTrace = boundingBox.calculateIntercept(start, end);
+		if (rayTrace == null) {
+			return null;
+		}
+		RayTraceResult result = new RayTraceResult(rayTrace.hitVec, rayTrace.sideHit);
+		result.subHit = module.getIndex();
+		result.hitInfo = rayTrace;
+		return result;
 	}
 	
 	@Nullable
@@ -230,25 +291,8 @@ public class Module implements ICapabilityProvider {
 		AxisAlignedBB boundingBox = getBoundingBox();
 		IModuleProvider provider = parent.getProvider();
 		if (boundingBox != null && provider instanceof Module) {
-			Module module = (Module) provider;
-			IModulePosition parentPosition = module.position;
-			EnumFacing facing = position.getFacing();
-			EnumFacing containerFacing = container.getFacing();
-			if (containerFacing == null) {
-				containerFacing = EnumFacing.NORTH;
-			}
-			double rotation = containerFacing.getHorizontalAngle();
-			rotation += parentPosition.getRotationAngle();
-			rotation += facing.getHorizontalAngle();
-			/*if (containerFacing == EnumFacing.SOUTH) {
-				facing = facing.rotateY().rotateY();
-			} else if (containerFacing == EnumFacing.EAST) {
-				facing = facing.rotateY().rotateY().rotateY();
-			} else if (containerFacing == EnumFacing.WEST) {
-				facing = facing.rotateY();
-			}*/
-			BoundingBoxHelper helper = new BoundingBoxHelper(EnumFacing.fromAngle(rotation));
-			return helper.rotateBox(boundingBox);
+			BoundingBoxHelper helper = new BoundingBoxHelper(getFacing());
+			return helper.rotateBox(boundingBox).offset(position.getOffset());
 		}
 		return boundingBox;
 	}
@@ -258,8 +302,12 @@ public class Module implements ICapabilityProvider {
 		return null;
 	}
 	
+	public boolean canHandle(@Nullable EnumFacing side) {
+		return isFacing(side);
+	}
+	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandler());
 		} else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -269,8 +317,55 @@ public class Module implements ICapabilityProvider {
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
 		return getFluidHandler() != null && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || getItemHandler() != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
+	
+	/**
+	 * Returns the given side relative to the facing of this module.
+	 */
+	public EnumFacing getSide(EnumFacing side) {
+		float rotation = getFacingRotation() + side.getHorizontalAngle();
+		return EnumFacing.fromAngle(rotation);
+	}
+	
+	/**
+	 * Returns true if the given side is the facing of the module.
+	 */
+	public boolean isFacing(@Nullable EnumFacing side) {
+		return side != null && getFacing() == side;
+	}
+	
+	/**
+	 * Returns the facing of the module relative to the facing of the module container.
+	 */
+	public EnumFacing getFacing() {
+		if (facing != null) {
+			return facing;
+		}
+		return EnumFacing.fromAngle(getFacingRotation());
+	}
+	
+	private float getFacingRotation() {
+		if (facing != null) {
+			return facing.getHorizontalAngle();
+		}
+		EnumFacing facing = container.getLocatable().getFacing();
+		if (facing == null) {
+			facing = EnumFacing.NORTH;
+		}
+		float rotation = +facing.getHorizontalAngle();
+		rotation += getFacingRotation(this);
+		return rotation;
+	}
+	
+	private float getFacingRotation(Module module) {
+		float rotation = (float) -Math.toDegrees(module.position.getRotationAngle());
+		IModuleProvider provider = parent.getProvider();
+		if (provider instanceof Module) {
+			rotation += ((Module) provider).getFacingRotation((Module) provider);
+		}
+		return rotation;
 	}
 	
 	/* MODEL */

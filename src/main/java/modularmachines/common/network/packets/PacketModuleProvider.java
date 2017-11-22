@@ -1,10 +1,8 @@
 package modularmachines.common.network.packets;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 
-import modularmachines.api.modules.IModuleContainer;
-import modularmachines.api.modules.Module;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.network.PacketBufferMM;
 
 public abstract class PacketModuleProvider extends PacketLocatable<IModuleContainer> {
@@ -26,13 +24,5 @@ public abstract class PacketModuleProvider extends PacketLocatable<IModuleContai
 		super.writeData(data);
 		data.writeVarInt(index);
 		data.writeVarInt(positionIndex);
-	}
-	
-	@Nullable
-	protected static Module getModule(@Nullable IModuleContainer provider, PacketBufferMM data) {
-		if (provider == null) {
-			return null;
-		}
-		return provider.getModule(data.readInt());
 	}
 }

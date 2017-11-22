@@ -2,7 +2,7 @@ package modularmachines.common.modules.transfer;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.IModuleContainer;
+import modularmachines.api.modules.container.IModuleContainer;
 
 public interface ITransferHandlerWrapper<H> {
 	

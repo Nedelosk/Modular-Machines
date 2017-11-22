@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetBurning;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.modules.pages.PageWidget;
@@ -35,7 +35,7 @@ public class ModuleComponentBurningHeater extends DefaultModuleComponent<ModuleH
 	}
 	
 	public static class PageBurningHeater extends PageWidget<ModuleHeaterBurning> {
-		public PageBurningHeater(IModuleComponent<ModuleHeaterBurning> component, GuiContainer gui) {
+		public PageBurningHeater(IPageComponent<ModuleHeaterBurning> component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

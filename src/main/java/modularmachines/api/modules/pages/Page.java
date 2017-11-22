@@ -16,17 +16,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class Page implements IPage {
-	protected final IModuleComponent component;
+	protected final IPageComponent component;
 	protected final GuiContainer gui;
 	protected final Container container;
 	protected int xSize;
 	protected int ySize;
 	
-	public Page(IModuleComponent component, GuiContainer gui) {
+	public Page(IPageComponent component, GuiContainer gui) {
 		this(component, gui, 176, 166);
 	}
 	
-	public Page(IModuleComponent component, GuiContainer gui, int xSize, int ySize) {
+	public Page(IPageComponent component, GuiContainer gui, int xSize, int ySize) {
 		this.component = component;
 		this.gui = gui;
 		this.container = gui.inventorySlots;
@@ -36,7 +36,7 @@ public class Page implements IPage {
 	}
 	
 	@Override
-	public IModuleComponent getComponent() {
+	public IPageComponent getComponent() {
 		return component;
 	}
 	

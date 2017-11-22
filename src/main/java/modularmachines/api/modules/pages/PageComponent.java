@@ -9,13 +9,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.components.IComponentProvider;
+import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.Module;
 
-public class ModuleComponent<P extends Module> implements IModuleComponent<P> {
+public class PageComponent<P extends Module> implements IPageComponent<P> {
 	protected final P parent;
 	protected int index = -1;
 	
-	public ModuleComponent(P parent) {
+	public PageComponent(P parent) {
 		this.parent = parent;
 	}
 	
@@ -66,4 +68,23 @@ public class ModuleComponent<P extends Module> implements IModuleComponent<P> {
 		return parent;
 	}
 	
+	@Override
+	public Class<?>[] getComponentInterfaces() {
+		return new Class[0];
+	}
+	
+	@Override
+	public void setProvider(IComponentProvider provider) {
+	
+	}
+	
+	@Override
+	public IComponentProvider getProvider() {
+		return null;
+	}
+	
+	@Override
+	public IComponentTag[] getTags() {
+		return new IComponentTag[0];
+	}
 }

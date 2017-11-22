@@ -1,13 +1,13 @@
-package modularmachines.common.modules.logic;
+package modularmachines.common.modules.container.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraftforge.energy.IEnergyStorage;
 
-import modularmachines.api.modules.logic.LogicComponent;
+import modularmachines.api.modules.container.ContainerComponent;
 
-public class EnergyStorageComponent extends LogicComponent implements IEnergyStorage {
+public class EnergyStorageComponent extends ContainerComponent implements IEnergyStorage {
 	
 	public final List<IEnergyStorage> energyStorages;
 	

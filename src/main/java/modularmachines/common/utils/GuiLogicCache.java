@@ -12,11 +12,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.logic.IModuleGuiLogic;
-import modularmachines.api.modules.pages.ModuleComponent;
-import modularmachines.common.modules.logic.ModuleGuiLogic;
+import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.container.IModuleGuiLogic;
+import modularmachines.api.modules.pages.PageComponent;
+import modularmachines.common.modules.container.components.ModuleGuiLogic;
 
 public class GuiLogicCache extends WorldSavedData {
 	
@@ -102,7 +102,7 @@ public class GuiLogicCache extends WorldSavedData {
 		
 		public int getPageIndex() {
 			if (logic != null) {
-				ModuleComponent page = logic.getCurrentComponent();
+				PageComponent page = logic.getCurrentComponent();
 				if (page != null) {
 					return page.getIndex();
 				}

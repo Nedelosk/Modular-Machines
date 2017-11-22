@@ -10,17 +10,16 @@ import net.minecraftforge.fluids.FluidStack;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.energy.HeatLevel;
-import modularmachines.api.modules.logic.LogicComponent;
 import modularmachines.common.core.managers.FluidManager;
 import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.energy.HeatManager;
 import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.container.components.HeatComponent;
+import modularmachines.common.modules.container.components.UpdateComponent;
 import modularmachines.common.modules.filters.FluidFilter;
 import modularmachines.common.modules.filters.ItemFilterFluid;
 import modularmachines.common.modules.filters.OutputFilter;
 import modularmachines.common.modules.integration.IModuleJEI;
-import modularmachines.common.modules.logic.HeatComponent;
-import modularmachines.common.modules.logic.UpdateComponent;
 import modularmachines.common.modules.machine.MachineCategorys;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncHeatBuffer;
@@ -67,10 +66,8 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
 	@Override
 	public void sendModuleUpdate() {
 		ILocatable locatable = container.getLocatable();
-		if (locatable != null) {
-			PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
-			PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), locatable.getWorldObj());
-		}
+		PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
+		PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
 	@Override
@@ -80,14 +77,14 @@ public class ModuleBoiler extends Module implements ITickable, IModuleJEI {
 	
 	@Override
 	public void update() {
-		UpdateComponent update = container.getComponent(LogicComponent.UPDATE);
+		UpdateComponent update = container.getComponent(UpdateComponent.class);
 		boolean needUpdate = false;
 		if (update.updateOnInterval(20)) {
 			ModuleUtil.tryEmptyContainer(0, 1, itemHandler, tankWater);
 			ModuleUtil.tryFillContainer(2, 3, itemHandler, tankSteam);
 		}
 		if (update.updateOnInterval(10)) {
-			HeatComponent heat = container.getComponent(LogicComponent.HEAT);
+			HeatComponent heat = container.getComponent(HeatComponent.class);
 			HeatBuffer heatSource = heat.getBuffer();
 			HeatLevel heatLevel = heatSource.getHeatLevel();
 			FluidStack waterStack = tankWater.getFluid();

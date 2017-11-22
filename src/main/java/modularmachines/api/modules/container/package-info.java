@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package modularmachines.api.modules.logic;
+package modularmachines.api.modules.container;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

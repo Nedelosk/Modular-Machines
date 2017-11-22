@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -33,7 +33,7 @@ public class ModuleComponentAlloySmelter extends DefaultModuleComponent<ModuleAl
 	
 	@SideOnly(Side.CLIENT)
 	public static class PageAlloySmelter extends PageWidget<ModuleAlloySmelter> {
-		public PageAlloySmelter(IModuleComponent component, GuiContainer gui) {
+		public PageAlloySmelter(IPageComponent component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

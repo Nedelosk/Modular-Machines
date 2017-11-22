@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
@@ -30,7 +30,7 @@ public class ModuleComponentFurnace extends DefaultModuleComponent<ModuleFurnace
 	
 	@SideOnly(Side.CLIENT)
 	public static class PageFurnace extends PageWidget<ModuleFurnace> {
-		public PageFurnace(IModuleComponent component, GuiContainer gui) {
+		public PageFurnace(IPageComponent component, GuiContainer gui) {
 			super(component, gui);
 		}
 		

@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 
 import modularmachines.api.modules.Module;
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.common.containers.SlotModule;
 import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.filters.DefaultFilter;
@@ -47,7 +47,7 @@ public class ModuleChest extends Module {
 		return itemHandler;
 	}
 	
-	private class ModuleComponentChest extends ModuleComponent<ModuleChest> {
+	private class ModuleComponentChest extends PageComponent<ModuleChest> {
 		
 		public ModuleComponentChest(ModuleChest parent) {
 			super(parent);

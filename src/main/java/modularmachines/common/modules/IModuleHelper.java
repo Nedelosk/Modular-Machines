@@ -6,8 +6,8 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 
 public interface IModuleHelper {

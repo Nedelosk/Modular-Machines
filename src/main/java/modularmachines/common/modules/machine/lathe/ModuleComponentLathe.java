@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.pages.DefaultModuleComponent;
-import modularmachines.api.modules.pages.IModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.client.gui.widgets.WidgetMode;
 import modularmachines.client.gui.widgets.WidgetProgressBar;
 import modularmachines.common.containers.SlotModule;
@@ -34,7 +34,7 @@ public class ModuleComponentLathe extends DefaultModuleComponent<ModuleLathe> {
 	@SideOnly(Side.CLIENT)
 	public static class PageLathe extends PageWidget<ModuleLathe> {
 		
-		public PageLathe(IModuleComponent page, GuiContainer gui) {
+		public PageLathe(IPageComponent page, GuiContainer gui) {
 			super(page, gui);
 		}
 		

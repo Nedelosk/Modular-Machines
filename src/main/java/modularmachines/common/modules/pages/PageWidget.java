@@ -20,9 +20,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.pages.IModuleComponent;
-import modularmachines.api.modules.pages.ModuleComponent;
+import modularmachines.api.modules.pages.IPageComponent;
 import modularmachines.api.modules.pages.Page;
+import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.client.gui.WidgetManager;
 import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
@@ -35,12 +35,12 @@ public class PageWidget<M extends Module> extends Page {
 	public WidgetManager widgetManager;
 	public final M module;
 	
-	public PageWidget(IModuleComponent<M> component, GuiContainer gui) {
+	public PageWidget(IPageComponent<M> component, GuiContainer gui) {
 		super(component, gui);
 		this.module = component.getParent();
 	}
 	
-	public PageWidget(IModuleComponent<M> component, GuiContainer gui, int xSize, int ySize) {
+	public PageWidget(IPageComponent<M> component, GuiContainer gui, int xSize, int ySize) {
 		super(component, gui, xSize, ySize);
 		this.module = component.getParent();
 	}
@@ -72,10 +72,10 @@ public class PageWidget<M extends Module> extends Page {
 		boolean isRight = i >= 7;
 		//Widget widget = new WidgetAssembleTab(isRight ? getXSize() : -28, 8 + 22 * (isRight ? i - 7 : i), isRight);
 		//	addWidget(widget);
-		List<ModuleComponent> pages = module.getComponents();
+		List<PageComponent> pages = module.getComponents();
 		if (!pages.isEmpty() && pages.size() > 1) {
 			for (int pageIndex = 0; pageIndex < pages.size(); pageIndex++) {
-				ModuleComponent page = pages.get(pageIndex);
+				PageComponent page = pages.get(pageIndex);
 				//	addWidget(new WidgetPageTab(pageIndex > 4 ? 12 + (pageIndex - 5) * 30 : 12 + pageIndex * 30, pageIndex > 4 ? getYSize() : -19, page));
 			}
 		}

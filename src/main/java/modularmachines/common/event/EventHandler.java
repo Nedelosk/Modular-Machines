@@ -1,6 +1,7 @@
 package modularmachines.common.event;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -22,8 +23,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.ModularMachines;
+import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.WorldUtil;
 
 public class EventHandler {
@@ -63,11 +66,11 @@ public class EventHandler {
 			BlockPos pos = posHit.getBlockPos();
 			EnumFacing facing = posHit.sideHit;
 			TileEntity tileEntity = WorldUtil.getTile(world, pos, TileEntity.class);
-			/*if (tileEntity != null && tileEntity.hasCapability(ModuleRegistry.MODULE_CONTAINER, facing.getOpposite())) {
-				IModuleContainer container = tileEntity.getCapability(ModuleRegistry.MODULE_CONTAINER, facing.getOpposite());
+			if (tileEntity != null && tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite())) {
+				IModuleContainer container = tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite());
 				if(container != null){
 					FontRenderer fontRenderer = mc.fontRenderer;
-					IStoragePosition position = EnumStoragePosition.getPositionFromFacing(facing, container.getLocatable().getFacing());
+					/*IStoragePosition position = EnumStoragePosition.getPositionFromFacing(facing, container.getLocatable().getFacing());
 					if(position != EnumStoragePosition.NONE) {
 						IStorage storage = container.getStorage(position);
 						String text = "Storage: " + position.getDisplayName();
@@ -75,7 +78,7 @@ public class EventHandler {
 						int y = height / 2;
 						int x = width-size;
 						fontRenderer.drawStringWithShadow(text, x, y, -1);
-						/*y += fontRenderer.FONT_HEIGHT;
+						y += fontRenderer.FONT_HEIGHT;
 						x += 4;
 						if (storage != null) {
 							int xOffset = 0;
@@ -104,9 +107,9 @@ public class EventHandler {
 							GlStateManager.enableLighting();
 							RenderHelper.disableStandardItemLighting();
 						}
-					}
+					}*/
 				}
-			}*/
+			}
 		}
 	}
 }

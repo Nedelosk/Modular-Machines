@@ -17,7 +17,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -25,7 +24,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -37,14 +35,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.IModuleContainer;
 import modularmachines.api.modules.Module;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.listeners.INeighborBlockListener;
 import modularmachines.api.modules.listeners.IRedstoneListener;
@@ -109,32 +106,12 @@ public class BlockModuleContainer extends Block {
 		if (hit == null) {
 			return false;
 		}
-		if (player.isSneaking()) {
-			List<ItemStack> itemStacks = container.extractModule(hit, world.isRemote);
-			if (itemStacks.isEmpty()) {
-				return false;
-			}
-			for (ItemStack itemStack : itemStacks) {
-				ItemHandlerHelper.giveItemToPlayer(player, itemStack);
-			}
-			return true;
-		} else {
-			if (container.insertModule(player.getHeldItem(hand), hit, world.isRemote)) {
-				ItemStack itemStack = player.getHeldItem(hand);
-				if (!player.capabilities.isCreativeMode) {
-					itemStack.shrink(1);
-					if (itemStack.isEmpty()) {
-						player.setHeldItem(hand, ItemStack.EMPTY);
-					}
-				}
-				if (world.isRemote) {
-					world.playSound(player, player.posX, player.posY, player.posZ,
-							SoundEvents.ENTITY_ITEMFRAME_PLACE, SoundCategory.PLAYERS, 0.6F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-				}
-				return true;
-			}
-			return false;
-		}
+		return container.onActivated(player, hand, hit);
+	}
+	
+	@Override
+	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+		super.onBlockClicked(worldIn, pos, playerIn);
 	}
 	
 	@Nullable
@@ -153,7 +130,7 @@ public class BlockModuleContainer extends Block {
 		if (container == null) {
 			return;
 		}
-		container.setFacing(placer.getHorizontalFacing().getOpposite());
+		container.getLocatable().setFacing(placer.getHorizontalFacing().getOpposite());
 	}
 	
 	@Override
@@ -167,14 +144,12 @@ public class BlockModuleContainer extends Block {
 		RayTraceResult hit = collisionRayTrace(state, world, pos, vectors.getKey(), vectors.getValue());
 		if (hit == null) {
 			return FULL_BLOCK_AABB.offset(pos);
-		} else {
-			Module module = container.getModule(hit.subHit);
-			if (module == null) {
-				return FULL_BLOCK_AABB.offset(pos);
-			}
-			return module.getCollisionBox().offset(pos);
 		}
-		//return container.getBoundingBox().offset(pos);
+		Module module = container.getModule(hit.subHit);
+		if (module == null) {
+			return FULL_BLOCK_AABB.offset(pos);
+		}
+		return module.getCollisionBox().offset(pos);
 	}
 	
 	@Nullable
@@ -305,9 +280,9 @@ public class BlockModuleContainer extends Block {
 		if (container == null) {
 			return false;
 		}
-		EnumFacing facing = container.getFacing();
+		EnumFacing facing = container.getLocatable().getFacing();
 		if (facing != axis) {
-			container.setFacing(axis);
+			container.getLocatable().setFacing(axis);
 			container.getLocatable().markLocatableDirty();
 			world.markBlockRangeForRenderUpdate(pos, pos);
 			return true;
@@ -341,4 +316,13 @@ public class BlockModuleContainer extends Block {
 		return false;
 	}
 	
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 }

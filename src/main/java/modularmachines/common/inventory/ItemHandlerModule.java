@@ -14,21 +14,24 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import modularmachines.api.components.EnumComponentTag;
+import modularmachines.api.components.IComponent;
+import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.Module;
 import modularmachines.api.recipes.IRecipe;
 import modularmachines.api.recipes.IRecipeConsumer;
 import modularmachines.api.recipes.RecipeItem;
+import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.utils.ItemUtil;
 
 import static net.minecraft.item.ItemStack.EMPTY;
 
-public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsumer {
+public class ItemHandlerModule extends ModuleComponent implements IItemHandlerModifiable, IRecipeConsumer, IComponent {
 	
-	protected final Module module;
 	protected final NonNullList<ItemContainer> containers;
 	
 	public ItemHandlerModule(Module module) {
-		this.module = module;
+		super(module);
 		this.containers = NonNullList.create();
 	}
 	
@@ -42,6 +45,11 @@ public class ItemHandlerModule implements IItemHandlerModifiable, IRecipeConsume
 		ItemContainer container = new ItemContainer(containers.size(), isInput, module, backgroundTexture);
 		containers.add(container);
 		return container;
+	}
+	
+	@Override
+	public IComponentTag[] getTags() {
+		return new IComponentTag[]{EnumComponentTag.ITEMS};
 	}
 	
 	/* INEVNTORY */

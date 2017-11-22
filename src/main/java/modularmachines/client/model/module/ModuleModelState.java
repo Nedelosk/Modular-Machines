@@ -21,6 +21,11 @@ public class ModuleModelState implements IModuleModelState {
 	}
 	
 	@Override
+	public boolean has(IModelProperty property) {
+		return values.containsKey(property);
+	}
+	
+	@Override
 	public Collection<IModelProperty> getProperties() {
 		return values.keySet();
 	}

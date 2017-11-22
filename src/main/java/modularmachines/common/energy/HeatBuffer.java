@@ -1,13 +1,17 @@
 package modularmachines.common.energy;
 
+import java.io.IOException;
+
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 
 import net.minecraftforge.common.util.INBTSerializable;
 
+import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
 
-public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound> {
+public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>, INetworkComponent {
 	
 	protected double heatBuffer;
 	protected final double capacity;
@@ -98,5 +102,15 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	@Override
 	public double getCapacity() {
 		return capacity;
+	}
+	
+	@Override
+	public void writeData(PacketBuffer data) {
+		data.writeDouble(heatBuffer);
+	}
+	
+	@Override
+	public void readData(PacketBuffer data) throws IOException {
+		heatBuffer = data.readDouble();
 	}
 }
