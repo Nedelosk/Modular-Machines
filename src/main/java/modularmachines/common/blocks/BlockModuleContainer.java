@@ -186,7 +186,6 @@ public class BlockModuleContainer extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		super.getSubBlocks(itemIn, items);
 	}
 	
 	@Override

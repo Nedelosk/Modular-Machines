@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import modularmachines.common.blocks.BlockModuleContainer;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 import modularmachines.common.core.Registry;
-import modularmachines.common.items.blocks.ItemBlockForest;
 
 public class ModBlocks {
 	
@@ -16,7 +15,7 @@ public class ModBlocks {
 	
 	public static void preInit() {
 		moduleStorage = new BlockModuleContainer();
-		register(moduleStorage, new ItemBlockForest(moduleStorage));
+		register(moduleStorage);
 		
 		GameRegistry.registerTileEntity(TileEntityModuleContainer.class, "modularmachines.module");
 	}
