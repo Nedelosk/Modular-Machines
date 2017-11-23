@@ -31,6 +31,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import org.lwjgl.input.Keyboard;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
@@ -40,6 +41,7 @@ import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
+import modularmachines.common.modules.components.ModelComponent;
 import modularmachines.common.utils.Translator;
 
 public class ClientProxy extends CommonProxy {
@@ -186,4 +188,8 @@ public class ClientProxy extends CommonProxy {
 		ModelManager.getInstance().registerItemClient(item);
 	}
 	
+	@Override
+	public void addComponents(IModule module) {
+		module.addComponent(new ModelComponent());
+	}
 }

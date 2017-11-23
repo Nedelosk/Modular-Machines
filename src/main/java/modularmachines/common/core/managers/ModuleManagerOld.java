@@ -1,33 +1,15 @@
 package modularmachines.common.core.managers;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.Collection;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.util.INBTSerializable;
 
-import modularmachines.api.ILocatable;
-import modularmachines.api.components.IComponent;
-import modularmachines.api.components.IComponentTag;
-import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.modules.container.EmptyModuleContainer;
 
 @Deprecated
 public class ModuleManagerOld {
@@ -295,163 +277,21 @@ public class ModuleManagerOld {
 	}*/
 	
 	public static void registerCapability() {
-		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> new IModuleContainer() {
-			
-			@Override
-			public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-				return null;
-			}
-			
-			@Override
-			public void readFromNBT(NBTTagCompound compound) {
-			
-			}
-			
-			@Override
-			public Collection<ContainerComponent> getComponents() {
-				return null;
-			}
-			
-			@Override
-			public void addComponent(ContainerComponent component) {
-			
-			}
-			
-			@Override
-			public void addComponent(ContainerComponent... component) {
-			
-			}
-			
-			@Override
-			public Class<?>[] getComponentInterfaces(Class<? extends ContainerComponent> componentClass) {
-				return new Class[0];
-			}
-			
-			@Override
-			public boolean hasComponent(Class<?> componentClass) {
-				return false;
-			}
-			
-			@Nullable
-			@Override
-			public <T> T getInterface(Class<T> interfaceClass) {
-				return null;
-			}
-			
-			@Override
-			public <T> Collection<T> getInterfaces(Class<T> interfaceClass) {
-				return null;
-			}
-			
-			@Nullable
-			@Override
-			public <T> T getComponent(IComponentTag tag) {
-				return null;
-			}
-			
-			@Override
-			public <T> Collection<T> getComponents(IComponentTag tag) {
-				return null;
-			}
-			
-			@Override
-			public boolean hasComponent(IComponentTag tag) {
-				return false;
-			}
-			
-			@Override
-			public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-				return false;
-			}
-			
-			@Nullable
-			@Override
-			public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-				return null;
-			}
-			
-			@Override
-			public ILocatable getLocatable() {
-				return null;
-			}
-			
-			@Override
-			public IModuleHandler getHandler() {
-				return null;
-			}
-			
-			@Nullable
-			@Override
-			public RayTraceResult collisionRayTrace(BlockPos blockPos, Vec3d start, Vec3d end) {
-				return null;
-			}
-			
-			@Override
-			public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
-				return false;
-			}
-			
-			@Override
-			public void onClick(EntityPlayer player, RayTraceResult hit) {
-			}
-			
-			@Nullable
-			@Override
-			public IModulePosition getPosition(RayTraceResult hit) {
-				return null;
-			}
-			
-			@Override
-			public void sendToClient() {
-			
-			}
-			
-			@Override
-			public void writeData(PacketBuffer data) {
-			}
-			
-			@Override
-			public void readData(PacketBuffer data) throws IOException {
-			}
-			
-			@Nullable
-			@Override
-			public IModule getModule(int index) {
-				return null;
-			}
-			
-			@Override
-			public Collection<IModule> getModules() {
-				return null;
-			}
-			
-			@Override
-			public void sendModuleToClient(IModule module) {
-			
-			}
-			
-			@Override
-			public <T extends IComponent> T getComponent(Class<T> componentClass) {
-				return null;
-			}
-		});
+		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> EmptyModuleContainer.INSTANCE);
 	}
 	
-	private static class DefaultStorage implements IStorage {
-		
+	private static class DefaultStorage implements IStorage<IModuleContainer> {
 		@Override
-		public NBTBase writeNBT(Capability capability, Object instance, EnumFacing side) {
-			if (instance instanceof INBTSerializable) {
-				return ((INBTSerializable) instance).serializeNBT();
-			}
-			return new NBTTagCompound();
+		public NBTBase writeNBT(Capability capability, IModuleContainer instance, EnumFacing side) {
+			return instance.writeToNBT(new NBTTagCompound());
 		}
 		
 		@Override
-		public void readNBT(Capability capability, Object instance, EnumFacing side, NBTBase nbt) {
-			if (instance instanceof INBTSerializable) {
-				((INBTSerializable) instance).deserializeNBT(nbt);
+		public void readNBT(Capability capability, IModuleContainer instance, EnumFacing side, NBTBase nbt) {
+			if (!(nbt instanceof NBTTagCompound)) {
+				return;
 			}
+			instance.readFromNBT((NBTTagCompound) nbt);
 		}
 	}
 }

@@ -20,6 +20,7 @@ public interface IComponentProvider<C extends IComponent> extends INBTReadable, 
 	
 	boolean hasComponent(Class<?> componentClass);
 	
+	@Nullable
 	<T extends IComponent> T getComponent(Class<T> componentClass);
 	
 	/* INTERFACES*/

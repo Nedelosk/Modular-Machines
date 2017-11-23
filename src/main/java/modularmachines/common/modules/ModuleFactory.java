@@ -11,6 +11,7 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.container.ModuleContainer;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
@@ -55,6 +56,7 @@ public enum ModuleFactory implements IModuleFactory {
 	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
 		IModule module = new Module(parent, position, container, parentItem);
 		container.getData().getDefinition().addComponents(module);
+		ModularMachines.proxy.addComponents(module);
 		return module;
 	}
 	
@@ -62,6 +64,7 @@ public enum ModuleFactory implements IModuleFactory {
 	public IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position) {
 		IModule module = new Module(parent, moduleData, position);
 		moduleData.getDefinition().addComponents(module);
+		ModularMachines.proxy.addComponents(module);
 		module.readFromNBT(compound);
 		return module;
 	}

@@ -72,7 +72,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	CASING_WOOD("casing.wood", 0) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(9);
 		}
 		
@@ -90,8 +90,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	CASING_BRONZE("casing.bronze", 0) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(18);
+			data.setPositions(EnumCasingPositions.CENTER);
 		}
 		
 		@Override
@@ -114,7 +115,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	CASING_IRON("casing.iron", 0) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(27);
 		}
 		
@@ -132,7 +133,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	CASING_STEEL("casing.steel", 0) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(36);
 		}
 		
@@ -150,7 +151,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_WOOD("rack.wood", 1) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(3);
 		}
 		
@@ -168,9 +169,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_BRICK("rack.brick", 1) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(3);
-			data.setPositions(EnumCasingPositions.CENTER);
+			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT);
 		}
 		
 		@Override
@@ -193,7 +194,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_BRONZE("rack.bronze", 2) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(6);
 			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT);
 		}
@@ -212,7 +213,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_IRON("rack.iron", 3) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(12);
 		}
 		
@@ -230,7 +231,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_STEEL("rack.steel", 4) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(24);
 		}
 		
@@ -296,7 +297,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			data.setWallModelLocation(new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
 		}
 		
@@ -314,7 +315,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	ENERGY_INPUT("energy_input", 4) {
 		@Override
-		protected void initData(ModuleData data) {
+		protected void initData(IModuleData data) {
 			super.initData(data);
 			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT, EnumCasingPositions.BACK, EnumCasingPositions.FRONT);
 		}
@@ -332,39 +333,27 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 	};
 	
-	protected final ModuleData data;
+	protected final IModuleData data;
 	
 	ModuleDefinition(String name, int complexity) {
-		this.data = new ModuleData();
-		data.setRegistryName(name);
-		data.setComplexity(complexity);
-		data.setUnlocalizedName(name);
-		initData(data);
+		this(ModuleManager.factory.createData(), name, complexity);
 	}
 	
-	ModuleDefinition(ModuleData data, String registry, int complexity) {
+	ModuleDefinition(IModuleData data, String registry, int complexity) {
 		this.data = data;
-		data.setRegistryName(registry);
+		data.setRegistryName(new ResourceLocation(Constants.MOD_ID, registry));
 		data.setComplexity(complexity);
 		data.setUnlocalizedName(registry);
+		data.setDefinition(this);
 		initData(data);
 	}
 	
-	ModuleDefinition() {
-		this.data = createData();
-		initData(data);
-	}
-	
-	protected void initData(ModuleData data) {
+	protected void initData(IModuleData data) {
 		
 	}
 	
 	
 	protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
-	}
-	
-	protected ModuleData createData() {
-		return new ModuleData();
 	}
 	
 	public void registerContainers() {

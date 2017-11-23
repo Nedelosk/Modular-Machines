@@ -136,7 +136,7 @@ public class ModuleHandler implements IModuleHandler {
 		} else {
 			if (provider instanceof IModule) {
 				IModule parent = (IModule) provider;
-				IModelComponent modelComponent = parent.getComponent(IModelComponent.class);
+				IModelComponent modelComponent = parent.getInterface(IModelComponent.class);
 				if (modelComponent != null) {
 					modelComponent.setModelNeedReload(true);
 				}

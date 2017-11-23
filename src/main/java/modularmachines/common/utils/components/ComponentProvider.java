@@ -82,11 +82,9 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		return this.componentMap.values();
 	}
 	
+	@Nullable
 	public <T extends IComponent> T getComponent(Class<T> componentClass) {
-		if (this.hasComponent(componentClass)) {
-			return componentClass.cast(this.componentMap.get(componentClass));
-		}
-		throw new IllegalArgumentException("No component found for " + componentClass);
+		return componentClass.cast(this.componentMap.get(componentClass));
 	}
 	
 	@Override

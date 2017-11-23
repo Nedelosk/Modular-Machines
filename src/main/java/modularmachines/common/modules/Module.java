@@ -69,7 +69,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	 * Reads the current state of this module from the NBT-Data.
 	 */
 	public void readFromNBT(NBTTagCompound compound) {
-		readFromNBT(compound);
+		super.readFromNBT(compound);
 		itemStack = new ItemStack(compound.getCompoundTag("Parent"));
 	}
 	

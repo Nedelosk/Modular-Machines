@@ -15,6 +15,8 @@ import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.FMLClientHandler;
 
+import modularmachines.api.modules.IModule;
+
 public class CommonProxy {
 	
 	public void preInit() {
@@ -66,6 +68,10 @@ public class CommonProxy {
 	}
 	
 	public void registerItem(Item item) {
+	}
+	
+	public void addComponents(IModule module) {
+	
 	}
 	
 }
