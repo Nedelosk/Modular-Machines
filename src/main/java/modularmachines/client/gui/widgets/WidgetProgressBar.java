@@ -10,8 +10,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.common.modules.IModuleWorking;
-import modularmachines.common.modules.integration.IModuleJEI;
-import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
@@ -28,9 +26,6 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		super.handleMouseClick(mouseX, mouseY, mouseButton);
-		if (module instanceof IModuleJEI) {
-			PluginUtil.show(((IModuleJEI) module).getJeiRecipeCategories());
-		}
 	}
 	
 	@Override

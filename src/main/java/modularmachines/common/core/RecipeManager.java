@@ -27,34 +27,7 @@ public class RecipeManager {
 		addModuleRecipes();
 	}
 	
-	public static void registerHolderRecipes() {
-		/*for (IMetalMaterial material : modularmachines.api.modules.ModuleManager.getMaterialsWithHolder()) {
-			ItemStack holderLarge = modularmachines.api.modules.ModuleManager.getHolder(material, 0).copy();
-			ItemStack holderMedium = modularmachines.api.modules.ModuleManager.getHolder(material, 1).copy();
-			ItemStack holderSmall = modularmachines.api.modules.ModuleManager.getHolder(material, 2).copy();
-			for (String oreDict : material.getOreDicts()) {
-				addShapedRecipe(holderLarge, "WPW", "IPI", "WPW", 'P', "plate" + oreDict, 'I', "ingot" + oreDict, 'W', "wire" + oreDict);
-			}
-			addShapelessRecipe(holderLarge, holderMedium, holderMedium);
-			addShapelessRecipe(holderMedium, holderSmall, holderSmall);
-			addShapelessRecipe(holderLarge, holderSmall, holderSmall, holderSmall, holderSmall);
-			holderMedium.setCount(2);
-			holderSmall.setCount(2);
-			addShapelessRecipe(holderMedium, holderLarge);
-			addShapelessRecipe(holderSmall, holderMedium);
-		}*/
-	}
-	
 	private static void addModuleRecipes() {
-		/*addShapelessRecipe("tin_dust", ItemManager.itemDusts.getStack(EnumMaterial.TIN), "oreTin", "toolHammer");
-		addShapelessRecipe("copper_dust", ItemManager.itemDusts.getStack(EnumMaterial.COPPER), "oreCopper", "toolHammer");
-		addShapelessRecipe("lead_dust", ItemManager.itemDusts.getStack(EnumMaterial.LEAD), "oreLead", "toolHammer");
-		addShapelessRecipe("nickle_dust", ItemManager.itemDusts.getStack(EnumMaterial.NICKEL), "oreNickel", "toolHammer");
-		addShapelessRecipe("silver_dust", ItemManager.itemDusts.getStack(EnumMaterial.SILVER), "oreSilver", "toolHammer");
-		addShapelessRecipe("aluminum_dust", ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminum", "toolHammer");
-		addShapelessRecipe("aluminium_dust", ItemManager.itemDusts.getStack(EnumMaterial.ALUMINIUM), "oreAluminium", "toolHammer");
-		ItemStack cupperDust = ItemManager.itemDusts.getStack(EnumMaterial.COPPER);
-		addShapelessRecipe("bronze_dust", ItemManager.itemDusts.getStack(EnumMaterial.BRONZE, 3), cupperDust, cupperDust, cupperDust, ItemManager.itemDusts.getStack(EnumMaterial.TIN));*/
 		// Casings
 		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
 		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1, 1), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);

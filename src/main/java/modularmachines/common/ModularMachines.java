@@ -8,6 +8,7 @@ package modularmachines.common;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
@@ -30,14 +32,15 @@ import modularmachines.common.core.RecipeManager;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.core.managers.ModFluids;
 import modularmachines.common.core.managers.ModItems;
-import modularmachines.common.core.managers.ModuleManagerOld;
-import modularmachines.common.core.managers.OreDictionaryManager;
+import modularmachines.common.core.managers.ModOreDicts;
 import modularmachines.common.event.EventHandler;
+import modularmachines.common.modules.ModuleComponentFactory;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleFactory;
 import modularmachines.common.modules.ModuleHelper;
+import modularmachines.common.modules.container.EmptyModuleContainer;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.plugins.PluginManager;
+import modularmachines.common.utils.capabilitys.DefaultStorage;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION)
 public class ModularMachines {
@@ -49,7 +52,6 @@ public class ModularMachines {
 	public static CommonProxy proxy;
 	
 	public static IForgeRegistry<IModuleData> dataRegistry;
-	public static final PluginManager PLUGIN_MANAGER = new PluginManager();
 	public static Config config;
 	
 	public ModularMachines() {
@@ -62,45 +64,35 @@ public class ModularMachines {
 	public void preInit(FMLPreInitializationEvent event) {
 		ModuleManager.factory = ModuleFactory.INSTANCE;
 		ModuleManager.helper = ModuleHelper.INSTANCE;
+		ModuleManager.componentFactory = ModuleComponentFactory.INSTANCE;
 		//new ModuleLoadManager();
 		//configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
 		//configFile = new File(configFolder, "Modular-Machines.cfg");
-		//ModularManager.helper = new ModularHelper();
 		//config = new Config();
 		//Config.config = new Configuration(ModularMachines.configFile);
 		//Config.syncConfig(true);
-		ModuleManagerOld.registerCapability();
+		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> EmptyModuleContainer.INSTANCE);
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
-		ModFluids.registerFluids();
-		ModBlocks.registerBlocks();
-		ModItems.registerItems();
-		ModBlocks.registerTiles();
+		ModFluids.preInit();
+		ModBlocks.preInit();
+		ModItems.preInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-		PLUGIN_MANAGER.preInit();
 		proxy.preInit();
-		OreDictionaryManager.registerOres();
+		ModOreDicts.registerOres();
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		//ModuleManager.registerModuels();
 		ModuleDefinition.registerModuleContainers();
 		RecipeManager.registerRecipes();
 		proxy.init();
-		PLUGIN_MANAGER.init();
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		//ModuleLoadManager.loadModules();
-		//ModuleLoadManager.loadModuleContainers();
 		proxy.postInit();
-		//GameRegistry.registerWorldGenerator(new WorldGenerator(), 0);
 		//Config.syncConfig(true);
-		RecipeManager.registerHolderRecipes();
-		PLUGIN_MANAGER.postInit();
 	}
-	
 	
 }

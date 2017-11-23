@@ -14,12 +14,10 @@ public class ModBlocks {
 	
 	public static BlockModuleContainer moduleStorage;
 	
-	public static void registerBlocks() {
+	public static void preInit() {
 		moduleStorage = new BlockModuleContainer();
 		register(moduleStorage, new ItemBlockForest(moduleStorage));
-	}
-	
-	public static void registerTiles() {
+		
 		GameRegistry.registerTileEntity(TileEntityModuleContainer.class, "modularmachines.module");
 	}
 	

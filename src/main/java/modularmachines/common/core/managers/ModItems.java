@@ -14,7 +14,7 @@ public class ModItems {
 	public static Item itemTurbineSteam;
 	public static Item itemCasings;
 	
-	public static void registerItems() {
+	public static void preInit() {
 		itemCasings = register(new ItemCasing());
 		itemModuleRack = register(new ItemModuleMeta("module_rack", new String[]{"brick", "bronze", "iron", "steel", "magmarium"}));
 		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));

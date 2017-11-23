@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import static net.minecraftforge.oredict.OreDictionary.registerOre;
 
-public class OreDictionaryManager {
+public class ModOreDicts {
 	
 	public static void registerOres() {
 		registerOre("blockObsidian", Blocks.OBSIDIAN);

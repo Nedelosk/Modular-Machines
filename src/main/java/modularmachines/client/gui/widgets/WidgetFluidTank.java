@@ -37,8 +37,6 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.common.utils.Mod;
-import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 import modularmachines.common.utils.Translator;
 
@@ -60,9 +58,6 @@ public class WidgetFluidTank extends Widget {
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (tank != null && tank.getFluid() != null) {
-			if (Mod.JEI.active()) {
-				PluginUtil.show(mouseButton == 1, tank.getFluid());
-			}
 		}
 	}
 	

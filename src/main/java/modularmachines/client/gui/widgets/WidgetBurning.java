@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import modularmachines.common.modules.IModuleBurning;
-import modularmachines.common.utils.Mod;
-import modularmachines.common.utils.PluginUtil;
 import modularmachines.common.utils.RenderUtil;
 
 public class WidgetBurning<M extends IModuleBurning> extends Widget {
@@ -24,9 +22,6 @@ public class WidgetBurning<M extends IModuleBurning> extends Widget {
 	
 	@Override
 	public void handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-		if (Mod.JEI.active()) {
-			PluginUtil.show(PluginUtil.FUEL);
-		}
 	}
 	
 	@Override
