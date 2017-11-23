@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:item/module_storage_large/module_storage_large",
-    "textures": {
-        "wall": "modularmachines:blocks/casing/casing_down"
-    }
-}

@@ -15,12 +15,12 @@ import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemCasing extends Item implements IItemModelRegister {
 	
-	private String[] casings = new String[]{"wood", "bronze", "iron", "steel", "magmarium"};
+	private String[] casings = new String[]{"bronze", "iron", "steel", "magmarium"};
 	
 	public ItemCasing() {
 		setUnlocalizedName("casing");
 		setHasSubtypes(true);
-		setCreativeTab(TabModularMachines.tabModules);
+		setCreativeTab(TabModularMachines.tabModularMachines);
 	}
 	
 	@SideOnly(Side.CLIENT)

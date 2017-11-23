@@ -70,24 +70,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataWorking.addModelData(data());
 		}
 	},
-	CASING_WOOD("casing.wood", 0) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(9);
-		}
-		
-		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 0));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("wood/casings"));
-		}
-		
-	},
 	CASING_BRONZE("casing.bronze", 0) {
 		@Override
 		protected void initData(IModuleData data) {
@@ -97,7 +79,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 1));
+			registerDamage(new ItemStack(ItemManager.itemCasings));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -120,7 +102,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 2));
+			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 1));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -138,31 +120,13 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 3));
+			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 2));
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
 			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("steel/casings"));
-		}
-		
-	},
-	MODULE_RACK_WOOD("rack.wood", 1) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(3);
-		}
-		
-		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 0));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("wood/module_storage"));
 		}
 		
 	},
@@ -175,7 +139,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
-			helper.registerContainer(factory.createDamageContainer(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 1), data()));
+			helper.registerContainer(factory.createDamageContainer(new ItemStack(ItemManager.itemModuleStorage), data()));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -199,7 +163,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 2));
+			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 1));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -217,7 +181,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 3));
+			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 2));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -235,7 +199,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorageLarge, 1, 4));
+			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 3));
 		}
 		
 		@SideOnly(Side.CLIENT)

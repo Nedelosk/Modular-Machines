@@ -1,9 +1,0 @@
-{
-    "variants": {
-		"type=copper": { "model": "modularmachines:metal_block" },
-		"type=bronze": { "model": "modularmachines:metal_block" },
-		"type=steel": { "model": "modularmachines:metal_block" },
-		"type=tin": { "model": "modularmachines:metal_block" },
-		"type=invar": { "model": "modularmachines:metal_block" }
-	}
-}
