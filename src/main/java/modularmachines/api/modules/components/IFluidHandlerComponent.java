@@ -26,6 +26,9 @@ public interface IFluidHandlerComponent extends IModuleComponent, IFluidHandler,
 	@Nullable
 	FluidStack drainInternal(int maxDrain, boolean doDrain);
 	
+	@Nullable
+	ITank getTank(int index);
+	
 	interface ITank extends IFluidTank {
 		int getIndex();
 		
@@ -34,5 +37,13 @@ public interface IFluidHandlerComponent extends IModuleComponent, IFluidHandler,
 		void setFilter(Predicate<FluidStack> filter);
 		
 		Predicate<FluidStack> getFilter();
+		
+		int fillInternal(FluidStack resource, boolean doFill);
+		
+		@Nullable
+		FluidStack drainInternal(int maxDrain, boolean doDrain);
+		
+		@Nullable
+		FluidStack drainInternal(FluidStack resource, boolean doDrain);
 	}
 }

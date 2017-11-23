@@ -145,6 +145,15 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		return totalDrained;
 	}
 	
+	@Nullable
+	@Override
+	public ITank getTank(int index) {
+		if (index >= tanks.size()) {
+			return null;
+		}
+		return tanks.get(index);
+	}
+	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList nbtTagTankList = new NBTTagList();

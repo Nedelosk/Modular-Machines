@@ -1,6 +1,7 @@
 package modularmachines.common.modules.components;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
@@ -24,15 +25,24 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 		return slot;
 	}
 	
-	@Nonnull
 	@Override
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 		validateSlotIndex(slot);
 		ItemSlot itemSlot = slots.get(slot);
-		if (!itemSlot.getFilter().test(stack)) {
+		if (itemSlot.isOutput || !itemSlot.getFilter().test(stack)) {
 			return stack;
 		}
 		return super.insertItem(slot, stack, simulate);
+	}
+	
+	@Override
+	public ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate) {
+		return super.insertItem(slot, stack, simulate);
+	}
+	
+	@Override
+	public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
+		return super.extractItem(slot, amount, simulate);
 	}
 	
 	@Override
@@ -53,6 +63,15 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 		return compound;
 	}
 	
+	@Nullable
+	@Override
+	public IItemSlot getSlot(int index) {
+		if (index >= slots.size()) {
+			return null;
+		}
+		return slots.get(index);
+	}
+	
 	@Override
 	public void setProvider(IModule provider) {
 		this.module = provider;
@@ -68,7 +87,8 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 		private final int limit;
 		private final boolean isOutput;
 		private Predicate<ItemStack> filter = i -> true;
-		private String backgroundTexture = "";
+		@Nullable
+		private String backgroundTexture = null;
 		
 		private ItemSlot(int index, int limit, boolean isOutput) {
 			this.index = index;

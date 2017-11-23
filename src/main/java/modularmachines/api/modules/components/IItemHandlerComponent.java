@@ -1,5 +1,6 @@
 package modularmachines.api.modules.components;
 
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
@@ -25,9 +26,17 @@ public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, I
 	
 	IItemSlot addSlot(int stackLimit, boolean isOutput);
 	
+	ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate);
+	
+	ItemStack extractItemInternal(int slot, int amount, boolean simulate);
+	
+	@Nullable
+	IItemSlot getSlot(int index);
+
 	interface IItemSlot {
 		IItemSlot setBackgroundTexture(String backgroundTexture);
 		
+		@Nullable
 		String getBackgroundTexture();
 		
 		int getIndex();

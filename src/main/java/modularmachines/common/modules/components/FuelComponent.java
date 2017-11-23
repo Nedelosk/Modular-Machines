@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
+import modularmachines.api.modules.components.IFluidHandlerComponent;
 import modularmachines.common.modules.ModuleComponent;
 
 public abstract class FuelComponent extends ModuleComponent implements INBTWritable, INBTReadable {
@@ -68,7 +69,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public boolean updateFuel() {
-			ItemHandler itemHandler = provider.getComponent(ItemHandler.class);
+			ItemHandlerComponent itemHandler = provider.getComponent(ItemHandlerComponent.class);
 			if (itemHandler == null) {
 				return false;
 			}
@@ -101,11 +102,11 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public boolean updateFuel() {
-			FluidHandler fluidHandler = provider.getComponent(FluidHandler.class);
+			FluidHandlerComponent fluidHandler = provider.getComponent(FluidHandlerComponent.class);
 			if (fluidHandler == null) {
 				return false;
 			}
-			ModuleTank tank = fluidHandler.getContainer(fuelSlot);
+			IFluidHandlerComponent.ITank tank = fluidHandler.getTank(fuelSlot);
 			if (tank == null) {
 				return false;
 			}

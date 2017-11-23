@@ -1,5 +1,7 @@
 package modularmachines.common.containers;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
@@ -8,28 +10,33 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.common.inventory.ItemContainer;
-import modularmachines.common.modules.components.ItemHandler;
+import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.common.modules.components.ItemHandlerComponent;
 
 public class SlotModule extends SlotItemHandler {
 	
-	public ItemContainer container;
+	public IItemHandlerComponent component;
+	@Nullable
+	private final String backgroundTexture;
 	
-	public SlotModule(ItemHandler itemHandler, int index, int xPosition, int yPosition) {
+	public SlotModule(ItemHandlerComponent itemHandler, int index, int xPosition, int yPosition) {
 		super(itemHandler, index, xPosition, yPosition);
-		this.container = itemHandler.getContainer(index);
+		component = itemHandler;
+		IItemHandlerComponent.IItemSlot slot = itemHandler.getSlot(index);
+		backgroundTexture = slot.getBackgroundTexture();
 	}
 	
 	@Override
 	public void onSlotChanged() {
-		container.markDirty();
+		component.getProvider().getContainer().getLocatable().markLocatableDirty();
 	}
 	
+	@Nullable
 	@SideOnly(Side.CLIENT)
 	@Override
 	public TextureAtlasSprite getBackgroundSprite() {
-		if (container.getBackgroundTexture() != null) {
-			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:gui/" + container.getBackgroundTexture());
+		if (backgroundTexture != null) {
+			return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:gui/" + backgroundTexture);
 		} else {
 			return null;
 		}

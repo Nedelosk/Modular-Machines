@@ -29,7 +29,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	private IModulePosition[] positions;
 	@Nullable
 	private ResourceLocation wallModelLocation;
-	private IModuleDefinition definition = d -> {
+	private IModuleDefinition definition = (d, f) -> {
 	};
 	
 	public ModuleData(IModulePosition... positions) {
