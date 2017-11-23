@@ -124,6 +124,14 @@ public class ModuleUtil {
 	}
 	
 	@Nullable
+	public static <C> C getComponent(@Nullable IModule module, Class<C> componentClass) {
+		if (module == null) {
+			return null;
+		}
+		return module.getInterface(componentClass);
+	}
+	
+	@Nullable
 	public static HeatComponent getHeat(IModuleContainer provider) {
 		return provider.getComponent(HeatComponent.class);
 	}

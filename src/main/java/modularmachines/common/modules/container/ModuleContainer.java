@@ -33,15 +33,16 @@ import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IBoundingBoxComponent;
 import modularmachines.api.modules.components.IInteractionComponent;
+import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
-import modularmachines.common.modules.Module;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModuleContainer;
+import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.components.ComponentProvider;
 
 public class ModuleContainer extends ComponentProvider<ContainerComponent> implements IModuleContainer {
@@ -88,11 +89,11 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	private void addToList(Set<IModule> modules, IModule module) {
 		modules.add(module);
-		if (!(module instanceof IModuleProvider)) {
+		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		if (moduleProvider == null) {
 			return;
 		}
-		IModuleProvider provider = (IModuleProvider) module;
-		IModuleHandler moduleHandler = provider.getHandler();
+		IModuleHandler moduleHandler = moduleProvider.getHandler();
 		moduleHandler.getModules().forEach(m -> addToList(modules, m));
 	}
 	
@@ -102,9 +103,6 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		for (IModule module : getModules()) {
 			for (IBoundingBoxComponent component : module.getInterfaces(IBoundingBoxComponent.class)) {
 				AxisAlignedBB alignedBB = component.getCollisionBox();
-				if (alignedBB == null) {
-					continue;
-				}
 				if (boundingBox == null) {
 					boundingBox = alignedBB;
 					continue;
@@ -182,42 +180,25 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	private int createPositionIndex(IModule module) {
-		//List<Module> modules = new LinkedList<>();
-		//addPosition(module, modules);
 		int value = 0;
-		Object provider = module;
+		IModule currentModule = module;
 		do {
-			IModule otherModule = (IModule) provider;
-			IModuleHandler moduleHandler = otherModule.getParent();
-			IModulePosition position = otherModule.getPosition();
+			IModuleHandler moduleHandler = currentModule.getParent();
+			IModulePosition position = currentModule.getPosition();
 			int positionIndex = moduleHandler.getPositionIndex(position);
 			value = value << 5;
 			value = value | (positionIndex & 0xF);
-			if (provider != module) {
+			if (currentModule != module) {
 				value = value | 1 << 4;
 			}
-			provider = otherModule.getParent().getProvider();
-		} while (provider == module || provider instanceof IModule);
-		/*for(int i = 0;i < modules.size();i++){
-			Module otherModule = modules.get(i);
-			IModuleHandler moduleHandler = otherModule.getParent();
-			IModulePosition position = otherModule.getPosition();
-			int positionIndex = moduleHandler.getPositionIndex(position);
-			value = value << 5;
-			value = value | (positionIndex & 0xF);
-			if(i != 0) {
-				value = value | 1 << 4;
+			IModuleProvider provider = currentModule.getParent().getProvider();
+			if (provider instanceof IModuleComponent) {
+				currentModule = ((IModuleComponent) provider).getProvider();
+			} else {
+				break;
 			}
-		}*/
+		} while (true);
 		return value;
-	}
-	
-	private void addPosition(Module module, List<Module> modules) {
-		modules.add(module);
-		IModuleProvider provider = module.getParent().getProvider();
-		if (provider instanceof Module) {
-			addPosition(((Module) provider), modules);
-		}
 	}
 	
 	private List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
@@ -245,19 +226,13 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			return insertModule(this, itemStack.copy(), dataContainer, rayTraceResult, simulate);
 		}
 		IModule module = getModule(rayTraceResult.subHit);
-		if (!(module instanceof IModuleProvider)) {
-			return false;
-		}
-		IModuleProvider provider = (IModuleProvider) module;
-		return insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
+		IModuleProvider provider = ModuleUtil.getComponent(module, IModuleProvider.class);
+		return provider != null && insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
 	}
 	
 	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
 		IModulePosition position = provider.getPosition(rayTraceResult);
-		if (position == null) {
-			return false;
-		}
-		return provider.getHandler().insertModule(position, dataContainer, itemStack, simulate);
+		return position != null && provider.getHandler().insertModule(position, dataContainer, itemStack, simulate);
 	}
 	
 	@Override

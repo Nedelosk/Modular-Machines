@@ -83,8 +83,8 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	}
 	
 	@Override
-	public void addComponent(ContainerComponent component) {
-	
+	public <T extends ContainerComponent> T addComponent(T component) {
+		return component;
 	}
 	
 	@Override

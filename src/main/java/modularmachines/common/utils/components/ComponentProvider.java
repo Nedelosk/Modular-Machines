@@ -59,7 +59,7 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addComponent(C component) {
+	public <T extends C> T addComponent(T component) {
 		Preconditions.checkNotNull(component, "Can't have a null component!");
 		component.setProvider(this);
 		this.componentMap.put(component.getClass(), component);
@@ -69,6 +69,7 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		for (Class<?> inter : component.getComponentInterfaces()) {
 			this.componentInterfaceMap.computeIfAbsent(inter, k -> new ArrayList<>()).add(component);
 		}
+		return component;
 	}
 	
 	@Override
@@ -82,9 +83,11 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		return this.componentMap.values();
 	}
 	
-	@Nullable
 	public <T extends IComponent> T getComponent(Class<T> componentClass) {
-		return componentClass.cast(this.componentMap.get(componentClass));
+		if (this.hasComponent(componentClass)) {
+			return componentClass.cast(this.componentMap.get(componentClass));
+		}
+		throw new IllegalArgumentException("No component found for " + componentClass);
 	}
 	
 	@Override

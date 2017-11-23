@@ -83,8 +83,8 @@ public class ModuleContainerModelBaked implements IBakedModel {
 				continue;
 			}
 			IModelData data = module.getData().getModel();
-			if (module instanceof IModuleProvider && (data == null || !data.handlesChildren())) {
-				IModuleProvider moduleProvider = (IModuleProvider) module;
+			IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
 				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex);
 				if (bakedModel != null) {
 					model = BakedMultiModel.create(ImmutableList.of(model, bakedModel));

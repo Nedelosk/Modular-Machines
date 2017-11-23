@@ -1,5 +1,6 @@
-package modularmachines.common.tanks;
+package modularmachines.common.modules.components;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +11,14 @@ import modularmachines.api.modules.IModule;
 import modularmachines.common.inventory.IContentFilter;
 import modularmachines.common.utils.IContentContainer;
 
-public class FluidTankModule extends FluidTank implements IContentContainer<FluidStack> {
+public class ModuleTank extends FluidTank implements IContentContainer<FluidStack> {
 	
 	protected final boolean isInput;
 	protected final IModule module;
 	protected final int index;
 	protected final List<IContentFilter<FluidStack, IModule>> filters;
 	
-	public FluidTankModule(int capacity, int index, boolean isInput, IModule module) {
+	public ModuleTank(int capacity, int index, boolean isInput, IModule module) {
 		super(capacity);
 		this.index = index;
 		this.module = module;
@@ -37,13 +38,14 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 		return getFluidAmount() <= 0;
 	}
 	
+	@Nullable
 	@Override
 	public FluidStack get() {
 		return fluid;
 	}
 	
 	@Override
-	public void set(FluidStack content) {
+	public void set(@Nullable FluidStack content) {
 		this.fluid = content;
 	}
 	
@@ -79,7 +81,7 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public FluidTankModule addFilter(IContentFilter<FluidStack, IModule> filter) {
+	public ModuleTank addFilter(IContentFilter<FluidStack, IModule> filter) {
 		filters.add(filter);
 		return this;
 	}
@@ -91,9 +93,6 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	
 	@Override
 	public boolean isValid(FluidStack content) {
-		if (content == null) {
-			return false;
-		}
 		if (filters.isEmpty()) {
 			return !isInput;
 		}
@@ -116,8 +115,8 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	}
 	
 	@Override
-	public boolean canDrainFluidType(FluidStack resource) {
-		return super.canDrainFluidType(resource) && isValid(resource);
+	public boolean canDrainFluidType(@Nullable FluidStack resource) {
+		return super.canDrainFluidType(resource) && resource != null && isValid(resource);
 	}
 	
 	@Override
@@ -127,19 +126,10 @@ public class FluidTankModule extends FluidTank implements IContentContainer<Flui
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof FluidTankModule)) {
+		if (!(obj instanceof ModuleTank)) {
 			return false;
 		}
-		FluidTankModule tank = (FluidTankModule) obj;
-		if (tank == this) {
-			return true;
-		}
-		if (tank.fluid == null && fluid == null) {
-			return true;
-		}
-		if (fluid == null) {
-			return false;
-		}
-		return fluid.isFluidStackIdentical(tank.fluid);
+		ModuleTank tank = (ModuleTank) obj;
+		return tank == this || fluid == null || tank.fluid == null || fluid.isFluidStackIdentical(tank.fluid);
 	}
 }

@@ -41,7 +41,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 		this.position = position;
 		this.itemStack = parentItem;
 		this.data = container.getData();
-		this.facing = getFacing();
+		//this.facing = getFacing();
 		
 		this.container.onModuleAdded(this);
 	}
@@ -50,7 +50,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
-		this.facing = getFacing();
+		//this.facing = getFacing();
 		this.data = moduleData;
 		
 		this.container.onModuleAdded(this);
@@ -159,11 +159,12 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 		return rotation;
 	}
 	
-	private float getFacingRotation(Module module) {
-		float rotation = (float) -Math.toDegrees(module.position.getRotationAngle());
-		IModuleProvider provider = parent.getProvider();
-		if (provider instanceof Module) {
-			rotation += ((Module) provider).getFacingRotation((Module) provider);
+	private float getFacingRotation(IModule module) {
+		float rotation = (float) -Math.toDegrees(module.getPosition().getRotationAngle());
+		IModuleProvider provider = module.getProvider();
+		if (provider instanceof IModuleComponent) {
+			IModule parent = ((IModuleComponent) provider).getProvider();
+			rotation += getFacingRotation(parent);
 		}
 		return rotation;
 	}

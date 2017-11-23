@@ -1,5 +1,6 @@
 package modularmachines.common.utils;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	protected final int index;
 	protected final List<IContentFilter<C, IModule>> filters;
 	protected final IModule module;
+	@Nullable
 	protected C content;
 	
 	public ContentContainer(int index, boolean isInput, IModule module) {
@@ -27,7 +29,7 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	}
 	
 	@Override
-	public void set(C content) {
+	public void set(@Nullable C content) {
 		this.content = content;
 	}
 	
@@ -69,9 +71,6 @@ public class ContentContainer<C> implements IContentContainer<C> {
 	
 	@Override
 	public boolean isValid(C content) {
-		if (content == null) {
-			return false;
-		}
 		if (filters.isEmpty()) {
 			return !isInput;
 		}

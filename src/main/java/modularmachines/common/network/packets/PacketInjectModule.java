@@ -14,6 +14,7 @@ import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketInjectModule extends PacketModuleProvider {
 	protected ItemStack itemStack;
@@ -47,8 +48,8 @@ public class PacketInjectModule extends PacketModuleProvider {
 					handler = container.getHandler();
 				} else {
 					IModule module = container.getModule(handlerIndex);
-					if (module instanceof IModuleProvider) {
-						IModuleProvider provider = (IModuleProvider) module;
+					IModuleProvider provider = ModuleUtil.getComponent(module, IModuleProvider.class);
+					if (provider != null) {
 						handler = provider.getHandler();
 					}
 				}

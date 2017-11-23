@@ -7,7 +7,7 @@ import modularmachines.api.modules.IModule;
 public interface IModuleComponentFactory {
 	IBoundingBoxComponent addBoundingBox(IModule module, AxisAlignedBB boundingBox);
 	
-	void addItemHandler();
+	IItemHandlerComponent addItemHandler(IModule module);
 	
-	void addFluidHandler();
+	IFluidHandlerComponent addFluidHandler(IModule module);
 }

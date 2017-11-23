@@ -1,12 +1,11 @@
 package modularmachines.common.modules.filters;
 
+import java.util.function.Predicate;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-import modularmachines.api.modules.IModule;
-import modularmachines.common.inventory.IContentFilter;
-
-public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, IModule> {
+public class ItemFliterFurnaceFuel implements Predicate<ItemStack> {
 	
 	public static final ItemFliterFurnaceFuel INSTANCE = new ItemFliterFurnaceFuel();
 	
@@ -14,10 +13,7 @@ public class ItemFliterFurnaceFuel implements IContentFilter<ItemStack, IModule>
 	}
 	
 	@Override
-	public boolean isValid(int index, ItemStack content, IModule module) {
-		if (content == null) {
-			return false;
-		}
-		return TileEntityFurnace.getItemBurnTime(content) > 0;
+	public boolean test(ItemStack itemStack) {
+		return TileEntityFurnace.getItemBurnTime(itemStack) > 0;
 	}
 }

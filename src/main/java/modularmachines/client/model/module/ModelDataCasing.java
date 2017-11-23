@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.model.EmptyModelState;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
@@ -30,10 +31,11 @@ public class ModelDataCasing extends ModelData {
 	
 	@Override
 	public IModuleModelState createState(IModule module) {
-		IModuleHandler moduleHandler = module.getParent();
-		if (module instanceof IModuleProvider) {
-			moduleHandler = ((IModuleProvider) module).getHandler();
+		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		if (moduleProvider == null) {
+			return EmptyModelState.INSTANCE;
 		}
+		IModuleHandler moduleHandler = moduleProvider.getHandler();
 		ModuleModelState modelState = new ModuleModelState();
 		IModule left = moduleHandler.getModule(EnumCasingPositions.LEFT);
 		IModule right = moduleHandler.getModule(EnumCasingPositions.RIGHT);

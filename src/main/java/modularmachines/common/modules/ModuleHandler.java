@@ -27,6 +27,7 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IDropComponent;
 import modularmachines.api.modules.components.IItemCreationListener;
 import modularmachines.api.modules.components.IModelComponent;
+import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
@@ -94,15 +95,24 @@ public class ModuleHandler implements IModuleHandler {
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {
-			int index = provider instanceof IModule ? ((IModule) provider).getIndex() : -1;
+			int index = -1;
+			if (provider instanceof IModuleComponent) {
+				IModule parent = ((IModuleComponent) provider).getProvider();
+				index = parent.getIndex();
+			}
 			PacketHandler.sendToNetwork(new PacketInjectModule(provider.getContainer(), index, getPositionIndex(position), itemStack.copy()), blockPos, world);
 		} else {
-			if (provider instanceof IModule) {
-				IModule parent = (IModule) provider;
-				IModelComponent modelComponent = parent.getComponent(IModelComponent.class);
+			if (provider instanceof IModuleComponent) {
+				IModuleComponent component = ((IModuleComponent) provider);
+				IModule parent = component.getProvider();
+				IModelComponent modelComponent = parent.getInterface(IModelComponent.class);
 				if (modelComponent != null) {
 					modelComponent.setModelNeedReload(true);
 				}
+			}
+			IModelComponent modelComponent = module.getInterface(IModelComponent.class);
+			if (modelComponent != null) {
+				modelComponent.setModelNeedReload(true);
 			}
 			world.markBlockRangeForRenderUpdate(blockPos, blockPos);
 		}
@@ -131,7 +141,11 @@ public class ModuleHandler implements IModuleHandler {
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {
-			int index = provider instanceof IModule ? ((IModule) provider).getIndex() : -1;
+			int index = -1;
+			if (provider instanceof IModuleComponent) {
+				IModule parent = ((IModuleComponent) provider).getProvider();
+				index = parent.getIndex();
+			}
 			PacketHandler.sendToNetwork(new PacketExtractModule(provider.getContainer(), index, getPositionIndex(position)), blockPos, world);
 		} else {
 			if (provider instanceof IModule) {

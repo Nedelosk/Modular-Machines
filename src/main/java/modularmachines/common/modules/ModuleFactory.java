@@ -7,6 +7,8 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
@@ -55,16 +57,22 @@ public enum ModuleFactory implements IModuleFactory {
 	@Override
 	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
 		IModule module = new Module(parent, position, container, parentItem);
-		container.getData().getDefinition().addComponents(module);
+		container.getData().getDefinition().addComponents(module, ModuleManager.componentFactory);
 		ModularMachines.proxy.addComponents(module);
+		for (IModuleComponent component : module.getComponents()) {
+			component.onCreateModule();
+		}
 		return module;
 	}
 	
 	@Override
 	public IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position) {
 		IModule module = new Module(parent, moduleData, position);
-		moduleData.getDefinition().addComponents(module);
+		moduleData.getDefinition().addComponents(module, ModuleManager.componentFactory);
 		ModularMachines.proxy.addComponents(module);
+		for (IModuleComponent component : module.getComponents()) {
+			component.onCreateModule();
+		}
 		module.readFromNBT(compound);
 		return module;
 	}

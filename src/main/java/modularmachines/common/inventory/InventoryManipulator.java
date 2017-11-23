@@ -37,7 +37,7 @@ public class InventoryManipulator implements Iterable<InvSlot> {
 	/**
 	 * Attempt to add the stack to the inventory.
 	 *
-	 * @return thse remainder
+	 * @return the remainder
 	 */
 	@Nullable
 	public ItemStack addStack(ItemStack stack) {

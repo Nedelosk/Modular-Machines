@@ -17,6 +17,8 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.api.modules.components.IModuleComponentFactory;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.DefaultProperty;
@@ -31,7 +33,6 @@ import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ItemManager;
-import modularmachines.common.inventory.ItemHandlerModule;
 import modularmachines.common.modules.components.BoundingBoxComponent;
 import modularmachines.common.modules.components.CasingComponent;
 import modularmachines.common.modules.components.FuelComponent;
@@ -41,7 +42,6 @@ import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
-import modularmachines.common.utils.IContentContainer;
 
 public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleDataHorizontal(), "chest", 4) {
@@ -107,9 +107,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void addComponents(IModule module) {
-			super.addComponents(module);
-			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F)));
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addBoundingBox(module, new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F));
 			module.addComponent(new CasingComponent());
 		}
 	},
@@ -186,8 +185,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void addComponents(IModule module) {
-			super.addComponents(module);
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F)));
 			module.addComponent(new RackComponent());
 		}
@@ -263,12 +261,11 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	HEATER(new ModuleDataSide(), "heater", 4) {
 		@Override
-		public void addComponents(IModule module) {
-			super.addComponents(module);
-			ItemHandlerModule itemHandler = new ItemHandlerModule();
-			IContentContainer fuelSlot = itemHandler.addSlot(true).addFilter(ItemFliterFurnaceFuel.INSTANCE);
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			IItemHandlerComponent itemHandler = factory.addItemHandler(module);
+			int index = itemHandler.addSlot().setFilter(ItemFliterFurnaceFuel.INSTANCE).getIndex();
 			module.addComponent(itemHandler);
-			module.addComponent(new FuelComponent.Items(25, fuelSlot.getIndex()));
+			module.addComponent(new FuelComponent.Items(25, index));
 			module.addComponent(new HeaterComponent(150, 2));
 		}
 		
@@ -291,8 +288,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void addComponents(IModule module) {
-			super.addComponents(module);
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
 		}
 		
@@ -399,7 +395,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	}
 	
 	@Override
-	public void addComponents(IModule module) {
+	public void addComponents(IModule module, IModuleComponentFactory factory) {
 	
 	}
 }

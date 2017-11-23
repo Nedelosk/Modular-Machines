@@ -11,11 +11,9 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketExtractModule extends PacketModuleProvider {
-	public PacketExtractModule() {
-	}
-	
 	public PacketExtractModule(IModuleContainer provider, int index, int positionIndex) {
 		super(provider, index, positionIndex);
 	}
@@ -37,8 +35,8 @@ public class PacketExtractModule extends PacketModuleProvider {
 					handler = container.getHandler();
 				} else {
 					IModule module = container.getModule(handlerIndex);
-					if (module instanceof IModuleProvider) {
-						IModuleProvider provider = (IModuleProvider) module;
+					IModuleProvider provider = ModuleUtil.getComponent(module, IModuleProvider.class);
+					if (provider != null) {
 						handler = provider.getHandler();
 					}
 				}

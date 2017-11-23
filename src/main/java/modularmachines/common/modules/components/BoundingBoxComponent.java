@@ -26,30 +26,34 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	
 	@Nullable
 	public RayTraceResult collisionRayTrace(Vec3d start, Vec3d end) {
-		RayTraceResult traceResult = rayTrace(start, end, provider, getCollisionBox());
-		if (traceResult == null) {
+		RayTraceResult trace = rayTrace(start, end, provider, getCollisionBox());
+		if (trace == null) {
 			return null;
 		}
-		double distance = traceResult.hitVec.squareDistanceTo(start);
-		if (this instanceof IModuleProvider) {
-			IModuleHandler handler = ((IModuleProvider) this).getHandler();
-			Optional<RayTraceResult> result = handler.getModules().stream().map(m -> m.getInterfaces(IBoundingBoxComponent.class)).flatMap(Collection::stream).map(c -> c.collisionRayTrace(start, end)).filter(Objects::nonNull).min(Comparator.comparingDouble(hit -> hit.hitVec.squareDistanceTo(start)));
+		double distance = trace.hitVec.squareDistanceTo(start);
+		IModuleProvider moduleProvider = provider.getInterface(IModuleProvider.class);
+		if (moduleProvider != null) {
+			IModuleHandler handler = moduleProvider.getHandler();
+			Optional<RayTraceResult> result = handler.getModules()
+					.stream()
+					.map(m -> m.getInterfaces(IBoundingBoxComponent.class))
+					.flatMap(Collection::stream)
+					.map(c -> c.collisionRayTrace(start, end))
+					.filter(Objects::nonNull)
+					.min(Comparator.comparingDouble(hit -> hit.hitVec.squareDistanceTo(start)));
 			if (result.isPresent()) {
-				RayTraceResult rayTraceResult = result.get();
-				double secondD = rayTraceResult.hitVec.squareDistanceTo(start);
+				RayTraceResult traceResult = result.get();
+				double secondD = traceResult.hitVec.squareDistanceTo(start);
 				if (secondD <= distance) {
-					return rayTraceResult;
+					return traceResult;
 				}
 			}
 		}
-		return traceResult;
+		return trace;
 	}
 	
 	@Nullable
-	protected RayTraceResult rayTrace(Vec3d start, Vec3d end, IModule module, @Nullable AxisAlignedBB boundingBox) {
-		if (boundingBox == null) {
-			return null;
-		}
+	protected RayTraceResult rayTrace(Vec3d start, Vec3d end, IModule module, AxisAlignedBB boundingBox) {
 		RayTraceResult rayTrace = boundingBox.calculateIntercept(start, end);
 		if (rayTrace == null) {
 			return null;
@@ -62,12 +66,8 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	
 	public final AxisAlignedBB getCollisionBox() {
 		AxisAlignedBB boundingBox = getBoundingBox();
-		IModuleProvider provider = this.provider.getParent().getProvider();
-		if (boundingBox != null && provider instanceof IModule) {
-			BoundingBoxHelper helper = new BoundingBoxHelper(this.provider.getFacing());
-			return helper.rotateBox(boundingBox).offset(this.provider.getPosition().getOffset());
-		}
-		return boundingBox;
+		BoundingBoxHelper helper = new BoundingBoxHelper(this.provider.getFacing());
+		return helper.rotateBox(boundingBox).offset(this.provider.getPosition().getOffset());
 	}
 	
 	public AxisAlignedBB getBoundingBox() {

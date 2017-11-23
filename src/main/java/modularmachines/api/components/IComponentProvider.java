@@ -11,7 +11,7 @@ import modularmachines.api.modules.INBTWritable;
 public interface IComponentProvider<C extends IComponent> extends INBTReadable, INBTWritable, INetworkComponent, ICapabilityProvider {
 	Collection<C> getComponents();
 	
-	void addComponent(C component);
+	<T extends C> T addComponent(T component);
 	
 	void addComponent(C... components);
 	
@@ -20,7 +20,6 @@ public interface IComponentProvider<C extends IComponent> extends INBTReadable, 
 	
 	boolean hasComponent(Class<?> componentClass);
 	
-	@Nullable
 	<T extends IComponent> T getComponent(Class<T> componentClass);
 	
 	/* INTERFACES*/

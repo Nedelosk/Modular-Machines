@@ -9,13 +9,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.common.inventory.ItemContainer;
-import modularmachines.common.inventory.ItemHandlerModule;
+import modularmachines.common.modules.components.ItemHandler;
 
 public class SlotModule extends SlotItemHandler {
 	
 	public ItemContainer container;
 	
-	public SlotModule(ItemHandlerModule itemHandler, int index, int xPosition, int yPosition) {
+	public SlotModule(ItemHandler itemHandler, int index, int xPosition, int yPosition) {
 		super(itemHandler, index, xPosition, yPosition);
 		this.container = itemHandler.getContainer(index);
 	}

@@ -1,5 +1,6 @@
 package modularmachines.common.utils;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import modularmachines.api.modules.IModule;
@@ -9,8 +10,9 @@ public interface IContentContainer<C> {
 	
 	boolean hasContent();
 	
-	void set(C content);
+	void set(@Nullable C content);
 	
+	@Nullable
 	C get();
 	
 	boolean isInput();

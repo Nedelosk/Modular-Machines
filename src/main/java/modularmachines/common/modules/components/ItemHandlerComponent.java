@@ -1,0 +1,116 @@
+package modularmachines.common.modules.components;
+
+import javax.annotation.Nonnull;
+import java.util.function.Predicate;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
+
+import net.minecraftforge.items.ItemStackHandler;
+
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.IItemHandlerComponent;
+
+public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent {
+	private final NonNullList<ItemSlot> slots = NonNullList.create();
+	private IModule module;
+	
+	@Override
+	public IItemSlot addSlot(int limit, boolean isOutput) {
+		ItemSlot slot = new ItemSlot(slots.size(), limit, isOutput);
+		slots.add(slot);
+		stacks.add(slot.index, ItemStack.EMPTY);
+		return slot;
+	}
+	
+	@Nonnull
+	@Override
+	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+		validateSlotIndex(slot);
+		ItemSlot itemSlot = slots.get(slot);
+		if (!itemSlot.getFilter().test(stack)) {
+			return stack;
+		}
+		return super.insertItem(slot, stack, simulate);
+	}
+	
+	@Override
+	public int getSlotLimit(int slot) {
+		validateSlotIndex(slot);
+		ItemSlot itemSlot = slots.get(slot);
+		return itemSlot.getLimit();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		deserializeNBT(compound.getCompoundTag("Items"));
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setTag("Items", serializeNBT());
+		return compound;
+	}
+	
+	@Override
+	public void setProvider(IModule provider) {
+		this.module = provider;
+	}
+	
+	@Override
+	public IModule getProvider() {
+		return module;
+	}
+	
+	public class ItemSlot implements IItemSlot {
+		private final int index;
+		private final int limit;
+		private final boolean isOutput;
+		private Predicate<ItemStack> filter = i -> true;
+		private String backgroundTexture = "";
+		
+		private ItemSlot(int index, int limit, boolean isOutput) {
+			this.index = index;
+			this.limit = limit;
+			this.isOutput = isOutput;
+		}
+		
+		@Override
+		public IItemSlot setBackgroundTexture(String backgroundTexture) {
+			this.backgroundTexture = backgroundTexture;
+			return this;
+		}
+		
+		@Override
+		public String getBackgroundTexture() {
+			return backgroundTexture;
+		}
+		
+		@Override
+		public int getIndex() {
+			return index;
+		}
+		
+		@Override
+		public IItemSlot setFilter(Predicate<ItemStack> filter) {
+			this.filter = filter;
+			return this;
+		}
+		
+		@Override
+		public Predicate<ItemStack> getFilter() {
+			return filter;
+		}
+		
+		@Override
+		public ItemStack getItem() {
+			return getStackInSlot(index);
+		}
+		
+		@Override
+		public int getLimit() {
+			return limit;
+		}
+	}
+}
