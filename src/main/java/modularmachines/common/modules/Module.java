@@ -76,7 +76,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	/**
 	 * @return The module handler that contains this module.
 	 */
-	public IModuleHandler getParent() {
+	public IModuleHandler getHandler() {
 		return parent;
 	}
 	

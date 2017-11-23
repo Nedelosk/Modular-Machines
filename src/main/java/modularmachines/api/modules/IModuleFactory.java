@@ -9,6 +9,9 @@ import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 
+/**
+ * A factory to create {@link IModuleDataContainer}s, {@link IModuleData}s and {@link IModule}s.
+ */
 public interface IModuleFactory {
 	
 	IModuleData createData();

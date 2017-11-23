@@ -5,9 +5,12 @@ public interface IComponent<P extends IComponentProvider> {
 		return getProvider().getComponentInterfaces(this.getClass());
 	}
 	
-	void setProvider(P provider);
-	
+	/**
+	 * @return The provider that provides this component.
+	 */
 	P getProvider();
+	
+	void setProvider(P provider);
 	
 	default IComponentTag[] getTags() {
 		return new IComponentTag[0];

@@ -183,7 +183,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		int value = 0;
 		IModule currentModule = module;
 		do {
-			IModuleHandler moduleHandler = currentModule.getParent();
+			IModuleHandler moduleHandler = currentModule.getHandler();
 			IModulePosition position = currentModule.getPosition();
 			int positionIndex = moduleHandler.getPositionIndex(position);
 			value = value << 5;
@@ -191,7 +191,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			if (currentModule != module) {
 				value = value | 1 << 4;
 			}
-			IModuleProvider provider = currentModule.getParent().getProvider();
+			IModuleProvider provider = currentModule.getHandler().getProvider();
 			if (provider instanceof IModuleComponent) {
 				currentModule = ((IModuleComponent) provider).getProvider();
 			} else {
@@ -210,7 +210,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			return Collections.emptyList();
 		}
 		IModulePosition position = module.getPosition();
-		IModuleHandler parent = module.getParent();
+		IModuleHandler parent = module.getHandler();
 		return parent.extractModule(position, simulate);
 	}
 	

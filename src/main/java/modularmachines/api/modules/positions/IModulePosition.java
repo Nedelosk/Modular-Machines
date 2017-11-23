@@ -10,14 +10,23 @@ import modularmachines.api.modules.IModuleHandler;
  */
 public interface IModulePosition {
 	
+	/**
+	 * @return The rotation angle of the position.
+	 */
 	default float getRotationAngle() {
 		return 0.0F;
 	}
 	
+	/**
+	 * @return The offset of the position.
+	 */
 	default Vec3d getOffset() {
 		return Vec3d.ZERO;
 	}
 	
+	/**
+	 * @return The facing of the position relative to the world.
+	 */
 	default EnumFacing getFacing() {
 		return EnumFacing.fromAngle(-Math.toDegrees(getRotationAngle()));
 	}

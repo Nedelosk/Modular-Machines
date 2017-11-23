@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import modularmachines.common.modules.data.ModuleData;
 
 /**
- * An IModuleContainer provides information about modules.
+ * An {@link IModuleDataContainer}
  */
 public interface IModuleDataContainer {
 	

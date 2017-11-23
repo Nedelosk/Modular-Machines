@@ -15,6 +15,12 @@ import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.positions.IModulePosition;
 
+/**
+ * A module data contains all information about a module that is static like the name, the model or the positions at
+ * that the module can be placed.
+ *
+ * You can append a {@link IModuleData}s to an item by using {@link IModuleDataContainer}s.
+ */
 public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	/**
 	 * A description of this module. It would be displayed in jei and the item tooltip.

@@ -15,6 +15,6 @@ public class TabModularMachines extends CreativeTabs {
 	
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(ModItems.itemCasings, 1, 1);
+		return new ItemStack(ModItems.itemCasings);
 	}
 }

@@ -6,17 +6,18 @@
 package modularmachines.api.modules.listeners;
 
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleHandler;
 
 public interface IModuleListener {
 	
 	/**
-	 * Called after a module was removed from a {@link modularmachines.api.modules.IModuleHandler}.
+	 * Called after a module was removed from a {@link IModuleHandler}.
 	 */
 	default void onModuleRemoved(IModule module) {
 	}
 	
 	/**
-	 * Called after a module was added to a {@link modularmachines.api.modules.IModuleHandler}.
+	 * Called after a module was added to a {@link IModuleHandler}.
 	 */
 	default void onModuleAdded(IModule module) {
 	}

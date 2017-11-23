@@ -14,15 +14,24 @@ import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.api.modules.positions.IModulePosition;
 
+/**
+ * It contains the components, the position and module handler of the module.
+ */
 public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<IModuleComponent>, ICapabilityProvider {
 	
-	IModuleHandler getParent();
+	/**
+	 * @return The module handler that contains and handles this module.
+	 */
+	IModuleHandler getHandler();
 	
 	/**
 	 * @return The module container that contains every module.
 	 */
 	IModuleContainer getContainer();
 	
+	/**
+	 * @return The provider that provides this module.
+	 */
 	IModuleProvider getProvider();
 	
 	/**
@@ -36,17 +45,33 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	ItemStack getItemStack();
 	
 	/**
-	 * @return The index of this module.
+	 * @return The internal index of this module. It is generated out of the position of the module and the positions
+	 * of the parents.
 	 */
 	int getIndex();
 	
+	/**
+	 * Can be used to set the internal index of this module.
+	 *
+	 * Should only be used at the creation of a module.
+	 */
 	void setIndex(int index);
 	
+	/**
+	 * @return The module data that was used to create this module.
+	 */
 	IModuleData getData();
 	
 	/* FACING */
+	
+	/**
+	 * @return The facing of this module.
+	 */
 	EnumFacing getFacing();
 	
+	/**
+	 * @return The given side relative to the facing of this module.
+	 */
 	EnumFacing getSide(EnumFacing side);
 	
 	/**
@@ -54,9 +79,13 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 */
 	boolean isFacing(@Nullable EnumFacing side);
 	
+	@Deprecated
 	default PageComponent getComponent(int index) {
 		return null;
 	}
 	
+	/**
+	 * Sends the NBT-Data of this module to the client.
+	 */
 	void sendToClient();
 }

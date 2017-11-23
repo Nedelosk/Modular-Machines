@@ -1,13 +1,16 @@
 package modularmachines.api.modules.positions;
 
+/**
+ * A enum that contains all possible casing positions.
+ */
 public enum EnumCasingPositions implements IModulePosition {
-	CENTER,
-	FRONT,
-	TOP,
-	UP,
-	BACK((float) (Math.PI)),
-	RIGHT((float) (Math.PI / 2)),
-	LEFT(-(float) (Math.PI / 2));
+	CENTER, //The position of the casing itself
+	FRONT, //The position at the front ot the module container
+	TOP, //The position at the top ot the module container
+	BOTTOM, //The position at the bottom ot the module container
+	BACK((float) (Math.PI)), //The position at the back ot the module container
+	RIGHT((float) (Math.PI / 2)), //The position at the right side ot the module container
+	LEFT(-(float) (Math.PI / 2)); //The position at the left side ot the module container
 	
 	private final float rotation;
 	

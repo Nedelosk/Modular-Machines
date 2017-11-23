@@ -7,9 +7,16 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.items.IItemHandler;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
 
+/**
+ * This component can be used to add a item handler to the module.
+ * <p>
+ * {@link modularmachines.api.modules.components.IModuleComponentFactory#addItemHandler(IModule)} can be
+ * used to add this component to a module.
+ */
 public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, INBTWritable, INBTReadable {
 	
 	default IItemSlot addSlot() {
@@ -32,7 +39,7 @@ public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, I
 	
 	@Nullable
 	IItemSlot getSlot(int index);
-
+	
 	interface IItemSlot {
 		IItemSlot setBackgroundTexture(String backgroundTexture);
 		

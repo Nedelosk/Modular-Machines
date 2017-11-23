@@ -1,10 +1,12 @@
 package modularmachines.api.modules;
 
 import modularmachines.api.modules.components.IModuleComponentFactory;
-import modularmachines.common.modules.IModuleHelper;
 
 public class ModuleManager {
 	
+	/**
+	 * A
+	 */
 	public static IModuleHelper helper;
 	
 	public static IModuleFactory factory;

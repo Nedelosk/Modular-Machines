@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
+import modularmachines.api.modules.IModuleHelper;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IItemHandlerComponent;
 import modularmachines.api.modules.components.IModuleComponentFactory;

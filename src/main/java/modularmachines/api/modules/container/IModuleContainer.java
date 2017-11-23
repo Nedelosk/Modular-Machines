@@ -14,17 +14,33 @@ import net.minecraft.util.math.Vec3d;
 
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
+import modularmachines.api.ILocatable;
 import modularmachines.api.ILocatableSource;
 import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.listeners.IModuleListener;
 
+/**
+ * Implement this interface as a capability which should handle modules.
+ * <p>
+ * You can use {@link modularmachines.api.modules.IModuleFactory#createContainer(ILocatable)} to create an instance of
+ * this or you can use your own implementation.
+ */
 public interface IModuleContainer extends ILocatableSource, IModuleListener, IModuleProvider, ICapabilityProvider, IComponentProvider<ContainerComponent> {
 	
+	/**
+	 * @param index The internal index of the module. It is generated out of the position of the module and the
+	 *              positions of the parents.
+	 * @return The module that has the given internal index.
+	 */
 	@Nullable
 	IModule getModule(int index);
 	
+	/**
+	 *
+	 * @return
+	 */
 	Collection<IModule> getModules();
 	
 	@Nullable

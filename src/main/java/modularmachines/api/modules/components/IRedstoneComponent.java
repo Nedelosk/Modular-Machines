@@ -10,6 +10,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
+/**
+ * This component can be used to provide redstone power.
+ */
 public interface IRedstoneComponent extends IModuleComponent {
 	
 	boolean canProvidePower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side);

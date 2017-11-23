@@ -8,6 +8,10 @@ package modularmachines.api.modules.components;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
+/**
+ * This component can be used to drop items if the module is extracted or a player breaks the block that
+ * contains the {@link modularmachines.api.modules.container.IModuleContainer}.
+ */
 public interface IDropComponent extends IModuleComponent {
 	
 	void addDrops(NonNullList<ItemStack> drops);
