@@ -4,16 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 import net.minecraftforge.fluids.Fluid;
-
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 import modularmachines.api.modules.IModule;
 
@@ -31,18 +26,6 @@ public class CommonProxy {
 		
 	}
 	
-	public World getRenderWorld() {
-		throw new IllegalStateException("Cannot get render world on server");
-	}
-	
-	public Minecraft getClientInstance() {
-		return FMLClientHandler.instance().getClient();
-	}
-	
-	public EntityPlayer getPlayer() {
-		throw new IllegalStateException("Can't call getPlayer on the server");
-	}
-	
 	public void playButtonClick() {
 	
 	}
@@ -53,9 +36,6 @@ public class CommonProxy {
 	
 	public List<String> addModuleInfo(ItemStack itemStack) {
 		return Collections.emptyList();
-	}
-	
-	public void onAssemblerGuiChange() {
 	}
 	
 	public void registerStateMapper(Block block, IStateMapper mapper) {

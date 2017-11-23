@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelBlock;
 import net.minecraft.client.resources.IResource;
@@ -14,8 +15,6 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.client.model.SimpleModelState;
-
-import modularmachines.common.ModularMachines;
 
 public class ModelUtil {
 	
@@ -35,7 +34,7 @@ public class ModelUtil {
 	private static Reader getReaderForResource(ResourceLocation location) throws IOException {
 		ResourceLocation file = new ResourceLocation(location.getResourceDomain(),
 				location.getResourcePath() + ".json");
-		IResource iresource = ModularMachines.proxy.getClientInstance().getResourceManager().getResource(file);
+		IResource iresource = Minecraft.getMinecraft().getResourceManager().getResource(file);
 		return new BufferedReader(new InputStreamReader(iresource.getInputStream(), Charsets.UTF_8));
 	}
 	

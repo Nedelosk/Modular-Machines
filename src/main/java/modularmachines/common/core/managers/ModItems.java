@@ -6,9 +6,9 @@ import modularmachines.common.core.Registry;
 import modularmachines.common.items.ItemCasing;
 import modularmachines.common.items.ItemModuleMeta;
 
-public class ItemManager {
+public class ModItems {
 	
-	public static Item itemModuleStorage;
+	public static Item itemModuleRack;
 	public static Item itemEngineSteam;
 	public static Item itemEngineElectric;
 	public static Item itemTurbineSteam;
@@ -16,7 +16,7 @@ public class ItemManager {
 	
 	public static void registerItems() {
 		itemCasings = register(new ItemCasing());
-		itemModuleStorage = register(new ItemModuleMeta("module_rack", new String[]{"brick", "bronze", "iron", "steel", "magmarium"}));
+		itemModuleRack = register(new ItemModuleMeta("module_rack", new String[]{"brick", "bronze", "iron", "steel", "magmarium"}));
 		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemEngineElectric = register(new ItemModuleMeta("engine_electric", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemTurbineSteam = register(new ItemModuleMeta("turbine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));

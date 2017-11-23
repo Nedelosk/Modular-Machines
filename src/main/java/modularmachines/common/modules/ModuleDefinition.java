@@ -32,7 +32,7 @@ import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
-import modularmachines.common.core.managers.ItemManager;
+import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.modules.components.BoundingBoxComponent;
 import modularmachines.common.modules.components.CasingComponent;
 import modularmachines.common.modules.components.FuelComponent;
@@ -79,7 +79,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings));
+			registerDamage(new ItemStack(ModItems.itemCasings));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -102,7 +102,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 1));
+			registerDamage(new ItemStack(ModItems.itemCasings, 1, 1));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -120,7 +120,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemCasings, 1, 2));
+			registerDamage(new ItemStack(ModItems.itemCasings, 1, 2));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -139,7 +139,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
-			helper.registerContainer(factory.createDamageContainer(new ItemStack(ItemManager.itemModuleStorage), data()));
+			helper.registerContainer(factory.createDamageContainer(new ItemStack(ModItems.itemModuleRack), data()));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -163,7 +163,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 1));
+			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 1));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -181,7 +181,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 2));
+			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 2));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -199,7 +199,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemModuleStorage, 1, 3));
+			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 3));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -248,7 +248,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	ENGINE(new ModuleData(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN), "engine", 4) {
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ItemManager.itemEngineSteam));
+			registerDamage(new ItemStack(ModItems.itemEngineSteam));
 		}
 		
 		@Override

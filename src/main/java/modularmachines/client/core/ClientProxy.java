@@ -8,19 +8,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
 
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -61,11 +58,6 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void postInit() {
-		//modularmachines.client.model.module.ModelLoader.loadModels();
-	}
-	
-	@Override
 	public void registerModuleModels() {
 		for (ModuleDefinition definition : ModuleDefinition.values()) {
 			definition.registerModelData();
@@ -74,20 +66,10 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public EntityPlayer getPlayer() {
-		return Minecraft.getMinecraft().player;
-	}
-	
-	@Override
 	public void playButtonClick() {
-		Minecraft minecraft = getClientInstance();
+		Minecraft minecraft = Minecraft.getMinecraft();
 		SoundHandler soundHandler = minecraft.getSoundHandler();
 		soundHandler.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-	}
-	
-	@Override
-	public World getRenderWorld() {
-		return getClientInstance().world;
 	}
 	
 	@Override
@@ -109,17 +91,6 @@ public class ClientProxy extends CommonProxy {
 			}
 		}
 		return tooltip;
-	}
-	
-	@Override
-	public void onAssemblerGuiChange() {
-		GuiScreen screen = getClientInstance().currentScreen;
-		if (screen != null) {
-			/*if(screen instanceof GuiAssembler){
-				GuiAssembler assembler = (GuiAssembler) screen;
-				assembler.setHasChange();
-			}*/
-		}
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 import modularmachines.common.core.Registry;
 import modularmachines.common.items.blocks.ItemBlockForest;
 
-public class BlockManager {
+public class ModBlocks {
 	
 	public static BlockModuleContainer moduleStorage;
 	

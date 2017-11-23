@@ -2,7 +2,7 @@ package modularmachines.common.core.managers;
 
 import net.minecraftforge.fluids.Fluid;
 
-public class FluidManager {
+public class ModFluids {
 	
 	public static Fluid STEAM;
 	

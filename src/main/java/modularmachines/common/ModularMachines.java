@@ -27,9 +27,9 @@ import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.GuiHandler;
 import modularmachines.common.core.RecipeManager;
-import modularmachines.common.core.managers.BlockManager;
-import modularmachines.common.core.managers.FluidManager;
-import modularmachines.common.core.managers.ItemManager;
+import modularmachines.common.core.managers.ModBlocks;
+import modularmachines.common.core.managers.ModFluids;
+import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.core.managers.ModuleManagerOld;
 import modularmachines.common.core.managers.OreDictionaryManager;
 import modularmachines.common.event.EventHandler;
@@ -55,7 +55,7 @@ public class ModularMachines {
 	public ModularMachines() {
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FluidRegistry.enableUniversalBucket();
-		dataRegistry = new RegistryBuilder<IModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:modulecontainers")).setType(IModuleData.class).create();
+		dataRegistry = new RegistryBuilder<IModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:moduledatas")).setType(IModuleData.class).create();
 	}
 	
 	@Mod.EventHandler
@@ -72,10 +72,10 @@ public class ModularMachines {
 		ModuleManagerOld.registerCapability();
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
-		FluidManager.registerFluids();
-		BlockManager.registerBlocks();
-		ItemManager.registerItems();
-		BlockManager.registerTiles();
+		ModFluids.registerFluids();
+		ModBlocks.registerBlocks();
+		ModItems.registerItems();
+		ModBlocks.registerTiles();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		PLUGIN_MANAGER.preInit();
 		proxy.preInit();

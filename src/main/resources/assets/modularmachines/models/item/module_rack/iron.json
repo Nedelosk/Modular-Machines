@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:item/module_rack/module_rack",
+  "textures": {
+    "wall": "modularmachines:blocks/casing/storage_iron"
+  }
+}

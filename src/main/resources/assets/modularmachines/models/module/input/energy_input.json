@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/default",
+  "textures": {
+    "texture": "modularmachines:modules/energy_input"
+  }
+}

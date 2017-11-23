@@ -1,0 +1,76 @@
+{
+  "parent": "modularmachines:module/default",
+  "textures": {
+    "texture": "modularmachines:modules/energy_output"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        3,
+        0
+      ],
+      "to": [
+        13,
+        13,
+        1
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            3,
+            12,
+            13,
+            13
+          ],
+          "texture": "#texture"
+        },
+        "up": {
+          "uv": [
+            3,
+            3,
+            13,
+            4
+          ],
+          "texture": "#texture"
+        },
+        "north": {
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ],
+          "texture": "#texture"
+        },
+        "south": {
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ],
+          "texture": "#texture"
+        },
+        "west": {
+          "uv": [
+            3,
+            3,
+            4,
+            13
+          ],
+          "texture": "#texture"
+        },
+        "east": {
+          "uv": [
+            12,
+            3,
+            13,
+            13
+          ],
+          "texture": "#texture"
+        }
+      }
+    }
+  ]
+}
