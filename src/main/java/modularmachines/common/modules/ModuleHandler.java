@@ -20,10 +20,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.ModuleEvents;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IDropComponent;
 import modularmachines.api.modules.components.IModelComponent;
@@ -135,6 +138,7 @@ public class ModuleHandler implements IModuleHandler {
 		for (IModule otherModule : extractedModules) {
 			drops.add(otherModule.createItem());
 			otherModule.getInterfaces(IDropComponent.class).forEach(c -> c.addDrops(drops));
+			MinecraftForge.EVENT_BUS.post(new ModuleEvents.DropEvent(module, drops));
 		}
 		if (simulate) {
 			return drops;

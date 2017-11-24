@@ -3,10 +3,14 @@ package modularmachines.common.modules;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.ModuleEvents;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
@@ -26,7 +30,9 @@ public enum ModuleFactory implements IModuleFactory {
 	
 	@Override
 	public IModuleContainer createContainer(ILocatable locatable) {
-		return new ModuleContainer(locatable);
+		IModuleContainer container = new ModuleContainer(locatable);
+		MinecraftForge.EVENT_BUS.post(new ModuleEvents.ContainerCreationEvent(container));
+		return container;
 	}
 	
 	@Override
@@ -57,25 +63,26 @@ public enum ModuleFactory implements IModuleFactory {
 	@Override
 	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
 		IModule module = new Module(parent, position, container, parentItem);
-		container.getData().getDefinition().addComponents(module, ModuleManager.componentFactory);
-		ModularMachines.proxy.addComponents(module);
-		for (IModuleComponent component : module.getComponents()) {
-			component.onCreateModule();
-		}
+		createModule(module);
 		return module;
 	}
 	
 	@Override
 	public IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position) {
 		IModule module = new Module(parent, moduleData, position);
-		moduleData.getDefinition().addComponents(module, ModuleManager.componentFactory);
-		ModularMachines.proxy.addComponents(module);
-		for (IModuleComponent component : module.getComponents()) {
-			component.onCreateModule();
-		}
+		createModule(module);
 		module.readFromNBT(compound);
 		return module;
 	}
 	
+	private void createModule(IModule module) {
+		IModuleDefinition definition = module.getData().getDefinition();
+		definition.addComponents(module, ModuleManager.componentFactory);
+		ModularMachines.proxy.addComponents(module);
+		for (IModuleComponent component : module.getComponents()) {
+			component.onCreateModule();
+		}
+		MinecraftForge.EVENT_BUS.post(new ModuleEvents.CreationEvent(module));
+	}
 	
 }

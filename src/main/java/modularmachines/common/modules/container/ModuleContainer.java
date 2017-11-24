@@ -116,6 +116,9 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
+		if (markedForDeletion) {
+			return false;
+		}
 		World world = player.world;
 		if (player.isSneaking()) {
 			List<ItemStack> itemStacks = extractModule(hit, world.isRemote);
@@ -146,6 +149,9 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	public void onClick(EntityPlayer player, RayTraceResult hit) {
+		if (markedForDeletion) {
+			return;
+		}
 		IModule module = getModule(hit.subHit);
 		if (module == null) {
 			return;
@@ -182,8 +188,8 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	private List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
-		if (rayTraceResult.subHit == -1) {
-			return moduleHandler.extractModule(EnumCasingPositions.CENTER, simulate);
+		if (markedForDeletion) {
+			return Collections.emptyList();
 		}
 		IModule module = getModule(rayTraceResult.subHit);
 		if (module == null) {
@@ -201,9 +207,6 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		IModuleDataContainer dataContainer = ModuleManager.helper.getContainerFromItem(itemStack);
 		if (dataContainer == null) {
 			return false;
-		}
-		if (rayTraceResult.subHit == -1) {
-			return insertModule(this, itemStack.copy(), dataContainer, rayTraceResult, simulate);
 		}
 		IModule module = getModule(rayTraceResult.subHit);
 		IModuleProvider provider = ModuleUtil.getComponent(module, IModuleProvider.class);
@@ -266,6 +269,9 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public void sendToClient() {
+		if (markedForDeletion) {
+			return;
+		}
 		PacketHandler.sendToNetwork(new PacketSyncModuleContainer(this), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
