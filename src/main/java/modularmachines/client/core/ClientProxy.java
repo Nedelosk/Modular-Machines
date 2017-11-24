@@ -84,9 +84,7 @@ public class ClientProxy extends CommonProxy {
 				List<String> moduleTooltip = new ArrayList<>();
 				tooltip.add(TextFormatting.DARK_GREEN + "" + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
 				data.addTooltip(moduleTooltip, itemStack, container);
-				for (String s : moduleTooltip) {
-					tooltip.add(TextFormatting.DARK_GREEN + s);
-				}
+				tooltip.addAll(moduleTooltip);
 				
 			} else {
 				tooltip.add(TextFormatting.DARK_GREEN + Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", Keyboard.getKeyName(MODULE_INFO.getKeyCode())));

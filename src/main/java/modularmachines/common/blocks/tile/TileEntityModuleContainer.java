@@ -20,7 +20,7 @@ import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.ModuleHandler;
-import modularmachines.common.modules.container.components.EnergyStorageComponent;
+import modularmachines.common.modules.container.components.EnergyManager;
 import modularmachines.common.modules.container.components.HeatComponent;
 import modularmachines.common.modules.container.components.UpdateComponent;
 
@@ -36,7 +36,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 		this.moduleContainer = ModuleManager.factory.createContainer(this);
 		this.facing = EnumFacing.NORTH;
 		this.componentMap = new LinkedHashMap<>();
-		moduleContainer.addComponent(new EnergyStorageComponent());
+		moduleContainer.addComponent(new EnergyManager());
 		moduleContainer.addComponent(new UpdateComponent());
 		moduleContainer.addComponent(new HeatComponent());
 	}
@@ -104,13 +104,18 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == ModuleCapabilities.MODULE_CONTAINER || super.hasCapability(capability, facing);
+		return capability == ModuleCapabilities.MODULE_CONTAINER || moduleContainer.hasCapability(capability, facing) || super.hasCapability(capability, facing);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == ModuleCapabilities.MODULE_CONTAINER) {
 			return ModuleCapabilities.MODULE_CONTAINER.cast(moduleContainer);
+		} else {
+			T t = moduleContainer.getCapability(capability, facing);
+			if (t != null) {
+				return t;
+			}
 		}
 		return super.getCapability(capability, facing);
 	}

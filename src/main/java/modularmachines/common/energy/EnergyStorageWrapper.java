@@ -2,6 +2,8 @@ package modularmachines.common.energy;
 
 import net.minecraftforge.energy.IEnergyStorage;
 
+import modularmachines.common.modules.container.components.EnergyManager;
+
 /**
  * Wraps an {@link EnergyManager} to provide restrictions on extraction of receiving of energy.
  */

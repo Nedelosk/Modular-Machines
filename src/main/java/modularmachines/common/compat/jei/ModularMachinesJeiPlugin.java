@@ -1,7 +1,7 @@
-package modularmachines.common.plugins.jei;
+package modularmachines.common.compat.jei;
 
 //@JEIPlugin
-public class JeiPlugin/* extends BlankModPlugin*/ {
+public class ModularMachinesJeiPlugin/* extends BlankModPlugin*/ {
 
 	/*public static IJeiRuntime jeiRuntime;
 

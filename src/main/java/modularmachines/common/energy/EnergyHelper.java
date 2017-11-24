@@ -9,6 +9,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import modularmachines.common.energy.tesla.TeslaHelper;
+import modularmachines.common.modules.container.components.EnergyComponent;
 
 import forestry.core.tiles.TileEngine;
 
@@ -18,16 +19,16 @@ public class EnergyHelper {
 	 *
 	 * @return true if the energy to do work was consumed
 	 */
-	public static boolean consumeEnergyToDoWork(EnergyManager energyManager, int ticksPerWorkCycle, int energyPerWorkCycle) {
+	public static boolean consumeEnergyToDoWork(EnergyComponent energyComponent, int ticksPerWorkCycle, int energyPerWorkCycle) {
 		if (energyPerWorkCycle == 0) {
 			return true;
 		}
 		int energyPerCycle = (int) Math.ceil(energyPerWorkCycle / (float) ticksPerWorkCycle);
-		if (energyManager.getEnergyStored() < energyPerCycle) {
+		if (energyComponent.getEnergyStored() < energyPerCycle) {
 			return false;
 		}
 		
-		energyManager.drainEnergy(energyPerCycle);
+		energyComponent.drainEnergy(energyPerCycle);
 		
 		return true;
 	}
@@ -38,8 +39,8 @@ public class EnergyHelper {
 	 *
 	 * @return amount sent
 	 */
-	public static int sendEnergy(EnergyManager energyManager, EnumFacing orientation, @Nullable TileEntity tile) {
-		return sendEnergy(energyManager, orientation, tile, Integer.MAX_VALUE, false);
+	public static int sendEnergy(EnergyComponent energyComponent, EnumFacing orientation, @Nullable TileEntity tile) {
+		return sendEnergy(energyComponent, orientation, tile, Integer.MAX_VALUE, false);
 	}
 	
 	/**
@@ -48,12 +49,12 @@ public class EnergyHelper {
 	 *
 	 * @return amount sent
 	 */
-	public static int sendEnergy(EnergyManager energyManager, EnumFacing orientation, @Nullable TileEntity tile, int amount, boolean simulate) {
-		int extractable = energyManager.extractEnergy(amount, true);
+	public static int sendEnergy(EnergyComponent energyComponent, EnumFacing orientation, @Nullable TileEntity tile, int amount, boolean simulate) {
+		int extractable = energyComponent.extractEnergy(amount, true);
 		if (extractable > 0) {
 			EnumFacing side = orientation.getOpposite();
 			final int sent = sendEnergyToTile(tile, side, extractable, simulate);
-			energyManager.extractEnergy(sent, simulate);
+			energyComponent.extractEnergy(sent, simulate);
 			return sent;
 		}
 		return 0;
@@ -86,8 +87,8 @@ public class EnergyHelper {
 	/**
 	 * @return whether this can send energy to the target tile
 	 */
-	public static boolean canSendEnergy(EnergyManager energyManager, EnumFacing orientation, TileEntity tile) {
-		return sendEnergy(energyManager, orientation, tile, Integer.MAX_VALUE, true) > 0;
+	public static boolean canSendEnergy(EnergyComponent energyComponent, EnumFacing orientation, TileEntity tile) {
+		return sendEnergy(energyComponent, orientation, tile, Integer.MAX_VALUE, true) > 0;
 	}
 	
 	public static boolean isEnergyReceiverOrEngine(EnumFacing side, @Nullable TileEntity tile) {

@@ -248,6 +248,9 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		if (super.hasCapability(capability, facing)) {
+			return true;
+		}
 		for (IModule module : getModules()) {
 			if (module.hasCapability(capability, facing)) {
 				return true;
@@ -259,6 +262,10 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		T t = super.getCapability(capability, facing);
+		if (t != null) {
+			return t;
+		}
 		for (IModule module : getModules()) {
 			if (module.hasCapability(capability, facing)) {
 				return module.getCapability(capability, facing);

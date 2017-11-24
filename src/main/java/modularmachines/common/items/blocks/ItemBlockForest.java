@@ -29,6 +29,6 @@ public class ItemBlockForest extends ItemBlock {
 			int meta = itemstack.getMetadata();
 			prefix = metaBlock.getNameFromMeta(meta);
 		}
-		return Registry.setUnlocalizedItemName(getBlock().getUnlocalizedName() + "." + prefix);
+		return Registry.getItemName(getBlock().getUnlocalizedName() + "." + prefix);
 	}
 }

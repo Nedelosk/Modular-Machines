@@ -3,7 +3,7 @@ package modularmachines.common.energy.tesla;
 import net.minecraftforge.fml.common.Optional;
 
 import modularmachines.common.core.Constants;
-import modularmachines.common.energy.EnergyManager;
+import modularmachines.common.modules.container.components.EnergyManager;
 
 import net.darkhax.tesla.api.ITeslaHolder;
 

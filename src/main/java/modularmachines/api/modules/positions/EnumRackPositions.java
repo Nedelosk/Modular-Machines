@@ -1,6 +1,9 @@
 package modularmachines.api.modules.positions;
 
+import java.util.Locale;
+
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.translation.I18n;
 
 /**
  * A enum that contains all possible rack positions.
@@ -19,5 +22,10 @@ public enum EnumRackPositions implements IModulePosition {
 	@Override
 	public Vec3d getOffset() {
 		return new Vec3d(0.0F, yOffset, 0.0F);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public String getName() {
+		return I18n.translateToLocal("modularmachines.position.rack." + toString().toLowerCase(Locale.ENGLISH) + ".name");
 	}
 }

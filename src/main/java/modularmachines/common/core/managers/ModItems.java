@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import modularmachines.common.core.Registry;
 import modularmachines.common.items.ItemCasing;
 import modularmachines.common.items.ItemModuleMeta;
+import modularmachines.common.items.ItemModules;
 
 public class ModItems {
 	
@@ -13,6 +14,7 @@ public class ModItems {
 	public static Item itemEngineElectric;
 	public static Item itemTurbineSteam;
 	public static Item itemCasings;
+	public static Item itemModules;
 	
 	public static void preInit() {
 		itemCasings = register(new ItemCasing());
@@ -20,6 +22,7 @@ public class ModItems {
 		itemEngineSteam = register(new ItemModuleMeta("engine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemEngineElectric = register(new ItemModuleMeta("engine_electric", new String[]{"bronze", "iron", "steel", "magmarium"}));
 		itemTurbineSteam = register(new ItemModuleMeta("turbine_steam", new String[]{"bronze", "iron", "steel", "magmarium"}));
+		itemModules = register(new ItemModules());
 	}
 	
 	public static <I extends Item> I register(I item) {

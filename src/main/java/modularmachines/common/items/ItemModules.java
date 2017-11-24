@@ -13,24 +13,19 @@ import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
 import modularmachines.common.utils.content.IItemModelRegister;
 
-public class ItemModuleMeta extends Item implements IItemModelRegister {
+public class ItemModules extends Item implements IItemModelRegister {
 	
-	private String[] names;
-	private String uln;
-	
-	public ItemModuleMeta(String uln, String[] names) {
-		setUnlocalizedName(uln);
+	public ItemModules() {
+		setUnlocalizedName("modules");
 		setHasSubtypes(true);
 		setCreativeTab(TabModularMachines.tabModularMachines);
-		this.names = names;
-		this.uln = uln;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerItemModels(ModelManager manager) {
-		for (int i = 0; i < names.length; ++i) {
-			manager.registerItemModel(this, i, uln + "/" + names[i]);
+		for (ModuleItems item : ModuleItems.values()) {
+			manager.registerItemModel(this, item.ordinal(), "modules/" + item.getName());
 		}
 	}
 	
@@ -38,14 +33,14 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
 		if (isInCreativeTab(tab)) {
-			for (int i = 0; i < names.length; i++) {
-				list.add(new ItemStack(this, 1, i));
+			for (ModuleItems item : ModuleItems.values()) {
+				list.add(item.get());
 			}
 		}
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.getItemName(uln + "_" + names[itemstack.getItemDamage()]);
+		return Registry.getItemName("modules_" + ModuleItems.getItem(itemstack.getItemDamage()).getName());
 	}
 }

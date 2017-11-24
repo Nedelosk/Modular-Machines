@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package modularmachines.common.plugins.jei;
+package modularmachines.common.modules.compat;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

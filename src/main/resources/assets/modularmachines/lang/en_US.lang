@@ -1,252 +1,32 @@
 ####################################
-# Assembler
-####################################
-module.storage.top.name=Upper Storage
-module.storage.back.name=Back Storage
-module.storage.left.name=Left Storage
-module.storage.right.name=Right Storge
-module.storage.side.name=Side Storge
-module.storage.casing.name=Casing Storge
-modular.assembler.assemble=Assembling Modular Machine
-modular.modular.disassemble=Disassembling Modular Machine
-
-modular.assembler.complexity=Module Complexity
-modular.assembler.complexity.position=Position Complexity
-modular.assembler.complexity.current=Current Complexity: 
-modular.assembler.complexity.allowed=Max Complexity: 
-
-modular.assembler.info=info: There is nothing to show right now.
-modular.assembler.error.no.casing=This modular machine has no casing, modular machines require a casing to store internal modules.
-modular.assembler.error.no.battery=This modular machine has no battery, One module of this modular machine requires a battery to store RF or EU energy.
-modular.assembler.error.no.storage=The module on %s side of the modular machine has no storage module.
-modular.assembler.error.no.controller=The modules that are in this modular machine contains are to complex for a controler-less modular machine, put a controller in this frame handle more complex modules.
-modular.assembler.error.too.many.controllers=This modular machine has too many controller modules, a modular machine can only have one.
-modular.assembler.error.complexity=The modules in this modular machine are to complex for this machine's controling unit, please put a better controller in to this frame to handle this complexity of modules.
-modular.assembler.error.complexity.position=The modules on the %s side of this modular machine are to complex for the module storage of this machine.
-
-####################################
-# Module Modes
-####################################
-## Tool Modes
-
-# Lathe
-mode.rod.name=Rod cutting Mode
-mode.wire.name=Wire cutting Mode
-mode.screw.name=Screw cutting Mode
-
-## Redstone Modes
-mode.redstone.ignore.name=Ignore all Redstone signals
-mode.redstone.on.name=Only Work with a redstone signal
-mode.redstone.off.name=Only Work without redstone signal
-
-####################################
 # Modules
 ####################################
-module.size.largest.name=Largest
-module.size.large.name=Large
-module.size.small.name=Small
-module.size.medium.name=Normal
-
-module.moduleStorage.name=Storage moduleStorage
-module.turbine.steam.name=Steam Turbine
-module.engine.steam.name=Steam Engine
-module.engine.electric.name=Electric Engine
-module.controller.name=Module Controller
-module.lathe.name=Lathe
-module.boiler.name=Steam Boiler
-module.heater.burning.name=Combustion Heat Generation Device
-module.heater.steam.name=Steam Based Heat Transfer Device
-module.alloysmelter.name=Alloy Smelter
-module.pulverizer.name=Pulverizer
-module.casing.name=Casing
-module.cleaner.name=Module Cleaner
-module.furnace.name=Furnace
-module.chest.name=Chest
-module.moduleStorage.name=Module Storage
-module.photovoltaic.name=Photovoltaic
-module.transfer_item.name=Item Transfer Module
-module.transfer_fluid.name=Fluid Transfer Module
-
-#EnderIO
-module.capacitor_bank.name=Capacitor Bank
-
-#Mekanism
-module.energycube.name=Energy Cube
-
-#IC2
-module.euBattery.name=IC2 RE Battery pack
-
-#Forestry
-module.apiary.name=Apiary
-module.bee_house.name=Bee House
-
-#Description's
-module.casing.description=Casing module: casing modules allow for more stored modules in machines.
-module.controller.description=Controller module: controller modules allow for more complex modular machine component.
-module.moduleStorage.description=Storage Module: Storage modules allow for more stored modules in machines.
-module.heater.steam.description=Steam heat conductor: transfers heat from steam into other components.
-module.heater.burning.description=Fire box: fire boxes transfer heat from burning coal to other components: eg. fuel like coal or other furnace fuel.
-module.engine.electric.description=Motor: Motors generate kinetic energy from rf or other energy types.
-module.engine.steam.description=Modular Steam Turbine: Modular steam turbines generate kinetic energy by cooling steam.
-module.boiler.description=Stream boiler: Steam boilers boil water to generate steam for other components.
-module.alloysmelter.description=Alloy smelter: Alloy smelters alloy metals into new metals.
-module.pulverizer.description=Pulverizer: Pulverizers crush metals and gems into dusts.
-module.turbine.steam.description=Large Turbine: Large Turbines generate large amounts of kinetic energy from steam. Steam turbines take more complexity, but generate more kenetic energy than three steam engines! 
-
-#EnderIO
-module.capacitor_bank.description=This type of battery stores redstone flux.
 
 ####################################
-# Materials
+# Module Positions
 ####################################
-material.brick.name=Brick
-material.wood.name=Wood
-material.stone.name=Stone
-material.coal.name=Coal
-material.obsidian.name=Obsidian
-material.diamond.name=Diamond
-material.iron.name=Iron
-material.gold.name=Gold
-material.tin.name=Tin
-material.nickel.name=Nickel
-material.copper.name=Copper
-material.bronze.name=Bronze
-material.aluminium.name=Aluminium
-material.steel.name=Steel
-material.magmarium.name=Magmarium
-material.invar.name=Invar
-material.lead.name=Lead
-material.silver.name=Silver
+//Casing
+modularmachines.position.casing.center.name=Casing
+modularmachines.position.casing.front.name=Front
+modularmachines.position.casing.top.name=Top
+modularmachines.position.casing.bottom.name=Bottom
+modularmachines.position.casing.casing.back.name=Back Side
+modularmachines.position.casing.left.name=Left Side
+modularmachines.position.casing.right.name=Right Side
+//Rack
+modularmachines.position.rack.up.name=Upper Rack Slot
+modularmachines.position.rack.center.name=Center Rack Slot
+modularmachines.position.rack.down.name=Lower Rack Slot
 
 ####################################
 # Tabs
 ####################################
 itemGroup.modularmachines=Modular Machines
-itemGroup.modularmachines.modules=Machine modules
 
 ####################################
 # Blocks
 ####################################
-tile.modular.name=Machine
-tile.modular.description=This is a modular machine, a modular machine contains different modules. Modular machines are built in the module assembling machine.
-modularmachines.item.tile.module_crafter.default.name=Module Crafter
-modularmachines.item.tile.metal_blocks.tin.name=Block of Tin
-modularmachines.item.tile.metal_blocks.copper.name=Block of Copper
-modularmachines.item.tile.metal_blocks.bronze.name=Block of Bronze
-modularmachines.item.tile.metal_blocks.steel.name=Block of Steel
-modularmachines.item.tile.metal_blocks.invar.name=Block of Invar
-modularmachines.item.tile.ores.copper.name=Copper Ore
-modularmachines.item.tile.ores.tin.name=Tin Ore
-modularmachines.item.tile.ores.silver.name=Silver Ore
-modularmachines.item.tile.ores.lead.name=Lead Ore
-modularmachines.item.tile.ores.nickel.name=Nickel Ore
-modularmachines.item.tile.ores.aluminium.name=Aluminium Ore
-
-####################################
-# Fluids
-####################################
-fluid.steam=Steam
-modularmachines.block.steam.name=Steam
-
-####################################
-# Item
-####################################
-modularmachines.item.engineElectric_iron.name=Iron Encased Electric Engine
-modularmachines.item.engineElectric_bronze.name=Bronze Encased Electric Engine
-modularmachines.item.engineElectric_steel.name=Steel Encased Electric Engine
-modularmachines.item.engineElectric_magmarium.name=Magmarium Encased Electric Engine
-modularmachines.item.engineSteam_iron.name=Iron Encased Steam Engine
-modularmachines.item.engineSteam_bronze.name=Bronze Encased Steam Engine
-modularmachines.item.engineSteam_steel.name=Steel Encased Steam Engine
-modularmachines.item.engineSteam_magmarium.name=Magmarium Encased Steam Engine
-modularmachines.item.turbineSteam_iron.name=Iron Encased Steam Turbine
-modularmachines.item.turbineSteam_bronze.name=Bronze Encased Steam Turbine
-modularmachines.item.turbineSteam_steel.name=Steel Encased Steam Turbine
-modularmachines.item.turbineSteam_magmarium.name=Magmarium Encased Steam Turbine
-modularmachines.item.moduleStorageLarge_wood.name=Large Wood Module Storage
-modularmachines.item.moduleStorageLarge_brick.name=Large Brick Module Storage
-modularmachines.item.moduleStorageLarge_bronze.name=Large Bronze Module Storage
-modularmachines.item.moduleStorageLarge_iron.name=Large Iron Module Storage
-modularmachines.item.moduleStorageLarge_steel.name=Large Steel Module Storage
-modularmachines.item.moduleStorageLarge_magmarium.name=Large Magmarium Module Storage
-modularmachines.item.moduleStorageSmall_wood.name=Small Wood Module Storage
-modularmachines.item.moduleStorageSmall_brick.name=Small Brick Module Storage
-modularmachines.item.moduleStorageSmall_bronze.name=Small Bronze Module Storage
-modularmachines.item.moduleStorageSmall_iron.name=Small Iron Module Storage
-modularmachines.item.moduleStorageSmall_steel.name=Small Steel Module Storage
-modularmachines.item.moduleStorageSmall_magmarium.name=Small Magmarium Module Storage
-modularmachines.item.moduleCore_basic.name=Basic Module Core
-modularmachines.item.moduleCore_normal.name=Module Core
-modularmachines.item.moduleCore_improved.name=Improved Module Core
-modularmachines.item.moduleCore_advanced.name=Advanced Module Core
-modularmachines.item.module_holders.0.name=Large %s Module Holder
-modularmachines.item.module_holders.1.name=Medium %s Module Holder
-modularmachines.item.module_holders.2.name=Small %s Module Holder
-modularmachines.item.modules.name=Module
-modularmachines.item.modular.chassis.name=Modular Chassis
-modularmachines.item.casing.wood.name=Wood Casing
-modularmachines.item.casing.bronze.name=Bronze Casing
-modularmachines.item.casing.iron.name=Iron Casing
-modularmachines.item.casing.steel.name=Steel Casing
-modularmachines.item.casing.magmarium.name=Magmarium Casing
-modularmachines.item.wrench.name=Wrench
-modularmachines.item.module_container.name=Module Container
-modularmachines.item.photovoltaic_basic.name=Base Photovoltaic Panel
-modularmachines.item.photovoltaic_improved.name=Improved Photovoltaic Panel
-modularmachines.item.photovoltaic_default.name=Default Photovoltaic Panel
-modularmachines.item.photovoltaic_advanced.name=Advanced Photovoltaic Panel
-modularmachines.tool.file.iron.name=Iron File
-modularmachines.tool.file.diamond.name=Diamond File
-modularmachines.tool.hammer.name=Iron Hammer
-modularmachines.tool.knife.name=Knife
-modularmachines.tool.cutter.name=Cutting tool
-component.plates.name=Plate
-component.gears.name=Gear
-component.screws.name=Screw
-component.rods.name=Rod
-component.wires.name=Wire
-component.ingots.name=Ingot
-component.dusts.name=Dusts
-component.nuggets.name=Nuggets
-
-####################################
-# Containers
-####################################
-mm.gui.modular.controller.name=Modular Controller
-
-module.heater.heat=Heat: %s
-
-module.page.alloysmelter.name=Alloy Smelter
-module.page.pulverizer.name=Pulverizer
-module.page.boiler.name=Boiler
-module.page.heater.name=Heater
-module.page.engine.steam.name=Modular Steam Turbine
-module.page.turbine.steam.name=Large Steam Trubine
-module.page.cleaner.name=Module Cleaner
-module.page.cleaner.clean.name=Clean Module
-module.page.lathe.name=Lathe
-module.page.furnace.name=Furnace
-module.page.battery.name=Battery
-module.page.controller.name=%s Controller
-module.page.controller.can.used.by=Can be used by
-module.page.controller.can.use=Can use
-module.page.chest.name=Chest
-
-module.transfer.item.page.from=From
-module.transfer.item.page.from.info=The slots from that the cycle can take the items.
-module.transfer.item.page.to=To
-module.transfer.item.page.to.info=The slots in that the cycle can put the items.
-module.transfer.item.page.amount=Amount
-module.transfer.item.page.amount.info=The amount of items that the cycle can transfer per work cycle.
-module.transfer.item.page.priority=Priority
-module.transfer.item.page.priority.info=The priority of this cycle.
-module.transfer.item.page.time=Time
-module.transfer.item.page.time.info=The time in ticks between the work cycles.
-
-#Forestry
-module.page.apiary.name=Apiary
-module.page.bee_house.name=Bee House
-module.page.frame_housing.name=Frame Housing
+tile.module_container.name=Module Container
 
 ####################################
 # Key Bindings
@@ -263,43 +43,33 @@ mm.top.suffix.kenetic=KE
 ####################################
 # Tooltips
 ####################################
-mm.tooltip.nonefluid=No Fluid
-mm.tooltip.energy=RF: 
-mm.module.tooltip.material=Material: 
-mm.module.tooltip.name=Name: 
-mm.module.tooltip.size=Size: 
-mm.module.allowed.complexity=Max Complexity: 
-mm.module.tooltip.complexity=Current Complexity: 
-mm.module.tooltip.position=Position: 
-mm.module.tooltip.storage.position=Storage Position: 
-mm.module.tooltip.tier=Power Tier: 
-mm.tooltip.modular.info=This machine contains: 
+mm.tooltip.hold.moduleInfo=Hold %s to show Module Info
 mm.tooltip.moduleInfo=Module Info
-mm.tooltip.moduleContainer=This item is a module container. It contains the data of one or more modules. If you want to get original item back, simple sneak and right click.
-mm.tooltip.moduleContainer.warning=WARNING This action delete all module data that the item contains and give or drop all items that the modules of the item contains !!!
-mm.tooltip.hold.moduleInfo=<Hold %s For Module Info>
-mm.tooltip.holdshift=<Hold Shift>
-mm.tooltip.handler.tanks=Tanks: 
-mm.tooltip.handler.tank=Tank
-mm.tooltip.handler.tank.empty=Empty
-mm.tooltip.handler.tank.fluid=Fluid: 
-mm.tooltip.handler.tank.amount=Amount: 
-mm.tooltip.handler.inventorys=Slots: 
-mm.tooltip.handler.inventory=Slot: 
-mm.tooltip.handler.inventory.item=Item: 
-mm.tooltip.handler.inventory.amount=Size: 
-mm.tooltip.handler.inventory.empty=Empty
-mm.tooltip.widget.energy.field.of=of
-mm.tooltip.widget.energy.field.rf=RF
+mm.tooltip.module.complexity=Complexity: 
+mm.tooltip.module.positions=Valid Positions:
 
 ####################################
-# JEI
+# Item
 ####################################
-gui.mm.jei.category.boiler=Boiler
-gui.mm.jei.category.alloysmelter=Alloy Smelter
-gui.mm.jei.category.lathe=Lathe
-gui.mm.jei.category.pulverizer=Pulverizer
-gui.mm.jei.category.moduleCrafter=Module Crafting
-
-gui.mm.jei.chance=Chance: %s
-gui.mm.jei.heat=Heat: %s
+modularmachines.item.module_rack_brick.name=Brick Module Rack
+modularmachines.item.module_rack_bronze.name=Bronze Module Rack
+modularmachines.item.module_rack_iron.name=Iron Module Rack
+modularmachines.item.module_rack_steel.name=Steel Module Rack
+modularmachines.item.module_rack_magmarium.name=Magmarium Module Rack
+modularmachines.item.casing_bronze.name=Bronze Casing
+modularmachines.item.casing_iron.name=Iron Casing
+modularmachines.item.casing_steel.name=Steel Casing
+modularmachines.item.casing_magmarium.name=Magmarium Casing
+modularmachines.item.engine_steam_bronze.name=Bronze Steam Engine
+modularmachines.item.engine_steam_iron.name=Iron Steam Engine
+modularmachines.item.engine_steam_steel.name=Steel Steam Engine
+modularmachines.item.engine_steam_magmarium.name=Magmarium Steam Engine
+modularmachines.item.turbine_steam_bronze.name=Bronze Steam Turbine
+modularmachines.item.turbine_steam_iron.name=Iron Steam Turbine
+modularmachines.item.turbine_steam_steel.name=Steel Steam Turbine
+modularmachines.item.turbine_steam_magmarium.name=Magmarium Steam Turbine
+modularmachines.item.engine_electric_bronze.name=Bronze Electric Engine
+modularmachines.item.engine_electric_iron.name=Iron Electric Engine
+modularmachines.item.engine_electric_steel.name=Steel Electric Engine
+modularmachines.item.engine_electric_magmarium.name=Magmarium Electric Engine
+modularmachines.item.modules_firebox.name=Firebox

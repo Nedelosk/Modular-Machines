@@ -11,6 +11,11 @@ import modularmachines.api.modules.IModuleHandler;
 public interface IModulePosition {
 	
 	/**
+	 * @return Localized short, human-readable identifier used in the module tooltip.
+	 */
+	String getName();
+	
+	/**
 	 * @return The rotation angle of the position.
 	 */
 	default float getRotationAngle() {

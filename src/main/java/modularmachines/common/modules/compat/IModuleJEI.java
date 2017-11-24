@@ -1,4 +1,4 @@
-package modularmachines.common.modules.integration;
+package modularmachines.common.modules.compat;
 
 import javax.annotation.Nullable;
 

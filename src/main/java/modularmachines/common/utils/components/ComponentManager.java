@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import modularmachines.api.components.IComponent;
+import modularmachines.api.modules.components.IModuleComponent;
 
 public enum ComponentManager {
 	INSTANCE;
@@ -22,6 +23,7 @@ public enum ComponentManager {
 			Collections.addAll(interfaces, currentClass.getInterfaces());
 		}
 		interfaces.remove(IComponent.class);
+		interfaces.remove(IModuleComponent.class);
 		this.componentInterfaceMap.put(component, interfaces.toArray(new Class[0]));
 	}
 	

@@ -17,6 +17,7 @@ import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.utils.Translator;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements IModuleData {
 	
@@ -127,6 +128,21 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleDataContainer container) {
 		if (I18n.canTranslate(getUnlocalizedDescription())) {
 			tooltip.add(getDescription());
+		}
+		if (complexity > 0) {
+			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity", complexity));
+		}
+		if (positions.length > 0) {
+			StringBuilder builder = new StringBuilder();
+			for (IModulePosition position : this.positions) {
+				if (builder.length() == 0) {
+					builder.append(position.getName());
+				} else {
+					builder.append(", ");
+					builder.append(position.getName());
+				}
+			}
+			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.positions", builder.toString()));
 		}
 	}
 	

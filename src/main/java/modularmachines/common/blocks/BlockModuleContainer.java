@@ -60,7 +60,6 @@ public class BlockModuleContainer extends Block {
 		super(Material.IRON);
 		setSoundType(SoundType.METAL);
 		setHardness(2.0F);
-		setHarvestLevel("wrench", 0);
 		setUnlocalizedName("module_container");
 		setRegistryName("module_container");
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);

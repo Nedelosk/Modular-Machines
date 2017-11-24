@@ -86,7 +86,7 @@ public class Registry {
 		return "modularmachines.block." + name;
 	}
 	
-	public static String setUnlocalizedItemName(String name) {
+	public static String getItemName(String name) {
 		return "modularmachines.item." + name;
 	}
 }

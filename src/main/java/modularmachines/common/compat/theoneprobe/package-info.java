@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package modularmachines.common.plugins;
+package modularmachines.common.compat.theoneprobe;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

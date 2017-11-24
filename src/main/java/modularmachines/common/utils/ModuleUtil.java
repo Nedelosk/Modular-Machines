@@ -26,7 +26,7 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.common.modules.ModuleCapabilities;
-import modularmachines.common.modules.container.components.EnergyStorageComponent;
+import modularmachines.common.modules.container.components.EnergyManager;
 import modularmachines.common.modules.container.components.HeatComponent;
 import modularmachines.common.modules.container.components.UpdateComponent;
 
@@ -137,8 +137,8 @@ public class ModuleUtil {
 	}
 	
 	@Nullable
-	public static EnergyStorageComponent getEnergy(IModuleContainer provider) {
-		return provider.getComponent(EnergyStorageComponent.class);
+	public static EnergyManager getEnergy(IModuleContainer provider) {
+		return provider.getComponent(EnergyManager.class);
 	}
 	
 	@Nullable

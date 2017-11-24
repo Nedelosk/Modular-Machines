@@ -138,7 +138,7 @@ public class ModelManager {
 				item = (Item) itemModelRegister;
 			}
 			if (item != null) {
-				itemModelRegister.registerItemModels(item, this);
+				itemModelRegister.registerItemModels(this);
 			}
 		}
 		for (IClientContentHandler clientContentHandler : clientContentHandlers) {
