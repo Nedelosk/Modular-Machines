@@ -5,7 +5,10 @@
  */
 package modularmachines.common;
 
+import java.io.File;
+
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -46,6 +49,7 @@ public class ModularMachines {
 	
 	public static IForgeRegistry<IModuleData> dataRegistry;
 	public static Config config;
+	public static File configFile;
 	
 	public ModularMachines() {
 		FluidRegistry.enableUniversalBucket();
@@ -57,11 +61,10 @@ public class ModularMachines {
 		ModuleManager.registry = ModuleRegistry.INSTANCE;
 		ModuleManager.componentFactory = ModuleComponentFactory.INSTANCE;
 		//new ModuleLoadManager();
-		//configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
-		//configFile = new File(configFolder, "Modular-Machines.cfg");
-		//config = new Config();
-		//Config.config = new Configuration(ModularMachines.configFile);
-		//Config.syncConfig(true);
+		configFile = event.getSuggestedConfigurationFile();
+		MinecraftForge.EVENT_BUS.register(Config.class);
+		Config.config = new Configuration(ModularMachines.configFile);
+		Config.syncConfig(true);
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		ModFluids.preInit();

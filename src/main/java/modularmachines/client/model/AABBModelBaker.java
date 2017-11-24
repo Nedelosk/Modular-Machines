@@ -179,10 +179,10 @@ public class AABBModelBaker {
 	}
 	
 	public ModelBakerModel bakeModel(boolean flip) {
-		ModelRotation mr = ModelRotation.X0_Y90;
+		ModelRotation mr = ModelRotation.X0_Y0;
 		
 		if (flip) {
-			mr = ModelRotation.X0_Y270;
+			mr = ModelRotation.X0_Y180;
 		}
 		
 		//Add baked models to the current model.

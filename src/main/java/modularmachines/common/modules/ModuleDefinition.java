@@ -1,7 +1,6 @@
 package modularmachines.common.modules;
 
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -302,30 +301,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			}
 			data.setModel(model);
 		}
-	},
-	ENERGY_INPUT("energy_input", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
-		}
-		
-		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
-			helper.registerContainer(factory.createContainer(new ItemStack(Items.APPLE), data));
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addBoundingBox(module, new AxisAlignedBB(3.0F / 16.0F, 3.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			super.registerModelData();
-			ModelDataDefault.addModelData(data);
-		}
 	};
 	
 	protected final IModuleData data;
@@ -395,6 +370,5 @@ public enum ModuleDefinition implements IModuleDefinition {
 	
 	@Override
 	public void addComponents(IModule module, IModuleComponentFactory factory) {
-	
 	}
 }

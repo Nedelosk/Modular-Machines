@@ -18,6 +18,7 @@ import modularmachines.api.ILocatableSource;
 import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.listeners.IModuleListener;
 
 /**
  * Implement this interface as a capability which should handle modules.
@@ -25,7 +26,8 @@ import modularmachines.api.modules.IModuleProvider;
  * You can use {@link modularmachines.api.modules.IModuleFactory#createContainer(ILocatable)} to create an instance of
  * this or you can use your own implementation.
  */
-public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICapabilityProvider, IComponentProvider<ContainerComponent> {
+public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICapabilityProvider,
+		IComponentProvider<ContainerComponent>, IModuleListener {
 	
 	/**
 	 * @param index The internal index of the module. It is generated out of the position of the module and the

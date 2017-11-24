@@ -37,6 +37,7 @@ import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.listeners.IModuleListener;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.CasingModuleHandler;
@@ -290,5 +291,19 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Override
 	public boolean isMarkedForDeletion() {
 		return markedForDeletion;
+	}
+	
+	@Override
+	public void onModuleRemoved(IModule module) {
+		for (IModuleListener listener : getInterfaces(IModuleListener.class)) {
+			listener.onModuleRemoved(module);
+		}
+	}
+	
+	@Override
+	public void onModuleAdded(IModule module) {
+		for (IModuleListener listener : getInterfaces(IModuleListener.class)) {
+			listener.onModuleAdded(module);
+		}
 	}
 }

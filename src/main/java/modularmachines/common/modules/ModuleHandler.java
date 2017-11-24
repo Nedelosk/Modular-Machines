@@ -100,6 +100,7 @@ public class ModuleHandler implements IModuleHandler {
 		moduleStack.setCount(1);
 		IModule module = ModuleManager.factory.createModule(this, position, container, moduleStack);
 		modules.put(position, module);
+		provider.getContainer().onModuleAdded(module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
 		World world = locatable.getWorldObj();
@@ -151,6 +152,7 @@ public class ModuleHandler implements IModuleHandler {
 			return drops;
 		}
 		modules.put(position, ModuleManager.factory.createEmptyModule(this, position));
+		provider.getContainer().onModuleRemoved(module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
 		World world = locatable.getWorldObj();

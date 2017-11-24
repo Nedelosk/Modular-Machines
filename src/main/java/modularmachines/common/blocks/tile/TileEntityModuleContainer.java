@@ -19,9 +19,10 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.ModuleCapabilities;
-import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.modules.container.components.EnergyManager;
+import modularmachines.common.modules.container.components.FluidManager;
 import modularmachines.common.modules.container.components.HeatComponent;
+import modularmachines.common.modules.container.components.ItemManager;
 import modularmachines.common.modules.container.components.UpdateComponent;
 
 public class TileEntityModuleContainer extends TileEntityBase implements ILocatable {
@@ -29,7 +30,6 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	private final Map<String, ContainerComponent> componentMap;
 	public EnumFacing facing;
 	public GameProfile owner;
-	public ModuleHandler moduleHandler;
 	public IModuleContainer moduleContainer;
 	
 	public TileEntityModuleContainer() {
@@ -39,6 +39,8 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 		moduleContainer.addComponent(new EnergyManager());
 		moduleContainer.addComponent(new UpdateComponent());
 		moduleContainer.addComponent(new HeatComponent());
+		moduleContainer.addComponent(new ItemManager());
+		moduleContainer.addComponent(new FluidManager());
 	}
 	
 	@Override
