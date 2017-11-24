@@ -87,4 +87,9 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 * Sends the NBT-Data of this module to the client.
 	 */
 	void sendToClient();
+	
+	/**
+	 * @return If the module is empty and contains the default {@link IModuleData}.
+	 */
+	boolean isEmpty();
 }

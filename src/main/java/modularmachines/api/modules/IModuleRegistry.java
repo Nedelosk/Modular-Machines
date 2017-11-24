@@ -12,12 +12,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 
 /**
  * Can be used to add {@link IModuleDataContainer}s and to place a module in the world.
  */
-public interface IModuleHelper {
+public interface IModuleRegistry {
 	
 	boolean placeModule(World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing facing);
 	
@@ -29,4 +30,6 @@ public interface IModuleHelper {
 	IModuleDataContainer getContainerFromItem(ItemStack stack);
 	
 	Collection<IModuleDataContainer> getContainers();
+	
+	IModuleData getDefaultData();
 }

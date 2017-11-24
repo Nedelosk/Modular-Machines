@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
-import modularmachines.api.modules.IModuleHelper;
+import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IItemHandlerComponent;
 import modularmachines.api.modules.components.IModuleComponentFactory;
@@ -49,7 +49,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleData(), "chest", 4) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.VERTICAL);
+			data.setPositions(EnumCasingPositions.HORIZONTAL);
 		}
 		
 		@Override
@@ -66,7 +66,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	FURNACE(new ModuleData(), "furnace", 1) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.VERTICAL);
+			data.setPositions(EnumCasingPositions.HORIZONTAL);
 		}
 		
 		@Override
@@ -95,7 +95,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("bronze/casings"));
+			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("bronze/casings"));
 		}
 		
 		@Override
@@ -119,7 +119,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("iron/casings"));
+			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("iron/casings"));
 		}
 		
 	},
@@ -138,7 +138,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataCasing.initModelData(new ModelLocationBuilder(data()).addFolder("steel/casings"));
+			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("steel/casings"));
 		}
 		
 	},
@@ -150,14 +150,14 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
 			helper.registerContainer(factory.createDamageContainer(new ItemStack(ModItems.itemModuleRack), data()));
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("brick/module_storage"));
+			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("brick/module_storage"));
 		}
 		
 		@Override
@@ -181,7 +181,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("bronze/module_storage"));
+			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("bronze/module_storage"));
 		}
 		
 	},
@@ -200,7 +200,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("iron/module_storage"));
+			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("iron/module_storage"));
 		}
 		
 	},
@@ -219,7 +219,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataModuleRack.initModelData(new ModelLocationBuilder(data()).addFolder("steel/module_storage"));
+			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("steel/module_storage"));
 		}
 		
 	},
@@ -250,11 +250,18 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(itemHandler);
 			module.addComponent(new FuelComponent.Items(25, index));
 			module.addComponent(new HeaterComponent(150, 2));
+			factory.addBoundingBox(module, new AxisAlignedBB(3.0F / 16.0F, 3.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F));
 		}
 		
 		@Override
 		public void registerContainers() {
 			registerDamage(ModuleItems.FIREBOX.get());
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataDefault.addModelData(data);
 		}
 	},
 	BOILER(new ModuleData(), "boiler", 4) {
@@ -300,12 +307,17 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			super.initData(data);
-			data.setPositions(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT, EnumCasingPositions.BACK, EnumCasingPositions.FRONT);
+			data.setPositions(EnumCasingPositions.HORIZONTAL);
 		}
 		
 		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
 			helper.registerContainer(factory.createContainer(new ItemStack(Items.APPLE), data));
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addBoundingBox(module, new AxisAlignedBB(3.0F / 16.0F, 3.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -336,7 +348,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	}
 	
 	
-	protected void registerContainers(IModuleFactory factory, IModuleHelper helper) {
+	protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
 	}
 	
 	public void registerContainers() {
@@ -361,7 +373,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	public static void registerModuleContainers() {
 		for (ModuleDefinition definition : values()) {
 			definition.registerContainers();
-			definition.registerContainers(ModuleManager.factory, ModuleManager.helper);
+			definition.registerContainers(ModuleManager.factory, ModuleManager.registry);
 		}
 	}
 	
@@ -370,15 +382,15 @@ public enum ModuleDefinition implements IModuleDefinition {
 	}
 	
 	protected void register(ItemStack parent) {
-		ModuleManager.helper.registerContainer(new ModuleDataContainer(parent, data()));
+		ModuleManager.registry.registerContainer(new ModuleDataContainer(parent, data()));
 	}
 	
 	protected void registerDamage(ItemStack parent) {
-		ModuleManager.helper.registerContainer(new ModuleDataContainerDamage(parent, data()));
+		ModuleManager.registry.registerContainer(new ModuleDataContainerDamage(parent, data()));
 	}
 	
 	protected void register(IModuleDataContainer container) {
-		ModuleManager.helper.registerContainer(container);
+		ModuleManager.registry.registerContainer(container);
 	}
 	
 	@Override

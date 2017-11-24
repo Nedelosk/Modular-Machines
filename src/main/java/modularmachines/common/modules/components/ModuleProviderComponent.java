@@ -17,9 +17,15 @@ import modularmachines.common.modules.ModuleHandler;
 
 public abstract class ModuleProviderComponent extends ModuleComponent implements IModuleProvider, INBTWritable, INBTReadable {
 	
-	protected final ModuleHandler moduleHandler;
+	protected ModuleHandler moduleHandler;
+	protected final IModulePosition[] positions;
 	
 	public ModuleProviderComponent(IModulePosition... positions) {
+		this.positions = positions;
+	}
+	
+	@Override
+	public void onCreateModule() {
 		moduleHandler = new ModuleHandler(this, positions);
 	}
 	

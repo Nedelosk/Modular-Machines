@@ -17,7 +17,6 @@ public interface IModuleHandler {
 	/**
 	 * @return The module that is currently at that position.
 	 */
-	@Nullable
 	IModule getModule(IModulePosition position);
 	
 	/**
@@ -36,9 +35,19 @@ public interface IModuleHandler {
 	Collection<IModulePosition> getValidPositions();
 	
 	/**
-	 * @return A collection filled with all modules of this handler.
+	 * @return A collection filled with all modules of this handler that are not empty.
 	 */
 	Collection<IModule> getModules();
+	
+	/**
+	 * @return A collection filled with all modules of this handler.
+	 */
+	Collection<IModule> getAllModules();
+	
+	/**
+	 * @return true if this handler contains no modules.
+	 */
+	boolean isEmpty();
 	
 	/**
 	 * Tries to inserts a module at the given position and return if it has inserted it.

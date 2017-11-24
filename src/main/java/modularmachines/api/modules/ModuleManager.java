@@ -4,10 +4,7 @@ import modularmachines.api.modules.components.IModuleComponentFactory;
 
 public class ModuleManager {
 	
-	/**
-	 * A
-	 */
-	public static IModuleHelper helper;
+	public static IModuleRegistry registry;
 	
 	public static IModuleFactory factory;
 	

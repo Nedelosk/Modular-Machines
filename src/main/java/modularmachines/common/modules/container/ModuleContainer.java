@@ -204,7 +204,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (itemStack.isEmpty()) {
 			return false;
 		}
-		IModuleDataContainer dataContainer = ModuleManager.helper.getContainerFromItem(itemStack);
+		IModuleDataContainer dataContainer = ModuleManager.registry.getContainerFromItem(itemStack);
 		if (dataContainer == null) {
 			return false;
 		}

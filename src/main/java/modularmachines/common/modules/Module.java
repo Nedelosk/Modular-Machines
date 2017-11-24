@@ -14,7 +14,6 @@ import modularmachines.api.modules.components.IItemCreationListener;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
@@ -30,12 +29,12 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	@Nullable
 	private EnumFacing facing;
 	
-	public Module(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
+	public Module(IModuleHandler parent, IModulePosition position, IModuleData data, ItemStack parentItem) {
 		this.parent = parent;
 		this.container = parent.getProvider().getContainer();
 		this.position = position;
 		this.itemStack = parentItem;
-		this.data = container.getData();
+		this.data = data;
 		this.facing = getFacing();
 		this.index = this.container.generateIndex(this);
 	}
@@ -141,5 +140,10 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	public void sendToClient() {
 		ILocatable locatable = container.getLocatable();
 		PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		return getData() == ModuleRegistry.INSTANCE.getDefaultData() || itemStack.isEmpty();
 	}
 }

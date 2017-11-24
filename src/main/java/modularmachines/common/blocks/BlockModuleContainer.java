@@ -253,7 +253,7 @@ public class BlockModuleContainer extends Block {
 		if (!Config.destroyModules) {
 			return stack;
 		}
-		IModuleDataContainer moduleContainer = ModuleManager.helper.getContainerFromItem(stack);
+		IModuleDataContainer moduleContainer = ModuleManager.registry.getContainerFromItem(stack);
 		if (moduleContainer != null) {
 			if (random.nextFloat() < moduleContainer.getData().getDropChance()) {
 				return stack;

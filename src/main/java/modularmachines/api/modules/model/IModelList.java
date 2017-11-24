@@ -11,8 +11,12 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.model.IModelState;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModule;
 
+@SideOnly(Side.CLIENT)
 public interface IModelList {
 	void add(IModelProperty key);
 	
@@ -46,6 +50,8 @@ public interface IModelList {
 	Function<ResourceLocation, TextureAtlasSprite> textureGetter();
 	
 	List<IBakedModel> models();
+	
+	IModule getModule();
 	
 	IBakedModel missingModel();
 }

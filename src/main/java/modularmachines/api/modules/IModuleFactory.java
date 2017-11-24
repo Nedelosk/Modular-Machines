@@ -26,6 +26,8 @@ public interface IModuleFactory {
 	
 	IModuleContainer createContainer(ILocatable locatable);
 	
+	IModule createEmptyModule(IModuleHandler parent, IModulePosition position);
+	
 	IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem);
 	
 	IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position);

@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
-import modularmachines.common.modules.ModuleHelper;
+import modularmachines.common.modules.ModuleRegistry;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemCasing extends Item implements IItemModelRegister {
@@ -55,6 +55,6 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		return ModuleHelper.INSTANCE.placeModule(worldIn, pos, player, hand, facing) ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+		return ModuleRegistry.INSTANCE.placeModule(worldIn, pos, player, hand, facing) ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 	}
 }

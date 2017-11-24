@@ -77,7 +77,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public List<String> addModuleInfo(ItemStack itemStack) {
 		List<String> tooltip = new ArrayList<>();
-		IModuleDataContainer container = ModuleManager.helper.getContainerFromItem(itemStack);
+		IModuleDataContainer container = ModuleManager.registry.getContainerFromItem(itemStack);
 		if (container != null) {
 			if (Keyboard.isKeyDown(MODULE_INFO.getKeyCode())) {
 				IModuleData data = container.getData();

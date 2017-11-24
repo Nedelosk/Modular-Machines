@@ -60,7 +60,7 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (position == null) {
 					return;
 				}
-				IModuleDataContainer dataContainer = ModuleManager.helper.getContainerFromItem(itemStack);
+				IModuleDataContainer dataContainer = ModuleManager.registry.getContainerFromItem(itemStack);
 				if (dataContainer == null) {
 					return;
 				}

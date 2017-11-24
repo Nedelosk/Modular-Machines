@@ -77,7 +77,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	@Nullable
 	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex) {
 		List<IBakedModel> models = new ArrayList<>();
-		for (IModule module : provider.getHandler().getModules()) {
+		for (IModule module : provider.getHandler().getAllModules()) {
 			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex);
 			if (model == null) {
 				continue;

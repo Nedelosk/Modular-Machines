@@ -5,13 +5,9 @@
  */
 package modularmachines.common;
 
-import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -22,7 +18,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.common.compat.theoneprobe.TheOneProbeCompat;
 import modularmachines.common.config.Config;
@@ -37,10 +32,8 @@ import modularmachines.common.core.managers.ModOreDicts;
 import modularmachines.common.modules.ModuleComponentFactory;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleFactory;
-import modularmachines.common.modules.ModuleHelper;
-import modularmachines.common.modules.container.EmptyModuleContainer;
+import modularmachines.common.modules.ModuleRegistry;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.utils.capabilitys.DefaultStorage;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION)
 public class ModularMachines {
@@ -56,13 +49,12 @@ public class ModularMachines {
 	
 	public ModularMachines() {
 		FluidRegistry.enableUniversalBucket();
-		dataRegistry = new RegistryBuilder<IModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:moduledatas")).setType(IModuleData.class).create();
 	}
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ModuleManager.factory = ModuleFactory.INSTANCE;
-		ModuleManager.helper = ModuleHelper.INSTANCE;
+		ModuleManager.registry = ModuleRegistry.INSTANCE;
 		ModuleManager.componentFactory = ModuleComponentFactory.INSTANCE;
 		//new ModuleLoadManager();
 		//configFolder = new File(event.getModConfigurationDirectory(), "modularmachines");
@@ -70,7 +62,6 @@ public class ModularMachines {
 		//config = new Config();
 		//Config.config = new Configuration(ModularMachines.configFile);
 		//Config.syncConfig(true);
-		CapabilityManager.INSTANCE.register(IModuleContainer.class, new DefaultStorage(), () -> EmptyModuleContainer.INSTANCE);
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		ModFluids.preInit();

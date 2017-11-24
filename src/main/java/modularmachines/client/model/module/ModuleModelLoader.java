@@ -32,14 +32,15 @@ import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.IModelComponent;
+import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.IModuleModelState;
-import modularmachines.common.ModularMachines;
 
 @SideOnly(Side.CLIENT)
 public enum ModuleModelLoader {
@@ -94,7 +95,7 @@ public enum ModuleModelLoader {
 	}
 	
 	public void registerModels() {
-		locations = ModularMachines.dataRegistry.getValues().stream()
+		locations = GameRegistry.findRegistry(IModuleData.class).getValues().stream()
 				.filter(Objects::nonNull)
 				.map(data -> {
 					IModelData modelData = data.getModel();
@@ -137,10 +138,13 @@ public enum ModuleModelLoader {
 			return null;
 		}
 		if (component.isModelNeedReload() || model == null) {
-			ModelList modelList = new ModelList(data.locations(), vertex, modelState, DefaultTextureGetter.INSTANCE);
+			ModelList modelList = new ModelList(module, data.locations(), vertex, modelState, DefaultTextureGetter.INSTANCE);
 			component.setModelState(moduleModelState = data.createState(module));
 			data.addModel(modelList, module, moduleModelState);
 			if (modelList.empty()) {
+				if (module.isEmpty()) {
+					return null;
+				}
 				model = modelList.missingModel();
 			} else {
 				model = BakedMultiModel.create(modelList.models());

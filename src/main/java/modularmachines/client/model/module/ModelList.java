@@ -5,30 +5,40 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.IBoundingBoxComponent;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelLocations;
 import modularmachines.api.modules.model.IModelProperty;
+import modularmachines.client.model.AABBModelBaker;
 import modularmachines.client.model.TRSRBakedModel;
 
+@SideOnly(Side.CLIENT)
 public class ModelList implements IModelList {
 	private final List<IBakedModel> models = new LinkedList<>();
 	private final VertexFormat format;
 	private final IModelState modelState;
 	private final IModelLocations cache;
 	private final Function<ResourceLocation, TextureAtlasSprite> textureGetter;
+	private final IModule module;
 	@Nullable
 	private IBakedModel missingModel;
 	
-	public ModelList(IModelLocations cache, VertexFormat format, IModelState modelState, Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
+	public ModelList(IModule module, IModelLocations cache, VertexFormat format, IModelState modelState, Function<ResourceLocation, TextureAtlasSprite> textureGetter) {
+		this.module = module;
 		this.cache = cache;
 		this.format = format;
 		this.modelState = modelState;
@@ -126,7 +136,20 @@ public class ModelList implements IModelList {
 	}
 	
 	@Override
+	public IModule getModule() {
+		return module;
+	}
+	
+	@Override
 	public IBakedModel missingModel() {
+		IBoundingBoxComponent component = module.getInterface(IBoundingBoxComponent.class);
+		if (component != null) {
+			AxisAlignedBB boundingBox = component.getCollisionBox();
+			AABBModelBaker modelBaker = new AABBModelBaker();
+			modelBaker.setModelBounds(boundingBox);
+			modelBaker.addModel(Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite(), 0);
+			return modelBaker.bakeModel(false);
+		}
 		if (missingModel == null) {
 			missingModel = ModelLoaderRegistry.getMissingModel().bake(modelState, format, textureGetter);
 		}

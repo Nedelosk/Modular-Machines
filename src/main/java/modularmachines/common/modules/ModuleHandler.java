@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
@@ -34,7 +33,6 @@ import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
-import modularmachines.common.ModularMachines;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketExtractModule;
 import modularmachines.common.network.packets.PacketInjectModule;
@@ -48,14 +46,13 @@ public class ModuleHandler implements IModuleHandler {
 	
 	public ModuleHandler(IModuleProvider provider, IModulePosition... positions) {
 		this.provider = provider;
+		this.positions = ImmutableList.copyOf(positions);
 		this.modules = new HashMap<>(positions.length);
 		for (IModulePosition position : positions) {
-			modules.put(position, null);
+			modules.put(position, ModuleManager.factory.createEmptyModule(this, position));
 		}
-		this.positions = ImmutableList.copyOf(positions);
 	}
 	
-	@Nullable
 	@Override
 	public IModule getModule(IModulePosition position) {
 		return modules.get(position);
@@ -63,7 +60,7 @@ public class ModuleHandler implements IModuleHandler {
 	
 	@Override
 	public boolean hasModule(IModulePosition position) {
-		return modules.get(position) != null;
+		return canHandle(position) && !modules.get(position).isEmpty();
 	}
 	
 	@Override
@@ -78,7 +75,17 @@ public class ModuleHandler implements IModuleHandler {
 	
 	@Override
 	public Collection<IModule> getModules() {
-		return modules.values().stream().filter(Objects::nonNull).collect(Collectors.toSet());
+		return modules.values().stream().filter(m -> !m.isEmpty()).collect(Collectors.toSet());
+	}
+	
+	@Override
+	public Collection<IModule> getAllModules() {
+		return modules.values();
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		return modules.values().stream().allMatch(IModule::isEmpty);
 	}
 	
 	@Override
@@ -124,10 +131,10 @@ public class ModuleHandler implements IModuleHandler {
 	
 	@Override
 	public List<ItemStack> extractModule(IModulePosition position, boolean simulate) {
-		if (!hasModule(position) || !canHandle(position)) {
+		if (!hasModule(position)) {
 			return Collections.emptyList();
 		}
-		IModule module = modules.get(position);
+		IModule module = getModule(position);
 		List<IModule> extractedModules = new ArrayList<>();
 		extractedModules.add(module);
 		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
@@ -143,7 +150,7 @@ public class ModuleHandler implements IModuleHandler {
 		if (simulate) {
 			return drops;
 		}
-		modules.put(position, null);
+		modules.put(position, ModuleManager.factory.createEmptyModule(this, position));
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
 		World world = locatable.getWorldObj();
@@ -195,7 +202,7 @@ public class ModuleHandler implements IModuleHandler {
 			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
 			int index = tagCompound.getInteger("I");
 			String registryName = tagCompound.getString("D");
-			IModuleData data = ModularMachines.dataRegistry.getValue(new ResourceLocation(registryName));
+			IModuleData data = ModuleRegistry.INSTANCE.getRegistry().getValue(new ResourceLocation(registryName));
 			if (data == null) {
 				Log.warn("Failed to load a module of a module handler.");
 				continue;

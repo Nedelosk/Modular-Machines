@@ -21,8 +21,12 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 	public IItemSlot addSlot(int limit, boolean isOutput) {
 		ItemSlot slot = new ItemSlot(slots.size(), limit, isOutput);
 		slots.add(slot);
-		stacks.add(slot.index, ItemStack.EMPTY);
 		return slot;
+	}
+	
+	@Override
+	public void onCreateModule() {
+		stacks = NonNullList.withSize(slots.size(), ItemStack.EMPTY);
 	}
 	
 	@Override

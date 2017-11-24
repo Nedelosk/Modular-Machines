@@ -62,7 +62,14 @@ public enum ModuleFactory implements IModuleFactory {
 	
 	@Override
 	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
-		IModule module = new Module(parent, position, container, parentItem);
+		IModule module = new Module(parent, position, container.getData(), parentItem);
+		createModule(module);
+		return module;
+	}
+	
+	@Override
+	public IModule createEmptyModule(IModuleHandler parent, IModulePosition position) {
+		IModule module = new Module(parent, position, ModuleManager.registry.getDefaultData(), ItemStack.EMPTY);
 		createModule(module);
 		return module;
 	}
@@ -78,6 +85,7 @@ public enum ModuleFactory implements IModuleFactory {
 	private void createModule(IModule module) {
 		IModuleDefinition definition = module.getData().getDefinition();
 		definition.addComponents(module, ModuleManager.componentFactory);
+		//Add the model component on the client side
 		ModularMachines.proxy.addComponents(module);
 		for (IModuleComponent component : module.getComponents()) {
 			component.onCreateModule();

@@ -21,7 +21,7 @@ public class ModelDataCasing extends ModelData {
 		BASE, LEFT, RIGHT
 	}
 	
-	public static void initModelData(ModelLocationBuilder location) {
+	public static void addModelData(ModelLocationBuilder location) {
 		ModelDataCasing casing = new ModelDataCasing();
 		casing.add(Property.BASE, location.copy().setPreFix("casing"));
 		casing.add(Property.LEFT, location.copy().setPreFix("side_left"));
@@ -39,8 +39,8 @@ public class ModelDataCasing extends ModelData {
 		ModuleModelState modelState = new ModuleModelState();
 		IModule left = moduleHandler.getModule(EnumCasingPositions.LEFT);
 		IModule right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
-		modelState.set(Property.LEFT, left == null || !left.hasComponent(RackComponent.class));
-		modelState.set(Property.RIGHT, right == null || !right.hasComponent(RackComponent.class));
+		modelState.set(Property.LEFT, left.isEmpty() || !left.hasComponent(RackComponent.class));
+		modelState.set(Property.RIGHT, right.isEmpty() || !right.hasComponent(RackComponent.class));
 		return modelState;
 	}
 	
