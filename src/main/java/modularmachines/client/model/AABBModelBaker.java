@@ -167,13 +167,7 @@ public class AABBModelBaker {
 		minV = 16 - minV;
 		maxU = 16 - maxU;
 		maxV = 16 - maxV;
-		return new float[]{
-				minU,
-				minV,
-				
-				maxU,
-				maxV
-		};
+		return new float[]{minU, minV, maxU, maxV};
 	}
 	
 	public void addFace(EnumFacing facing, TextureAtlasSprite sprite) {
