@@ -1,28 +1,13 @@
 # Modular-Machines
 
-[![Build Status](https://drone.io/github.com/Nedelosk/Modular-Machines/status.png)](https://drone.io/github.com/Nedelosk/Modular-Machines/latest) [![](http://cf.way2muchnoise.eu/full_modular-machines_downloads.svg)](http://minecraft.curseforge.com/projects/modular-machines) [![](http://cf.way2muchnoise.eu/versions/Available%20For%20Minecraft_modular-machines_all.svg)](http://minecraft.curseforge.com/projects/modular-machines)
+ [![](http://cf.way2muchnoise.eu/full_modular-machines_downloads.svg)](http://minecraft.curseforge.com/projects/modular-machines) [![](http://cf.way2muchnoise.eu/versions/Available%20For%20Minecraft_modular-machines_all.svg)](http://minecraft.curseforge.com/projects/modular-machines)
 
-Developing Addons
-===============
-Add to your build.gradle:
-```gradle
-repositories {
-  maven {
-    // location of the maven that hosts modular machines files
-    url "http://dl.bintray.com/nedelosk/MC"
-  }
-}
-
-dependencies {
-  // compile the modular machines jar
-  deobfCompile "modularmachines:modularmachines_${mcversion}:${mm_version}:dev"
-}
 ```
 License & Copyright
 ===============
 The MIT License (MIT)
 
-Copyright (c) 2016 Nedelosk
+Copyright (c) 2016-2017 Nedelosk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
