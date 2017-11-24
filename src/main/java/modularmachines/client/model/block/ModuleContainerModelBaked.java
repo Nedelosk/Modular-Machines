@@ -16,11 +16,13 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
@@ -57,7 +59,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	@Nullable
 	private static IBakedModel bakeModel(IModuleContainer container, VertexFormat vertex, @Nullable EnumFacing facing) {
 		IModelState modelState = ModelManager.getInstance().getDefaultBlockState();
-		IBakedModel bakedModel = bakeModel(container, modelState, vertex);
+		IBakedModel bakedModel = bakeModel(container, modelState, vertex, MinecraftForgeClient.getRenderLayer());
 		if (bakedModel != null) {
 			float rotation = 0F;
 			if (facing != null) {
@@ -75,20 +77,24 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	}
 	
 	@Nullable
-	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex) {
+	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex, BlockRenderLayer layer) {
 		List<IBakedModel> models = new ArrayList<>();
 		for (IModule module : provider.getHandler().getAllModules()) {
-			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex);
-			if (model == null) {
-				continue;
-			}
+			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
 			IModelData data = module.getData().getModel();
 			IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
 			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
-				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex);
+				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer);
 				if (bakedModel != null) {
-					model = BakedMultiModel.create(ImmutableList.of(model, bakedModel));
+					if (model == null) {
+						model = BakedMultiModel.create(ImmutableList.of(bakedModel));
+					} else {
+						model = BakedMultiModel.create(ImmutableList.of(model, bakedModel));
+					}
 				}
+			}
+			if (model == null) {
+				continue;
 			}
 			IModulePosition position = module.getPosition();
 			Vec3d offset = position.getOffset();

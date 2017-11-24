@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModel;
@@ -71,23 +72,6 @@ public enum ModuleModelLoader {
 						modelBaker.put(location, baker.build());
 						modelLocations.add(location);
 					}
-					/*ResourceLocation windowLocation = module.getWindowLocation(data);
-					if (windowLocation != null && !modelLocations.contains(windowLocation)) {
-						Builder<VertexFormat, IBakedModel> windowBaker = new Builder<>();
-						IModel model;
-						try {
-							model = ModelLoaderRegistry.getModel(windowLocation);
-						} catch (Exception exceptionModel) {
-							loadingExceptions.put(windowLocation, exceptionModel);
-							model = null;
-						}
-						if (model != null) {
-							windowBaker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
-							windowBaker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
-							modelBaker.put(windowLocation, windowBaker.build());
-							modelLocations.add(windowLocation);
-						}
-					}*/
 				});
 		ModuleModelLoader.bakedModels = modelBaker.build();
 		cachedModels.invalidateAll();
@@ -126,7 +110,7 @@ public enum ModuleModelLoader {
 	}
 	
 	@Nullable
-	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex) {
+	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex, BlockRenderLayer layer) {
 		IModelComponent component = module.getInterface(IModelComponent.class);
 		if (component == null) {
 			return null;
@@ -134,22 +118,25 @@ public enum ModuleModelLoader {
 		IModuleModelState moduleModelState = component.getModelState();
 		IBakedModel model = cachedModels.getIfPresent(Pair.of(module.getData().getRegistryName(), moduleModelState));
 		IModelData data = getModelData(module);
-		if (data == null) {
+		if (data == null || !data.canRenderInLayer(module, layer)) {
 			return null;
 		}
 		if (component.isModelNeedReload() || model == null) {
 			ModelList modelList = new ModelList(module, data.locations(), vertex, modelState, DefaultTextureGetter.INSTANCE);
 			component.setModelState(moduleModelState = data.createState(module));
-			data.addModel(modelList, module, moduleModelState);
+			data.addModel(modelList, module, moduleModelState, layer);
+			
 			if (modelList.empty()) {
-				if (module.isEmpty()) {
+				if (module.isEmpty() || layer != BlockRenderLayer.CUTOUT) {
 					return null;
 				}
 				model = modelList.missingModel();
 			} else {
 				model = BakedMultiModel.create(modelList.models());
 			}
-			cachedModels.put(Pair.of(module.getData().getRegistryName(), moduleModelState), model);
+			if (data.cacheModel()) {
+				cachedModels.put(Pair.of(module.getData().getRegistryName(), moduleModelState), model);
+			}
 			component.setModelNeedReload(false);
 		}
 		return model;

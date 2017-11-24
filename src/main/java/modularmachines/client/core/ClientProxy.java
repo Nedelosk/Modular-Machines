@@ -31,6 +31,7 @@ import org.lwjgl.input.Keyboard;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.client.model.BuiltInModelLoader;
@@ -162,5 +163,13 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void addComponents(IModule module) {
 		module.addComponent(new ModelComponent());
+	}
+	
+	@Override
+	public void markForModelUpdate(IModule module) {
+		IModelComponent component = module.getInterface(IModelComponent.class);
+		if (component != null) {
+			component.setModelNeedReload(true);
+		}
 	}
 }

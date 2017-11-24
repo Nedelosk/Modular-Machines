@@ -28,6 +28,7 @@ import modularmachines.api.modules.positions.EnumRackPositions;
 import modularmachines.client.model.module.ModelData;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
+import modularmachines.client.model.module.ModelDataLargeTank;
 import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
@@ -36,9 +37,11 @@ import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.items.ModuleItems;
 import modularmachines.common.modules.components.BoundingBoxComponent;
 import modularmachines.common.modules.components.CasingComponent;
+import modularmachines.common.modules.components.FluidContainerInteraction;
 import modularmachines.common.modules.components.FuelComponent;
 import modularmachines.common.modules.components.HeaterComponent;
 import modularmachines.common.modules.components.RackComponent;
+import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleDataContainer;
 import modularmachines.common.modules.data.ModuleDataContainerDamage;
@@ -161,7 +164,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F)));
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new RackComponent());
 		}
 	},
@@ -249,7 +252,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(itemHandler);
 			module.addComponent(new FuelComponent.Items(25, index));
 			module.addComponent(new HeaterComponent(150, 2));
-			factory.addBoundingBox(module, new AxisAlignedBB(3.0F / 16.0F, 3.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F));
+			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
 		
 		@Override
@@ -260,6 +263,57 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
+			ModelDataWorking.addModelData(data);
+		}
+	},
+	TANK_LARGE("large_tank", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(EnumCasingPositions.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(10000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
+			helper.registerContainer(factory.createDamageContainer(ModuleItems.LARGE_TANK.get(), data));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			super.registerModelData();
+			ModelDataLargeTank.addModelData(data);
+		}
+	},
+	WATER_INTAKE("water_intake", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(EnumCasingPositions.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			module.addComponent(new WaterIntakeComponent());
+			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
+		}
+		
+		@Override
+		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
+			helper.registerContainer(factory.createDamageContainer(ModuleItems.WATER_INTAKE.get(), data));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			super.registerModelData();
 			ModelDataDefault.addModelData(data);
 		}
 	},

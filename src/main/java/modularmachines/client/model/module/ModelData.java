@@ -2,6 +2,7 @@ package modularmachines.client.model.module;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,7 +43,7 @@ public class ModelData implements IModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
 		for (IModelProperty property : locations.getProperties()) {
 			if (modelState.get(property) || !modelState.has(property)) {
 				modelList.add(property);

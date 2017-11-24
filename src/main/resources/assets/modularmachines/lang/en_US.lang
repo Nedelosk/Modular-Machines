@@ -45,8 +45,9 @@ mm.top.suffix.kenetic=KE
 ####################################
 mm.tooltip.hold.moduleInfo=Hold %s to show Module Info
 mm.tooltip.moduleInfo=Module Info
-mm.tooltip.module.complexity=Complexity: 
-mm.tooltip.module.positions=Valid Positions:
+mm.tooltip.module.name=Name: %s
+mm.tooltip.module.complexity=Complexity: %s
+mm.tooltip.module.positions=Valid Positions: %s
 
 ####################################
 # Item

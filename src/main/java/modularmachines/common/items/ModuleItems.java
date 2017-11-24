@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import modularmachines.common.core.managers.ModItems;
 
 public enum ModuleItems {
-	FIREBOX;
+	FIREBOX, LARGE_TANK, WATER_INTAKE;
 	
 	public static final ModuleItems[] VALUES = values();
 	

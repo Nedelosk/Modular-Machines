@@ -126,9 +126,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	
 	/* ITEM INFO */
 	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleDataContainer container) {
-		if (I18n.canTranslate(getUnlocalizedDescription())) {
-			tooltip.add(getDescription());
-		}
+		tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.name", getDisplayName()));
 		if (complexity > 0) {
 			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity", complexity));
 		}
@@ -143,6 +141,9 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 				}
 			}
 			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.positions", builder.toString()));
+		}
+		if (I18n.canTranslate(getUnlocalizedDescription())) {
+			tooltip.add(getDescription());
 		}
 	}
 	

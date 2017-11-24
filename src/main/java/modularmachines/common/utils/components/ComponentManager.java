@@ -1,6 +1,5 @@
 package modularmachines.common.utils.components;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,12 +18,19 @@ public enum ComponentManager {
 			return;
 		}
 		Set<Class<?>> interfaces = new HashSet<>();
-		for (Class<?> currentClass = component; currentClass != null; currentClass = currentClass.getSuperclass()) {
-			Collections.addAll(interfaces, currentClass.getInterfaces());
-		}
+		addInterfaces(component, interfaces);
 		interfaces.remove(IComponent.class);
 		interfaces.remove(IModuleComponent.class);
 		this.componentInterfaceMap.put(component, interfaces.toArray(new Class[0]));
+	}
+	
+	private void addInterfaces(Class<?> interfaceClass, Set<Class<?>> interfaces) {
+		for (Class<?> currentClass = interfaceClass; currentClass != null; currentClass = currentClass.getSuperclass()) {
+			for (Class<?> interfaceCla : currentClass.getInterfaces()) {
+				interfaces.add(interfaceCla);
+				addInterfaces(interfaceCla, interfaces);
+			}
+		}
 	}
 	
 	public Class<?>[] getComponentInterfaces(Class<? extends IComponent> componentClass) {

@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.common.utils.ModuleUtil;
 
 public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent {
 	private NonNullList<InternalTank> tanks = NonNullList.create();
@@ -73,7 +74,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		resource = resource.copy();
 		int totalFillAmount = 0;
 		for (InternalTank container : tanks) {
-			if (!internal && container.canFillFluidType(resource)) {
+			if (!internal && !container.canFillFluidType(resource)) {
 				continue;
 			}
 			int fillAmount = container.fill(resource, doFill);
@@ -82,6 +83,11 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 			if (resource.amount <= 0) {
 				break;
 			}
+		}
+		if (totalFillAmount > 0) {
+			ModuleUtil.markDirty(provider);
+			ModuleUtil.markForModelUpdate(provider);
+			provider.sendToClient();
 		}
 		return totalFillAmount;
 	}
@@ -94,7 +100,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		resource = resource.copy();
 		FluidStack totalDrained = null;
 		for (InternalTank container : tanks) {
-			if (!internal && container.canDrainFluidType(container.getFluid())) {
+			if (!internal && !container.canDrainFluidType(container.getFluid())) {
 				continue;
 			}
 			FluidStack drain = container.drainInternal(resource, doDrain);
@@ -110,6 +116,11 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 				}
 			}
 		}
+		if (totalDrained != null) {
+			ModuleUtil.markDirty(provider);
+			ModuleUtil.markForModelUpdate(provider);
+			provider.sendToClient();
+		}
 		return totalDrained;
 	}
 	
@@ -121,7 +132,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		FluidStack totalDrained = null;
 		for (InternalTank container : tanks) {
 			if (totalDrained == null) {
-				if (!internal && container.canDrainFluidType(container.getFluid())) {
+				if (!internal && !container.canDrainFluidType(container.getFluid())) {
 					continue;
 				}
 				totalDrained = container.drainInternal(maxDrain, doDrain);
@@ -140,6 +151,11 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 			if (maxDrain <= 0) {
 				break;
 			}
+		}
+		if (totalDrained != null) {
+			ModuleUtil.markDirty(provider);
+			ModuleUtil.markForModelUpdate(provider);
+			provider.sendToClient();
 		}
 		return totalDrained;
 	}

@@ -1,5 +1,7 @@
 package modularmachines.api.modules.model;
 
+import net.minecraft.util.BlockRenderLayer;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -8,7 +10,7 @@ import modularmachines.api.modules.IModule;
 @SideOnly(Side.CLIENT)
 public interface IModelData {
 	
-	void addModel(IModelList modelList, IModule module, IModuleModelState modelState);
+	void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer);
 	
 	default boolean handlesChildren() {
 		return false;
@@ -19,4 +21,12 @@ public interface IModelData {
 	}
 	
 	IModelLocations locations();
+	
+	default boolean canRenderInLayer(IModule module, BlockRenderLayer layer) {
+		return layer == BlockRenderLayer.CUTOUT;
+	}
+	
+	default boolean cacheModel() {
+		return true;
+	}
 }

@@ -25,6 +25,7 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.container.components.EnergyManager;
 import modularmachines.common.modules.container.components.HeatComponent;
@@ -121,6 +122,18 @@ public class ModuleUtil {
 		}
 		
 		return cache.getLogic(world, pos);
+	}
+	
+	public static void markDirty(IModule module) {
+		ILocatable locatable = module.getContainer().getLocatable();
+		locatable.markLocatableDirty();
+		BlockPos pos = locatable.getCoordinates();
+		World world = locatable.getWorldObj();
+		world.markBlockRangeForRenderUpdate(pos, pos);
+	}
+	
+	public static void markForModelUpdate(IModule module) {
+		ModularMachines.proxy.markForModelUpdate(module);
 	}
 	
 	@Nullable

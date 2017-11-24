@@ -14,7 +14,6 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.common.utils.BoundingBoxHelper;
 
 public class BoundingBoxComponent extends ModuleComponent implements IBoundingBoxComponent {
 	private final AxisAlignedBB boundingBox;
@@ -65,8 +64,7 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	
 	public final AxisAlignedBB getCollisionBox() {
 		AxisAlignedBB boundingBox = getBoundingBox();
-		BoundingBoxHelper helper = new BoundingBoxHelper(this.provider.getFacing());
-		return helper.rotateBox(boundingBox).offset(this.provider.getPosition().getOffset());
+		return provider.rotateBoundingBox(boundingBox).offset(this.provider.getPosition().getOffset());
 	}
 	
 	public AxisAlignedBB getBoundingBox() {

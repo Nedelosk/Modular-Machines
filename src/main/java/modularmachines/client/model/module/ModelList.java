@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.model.IModelState;
 
@@ -93,7 +94,7 @@ public class ModelList implements IModelList {
 		if (module == null) {
 			return null;
 		}
-		return ModuleModelLoader.getModel(module, modelState, format);
+		return ModuleModelLoader.getModel(module, modelState, format, MinecraftForgeClient.getRenderLayer());
 	}
 	
 	@Nullable
@@ -144,11 +145,11 @@ public class ModelList implements IModelList {
 	public IBakedModel missingModel() {
 		IBoundingBoxComponent component = module.getInterface(IBoundingBoxComponent.class);
 		if (component != null) {
-			AxisAlignedBB boundingBox = component.getCollisionBox();
+			AxisAlignedBB boundingBox = component.getBoundingBox();
 			AABBModelBaker modelBaker = new AABBModelBaker();
 			modelBaker.setModelBounds(boundingBox);
 			modelBaker.addModel(Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite(), 0);
-			return modelBaker.bakeModel(false);
+			return modelBaker.bakeModel(true);
 		}
 		if (missingModel == null) {
 			missingModel = ModelLoaderRegistry.getMissingModel().bake(modelState, format, textureGetter);

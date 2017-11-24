@@ -1,5 +1,7 @@
 package modularmachines.client.model.module;
 
+import net.minecraft.util.BlockRenderLayer;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,7 +14,6 @@ import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
-import modularmachines.common.modules.components.RackComponent;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataCasing extends ModelData {
@@ -39,13 +40,13 @@ public class ModelDataCasing extends ModelData {
 		ModuleModelState modelState = new ModuleModelState();
 		IModule left = moduleHandler.getModule(EnumCasingPositions.LEFT);
 		IModule right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
-		modelState.set(Property.LEFT, left.isEmpty() || !left.hasComponent(RackComponent.class));
-		modelState.set(Property.RIGHT, right.isEmpty() || !right.hasComponent(RackComponent.class));
+		modelState.set(Property.LEFT, left.isEmpty() || left.getData().isValidPosition(EnumCasingPositions.FRONT));
+		modelState.set(Property.RIGHT, right.isEmpty() || right.getData().isValidPosition(EnumCasingPositions.FRONT));
 		return modelState;
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
 		if (modelState.get(Property.LEFT)) {
 			modelList.add(Property.LEFT);
 		}

@@ -1,5 +1,6 @@
 package modularmachines.client.model.module;
 
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,7 +45,7 @@ public class ModelDataWorking extends ModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
 		if (modelState.get(DefaultProperty.ON)) {
 			modelList.add(DefaultProperty.ON);
 		} else {

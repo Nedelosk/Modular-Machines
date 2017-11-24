@@ -1,6 +1,7 @@
 package modularmachines.common.blocks;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -83,6 +84,11 @@ public class BlockModuleContainer extends Block {
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
+	}
+	
+	@Override
+	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+		return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT;
 	}
 	
 	@Override
@@ -295,12 +301,17 @@ public class BlockModuleContainer extends Block {
 	
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		super.onNeighborChange(world, pos, neighbor);
-		IModuleContainer tileLogic = ModuleUtil.getContainer(pos, world);
-		if (tileLogic != null) {
-			for (INeighborBlockComponent changeListener : ModuleUtil.getModules(tileLogic, INeighborBlockComponent.class)) {
-				changeListener.onNeighborChange(world, pos, neighbor);
-			}
+		IModuleContainer moduleContainer = ModuleUtil.getContainer(pos, world);
+		if (moduleContainer != null) {
+			moduleContainer.getModules().stream().map(m -> m.getInterfaces(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(c -> c.onNeighborTileChange(neighbor));
+		}
+	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		IModuleContainer moduleContainer = ModuleUtil.getContainer(pos, world);
+		if (moduleContainer != null) {
+			moduleContainer.getModules().stream().map(m -> m.getInterfaces(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(INeighborBlockComponent::onNeighborBlockChange);
 		}
 	}
 	

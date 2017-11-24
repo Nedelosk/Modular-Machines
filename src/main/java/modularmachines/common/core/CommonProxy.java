@@ -54,4 +54,8 @@ public class CommonProxy {
 	
 	}
 	
+	public void markForModelUpdate(IModule module) {
+	
+	}
+	
 }

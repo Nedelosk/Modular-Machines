@@ -64,9 +64,11 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	
 	IModuleData setPositions(IModulePosition... positions);
 	
+	@Deprecated
 	@Nullable
 	ResourceLocation getWallModelLocation();
 	
+	@Deprecated
 	IModuleData setWallModelLocation(ResourceLocation WallModelLocation);
 	
 	/* ITEM INFO */

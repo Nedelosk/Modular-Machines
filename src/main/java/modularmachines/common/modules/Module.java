@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
@@ -17,6 +18,7 @@ import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModule;
+import modularmachines.common.utils.BoundingBoxHelper;
 import modularmachines.common.utils.components.ComponentProvider;
 
 public class Module extends ComponentProvider<IModuleComponent> implements IModule {
@@ -113,6 +115,12 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 		return EnumFacing.fromAngle(getFacingRotation());
 	}
 	
+	@Override
+	public AxisAlignedBB rotateBoundingBox(AxisAlignedBB boundingBox) {
+		BoundingBoxHelper helper = new BoundingBoxHelper(getFacing());
+		return helper.rotateBox(boundingBox);
+	}
+	
 	private float getFacingRotation() {
 		if (facing != null) {
 			return facing.getHorizontalAngle();
@@ -139,6 +147,9 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	@Override
 	public void sendToClient() {
 		ILocatable locatable = container.getLocatable();
+		if (locatable.getWorldObj().isRemote) {
+			return;
+		}
 		PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	

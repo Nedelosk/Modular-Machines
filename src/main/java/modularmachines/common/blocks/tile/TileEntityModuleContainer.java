@@ -53,7 +53,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 		if (moduleContainer.isMarkedForDeletion()) {
 			world.setBlockToAir(pos);
 		}
-		for (ContainerComponent component : componentMap.values()) {
+		for (ContainerComponent component : moduleContainer.getComponents()) {
 			component.update();
 		}
 	}

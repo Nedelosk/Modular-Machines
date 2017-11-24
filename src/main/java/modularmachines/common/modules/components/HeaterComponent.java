@@ -1,13 +1,9 @@
 package modularmachines.common.modules.components;
 
-import net.minecraft.util.ITickable;
-
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.container.components.HeatComponent;
-import modularmachines.common.modules.container.components.UpdateComponent;
-import modularmachines.common.utils.ModuleUtil;
 
-public class HeaterComponent extends ModuleComponent implements ITickable {
+public class HeaterComponent extends TickableComponent {
 	protected final double maxHeat;
 	protected final int heatModifier;
 	
@@ -18,10 +14,10 @@ public class HeaterComponent extends ModuleComponent implements ITickable {
 	
 	@Override
 	public void update() {
-		FuelComponent fuelComponent = provider.getComponent(FuelComponent.class);
+		super.update();
+		IFuelComponent fuelComponent = provider.getInterface(IFuelComponent.class);
 		IModuleContainer container = provider.getContainer();
-		UpdateComponent updateComponent = ModuleUtil.getUpdate(container);
-		if (fuelComponent == null || updateComponent == null || !updateComponent.updateOnInterval(20)) {
+		if (fuelComponent == null || !tickHelper.updateOnInterval(20)) {
 			return;
 		}
 		boolean needUpdate;

@@ -1,10 +1,10 @@
 package modularmachines.common.modules.container.components;
 
+import java.util.Collection;
 import java.util.Random;
 
 import net.minecraft.util.ITickable;
 
-import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.ContainerComponent;
 
 public class UpdateComponent extends ContainerComponent {
@@ -16,12 +16,7 @@ public class UpdateComponent extends ContainerComponent {
 	public void update() {
 		if (container != null) {
 			tickCount++;
-			for (IModule module : container.getModules()) {
-				if (module instanceof ITickable) {
-					ITickable tickable = (ITickable) module;
-					tickable.update();
-				}
-			}
+			container.getModules().stream().map(m -> m.getInterfaces(ITickable.class)).flatMap(Collection::stream).forEach(ITickable::update);
 		}
 	}
 	

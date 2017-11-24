@@ -214,7 +214,9 @@ public class ModuleHandler implements IModuleHandler {
 				Log.warn("Failed to load a module of a module handler: Data:{}", data);
 				continue;
 			}
-			modules.put(position, ModuleManager.factory.createModule(tagCompound, this, data, position));
+			IModule module = ModuleManager.factory.createModule(tagCompound, this, data, position);
+			modules.put(position, module);
+			provider.getContainer().onModuleAdded(module);
 		}
 	}
 	

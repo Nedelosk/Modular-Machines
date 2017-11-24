@@ -1,0 +1,75 @@
+{
+  "textures": {
+    "texture": "modularmachines:modules/firebox_off"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        2,
+        0
+      ],
+      "to": [
+        14,
+        14,
+        1
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            2,
+            13,
+            14,
+            14
+          ],
+          "texture": "#texture"
+        },
+        "up": {
+          "uv": [
+            2,
+            2,
+            14,
+            3
+          ],
+          "texture": "#texture"
+        },
+        "north": {
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ],
+          "texture": "#texture"
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ],
+          "texture": "#texture"
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            3,
+            14
+          ],
+          "texture": "#texture"
+        },
+        "east": {
+          "uv": [
+            13,
+            2,
+            14,
+            14
+          ],
+          "texture": "#texture"
+        }
+      }
+    }
+  ]
+}

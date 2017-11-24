@@ -12,6 +12,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.common.utils.ModuleUtil;
 
 public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent {
 	private final NonNullList<ItemSlot> slots = NonNullList.create();
@@ -84,6 +85,13 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 	@Override
 	public IModule getProvider() {
 		return module;
+	}
+	
+	@Override
+	protected void onContentsChanged(int slot) {
+		super.onContentsChanged(slot);
+		ModuleUtil.markDirty(module);
+		ModuleUtil.markForModelUpdate(module);
 	}
 	
 	public class ItemSlot implements IItemSlot {

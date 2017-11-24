@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -77,6 +78,11 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 * Returns true if the given side is the facing of the module.
 	 */
 	boolean isFacing(@Nullable EnumFacing side);
+	
+	/**
+	 * Rotates the give bounding box relative to the facing of this module.
+	 */
+	AxisAlignedBB rotateBoundingBox(AxisAlignedBB boundingBox);
 	
 	@Deprecated
 	default PageComponent getComponent(int index) {

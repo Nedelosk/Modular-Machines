@@ -21,5 +21,4 @@ public interface IModuleListener {
 	 */
 	default void onModuleAdded(IModule module) {
 	}
-	
 }
