@@ -1,4 +1,4 @@
-package modularmachines.common.event;
+package modularmachines.client.core;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -26,22 +26,20 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.WorldUtil;
 
-public class EventHandler {
+@SideOnly(Side.CLIENT)
+public class ClientEventHandler {
 	
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tooltipEvent(ItemTooltipEvent event) {
 		event.getToolTip().addAll(ModularMachines.proxy.addModuleInfo(event.getItemStack()));
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/container"));
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/liquid"));
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onBakeModel(ModelBakeEvent event) {
 		ModelManager.getInstance().onBakeModels(event);

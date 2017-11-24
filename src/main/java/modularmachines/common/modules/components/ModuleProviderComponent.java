@@ -1,21 +1,21 @@
 package modularmachines.common.modules.components;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
 
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
-import modularmachines.api.modules.components.IDropComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.ModuleHandler;
 
-public abstract class ModuleProviderComponent extends ModuleComponent implements IModuleProvider, INBTWritable, INBTReadable, IDropComponent {
+public abstract class ModuleProviderComponent extends ModuleComponent implements IModuleProvider, INBTWritable, INBTReadable {
 	
 	protected final ModuleHandler moduleHandler;
 	
@@ -45,7 +45,19 @@ public abstract class ModuleProviderComponent extends ModuleComponent implements
 	}
 	
 	@Override
-	public void addDrops(NonNullList<ItemStack> drops) {
-		moduleHandler.getModules().stream().map(m -> m.getInterfaces(IDropComponent.class)).flatMap(Collection::stream).forEach(c -> c.addDrops(drops));
+	public Collection<IModule> getModules() {
+		Set<IModule> modules = new HashSet<>();
+		moduleHandler.getModules().forEach(m -> addToList(modules, m));
+		return modules;
+	}
+	
+	private void addToList(Set<IModule> modules, IModule module) {
+		modules.add(module);
+		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		if (moduleProvider == null) {
+			return;
+		}
+		IModuleHandler moduleHandler = moduleProvider.getHandler();
+		moduleHandler.getModules().forEach(m -> addToList(modules, m));
 	}
 }

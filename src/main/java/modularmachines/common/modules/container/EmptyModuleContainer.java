@@ -37,6 +37,11 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	}
 	
 	@Override
+	public int generateIndex(IModule module) {
+		return 0;
+	}
+	
+	@Override
 	public Collection<IModule> getModules() {
 		return Collections.emptyList();
 	}
@@ -70,6 +75,16 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	@Override
 	public void sendToClient() {
 	
+	}
+	
+	@Override
+	public void markForDeletion() {
+	
+	}
+	
+	@Override
+	public boolean isMarkedForDeletion() {
+		return false;
 	}
 	
 	@Override
@@ -145,6 +160,7 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	
 	}
 	
+	
 	@Override
 	public IModuleHandler getHandler() {
 		return new ModuleHandler(this);
@@ -166,4 +182,5 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		return null;
 	}
+	
 }

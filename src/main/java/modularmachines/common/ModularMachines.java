@@ -33,7 +33,6 @@ import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.core.managers.ModFluids;
 import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.core.managers.ModOreDicts;
-import modularmachines.common.event.EventHandler;
 import modularmachines.common.modules.ModuleComponentFactory;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleFactory;
@@ -55,7 +54,6 @@ public class ModularMachines {
 	public static Config config;
 	
 	public ModularMachines() {
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		FluidRegistry.enableUniversalBucket();
 		dataRegistry = new RegistryBuilder<IModuleData>().setMaxID(4095).setName(new ResourceLocation("modularmachines:moduledatas")).setType(IModuleData.class).create();
 	}

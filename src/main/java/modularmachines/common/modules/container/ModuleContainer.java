@@ -39,6 +39,7 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.modules.CasingModuleHandler;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketSyncModuleContainer;
@@ -48,10 +49,11 @@ import modularmachines.common.utils.components.ComponentProvider;
 public class ModuleContainer extends ComponentProvider<ContainerComponent> implements IModuleContainer {
 	private final ILocatable locatable;
 	private ModuleHandler moduleHandler;
+	private boolean markedForDeletion;
 	
 	public ModuleContainer(ILocatable locatable) {
 		this.locatable = locatable;
-		this.moduleHandler = new ModuleHandler(this, EnumCasingPositions.CENTER);
+		this.moduleHandler = new CasingModuleHandler(this, EnumCasingPositions.CENTER);
 	}
 	
 	/* SAVE & LOAD */
@@ -179,28 +181,6 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 				.orElse(null);
 	}
 	
-	private int createPositionIndex(IModule module) {
-		int value = 0;
-		IModule currentModule = module;
-		do {
-			IModuleHandler moduleHandler = currentModule.getHandler();
-			IModulePosition position = currentModule.getPosition();
-			int positionIndex = moduleHandler.getPositionIndex(position);
-			value = value << 5;
-			value = value | (positionIndex & 0xF);
-			if (currentModule != module) {
-				value = value | 1 << 4;
-			}
-			IModuleProvider provider = currentModule.getHandler().getProvider();
-			if (provider instanceof IModuleComponent) {
-				currentModule = ((IModuleComponent) provider).getProvider();
-			} else {
-				break;
-			}
-		} while (true);
-		return value;
-	}
-	
 	private List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
 		if (rayTraceResult.subHit == -1) {
 			return moduleHandler.extractModule(EnumCasingPositions.CENTER, simulate);
@@ -241,9 +221,26 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	@Override
-	public void onModuleAdded(IModule module) {
-		int index = createPositionIndex(module);
-		module.setIndex(index);
+	public int generateIndex(IModule module) {
+		int value = 0;
+		IModule currentModule = module;
+		do {
+			IModuleHandler moduleHandler = currentModule.getHandler();
+			IModulePosition position = currentModule.getPosition();
+			int positionIndex = moduleHandler.getPositionIndex(position);
+			value = value << 5;
+			value = value | (positionIndex & 0xF);
+			if (currentModule != module) {
+				value = value | 1 << 4;
+			}
+			IModuleProvider provider = currentModule.getHandler().getProvider();
+			if (provider instanceof IModuleComponent) {
+				currentModule = ((IModuleComponent) provider).getProvider();
+			} else {
+				break;
+			}
+		} while (true);
+		return value;
 	}
 	
 	@Override
@@ -270,5 +267,15 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Override
 	public void sendToClient() {
 		PacketHandler.sendToNetwork(new PacketSyncModuleContainer(this), locatable.getCoordinates(), locatable.getWorldObj());
+	}
+	
+	@Override
+	public void markForDeletion() {
+		markedForDeletion = true;
+	}
+	
+	@Override
+	public boolean isMarkedForDeletion() {
+		return markedForDeletion;
 	}
 }

@@ -1,6 +1,7 @@
 package modularmachines.api.modules;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 
 import net.minecraft.util.math.RayTraceResult;
 
@@ -14,6 +15,12 @@ import modularmachines.api.modules.positions.IModulePosition;
  * {@link IModuleHandler} and module positions.
  */
 public interface IModuleProvider {
+	
+	/**
+	 * @return A list that contains all modules of the {@link #getHandler()} and all modules that are contained by the
+	 * modules.
+	 */
+	Collection<IModule> getModules();
 	
 	IModuleHandler getHandler();
 	

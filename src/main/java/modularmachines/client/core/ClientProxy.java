@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -47,6 +48,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void preInit() {
+		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		ModelManager.getInstance().registerModels();
 		ModelLoaderRegistry.registerLoader(new BuiltInModelLoader(ModelManager.getInstance().getBuiltInModels()));
 	}

@@ -45,17 +45,16 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	ItemStack getItemStack();
 	
 	/**
+	 * @return Creates a item that drops if the module was extracted or the block that contains the module container was
+	 * destroyed by a player.
+	 */
+	ItemStack createItem();
+	
+	/**
 	 * @return The internal index of this module. It is generated out of the position of the module and the positions
 	 * of the parents.
 	 */
 	int getIndex();
-	
-	/**
-	 * Can be used to set the internal index of this module.
-	 *
-	 * Should only be used at the creation of a module.
-	 */
-	void setIndex(int index);
 	
 	/**
 	 * @return The module data that was used to create this module.

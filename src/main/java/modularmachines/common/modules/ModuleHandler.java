@@ -3,6 +3,7 @@ package modularmachines.common.modules;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -125,6 +126,12 @@ public class ModuleHandler implements IModuleHandler {
 			return Collections.emptyList();
 		}
 		IModule module = modules.get(position);
+		List<IModule> extractedModules = new ArrayList<>();
+		extractedModules.add(module);
+		IModuleProvider provider = module.getInterface(IModuleProvider.class);
+		if (provider != null) {
+			extractedModules.addAll(provider.getModules());
+		}
 		ItemStack itemStack = module.getItemStack().copy();
 		for (IItemCreationListener listener : module.getInterfaces(IItemCreationListener.class)) {
 			itemStack = listener.createItem(itemStack);
