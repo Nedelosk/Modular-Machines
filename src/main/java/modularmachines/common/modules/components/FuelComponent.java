@@ -11,7 +11,6 @@ import net.minecraftforge.fluids.FluidStack;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IFluidHandlerComponent;
-import modularmachines.common.modules.ModuleComponent;
 
 public abstract class FuelComponent extends ModuleComponent implements INBTWritable, INBTReadable {
 	protected int fuel;

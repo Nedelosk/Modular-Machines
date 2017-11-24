@@ -15,8 +15,8 @@ import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemModuleMeta extends Item implements IItemModelRegister {
 	
-	public String[] names;
-	public String uln;
+	private String[] names;
+	private String uln;
 	
 	public ItemModuleMeta(String uln, String[] names) {
 		setUnlocalizedName(uln);

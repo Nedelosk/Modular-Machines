@@ -1,4 +1,4 @@
-package modularmachines.common.modules;
+package modularmachines.common.modules.components;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.IModuleComponent;

@@ -71,11 +71,11 @@ public class PacketHandler {
 		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
 	}
 	
-	public static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {
+	private static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {
 		packetID.setHandlerClient(packet);
 	}
 	
-	public static void registerServerPacket(PacketId packetID, IPacketHandlerServer packet) {
+	private static void registerServerPacket(PacketId packetID, IPacketHandlerServer packet) {
 		packetID.setHandlerServer(packet);
 	}
 	

@@ -8,7 +8,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.model.EmptyModelState;
 import modularmachines.api.modules.model.IModuleModelState;
-import modularmachines.common.modules.ModuleComponent;
 
 @SideOnly(Side.CLIENT)
 public class ModelComponent extends ModuleComponent implements IModelComponent {

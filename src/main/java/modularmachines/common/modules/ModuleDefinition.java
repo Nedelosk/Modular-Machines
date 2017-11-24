@@ -45,7 +45,11 @@ import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 
 public enum ModuleDefinition implements IModuleDefinition {
-	CHEST(new ModuleDataHorizontal(), "chest", 4) {
+	CHEST(new ModuleData(), "chest", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			data.setPositions(EnumCasingPositions.RIGHT, EnumCasingPositions.LEFT, EnumCasingPositions.FRONT, EnumCasingPositions.BACK);
+		}
 		
 		@Override
 		public void registerContainers() {
@@ -58,7 +62,11 @@ public enum ModuleDefinition implements IModuleDefinition {
 			ModelDataDefault.addModelData(data());
 		}
 	},
-	FURNACE(new ModuleDataHorizontal(), "furnace", 1) {
+	FURNACE(new ModuleData(), "furnace", 1) {
+		@Override
+		protected void initData(IModuleData data) {
+			data.setPositions(EnumCasingPositions.RIGHT, EnumCasingPositions.LEFT, EnumCasingPositions.FRONT, EnumCasingPositions.BACK);
+		}
 		
 		@Override
 		public void registerContainers() {
@@ -224,7 +232,12 @@ public enum ModuleDefinition implements IModuleDefinition {
 			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
 		}
 	},
-	HEATER(new ModuleDataSide(), "heater", 4) {
+	HEATER(new ModuleData(), "heater", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			data.setPositions(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN);
+		}
+		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			IItemHandlerComponent itemHandler = factory.addItemHandler(module);
@@ -239,7 +252,11 @@ public enum ModuleDefinition implements IModuleDefinition {
 			registerDamage(new ItemStack(Items.BLAZE_ROD));
 		}
 	},
-	BOILER(new ModuleDataSide(), "boiler", 4) {
+	BOILER(new ModuleData(), "boiler", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			data.setPositions(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN);
+		}
 		
 		@Override
 		public void registerContainers() {

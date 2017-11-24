@@ -38,14 +38,17 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	IModule getModule(int index);
 	
 	/**
-	 *
-	 * @return
+	 * @return A list that contains all modules of the {@link #getHandler()} and all modules that are contained by this
+	 * modules.
 	 */
 	Collection<IModule> getModules();
 	
 	@Nullable
 	RayTraceResult collisionRayTrace(BlockPos pos, Vec3d start, Vec3d end);
 	
+	/**
+	 * @return A bounding box that contains all bounding boxes of the modules.
+	 */
 	default AxisAlignedBB getBoundingBox() {
 		return Block.FULL_BLOCK_AABB;
 	}
@@ -63,5 +66,8 @@ public interface IModuleContainer extends ILocatableSource, IModuleListener, IMo
 	
 	void readFromNBT(NBTTagCompound compound);
 	
+	/**
+	 * Sends the data of all {@link modularmachines.api.components.INetworkComponent} to the client.
+	 */
 	void sendToClient();
 }

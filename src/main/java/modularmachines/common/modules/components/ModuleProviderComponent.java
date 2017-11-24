@@ -13,7 +13,6 @@ import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IDropComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.positions.IModulePosition;
-import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.modules.ModuleHandler;
 
 public abstract class ModuleProviderComponent extends ModuleComponent implements IModuleProvider, INBTWritable, INBTReadable, IDropComponent {

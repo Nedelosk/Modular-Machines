@@ -4,12 +4,10 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -83,16 +81,6 @@ public class PacketBufferMM extends PacketBuffer {
 			return new FluidStack(fluid, amount);
 		}
 		return null;
-	}
-	
-	public void writeEntityById(Entity entity) {
-		writeVarInt(entity.getEntityId());
-	}
-	
-	@Nullable
-	public Entity readEntityById(World world) {
-		int entityId = readVarInt();
-		return world.getEntityByID(entityId);
 	}
 	
 	public <T extends Enum<T>> void writeEnum(T enumValue, T[] enumValues) {

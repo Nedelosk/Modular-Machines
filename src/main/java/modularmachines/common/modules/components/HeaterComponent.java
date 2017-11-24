@@ -3,7 +3,6 @@ package modularmachines.common.modules.components;
 import net.minecraft.util.ITickable;
 
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.modules.container.components.HeatComponent;
 import modularmachines.common.modules.container.components.UpdateComponent;
 import modularmachines.common.utils.ModuleUtil;

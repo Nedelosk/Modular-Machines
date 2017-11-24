@@ -14,7 +14,6 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.common.modules.ModuleComponent;
 import modularmachines.common.utils.BoundingBoxHelper;
 
 public class BoundingBoxComponent extends ModuleComponent implements IBoundingBoxComponent {

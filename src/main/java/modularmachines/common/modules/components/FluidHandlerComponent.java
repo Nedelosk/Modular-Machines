@@ -12,7 +12,6 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.modules.components.IFluidHandlerComponent;
-import modularmachines.common.modules.ModuleComponent;
 
 public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent {
 	private NonNullList<InternalTank> tanks = NonNullList.create();
