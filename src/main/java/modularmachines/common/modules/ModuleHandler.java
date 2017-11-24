@@ -26,7 +26,6 @@ import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IDropComponent;
-import modularmachines.api.modules.components.IItemCreationListener;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.data.IModuleData;
@@ -128,17 +127,15 @@ public class ModuleHandler implements IModuleHandler {
 		IModule module = modules.get(position);
 		List<IModule> extractedModules = new ArrayList<>();
 		extractedModules.add(module);
-		IModuleProvider provider = module.getInterface(IModuleProvider.class);
-		if (provider != null) {
-			extractedModules.addAll(provider.getModules());
-		}
-		ItemStack itemStack = module.getItemStack().copy();
-		for (IItemCreationListener listener : module.getInterfaces(IItemCreationListener.class)) {
-			itemStack = listener.createItem(itemStack);
+		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		if (moduleProvider != null) {
+			extractedModules.addAll(moduleProvider.getModules());
 		}
 		NonNullList<ItemStack> drops = NonNullList.create();
-		drops.add(itemStack);
-		module.getInterfaces(IDropComponent.class).forEach(c -> c.addDrops(drops));
+		for (IModule otherModule : extractedModules) {
+			drops.add(otherModule.createItem());
+			otherModule.getInterfaces(IDropComponent.class).forEach(c -> c.addDrops(drops));
+		}
 		if (simulate) {
 			return drops;
 		}
