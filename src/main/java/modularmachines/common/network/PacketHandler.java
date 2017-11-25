@@ -31,11 +31,8 @@ import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
 import modularmachines.common.network.packets.PacketExtractModule;
 import modularmachines.common.network.packets.PacketInjectModule;
-import modularmachines.common.network.packets.PacketSyncHeatBuffer;
-import modularmachines.common.network.packets.PacketSyncMode;
-import modularmachines.common.network.packets.PacketSyncModule;
-import modularmachines.common.network.packets.PacketSyncModuleContainer;
 import modularmachines.common.network.packets.PacketUpdateModule;
+import modularmachines.common.network.packets.PacketUpdateModuleContainer;
 import modularmachines.common.utils.Log;
 
 public class PacketHandler {
@@ -45,30 +42,10 @@ public class PacketHandler {
 	
 	public PacketHandler() {
 		channel.register(this);
-		//registerClientPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
-		//registerServerPacket(PacketId.SELECT_PAGE, new PacketSelectModulePage.Handler());
-		registerClientPacket(PacketId.SYNC_MODULE, new PacketSyncModule.Handler());
 		registerClientPacket(PacketId.UPDATE_MODULE, new PacketUpdateModule.Handler());
-		registerClientPacket(PacketId.SYNC_MODE, new PacketSyncMode.Handler());
-		registerServerPacket(PacketId.SYNC_MODE, new PacketSyncMode.Handler());
 		registerClientPacket(PacketId.ADD_MODULE, new PacketInjectModule.Handler());
 		registerClientPacket(PacketId.REMOVE_MODULE, new PacketExtractModule.Handler());
-		registerClientPacket(PacketId.SYNC_MODULE_CONTAINER, new PacketSyncModuleContainer.Handler());
-		/*registerClientPacket(new PacketModuleCleaner());
-		registerServerPacket(new PacketModuleCleaner());
-		registerClientPacket(new PacketSyncRedstoneMode());
-		registerServerPacket(new PacketSyncRedstoneMode());
-		registerClientPacket(new PacketSyncToolMode());
-		registerServerPacket(new PacketSyncToolMode());
-		registerClientPacket(new PacketSyncRedstoneMode());
-		registerServerPacket(new PacketSyncRedstoneMode());
-		registerClientPacket(new PacketSyncPermission());
-		registerServerPacket(new PacketSyncPermission());*/
-		/*registerClientPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
-		registerServerPacket(PacketId.ADD_CYCLE, new PacketAddCycle.Handler());
-		registerClientPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());
-		registerServerPacket(PacketId.REMOVE_CYCLE, new PacketRemoveCycle.Handler());*/
-		registerClientPacket(PacketId.SYNC_HEAT, new PacketSyncHeatBuffer.Handler());
+		registerClientPacket(PacketId.UPDATE_MODULE_CONTAINER, new PacketUpdateModuleContainer.Handler());
 	}
 	
 	private static void registerClientPacket(PacketId packetID, IPacketHandlerClient packet) {

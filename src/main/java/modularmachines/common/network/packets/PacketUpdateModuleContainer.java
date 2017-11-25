@@ -11,14 +11,14 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
 
-public class PacketSyncModuleContainer extends PacketLocatable<IModuleContainer> {
-	public PacketSyncModuleContainer(IModuleContainer source) {
+public class PacketUpdateModuleContainer extends PacketLocatable<IModuleContainer> {
+	public PacketUpdateModuleContainer(IModuleContainer source) {
 		super(source);
 	}
 	
 	@Override
 	public PacketId getPacketId() {
-		return PacketId.SYNC_MODULE_CONTAINER;
+		return PacketId.UPDATE_MODULE_CONTAINER;
 	}
 	
 	@Override

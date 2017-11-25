@@ -43,7 +43,7 @@ import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.CasingModuleHandler;
 import modularmachines.common.modules.ModuleHandler;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModuleContainer;
+import modularmachines.common.network.packets.PacketUpdateModuleContainer;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.components.ComponentProvider;
 
@@ -280,7 +280,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (markedForDeletion) {
 			return;
 		}
-		PacketHandler.sendToNetwork(new PacketSyncModuleContainer(this), locatable.getCoordinates(), locatable.getWorldObj());
+		PacketHandler.sendToNetwork(new PacketUpdateModuleContainer(this), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
 	@Override

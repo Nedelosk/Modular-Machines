@@ -4,20 +4,10 @@ import modularmachines.common.network.packets.IPacketHandlerClient;
 import modularmachines.common.network.packets.IPacketHandlerServer;
 
 public enum PacketId {
-	MODULE_CLEANER,
-	SELECT_PAGE,
-	SYNC_HEAT,
-	SYNC_REDSTONE_MODE,
-	SYNC_MODE,
-	SYNC_PERMISSON,
-	SYNC_MODULE,
-	SYNC_MODULE_CONTAINER,
 	UPDATE_MODULE,
+	UPDATE_MODULE_CONTAINER,
 	ADD_MODULE,
-	REMOVE_MODULE,
-	ADD_CYCLE,
-	REMOVE_CYCLE,
-	ACTIVE_MODULE_BEE_LOGIC;
+	REMOVE_MODULE;
 	
 	public static final PacketId[] VALUES = values();
 	private IPacketHandlerServer packetServer;

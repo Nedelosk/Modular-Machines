@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidStack;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.api.modules.components.IFuelComponent;
 import modularmachines.api.modules.components.IItemHandlerComponent;
 
 public abstract class FuelComponent extends ModuleComponent implements INBTWritable, INBTReadable, IFuelComponent {
@@ -51,8 +52,6 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		fuel -= fuelPerUse;
 	}
 	
-	public abstract boolean updateFuel();
-	
 	public static class Items extends FuelComponent {
 		private final Function<ItemStack, Integer> fuelGetter;
 		private final int fuelSlot;
@@ -68,18 +67,17 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		}
 		
 		@Override
-		public boolean updateFuel() {
+		public void updateFuel() {
 			IItemHandlerComponent itemHandler = provider.getInterface(IItemHandlerComponent.class);
 			if (itemHandler == null) {
-				return false;
+				return;
 			}
 			ItemStack input = itemHandler.getStackInSlot(fuelSlot);
 			if (input.isEmpty() || itemHandler.extractItemInternal(fuelSlot, 1, false).isEmpty()) {
-				return false;
+				return;
 			}
 			fuel = fuelGetter.apply(input);
 			fuelTotal = fuel;
-			return true;
 		}
 		
 		@Override
@@ -101,26 +99,25 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		}
 		
 		@Override
-		public boolean updateFuel() {
+		public void updateFuel() {
 			IFluidHandlerComponent fluidHandler = provider.getInterface(IFluidHandlerComponent.class);
 			if (fluidHandler == null) {
-				return false;
+				return;
 			}
 			IFluidHandlerComponent.ITank tank = fluidHandler.getTank(fuelSlot);
 			if (tank == null) {
-				return false;
+				return;
 			}
 			FluidStack input = tank.getFluid();
 			if (input == null) {
-				return false;
+				return;
 			}
 			input = tank.drainInternal(neededAmount, true);
 			if (input == null) {
-				return false;
+				return;
 			}
 			fuel = fuelGetter.apply(input);
 			fuelTotal = fuel;
-			return true;
 		}
 	}
 }

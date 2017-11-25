@@ -17,7 +17,7 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncModule;
+import modularmachines.common.network.packets.PacketUpdateModule;
 import modularmachines.common.utils.BoundingBoxHelper;
 import modularmachines.common.utils.components.ComponentProvider;
 
@@ -150,7 +150,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 		if (locatable.getWorldObj().isRemote) {
 			return;
 		}
-		PacketHandler.sendToNetwork(new PacketSyncModule(this), locatable.getCoordinates(), locatable.getWorldObj());
+		PacketHandler.sendToNetwork(new PacketUpdateModule(this), locatable.getCoordinates(), locatable.getWorldObj());
 	}
 	
 	@Override

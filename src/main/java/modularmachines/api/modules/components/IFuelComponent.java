@@ -1,6 +1,4 @@
-package modularmachines.common.modules.components;
-
-import modularmachines.api.modules.components.IModuleComponent;
+package modularmachines.api.modules.components;
 
 public interface IFuelComponent extends IModuleComponent {
 	int getFuel();
@@ -11,5 +9,5 @@ public interface IFuelComponent extends IModuleComponent {
 	
 	void removeFuel();
 	
-	boolean updateFuel();
+	void updateFuel();
 }

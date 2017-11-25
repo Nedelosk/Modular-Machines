@@ -1,20 +1,25 @@
 package modularmachines.common.modules.components;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.function.Predicate;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.components.IFluidHandlerComponent;
 import modularmachines.common.utils.ModuleUtil;
 
-public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent {
+public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent, INetworkComponent {
 	private NonNullList<InternalTank> tanks = NonNullList.create();
 	
 	@Override
@@ -22,6 +27,20 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		InternalTank tank = new InternalTank(capacity, tanks.size(), isOutput);
 		tanks.add(tank);
 		return tank;
+	}
+	
+	@Override
+	public void writeData(PacketBuffer data) {
+		for (InternalTank tank : tanks) {
+			tank.writeData(data);
+		}
+	}
+	
+	@Override
+	public void readData(PacketBuffer data) throws IOException {
+		for (InternalTank tank : tanks) {
+			tank.readData(data);
+		}
 	}
 	
 	@Override
@@ -196,7 +215,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		}
 	}
 	
-	public static class InternalTank extends FluidTank implements ITank {
+	public static class InternalTank extends FluidTank implements ITank, INetworkComponent {
 		private final int index;
 		private final boolean isOutput;
 		private Predicate<FluidStack> filter = f -> true;
@@ -230,6 +249,40 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 		@Override
 		public boolean canFillFluidType(FluidStack fluid) {
 			return !isOutput && filter.test(fluid);
+		}
+		
+		@Override
+		public void writeData(PacketBuffer data) {
+			writeFluidStack(data, getFluid());
+		}
+		
+		@Override
+		public void readData(PacketBuffer data) throws IOException {
+			setFluid(readFluidStack(data));
+		}
+		
+		private void writeFluidStack(PacketBuffer data, @Nullable FluidStack fluidStack) {
+			if (fluidStack == null) {
+				data.writeVarInt(-1);
+			} else {
+				data.writeVarInt(fluidStack.amount);
+				data.writeString(fluidStack.getFluid().getName());
+			}
+		}
+		
+		@Nullable
+		private FluidStack readFluidStack(PacketBuffer data) {
+			int amount = data.readVarInt();
+			if (amount > 0) {
+				String fluidName = data.readString(1024);
+				Fluid fluid = FluidRegistry.getFluid(fluidName);
+				if (fluid == null) {
+					return null;
+				}
+				
+				return new FluidStack(fluid, amount);
+			}
+			return null;
 		}
 	}
 }

@@ -26,11 +26,11 @@ import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.EnumRackPositions;
 import modularmachines.client.model.module.ModelData;
+import modularmachines.client.model.module.ModelDataActivatable;
 import modularmachines.client.model.module.ModelDataCasing;
 import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataLargeTank;
 import modularmachines.client.model.module.ModelDataModuleRack;
-import modularmachines.client.model.module.ModelDataWorking;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModItems;
@@ -79,7 +79,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataWorking.addModelData(data());
+			ModelDataActivatable.addModelData(data());
 		}
 	},
 	CASING_BRONZE("casing.bronze", 0) {
@@ -263,7 +263,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			ModelDataWorking.addModelData(data);
+			ModelDataActivatable.addModelData(data);
 		}
 	},
 	TANK_LARGE("large_tank", 4) {

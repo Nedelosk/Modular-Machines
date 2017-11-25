@@ -5,13 +5,10 @@ import java.io.IOException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
-import modularmachines.api.ILocatable;
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.energy.HeatBuffer;
-import modularmachines.common.network.PacketHandler;
-import modularmachines.common.network.packets.PacketSyncHeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
 
 public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent {
@@ -57,8 +54,7 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 			double oldHeat = buffer.getHeatStored();
 			buffer.reduceHeat(1);
 			if (oldHeat != buffer.getHeatStored()) {
-				ILocatable locatable = container.getLocatable();
-				PacketHandler.sendToNetwork(new PacketSyncHeatBuffer(container), locatable.getCoordinates(), locatable.getWorldObj());
+				container.sendToClient();
 			}
 		}
 	}

@@ -1,18 +1,7 @@
 package modularmachines.client.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.math.MathHelper;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.common.modules.IModuleWorking;
-import modularmachines.common.utils.RenderUtil;
-
-@SideOnly(Side.CLIENT)
+/*@SideOnly(Side.CLIENT)
 public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 	
 	public List<String> jeiTooltip;
@@ -35,11 +24,11 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 			list.add(module.getWorkTime() + " / " + module.getWorkTimeTotal());
 		}
 		if (jeiTooltip == null) {
-			/*f (gui instanceof GuiModuleLogic) {
+			f (gui instanceof GuiModuleLogic) {
 				if (module instanceof IModuleJei) {
 					jeiTooltip = Collections.singletonList(Translator.translateToLocal("jei.tooltip.show.recipes"));
 				}
-			}*/
+			}
 			if (jeiTooltip == null) {
 				jeiTooltip = new ArrayList<>();
 			}
@@ -74,4 +63,4 @@ public class WidgetProgressBar<M extends IModuleWorking> extends Widget {
 		}
 		return (double) time / module.getWorkTimeTotal();
 	}
-}
+}*/

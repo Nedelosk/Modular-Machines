@@ -18,7 +18,7 @@ import modularmachines.client.model.AABBModelBaker;
 import modularmachines.common.core.Constants;
 
 public class ModelDataLargeTank extends ModelData {
-	private final AxisAlignedBB FLUID_BOUNDING_BOX = new AxisAlignedBB(3.0F / 16.0F, 3.0F / 16.0F, 11.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 14.99F / 16.0F);
+	private static final AxisAlignedBB FLUID_BOUNDING_BOX = new AxisAlignedBB(3.0F / 16.0F, 2.0F / 16.0F, 11.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 15.99F / 16.0F);
 	
 	public static void addModelData(IModuleData data) {
 		ModelDataLargeTank model = new ModelDataLargeTank();
@@ -49,7 +49,7 @@ public class ModelDataLargeTank extends ModelData {
 						double percent = amount / capacity;
 						double height = FLUID_BOUNDING_BOX.maxY - FLUID_BOUNDING_BOX.minY;
 						height *= percent;
-						baker.setModelBounds(/*module.rotateBoundingBox(*/new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + height, FLUID_BOUNDING_BOX.maxZ)/*)*/);
+						baker.setModelBounds(new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + height, FLUID_BOUNDING_BOX.maxZ));
 						TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(fluidStack.getFluid().getStill().toString());
 						baker.addModel(sprite, 0);
 						modelList.add(baker.bakeModel(true));

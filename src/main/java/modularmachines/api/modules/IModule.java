@@ -90,7 +90,7 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	}
 	
 	/**
-	 * Sends the NBT-Data of this module to the client.
+	 * Sends the data of all {@link modularmachines.api.components.INetworkComponent}s of this module to the client.
 	 */
 	void sendToClient();
 	

@@ -12,7 +12,6 @@ import modularmachines.common.network.PacketBufferMM;
 public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	
 	protected int index;
-	protected int componentIndex;
 	
 	public PacketModule() {
 	}
@@ -22,24 +21,22 @@ public abstract class PacketModule extends PacketLocatable<IModuleContainer> {
 	}
 	
 	public PacketModule(IModule module) {
-		this(module.getContainer(), module.getIndex(), -1);
+		this(module.getContainer(), module.getIndex());
 	}
 	
 	public PacketModule(IModule module, PageComponent component) {
-		this(module.getContainer(), module.getIndex(), component.getIndex());
+		this(module.getContainer(), module.getIndex());
 	}
 	
-	public PacketModule(IModuleContainer provider, int index, int componentIndex) {
+	public PacketModule(IModuleContainer provider, int index) {
 		super(provider);
 		this.index = index;
-		this.componentIndex = componentIndex;
 	}
 	
 	@Override
 	protected void writeData(PacketBufferMM data) throws IOException {
 		super.writeData(data);
 		data.writeInt(index);
-		data.writeInt(componentIndex);
 	}
 	
 	@Nullable
