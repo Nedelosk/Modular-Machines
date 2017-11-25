@@ -17,6 +17,8 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	protected final double capacity;
 	protected final double maxExtract;
 	protected final double maxReceive;
+	protected IHeatListener listener = () -> {
+	};
 	
 	public HeatBuffer(float capacity, float maxTransfer) {
 		this(capacity, maxTransfer, maxTransfer);
@@ -27,6 +29,10 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
 		this.heatBuffer = HeatManager.COLD_TEMP;
+	}
+	
+	public void setListener(IHeatListener listener) {
+		this.listener = listener;
 	}
 	
 	@Override
@@ -46,6 +52,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		double energyExtracted = Math.min(heatBuffer, Math.min(this.maxExtract, maxExtract));
 		if (!simulate) {
 			heatBuffer -= energyExtracted;
+			listener.onChangeHeat();
 		}
 		return energyExtracted;
 	}
@@ -55,6 +62,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		double energyReceived = Math.min(capacity - heatBuffer, Math.min(this.maxReceive, maxReceive));
 		if (!simulate) {
 			heatBuffer += energyReceived;
+			listener.onChangeHeat();
 		}
 		return energyReceived;
 	}
@@ -72,6 +80,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		double change = step + (((capacity - heatBuffer) / capacity) * step * heatModifier);
 		heatBuffer += change;
 		heatBuffer = Math.min(heatBuffer, capacity);
+		listener.onChangeHeat();
 	}
 	
 	@Override
@@ -83,6 +92,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		double change = step + ((heatBuffer / capacity) * step * heatModifier);
 		heatBuffer -= change;
 		heatBuffer = Math.max(heatBuffer, HeatManager.COLD_TEMP);
+		listener.onChangeHeat();
 	}
 	
 	public HeatLevel getHeatLevel() {

@@ -27,9 +27,6 @@ import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
-import modularmachines.common.modules.container.components.EnergyManager;
-import modularmachines.common.modules.container.components.HeatComponent;
-import modularmachines.common.modules.container.components.UpdateComponent;
 
 public class ModuleUtil {
 	
@@ -148,21 +145,6 @@ public class ModuleUtil {
 			return null;
 		}
 		return module.getInterface(componentClass);
-	}
-	
-	@Nullable
-	public static HeatComponent getHeat(IModuleContainer provider) {
-		return provider.getComponent(HeatComponent.class);
-	}
-	
-	@Nullable
-	public static EnergyManager getEnergy(IModuleContainer provider) {
-		return provider.getComponent(EnergyManager.class);
-	}
-	
-	@Nullable
-	public static UpdateComponent getUpdate(IModuleContainer provider) {
-		return provider.getComponent(UpdateComponent.class);
 	}
 	
 	@Nullable

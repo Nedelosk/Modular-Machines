@@ -12,14 +12,18 @@ import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.energy.HeatBuffer;
-import modularmachines.common.utils.ModuleUtil;
+import modularmachines.common.energy.IHeatListener;
+import modularmachines.common.utils.TickHelper;
 
-public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable {
+public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable, IHeatListener {
 	
 	protected final HeatBuffer buffer;
+	protected double lastHeat;
+	private TickHelper tickHelper = new TickHelper();
 	
 	public HeatComponent() {
 		buffer = new HeatBuffer(500, 15F);
+		buffer.setListener(this);
 	}
 	
 	@Override
@@ -51,15 +55,18 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	
 	@Override
 	public void update() {
-		super.update();
-		UpdateComponent update = ModuleUtil.getUpdate(container);
-		if (update.updateOnInterval(20)) {
-			double oldHeat = buffer.getHeatStored();
-			buffer.reduceHeat(1);
-			if (oldHeat != buffer.getHeatStored()) {
-				container.sendToClient();
+		tickHelper.onTick();
+		if (tickHelper.updateOnInterval(40)) {
+			if (lastHeat == buffer.getHeatStored()) {
+				buffer.reduceHeat(1);
 			}
+			lastHeat = buffer.getHeatStored();
 		}
+	}
+	
+	@Override
+	public void onChangeHeat() {
+		container.sendToClient();
 	}
 	
 	@Override
