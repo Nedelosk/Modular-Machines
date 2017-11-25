@@ -13,13 +13,13 @@ import modularmachines.api.modules.components.IFuelComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.container.components.HeatComponent;
 
-public class HeaterComponent extends TickableComponent implements INetworkComponent, IActivatableComponent, INBTWritable,
+public class FireboxComponent extends TickableComponent implements INetworkComponent, IActivatableComponent, INBTWritable,
 		INBTReadable {
 	protected final double maxHeat;
 	protected final int heatModifier;
 	private boolean isActive;
 	
-	public HeaterComponent(double maxHeat, int heatModifier) {
+	public FireboxComponent(double maxHeat, int heatModifier) {
 		this.maxHeat = maxHeat;
 		this.heatModifier = heatModifier;
 	}

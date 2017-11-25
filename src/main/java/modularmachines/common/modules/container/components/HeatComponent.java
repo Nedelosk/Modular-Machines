@@ -7,6 +7,7 @@ import net.minecraft.network.PacketBuffer;
 
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
@@ -77,6 +78,11 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	@Override
 	public double getCapacity() {
 		return buffer.getCapacity();
+	}
+	
+	@Override
+	public HeatLevel getHeatLevel() {
+		return buffer.getHeatLevel();
 	}
 	
 	public HeatBuffer getBuffer() {

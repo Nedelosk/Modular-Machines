@@ -35,11 +35,12 @@ import modularmachines.common.ModularMachines;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.items.ModuleItems;
+import modularmachines.common.modules.components.BoilerComponent;
 import modularmachines.common.modules.components.BoundingBoxComponent;
 import modularmachines.common.modules.components.CasingComponent;
+import modularmachines.common.modules.components.FireboxComponent;
 import modularmachines.common.modules.components.FluidContainerInteraction;
 import modularmachines.common.modules.components.FuelComponent;
-import modularmachines.common.modules.components.HeaterComponent;
 import modularmachines.common.modules.components.RackComponent;
 import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.data.ModuleData;
@@ -251,7 +252,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			int index = itemHandler.addSlot().setFilter(ItemFliterFurnaceFuel.INSTANCE).getIndex();
 			module.addComponent(itemHandler);
 			module.addComponent(new FuelComponent.Items(25, index));
-			module.addComponent(new HeaterComponent(150, 2));
+			module.addComponent(new FireboxComponent(150, 2));
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
 		
@@ -320,12 +321,19 @@ public enum ModuleDefinition implements IModuleDefinition {
 	BOILER(new ModuleData(), "boiler", 4) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumRackPositions.values());
+			data.setPositions(EnumCasingPositions.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			super.addComponents(module, factory);
+			module.addComponent(new BoilerComponent());
+			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.BRICK_BLOCK));
+			registerDamage(ModuleItems.BOILER.get());
 		}
 	},
 	ENGINE(new ModuleData(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN), "engine", 4) {
