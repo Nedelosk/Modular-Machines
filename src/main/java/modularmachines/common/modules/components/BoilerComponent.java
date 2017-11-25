@@ -27,7 +27,7 @@ public class BoilerComponent extends ProcessComponent {
 		}
 		int waterCost = getWaterCost();
 		FluidStack fluidStack = handler.drain(new FluidStack(FluidRegistry.WATER, waterCost), false);
-		if (fluidStack == null || fluidStack.amount < getWaterCost()) {
+		if (fluidStack == null || fluidStack.amount < waterCost) {
 			return false;
 		}
 		return super.canWork();
@@ -45,7 +45,7 @@ public class BoilerComponent extends ProcessComponent {
 			return false;
 		}
 		FluidStack steam = getSteamAmount();
-		if (handler.fill(new FluidStack(FluidRegistry.getFluid("steam"), getWaterCost() * (HeatManager.STEAM_PER_UNIT_WATER / 2)), false) < steam.amount) {
+		if (handler.fill(steam, false) < steam.amount) {
 			return false;
 		}
 		return super.canProgress();

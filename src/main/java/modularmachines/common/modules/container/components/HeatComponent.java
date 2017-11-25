@@ -6,13 +6,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
 import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.modules.INBTReadable;
+import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.utils.ModuleUtil;
 
-public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent {
+public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable {
 	
 	protected final HeatBuffer buffer;
 	

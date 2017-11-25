@@ -5,15 +5,22 @@ import java.util.function.Function;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.common.Optional;
 
+import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.core.Constants;
+import modularmachines.common.modules.ModuleCapabilities;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
+import mcjty.theoneprobe.api.IProgressStyle;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
 
@@ -38,5 +45,21 @@ public class ProbeProvider implements IProbeInfoProvider, Function<ITheOneProbe,
 	
 	@Override
 	public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+		EnumFacing facing = data.getSideHit().getOpposite();
+		BlockPos pos = data.getPos();
+		TileEntity tileEntity = world.getTileEntity(pos);
+		if (tileEntity == null || !tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, facing)) {
+			return;
+		}
+		IModuleContainer container = tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, facing);
+		if (container == null) {
+			return;
+		}
+		IProbeInfo containerInfo = probeInfo.vertical();
+		IHeatSource heatSource = container.getInterface(IHeatSource.class);
+		if (heatSource != null) {
+			IProgressStyle style = containerInfo.defaultProgressStyle().filledColor(0xff990000).alternateFilledColor(0xff550000).borderColor(0).prefix("Heat ");
+			containerInfo.progress((int) heatSource.getHeatStored(), (int) heatSource.getCapacity(), style);
+		}
 	}
 }
