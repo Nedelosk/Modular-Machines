@@ -10,7 +10,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.components.IComponentProvider;
-import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.IModule;
 
 public class PageComponent<P extends IModule> implements IPageComponent<P> {
@@ -81,10 +80,5 @@ public class PageComponent<P extends IModule> implements IPageComponent<P> {
 	@Override
 	public IComponentProvider getProvider() {
 		return null;
-	}
-	
-	@Override
-	public IComponentTag[] getTags() {
-		return new IComponentTag[0];
 	}
 }

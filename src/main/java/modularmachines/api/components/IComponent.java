@@ -11,8 +11,4 @@ public interface IComponent<P extends IComponentProvider> {
 	P getProvider();
 	
 	void setProvider(P provider);
-	
-	default IComponentTag[] getTags() {
-		return new IComponentTag[0];
-	}
 }

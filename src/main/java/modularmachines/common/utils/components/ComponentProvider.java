@@ -20,7 +20,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import modularmachines.api.components.IComponent;
 import modularmachines.api.components.IComponentProvider;
-import modularmachines.api.components.IComponentTag;
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
@@ -28,12 +27,10 @@ import modularmachines.api.modules.INBTWritable;
 public class ComponentProvider<C extends IComponent> implements IComponentProvider<C> {
 	private final Map<Class<?>, List<C>> componentInterfaceMap;
 	private final Map<Class<?>, C> componentMap;
-	private final Map<IComponentTag, List<C>> componentTagMap;
 	
 	public ComponentProvider() {
 		this.componentInterfaceMap = new LinkedHashMap<>();
 		this.componentMap = new LinkedHashMap<>();
-		this.componentTagMap = new LinkedHashMap<>();
 	}
 	
 	@Nullable
@@ -63,9 +60,6 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		Preconditions.checkNotNull(component, "Can't have a null component!");
 		component.setProvider(this);
 		this.componentMap.put(component.getClass(), component);
-		for (IComponentTag tag : component.getTags()) {
-			this.componentTagMap.computeIfAbsent(tag, k -> new ArrayList<>()).add(component);
-		}
 		for (Class<?> inter : component.getComponentInterfaces()) {
 			this.componentInterfaceMap.computeIfAbsent(inter, k -> new ArrayList<>()).add(component);
 		}
@@ -127,33 +121,6 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	
 	public boolean hasComponent(Class<?> componentClass) {
 		return this.componentMap.containsKey(componentClass);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T getComponent(IComponentTag tag) {
-		if (hasComponent(tag)) {
-			return (T) componentTagMap.get(tag).get(0);
-		}
-		return null;
-	}
-	
-	@Override
-	public boolean hasComponent(IComponentTag tag) {
-		return componentTagMap.containsKey(tag);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> Collection<T> getComponents(IComponentTag tag) {
-		List<T> components = new ArrayList<>();
-		if (!hasComponent(tag)) {
-			return components;
-		}
-		for (C component : this.componentTagMap.get(tag)) {
-			components.add((T) component);
-		}
-		return components;
 	}
 	
 	@Override

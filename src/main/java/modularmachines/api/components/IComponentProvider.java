@@ -27,12 +27,4 @@ public interface IComponentProvider<C extends IComponent> extends INBTReadable, 
 	<T> T getInterface(Class<T> interfaceClass);
 	
 	<T> Collection<T> getInterfaces(Class<T> interfaceClass);
-	
-	/* TAGS */
-	@Nullable
-	<T> T getComponent(IComponentTag tag);
-	
-	<T> Collection<T> getComponents(IComponentTag tag);
-	
-	boolean hasComponent(IComponentTag tag);
 }

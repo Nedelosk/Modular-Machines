@@ -19,7 +19,6 @@ import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.components.IComponent;
-import modularmachines.api.components.IComponentTag;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.container.ContainerComponent;
@@ -132,22 +131,6 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	@Override
 	public <T> Collection<T> getInterfaces(Class<T> interfaceClass) {
 		return Collections.emptyList();
-	}
-	
-	@Nullable
-	@Override
-	public <T> T getComponent(IComponentTag tag) {
-		return null;
-	}
-	
-	@Override
-	public <T> Collection<T> getComponents(IComponentTag tag) {
-		return Collections.emptyList();
-	}
-	
-	@Override
-	public boolean hasComponent(IComponentTag tag) {
-		return false;
 	}
 	
 	@Override

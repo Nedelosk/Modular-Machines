@@ -9,7 +9,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import modularmachines.api.components.IComponent;
-import modularmachines.api.components.IComponentTag;
 
 public class ContainerComponent implements ICapabilityProvider, IComponent<IModuleContainer> {
 	public static final String ENERGY = "energy";
@@ -39,10 +38,6 @@ public class ContainerComponent implements ICapabilityProvider, IComponent<IModu
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		return compound;
-	}
-	
-	public IComponentTag[] getTags() {
-		return new IComponentTag[0];
 	}
 	
 	@Override
