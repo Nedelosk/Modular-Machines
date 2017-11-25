@@ -22,9 +22,6 @@ public class ContainerComponent implements ICapabilityProvider, IComponent<IModu
 	public ContainerComponent() {
 	}
 	
-	public void update() {
-	}
-	
 	public Class<?>[] getComponentInterfaces() {
 		return container.getComponentInterfaces(this.getClass());
 	}

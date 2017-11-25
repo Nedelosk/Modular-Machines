@@ -183,4 +183,7 @@ public enum EmptyModuleContainer implements IModuleContainer {
 		return null;
 	}
 	
+	@Override
+	public void update() {
+	}
 }

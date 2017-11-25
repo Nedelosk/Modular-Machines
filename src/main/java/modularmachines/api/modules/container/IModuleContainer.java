@@ -63,6 +63,11 @@ public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICa
 	void readFromNBT(NBTTagCompound compound);
 	
 	/**
+	 * Update the component and the module on the server side.
+	 */
+	void update();
+	
+	/**
 	 * Sends the data of all {@link modularmachines.api.components.INetworkComponent} to the client.
 	 */
 	void sendToClient();

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ITickable;
 
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.INBTReadable;
@@ -15,7 +16,7 @@ import modularmachines.common.energy.HeatBuffer;
 import modularmachines.common.energy.IHeatListener;
 import modularmachines.common.utils.TickHelper;
 
-public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable, IHeatListener {
+public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable, IHeatListener, ITickable {
 	
 	protected final HeatBuffer buffer;
 	protected double lastHeat;

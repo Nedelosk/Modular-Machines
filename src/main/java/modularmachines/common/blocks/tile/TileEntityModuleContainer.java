@@ -23,7 +23,6 @@ import modularmachines.common.modules.container.components.EnergyManager;
 import modularmachines.common.modules.container.components.FluidManager;
 import modularmachines.common.modules.container.components.HeatComponent;
 import modularmachines.common.modules.container.components.ItemManager;
-import modularmachines.common.modules.container.components.UpdateComponent;
 
 public class TileEntityModuleContainer extends TileEntityBase implements ILocatable {
 	
@@ -37,7 +36,6 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 		this.facing = EnumFacing.NORTH;
 		this.componentMap = new LinkedHashMap<>();
 		moduleContainer.addComponent(new EnergyManager());
-		moduleContainer.addComponent(new UpdateComponent());
 		moduleContainer.addComponent(new HeatComponent());
 		moduleContainer.addComponent(new ItemManager());
 		moduleContainer.addComponent(new FluidManager());
@@ -50,12 +48,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	@Override
 	public void updateServer() {
-		if (moduleContainer.isMarkedForDeletion()) {
-			world.setBlockToAir(pos);
-		}
-		for (ContainerComponent component : moduleContainer.getComponents()) {
-			component.update();
-		}
+		moduleContainer.update();
 	}
 	
 	@Override

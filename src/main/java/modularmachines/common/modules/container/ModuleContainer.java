@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -273,6 +274,15 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void update() {
+		if (isMarkedForDeletion()) {
+			locatable.getWorldObj().setBlockToAir(locatable.getCoordinates());
+		}
+		getInterfaces(ITickable.class).forEach(ITickable::update);
+		getModules().stream().map(m -> m.getInterfaces(ITickable.class)).flatMap(Collection::stream).forEach(ITickable::update);
 	}
 	
 	@Override
