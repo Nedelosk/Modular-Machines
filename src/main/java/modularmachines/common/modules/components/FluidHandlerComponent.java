@@ -103,7 +103,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 				break;
 			}
 		}
-		if (totalFillAmount > 0) {
+		if (totalFillAmount > 0 && doFill) {
 			ModuleUtil.markDirty(provider);
 			ModuleUtil.markForModelUpdate(provider);
 			provider.sendToClient();
@@ -135,7 +135,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 				}
 			}
 		}
-		if (totalDrained != null) {
+		if (totalDrained != null && doDrain) {
 			ModuleUtil.markDirty(provider);
 			ModuleUtil.markForModelUpdate(provider);
 			provider.sendToClient();
@@ -171,7 +171,7 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 				break;
 			}
 		}
-		if (totalDrained != null) {
+		if (totalDrained != null && doDrain) {
 			ModuleUtil.markDirty(provider);
 			ModuleUtil.markForModelUpdate(provider);
 			provider.sendToClient();

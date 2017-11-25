@@ -127,13 +127,19 @@ public class ModuleUtil {
 	public static void markDirty(IModule module) {
 		ILocatable locatable = module.getContainer().getLocatable();
 		locatable.markLocatableDirty();
-		BlockPos pos = locatable.getCoordinates();
-		World world = locatable.getWorldObj();
-		world.markBlockRangeForRenderUpdate(pos, pos);
+		//markForRenderUpdate(module);
 	}
 	
 	public static void markForModelUpdate(IModule module) {
 		ModularMachines.proxy.markForModelUpdate(module);
+		markForRenderUpdate(module);
+	}
+	
+	public static void markForRenderUpdate(IModule module) {
+		ILocatable locatable = module.getContainer().getLocatable();
+		BlockPos pos = locatable.getCoordinates();
+		World world = locatable.getWorldObj();
+		world.markBlockRangeForRenderUpdate(pos, pos);
 	}
 	
 	@Nullable

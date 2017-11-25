@@ -79,11 +79,6 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 			fuel = fuelGetter.apply(input);
 			fuelTotal = fuel;
 		}
-		
-		@Override
-		public void removeFuel() {
-		
-		}
 	}
 	
 	public static class Fluids extends FuelComponent {

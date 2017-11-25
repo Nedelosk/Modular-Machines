@@ -2,15 +2,19 @@ package modularmachines.common.modules.components;
 
 import java.io.IOException;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
 import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.modules.INBTReadable;
+import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IActivatableComponent;
 import modularmachines.api.modules.components.IFuelComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.container.components.HeatComponent;
 
-public class HeaterComponent extends TickableComponent implements INetworkComponent, IActivatableComponent {
+public class HeaterComponent extends TickableComponent implements INetworkComponent, IActivatableComponent, INBTWritable,
+		INBTReadable {
 	protected final double maxHeat;
 	protected final int heatModifier;
 	private boolean isActive;
@@ -50,6 +54,17 @@ public class HeaterComponent extends TickableComponent implements INetworkCompon
 	@Override
 	public boolean isActive() {
 		return isActive;
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound.setBoolean("active", isActive);
+		return compound;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		isActive = compound.getBoolean("active");
 	}
 	
 	@Override

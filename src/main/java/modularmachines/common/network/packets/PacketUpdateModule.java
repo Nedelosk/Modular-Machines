@@ -12,6 +12,7 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
+import modularmachines.common.utils.ModuleUtil;
 
 public class PacketUpdateModule extends PacketModule {
 	private IModule module;
@@ -44,6 +45,7 @@ public class PacketUpdateModule extends PacketModule {
 				return;
 			}
 			module.readData(data);
+			ModuleUtil.markForModelUpdate(module);
 		}
 		
 	}
