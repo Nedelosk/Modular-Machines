@@ -61,7 +61,6 @@ public class FluidManager extends ContainerComponent implements IFluidHandler, I
 	}
 	
 	private void reset() {
-		fluidHandlers.clear();
 		facingHandlers.clear();
 		wrapper = null;
 		this.internal = new FluidHandlerConcatenate(fluidHandlers.toArray(new IFluidHandler[fluidHandlers.size()]));

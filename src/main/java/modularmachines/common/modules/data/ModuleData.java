@@ -142,7 +142,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 			}
 			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.positions", builder.toString()));
 		}
-		if (I18n.canTranslate(getUnlocalizedDescription())) {
+		if (Translator.canTranslateToLocal(getUnlocalizedDescription())) {
 			tooltip.add(getDescription());
 		}
 	}

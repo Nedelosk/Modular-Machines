@@ -7,18 +7,17 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import modularmachines.api.IGuiProvider;
-import modularmachines.api.ILocatableSource;
 import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
 
-public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
+public class WidgetManager<P extends IGuiProvider> {
 	
 	protected final List<Widget> widgets = new ArrayList<>();
-	public final GuiBase<P, S> gui;
+	public final GuiBase<P> gui;
 	public int mouseX;
 	public int mouseY;
 	
-	public WidgetManager(GuiBase<P, S> gui) {
+	public WidgetManager(GuiBase<P> gui) {
 		this.gui = gui;
 	}
 	
@@ -138,7 +137,7 @@ public class WidgetManager<P extends IGuiProvider, S extends ILocatableSource> {
 		return widgets;
 	}
 	
-	public GuiBase<P, S> getGui() {
+	public GuiBase<P> getGui() {
 		return gui;
 	}
 }

@@ -61,7 +61,6 @@ public class ItemManager extends ContainerComponent implements IItemHandler, IMo
 	}
 	
 	private void reset() {
-		itemHandlers.clear();
 		facingHandlers.clear();
 		wrapper = null;
 		this.internal = new CombinedInvWrapper(itemHandlers.toArray(new IItemHandler[0]));

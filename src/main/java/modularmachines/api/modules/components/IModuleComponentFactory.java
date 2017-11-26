@@ -40,4 +40,12 @@ public interface IModuleComponentFactory {
 	 * @return The created io component.
 	 */
 	IIOComponent addIO(IModule module);
+	
+	/**
+	 * Creates and adds a gui component to the module.
+	 *
+	 * @param module The module
+	 * @return The created gui component.
+	 */
+	IInteractionComponent addGui(IModule module, IGuiFactory guiFactory);
 }

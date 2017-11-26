@@ -1,5 +1,6 @@
 package modularmachines.client.gui;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 import net.minecraft.client.gui.FontRenderer;
@@ -15,20 +16,19 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import modularmachines.api.IGuiProvider;
-import modularmachines.api.ILocatableSource;
 import modularmachines.client.gui.widgets.Widget;
 import modularmachines.common.utils.RenderUtil;
 
-public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource> extends GuiContainer {
+public abstract class GuiBase<P extends IGuiProvider> extends GuiContainer {
 	
 	protected final ResourceLocation guiTexture;
-	protected final S source;
+	protected final P provider;
 	protected final WidgetManager widgetManager;
 	protected final EntityPlayer player;
 	
-	public GuiBase(P porvider, S source, InventoryPlayer inventory) {
-		super(porvider.createContainer(inventory));
-		this.source = source;
+	public GuiBase(P provider, InventoryPlayer inventory) {
+		super(provider.createContainer(inventory));
+		this.provider = provider;
 		this.player = inventory.player;
 		widgetManager = new WidgetManager(this);
 		if (getTextureModID() != null && getGuiTexture() != null) {
@@ -42,8 +42,8 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 		return widgetManager;
 	}
 	
-	public S getSource() {
-		return source;
+	public P getProvider() {
+		return provider;
 	}
 	
 	@Override
@@ -59,7 +59,9 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		this.drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderHoveredToolTip(mouseX, mouseY);
 		widgetManager.drawTooltip(mouseX, mouseY);
 	}
 	
@@ -85,10 +87,12 @@ public abstract class GuiBase<P extends IGuiProvider, S extends ILocatableSource
 	protected void render() {
 	}
 	
+	@Nullable
 	protected String getTextureModID() {
 		return "modularmachines";
 	}
 	
+	@Nullable
 	protected abstract String getGuiTexture();
 	
 	public RenderItem getRenderItem() {

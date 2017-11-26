@@ -1,8 +1,5 @@
 package modularmachines.common.blocks.tile;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,14 +7,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.mojang.authlib.GameProfile;
-
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.container.components.EnergyManager;
@@ -27,15 +21,12 @@ import modularmachines.common.modules.container.components.ItemManager;
 
 public class TileEntityModuleContainer extends TileEntityBase implements ILocatable {
 	
-	private final Map<String, ContainerComponent> componentMap;
 	public EnumFacing facing;
-	public GameProfile owner;
 	public IModuleContainer moduleContainer;
 	
 	public TileEntityModuleContainer() {
 		this.moduleContainer = ModuleManager.factory.createContainer(this);
 		this.facing = EnumFacing.NORTH;
-		this.componentMap = new LinkedHashMap<>();
 		moduleContainer.addComponent(new EnergyManager());
 		moduleContainer.addComponent(new HeatComponent());
 		moduleContainer.addComponent(new ItemManager());

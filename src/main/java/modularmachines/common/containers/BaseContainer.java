@@ -9,17 +9,17 @@ import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import modularmachines.api.IGuiProvider;
 import modularmachines.api.ILocatable;
-import modularmachines.api.ILocatableSource;
 import modularmachines.common.utils.ContainerUtil;
 
-public abstract class BaseContainer<S extends ILocatableSource> extends Container {
+public abstract class BaseContainer<P extends IGuiProvider> extends Container {
 	
-	protected S source;
+	protected P provider;
 	protected EntityPlayer player;
 	
-	public BaseContainer(S source, InventoryPlayer inventory) {
-		this.source = source;
+	public BaseContainer(P provider, InventoryPlayer inventory) {
+		this.provider = provider;
 		this.player = inventory.player;
 		addInventory(inventory);
 		addSlots(inventory);
@@ -40,23 +40,16 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 		return listeners;
 	}
 	
-	public S getSource() {
-		return source;
+	public P getProvider() {
+		return provider;
 	}
 	
 	protected abstract void addSlots(InventoryPlayer inventory);
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		ILocatable locatable = source.getLocatable();
-		if (locatable != null) {
-			return locatable.isUsableByPlayer(player);
-		}
-		return true;
-	}
-	
-	public boolean sameGui(BaseContainer otherContainer) {
-		return this.source == otherContainer.source;
+		ILocatable locatable = provider.getLocatable();
+		return locatable.isUsableByPlayer(player);
 	}
 	
 	@Override

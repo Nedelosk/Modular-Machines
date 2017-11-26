@@ -1,13 +1,11 @@
 package modularmachines.common.modules;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -27,7 +25,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.ModuleManager;
@@ -65,22 +62,6 @@ public enum ModuleRegistry implements IModuleRegistry {
 	
 	public IForgeRegistry<IModuleData> getRegistry() {
 		return registry;
-	}
-	
-	/**
-	 * @return All modules of an IModular that have a page.
-	 */
-	public List<IModule> getModulesWithComponents(@Nullable IModuleContainer provider) {
-		if (provider == null) {
-			return Collections.emptyList();
-		}
-		List<IModule> validModules = Lists.newArrayList();
-		for (IModule module : provider.getModules()) {
-			if (module != null && !module.getComponents().isEmpty()) {
-				validModules.add(module);
-			}
-		}
-		return validModules;
 	}
 	
 	/**

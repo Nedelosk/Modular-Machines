@@ -165,5 +165,10 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 		public int getLimit() {
 			return limit;
 		}
+		
+		@Override
+		public boolean isOutput() {
+			return isOutput;
+		}
 	}
 }

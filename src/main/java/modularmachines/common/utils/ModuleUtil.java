@@ -1,10 +1,6 @@
 package modularmachines.common.utils;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-
 import javax.annotation.Nullable;
-import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -64,28 +60,6 @@ public class ModuleUtil {
 				}
 			}
 		}
-	}
-	
-	public static <M> List<M> getModules(IModuleContainer provider, Class<? extends M> moduleClass) {
-		Preconditions.checkNotNull(moduleClass);
-		List<M> modules = Lists.newArrayList();
-		for (IModule module : provider.getModules()) {
-			if (moduleClass.isAssignableFrom(module.getClass())) {
-				modules.add((M) module);
-			}
-		}
-		return modules;
-	}
-	
-	@Nullable
-	public static <M> M getModule(IModuleContainer provider, Class<? extends M> moduleClass) {
-		Preconditions.checkNotNull(moduleClass);
-		for (IModule module : provider.getModules()) {
-			if (moduleClass.isAssignableFrom(module.getClass())) {
-				return (M) module;
-			}
-		}
-		return null;
 	}
 	
 	@Nullable

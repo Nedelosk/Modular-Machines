@@ -52,6 +52,10 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	private final ILocatable locatable;
 	private ModuleHandler moduleHandler;
 	private boolean markedForDeletion;
+	@Nullable
+	private Set<IModule> modules = null;
+	@Nullable
+	private AxisAlignedBB boundingBox = null;
 	
 	public ModuleContainer(ILocatable locatable) {
 		this.locatable = locatable;
@@ -88,8 +92,10 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public Collection<IModule> getModules() {
-		Set<IModule> modules = new HashSet<>();
-		moduleHandler.getModules().forEach(m -> addToList(modules, m));
+		if (modules == null) {
+			modules = new HashSet<>();
+			moduleHandler.getModules().forEach(m -> addToList(modules, m));
+		}
 		return modules;
 	}
 	
@@ -105,18 +111,23 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public AxisAlignedBB getBoundingBox() {
-		AxisAlignedBB boundingBox = null;
-		for (IModule module : getModules()) {
-			for (IBoundingBoxComponent component : module.getComponents(IBoundingBoxComponent.class)) {
-				AxisAlignedBB alignedBB = component.getCollisionBox();
-				if (boundingBox == null) {
-					boundingBox = alignedBB;
-					continue;
+		if (boundingBox == null) {
+			boundingBox = null;
+			for (IModule module : getModules()) {
+				for (IBoundingBoxComponent component : module.getComponents(IBoundingBoxComponent.class)) {
+					AxisAlignedBB alignedBB = component.getCollisionBox();
+					if (boundingBox == null) {
+						boundingBox = alignedBB;
+						continue;
+					}
+					boundingBox = boundingBox.union(alignedBB);
 				}
-				boundingBox = boundingBox.union(alignedBB);
+			}
+			if (boundingBox == null) {
+				boundingBox = Block.FULL_BLOCK_AABB;
 			}
 		}
-		return boundingBox == null ? Block.FULL_BLOCK_AABB : boundingBox;
+		return boundingBox;
 	}
 	
 	public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
@@ -171,13 +182,6 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		Vec3d startVec = start.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
 		Vec3d endVec = end.subtract((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
 		Collection<IModule> modules = moduleHandler.getModules();
-		if (modules.isEmpty()) {
-			RayTraceResult old = Block.FULL_BLOCK_AABB.calculateIntercept(startVec, endVec);
-			if (old == null) {
-				return null;
-			}
-			return new RayTraceResult(old.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), old.sideHit, pos);
-		}
 		return modules
 				.stream()
 				.map(m -> m.getComponents(IBoundingBoxComponent.class))
@@ -258,11 +262,11 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (super.hasCapability(capability, facing)) {
 			return true;
 		}
-		for (IModule module : getModules()) {
+		/*for (IModule module : getModules()) {
 			if (module.hasCapability(capability, facing)) {
 				return true;
 			}
-		}
+		}*/
 		return false;
 	}
 	
@@ -273,11 +277,11 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (t != null) {
 			return t;
 		}
-		for (IModule module : getModules()) {
+		/*for (IModule module : getModules()) {
 			if (module.hasCapability(capability, facing)) {
 				return module.getCapability(capability, facing);
 			}
-		}
+		}*/
 		return null;
 	}
 	
@@ -313,6 +317,8 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		for (IModuleListener listener : getComponents(IModuleListener.class)) {
 			listener.onModuleRemoved(module);
 		}
+		//reset module list
+		modules = null;
 	}
 	
 	@Override
@@ -320,5 +326,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		for (IModuleListener listener : getComponents(IModuleListener.class)) {
 			listener.onModuleAdded(module);
 		}
+		//reset module list
+		modules = null;
 	}
 }

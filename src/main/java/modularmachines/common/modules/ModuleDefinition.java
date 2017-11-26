@@ -1,9 +1,17 @@
 package modularmachines.common.modules;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -17,6 +25,7 @@ import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IItemHandlerComponent;
 import modularmachines.api.modules.components.IModuleComponentFactory;
 import modularmachines.api.modules.data.IModuleData;
@@ -25,6 +34,7 @@ import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.EnumRackPositions;
+import modularmachines.client.gui.modules.GuiChestModule;
 import modularmachines.client.model.module.ModelData;
 import modularmachines.client.model.module.ModelDataActivatable;
 import modularmachines.client.model.module.ModelDataCasing;
@@ -32,6 +42,7 @@ import modularmachines.client.model.module.ModelDataDefault;
 import modularmachines.client.model.module.ModelDataLargeTank;
 import modularmachines.client.model.module.ModelDataModuleRack;
 import modularmachines.common.ModularMachines;
+import modularmachines.common.containers.ContainerChestModule;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.items.ModuleItems;
@@ -64,6 +75,36 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		public void registerModelData() {
 			ModelDataDefault.addModelData(data());
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 1.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
+			IItemHandlerComponent itemHandler = factory.addItemHandler(module);
+			for (int i = 0; i < 27; i++) {
+				itemHandler.addSlot();
+			}
+			factory.addGui(module, new IGuiFactory() {
+				@SideOnly(Side.CLIENT)
+				@Override
+				public GuiContainer createGui(InventoryPlayer inventory) {
+					return new GuiChestModule(module, inventory);
+				}
+				
+				@Override
+				public Container createContainer(InventoryPlayer inventory) {
+					return new ContainerChestModule(module, inventory);
+				}
+				
+				@Override
+				public void onOpenGui(EntityPlayer player) {
+					if (!(player instanceof EntityPlayerMP)) {
+						return;
+					}
+					World world = ((EntityPlayerMP) player).world;
+					world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+				}
+			});
 		}
 	},
 	FURNACE(new ModuleData(), "furnace", 1) {
@@ -226,18 +267,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 	},
-	TRANSFER_ITEM("transfer_item", 4) {
-		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.RAIL));
-		}
-	},
-	TRANSFER_FLUID("transfer_fluid", 4) {
-		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
-		}
-	},
 	FIREBOX("firebox", 4) {
 		@Override
 		protected void initData(IModuleData data) {
@@ -249,8 +278,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 			IItemHandlerComponent itemHandler = factory.addItemHandler(module);
 			int index = itemHandler.addSlot().setFilter(ItemFliterFurnaceFuel.INSTANCE).getIndex();
 			module.addComponent(itemHandler);
-			module.addComponent(new FuelComponent.Items(25, index));
-			module.addComponent(new FireboxComponent(150, 8));
+			module.addComponent(new FuelComponent.Items(75, index));
+			module.addComponent(new FireboxComponent(225, 8));
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
 		

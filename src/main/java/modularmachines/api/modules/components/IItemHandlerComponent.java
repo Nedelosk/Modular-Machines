@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
@@ -20,7 +20,7 @@ import modularmachines.api.modules.INBTWritable;
  * {@link modularmachines.api.modules.components.IModuleComponentFactory#addItemHandler(IModule)} can be
  * used to add this component to a module.
  */
-public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, INBTWritable, INBTReadable, IIOConfigurable {
+public interface IItemHandlerComponent extends IItemHandlerModifiable, IModuleComponent, INBTWritable, INBTReadable, IIOConfigurable {
 	
 	default IItemSlot addSlot() {
 		return addSlot(64);
@@ -60,5 +60,7 @@ public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, I
 		Predicate<ItemStack> getFilter();
 		
 		ItemStack getItem();
+		
+		boolean isOutput();
 	}
 }

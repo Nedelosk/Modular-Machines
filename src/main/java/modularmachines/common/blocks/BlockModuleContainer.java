@@ -44,7 +44,6 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IBoundingBoxComponent;
 import modularmachines.api.modules.components.INeighborBlockComponent;
-import modularmachines.api.modules.components.IRedstoneComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
@@ -182,22 +181,6 @@ public class BlockModuleContainer extends Block {
 	}
 	
 	@Override
-	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if (side == null) {
-			return false;
-		}
-		IModuleContainer provider = ModuleUtil.getContainer(pos, world);
-		if (provider != null) {
-			for (IRedstoneComponent listener : ModuleUtil.getModules(provider, IRedstoneComponent.class)) {
-				if (listener.canProvidePower(state, world, pos, side)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 	}
@@ -291,6 +274,19 @@ public class BlockModuleContainer extends Block {
 		}
 		return stack;
 	}*/
+	
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, world);
+		if (container == null) {
+			return ItemStack.EMPTY;
+		}
+		IModule module = container.getModule(target.subHit);
+		if (module == null) {
+			return ItemStack.EMPTY;
+		}
+		return module.getItemStack().copy();
+	}
 	
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {

@@ -1,6 +1,10 @@
 ####################################
 # Modules
 ####################################
+module.boiler.name=Boiler
+module.large_tank.name=Large Tank
+module.module_rack.name=Module Rack
+module.chest.name=Chest
 
 ####################################
 # Module Positions
@@ -76,25 +80,33 @@ mm.message.screwdriver.reset=Reseted All IO Modes to %s
 # Item
 ####################################
 modularmachines.item.screwdriver.name=Screwdriver
+
 modularmachines.item.module_rack_brick.name=Brick Module Rack
 modularmachines.item.module_rack_bronze.name=Bronze Module Rack
 modularmachines.item.module_rack_iron.name=Iron Module Rack
 modularmachines.item.module_rack_steel.name=Steel Module Rack
 modularmachines.item.module_rack_magmarium.name=Magmarium Module Rack
+
 modularmachines.item.casing_bronze.name=Bronze Casing
 modularmachines.item.casing_iron.name=Iron Casing
 modularmachines.item.casing_steel.name=Steel Casing
 modularmachines.item.casing_magmarium.name=Magmarium Casing
+
 modularmachines.item.engine_steam_bronze.name=Bronze Steam Engine
 modularmachines.item.engine_steam_iron.name=Iron Steam Engine
 modularmachines.item.engine_steam_steel.name=Steel Steam Engine
 modularmachines.item.engine_steam_magmarium.name=Magmarium Steam Engine
+
 modularmachines.item.turbine_steam_bronze.name=Bronze Steam Turbine
 modularmachines.item.turbine_steam_iron.name=Iron Steam Turbine
 modularmachines.item.turbine_steam_steel.name=Steel Steam Turbine
 modularmachines.item.turbine_steam_magmarium.name=Magmarium Steam Turbine
+
 modularmachines.item.engine_electric_bronze.name=Bronze Electric Engine
 modularmachines.item.engine_electric_iron.name=Iron Electric Engine
 modularmachines.item.engine_electric_steel.name=Steel Electric Engine
 modularmachines.item.engine_electric_magmarium.name=Magmarium Electric Engine
+
+modularmachines.item.modules_boiler.name=Boiler
+modularmachines.item.modules_large_tank.name=Large Tank
 modularmachines.item.modules_firebox.name=Firebox

@@ -4,6 +4,7 @@ import java.util.IllegalFormatException;
 
 import net.minecraft.util.text.translation.I18n;
 
+@SuppressWarnings("deprecation")
 public class Translator {
 	
 	private Translator() {

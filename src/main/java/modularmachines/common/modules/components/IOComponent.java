@@ -23,7 +23,8 @@ import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IIOComponent;
 import modularmachines.api.modules.components.IInteractionComponent;
 
-public class IOComponent extends ModuleComponent implements IIOComponent, IInteractionComponent, INBTWritable, INBTReadable, INetworkComponent {
+public class IOComponent extends ModuleComponent implements IIOComponent, IInteractionComponent, INBTWritable,
+		INBTReadable, INetworkComponent {
 	private final Map<EnumFacing, EnumIOMode> faceModes;
 	private EnumIOMode mode;
 	
@@ -50,11 +51,11 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			EnumFacing facing = screwdriver.getSelectedFacing(heldItem);
 			EnumIOMode newMode;
 			if (facing == null) {
-				mode = newMode = EnumIOMode.getNext(mode);
+				newMode = EnumIOMode.getNext(mode);
 			} else {
 				newMode = EnumIOMode.getNext(faceModes.get(facing));
-				faceModes.put(facing, newMode);
 			}
+			setMode(facing, newMode);
 			if (!player.world.isRemote) {
 				player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.module", new TextComponentTranslation(newMode.getUnlocalizedName())), true);
 			}
@@ -75,9 +76,10 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	public void setMode(@Nullable EnumFacing facing, EnumIOMode mode) {
 		if (facing == null) {
 			this.mode = mode;
-			return;
+		} else {
+			faceModes.put(facing, mode);
 		}
-		faceModes.put(facing, mode);
+		provider.sendToClient();
 	}
 	
 	@Override
@@ -94,6 +96,9 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 		EnumIOMode componentMode = getMode(facing);
 		if (componentMode == EnumIOMode.DISABLED) {
 			return false;
+		}
+		if (facing != null && componentMode == EnumIOMode.NONE) {
+			componentMode = getMode(null);
 		}
 		switch (mode) {
 			case DISABLED:
@@ -134,6 +139,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			tagCompound.setByte("Mode", (byte) entry.getValue().ordinal());
 			tagList.appendTag(tagCompound);
 		}
+		compound.setTag("Facings", tagList);
 		compound.setByte("Mode", (byte) mode.ordinal());
 		return compound;
 	}

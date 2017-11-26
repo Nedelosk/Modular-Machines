@@ -207,7 +207,7 @@ public class ContainerUtil {
 					EntityPlayerMP playerMP = (EntityPlayerMP) player;
 					if (player.openContainer instanceof BaseContainer) {
 						BaseContainer container = (BaseContainer) player.openContainer;
-						if (container.getSource() == source) {
+						if (container.getProvider() == source) {
 							if (!openGui) {
 								player.closeScreen();
 							} else {

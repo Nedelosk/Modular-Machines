@@ -28,7 +28,7 @@ public abstract class WidgetEnergy extends Widget {
 	@Override
 	public List<String> getTooltip() {
 		List<String> description = new ArrayList<>();
-		if (source != null) {
+		if (provider != null) {
 			description.add(TextFormatting.WHITE + FORMAT.format(storage.getEnergyStored()) + " "
 					+ Translator.translateToLocal("mm.energy.of"));
 			description.add(TextFormatting.WHITE + FORMAT.format(storage.getMaxEnergyStored()) + " "

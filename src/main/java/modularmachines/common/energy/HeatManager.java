@@ -8,7 +8,7 @@ public class HeatManager {
 	
 	private static final List<HeatStep> HEAT_STEPS = new ArrayList<>();
 	public static final float COLD_TEMP = 20;
-	public static final int STEAM_PER_UNIT_WATER = 40;
+	public static final int STEAM_PER_UNIT_WATER = 160;
 	public static final float BOILING_POINT = 100;
 	
 	private HeatManager() {

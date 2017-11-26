@@ -21,7 +21,7 @@ public class WidgetEnergyField extends WidgetEnergy {
 	
 	@Override
 	public void draw(int guiLeft, int guiTop) {
-		if (source == null) {
+		if (provider == null) {
 			return;
 		}
 		GlStateManager.color(1F, 1F, 1F, 1F);
