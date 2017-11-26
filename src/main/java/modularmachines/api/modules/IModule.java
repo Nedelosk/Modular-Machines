@@ -12,7 +12,6 @@ import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.pages.PageComponent;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**
@@ -89,11 +88,6 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 * Rotates the give bounding box relative to the facing of this module.
 	 */
 	AxisAlignedBB rotateBoundingBox(AxisAlignedBB boundingBox);
-	
-	@Deprecated
-	default PageComponent getComponent(int index) {
-		return null;
-	}
 	
 	/**
 	 * Sends the data of all {@link modularmachines.api.components.INetworkComponent}s of this module to the client.

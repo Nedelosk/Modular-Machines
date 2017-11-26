@@ -6,14 +6,11 @@ import com.google.common.collect.Lists;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import com.mojang.authlib.GameProfile;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
@@ -24,7 +21,6 @@ import net.minecraftforge.items.IItemHandler;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.container.IModuleGuiLogic;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
 
@@ -95,30 +91,6 @@ public class ModuleUtil {
 	@Nullable
 	public static IModuleContainer getContainer(ILocatable locatable) {
 		return getContainer(locatable.getCoordinates(), locatable.getWorldObj());
-	}
-	
-	@Nullable
-	public static IModuleGuiLogic getGuiLogic(IModuleContainer provider, EntityPlayer player) {
-		return getGuiLogic(player.world, provider.getLocatable().getCoordinates(), player.getGameProfile());
-	}
-	
-	@Nullable
-	public static IModuleGuiLogic getGuiLogic(BlockPos pos, EntityPlayer player) {
-		return getGuiLogic(player.world, pos, player.getGameProfile());
-	}
-	
-	@Nullable
-	public static IModuleGuiLogic getGuiLogic(World world, BlockPos pos, @Nullable GameProfile player) {
-		String filename = "guiLogic." + (player == null ? "common" : player.getId());
-		GuiLogicCache cache = (GuiLogicCache) world.loadData(GuiLogicCache.class, filename);
-		
-		// Create a cache if there is none yet.
-		if (cache == null) {
-			cache = new GuiLogicCache(filename);
-			world.setData(filename, cache);
-		}
-		
-		return cache.getLogic(world, pos);
 	}
 	
 	public static void markDirty(IModule module) {
