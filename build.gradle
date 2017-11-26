@@ -141,8 +141,7 @@ curseforge {
 	apiKey = "$System.env.CURSEAPIKEY" != "null" ? "$System.env.CURSEAPIKEY" : "0"
 	project {
 		id = '233073'
-		changelog = file('changelog.md')
-		changelogType = 'markdown'
+		changelog = file('changelog.html')
 		releaseType = 'alpha'
 		addArtifact sourcesJar
 		addArtifact apiJar

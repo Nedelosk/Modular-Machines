@@ -13,5 +13,5 @@
 !/gradle.properties
 !/gradlew
 !/gradlew.bat
-!/changelog.md
+!/.changelog.mustache
 !/.travis.yml
