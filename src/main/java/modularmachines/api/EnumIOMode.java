@@ -1,5 +1,7 @@
 package modularmachines.api;
 
+import net.minecraft.util.math.MathHelper;
+
 public enum EnumIOMode {
 	NONE("mm.module.io_mode.none", 0xafafaf),
 	INPUT("mm.module.io_mode.input", 0x73a4f4),
@@ -8,6 +10,8 @@ public enum EnumIOMode {
 	PUSH("mm.module.io_mode.push", 0x6fe6ed),
 	PUSH_PULL("mm.module.io_mode.push_pull", 0xd37b6b),
 	DISABLED("mm.module.io_mode.disabled", 0x7a7979);
+	
+	public static final EnumIOMode[] VALUES = values();
 	
 	private final int color;
 	private final String unlocalizedName;
@@ -32,6 +36,10 @@ public enum EnumIOMode {
 			ord = EnumIOMode.values().length - 1;
 		}
 		return EnumIOMode.values()[ord];
+	}
+	
+	public static EnumIOMode get(int index) {
+		return VALUES[MathHelper.abs(index % VALUES.length)];
 	}
 	
 	public boolean pulls() {

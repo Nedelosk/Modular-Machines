@@ -8,6 +8,7 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -85,30 +86,71 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			faceModes.put(facing, EnumIOMode.NONE);
 		}
+		provider.sendToClient();
 	}
 	
 	@Override
 	public boolean supportsMode(@Nullable EnumFacing facing, EnumIOMode mode) {
+		EnumIOMode componentMode = getMode(facing);
+		if (componentMode == EnumIOMode.DISABLED) {
+			return false;
+		}
+		switch (mode) {
+			case DISABLED:
+				return false;
+			case INPUT:
+				return componentMode.acceptsInput();
+			case OUTPUT:
+				return componentMode.acceptsOutput();
+			case PUSH:
+				return componentMode.pushes();
+			case PULL:
+				return componentMode.pulls();
+			case NONE:
+			case PUSH_PULL:
+				return componentMode == mode;
+		}
 		return false;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-	
+		NBTTagList tagList = compound.getTagList("Facings", 10);
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+			byte facing = tagCompound.getByte("Facing");
+			byte mode = tagCompound.getByte("Mode");
+			faceModes.put(EnumFacing.getFront(facing), EnumIOMode.get(mode));
+		}
+		mode = EnumIOMode.get(compound.getByte("Mode"));
 	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		NBTTagList tagList = new NBTTagList();
+		for (Map.Entry<EnumFacing, EnumIOMode> entry : faceModes.entrySet()) {
+			NBTTagCompound tagCompound = new NBTTagCompound();
+			tagCompound.setByte("Facing", (byte) entry.getKey().ordinal());
+			tagCompound.setByte("Mode", (byte) entry.getValue().ordinal());
+			tagList.appendTag(tagCompound);
+		}
+		compound.setByte("Mode", (byte) mode.ordinal());
 		return compound;
 	}
 	
 	@Override
 	public void writeData(PacketBuffer data) {
-	
+		for (Map.Entry<EnumFacing, EnumIOMode> entry : faceModes.entrySet()) {
+			data.writeByte(entry.getValue().ordinal());
+		}
+		data.writeByte(mode.ordinal());
 	}
 	
 	@Override
 	public void readData(PacketBuffer data) throws IOException {
-	
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			faceModes.put(facing, EnumIOMode.get(data.readByte()));
+		}
+		mode = EnumIOMode.get(data.readByte());
 	}
 }
