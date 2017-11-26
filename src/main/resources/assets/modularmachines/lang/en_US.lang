@@ -49,24 +49,27 @@ mm.tooltip.module.name=Name: %s
 mm.tooltip.module.complexity=Complexity: %s
 mm.tooltip.module.positions=Valid Positions: %s
 
-mm.tooltip.screwdriver.facing=Facing: %s
+mm.tooltip.screwdriver.facing=Target Facing: %s
+mm.tooltip.screwdriver.mode=Mode: %s
+mm.tooltip.screwdriver.facing.current=Current Facing: %s
 
 ####################################
 # IO Modes
 ####################################
-mm.module.io_mode.disabled=Disabled
-mm.module.io_mode.in_out=Input / Output
+mm.module.io_mode.none=Input / Output
 mm.module.io_mode.input=Input
 mm.module.io_mode.output=Output
 mm.module.io_mode.pull=Pull
 mm.module.io_mode.push=Push
 mm.module.io_mode.push_pull=Push / Pull
+mm.module.io_mode.disabled=Disabled
 
 ####################################
 # Messages
 ####################################
 mm.message.screwdriver.facing=New Targeted Facing: %s
 mm.message.screwdriver.module=New IO Mode: %s
+mm.message.screwdriver.reset=Reseted All IO Modes to %s
 
 ####################################
 # Item

@@ -108,7 +108,7 @@ public class BlockModuleContainer extends Block {
 			return false;
 		}
 		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
-		RayTraceResult hit = collisionRayTrace(state, world, pos, vectors.getKey(), vectors.getValue());
+		RayTraceResult hit = container.collisionRayTrace(pos, vectors.getKey(), vectors.getValue());
 		if (hit == null) {
 			return false;
 		}
@@ -116,8 +116,17 @@ public class BlockModuleContainer extends Block {
 	}
 	
 	@Override
-	public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
-		super.onBlockClicked(worldIn, pos, playerIn);
+	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, world);
+		if (container == null) {
+			return;
+		}
+		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
+		RayTraceResult hit = container.collisionRayTrace(pos, vectors.getKey(), vectors.getValue());
+		if (hit == null) {
+			return;
+		}
+		container.onClick(player, hit);
 	}
 	
 	@Nullable

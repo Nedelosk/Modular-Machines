@@ -1,13 +1,13 @@
 package modularmachines.api;
 
 public enum EnumIOMode {
-	DISABLED("mm.module.io_mode.disabled", 0x7a7979),
-	IN_OUT("mm.module.io_mode.in_out", 0x75c458),
+	NONE("mm.module.io_mode.none", 0xafafaf),
 	INPUT("mm.module.io_mode.input", 0x73a4f4),
 	OUTPUT("mm.module.io_mode.output", 0xefad73),
 	PULL("mm.module.io_mode.pull", 0xd167d3),
 	PUSH("mm.module.io_mode.push", 0x6fe6ed),
-	PUSH_PULL("mm.module.io_mode.push_pull", 0xd37b6b);
+	PUSH_PULL("mm.module.io_mode.push_pull", 0xd37b6b),
+	DISABLED("mm.module.io_mode.disabled", 0x7a7979);
 	
 	private final int color;
 	private final String unlocalizedName;
@@ -43,19 +43,19 @@ public enum EnumIOMode {
 	}
 	
 	public boolean canOutput() {
-		return pushes() || this == IN_OUT;
+		return pushes() || this == NONE;
 	}
 	
 	public boolean canReceiveInput() {
-		return pulls() || this == IN_OUT;
+		return pulls() || this == NONE;
 	}
 	
 	public boolean acceptsInput() {
-		return this == IN_OUT || this == INPUT;
+		return this == NONE || this == INPUT;
 	}
 	
 	public boolean acceptsOutput() {
-		return this == IN_OUT || this == OUTPUT;
+		return this == NONE || this == OUTPUT;
 	}
 	
 	public int getColor() {
@@ -63,6 +63,6 @@ public enum EnumIOMode {
 	}
 	
 	public String getUnlocalizedName() {
-		return "";
+		return unlocalizedName;
 	}
 }

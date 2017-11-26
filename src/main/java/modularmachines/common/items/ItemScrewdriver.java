@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -18,6 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.common.Optional;
@@ -25,9 +27,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.IScrewdriver;
+import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.Registry;
 import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.content.IItemModelRegister;
 
@@ -50,6 +54,17 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 			return EnumActionResult.SUCCESS;
 		}
 		return EnumActionResult.FAIL;
+	}
+	
+	@Override
+	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+		EnumFacing facing = player.getHorizontalFacing().getOpposite();
+		TileEntity tileEntity = world.getTileEntity(pos);
+		if (tileEntity == null || !tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, facing)) {
+			return false;
+		}
+		IModuleContainer container = tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, facing);
+		return container != null;
 	}
 	
 	@Override

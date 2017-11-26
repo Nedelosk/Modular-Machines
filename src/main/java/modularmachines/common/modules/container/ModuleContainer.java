@@ -124,29 +124,32 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			return false;
 		}
 		World world = player.world;
-		if (player.isSneaking()) {
-			List<ItemStack> itemStacks = extractModule(hit, world.isRemote);
-			if (itemStacks.isEmpty()) {
-				return false;
-			}
-			for (ItemStack itemStack : itemStacks) {
-				ItemHandlerHelper.giveItemToPlayer(player, itemStack);
-			}
-			return true;
-		}
-		if (insertModule(player.getHeldItem(hand), hit, world.isRemote)) {
-			ItemStack itemStack = player.getHeldItem(hand);
-			if (!player.capabilities.isCreativeMode) {
-				itemStack.shrink(1);
-				if (itemStack.isEmpty()) {
-					player.setHeldItem(hand, ItemStack.EMPTY);
+		ItemStack heldItem = player.getHeldItem(hand);
+		if (heldItem.isEmpty()) {
+			if (player.isSneaking()) {
+				List<ItemStack> itemStacks = extractModule(hit, world.isRemote);
+				if (itemStacks.isEmpty()) {
+					return false;
 				}
+				for (ItemStack itemStack : itemStacks) {
+					ItemHandlerHelper.giveItemToPlayer(player, itemStack);
+				}
+				return true;
 			}
-			if (world.isRemote) {
-				world.playSound(player, player.posX, player.posY, player.posZ,
-						SoundEvents.ENTITY_ITEMFRAME_PLACE, SoundCategory.PLAYERS, 0.6F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+		} else {
+			if (insertModule(heldItem, hit, world.isRemote)) {
+				if (!player.capabilities.isCreativeMode) {
+					heldItem.shrink(1);
+					if (heldItem.isEmpty()) {
+						player.setHeldItem(hand, ItemStack.EMPTY);
+					}
+				}
+				if (world.isRemote) {
+					world.playSound(player, player.posX, player.posY, player.posZ,
+							SoundEvents.ENTITY_ITEMFRAME_PLACE, SoundCategory.PLAYERS, 0.6F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+				}
+				return true;
 			}
-			return true;
 		}
 		IModule module = getModule(hit.subHit);
 		return module != null && module.getComponents(IInteractionComponent.class).stream().anyMatch(c -> c.onActivated(player, hand, hit));
