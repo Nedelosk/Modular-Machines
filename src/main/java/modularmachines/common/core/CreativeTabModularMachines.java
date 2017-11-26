@@ -5,11 +5,9 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.common.core.managers.ModItems;
 
-public class TabModularMachines extends CreativeTabs {
+public class CreativeTabModularMachines extends CreativeTabs {
 	
-	public static CreativeTabs tabModularMachines = new TabModularMachines();
-	
-	private TabModularMachines() {
+	CreativeTabModularMachines() {
 		super("modularmachines");
 	}
 	

@@ -10,7 +10,7 @@ modularmachines.position.casing.center.name=Casing
 modularmachines.position.casing.front.name=Front
 modularmachines.position.casing.top.name=Top
 modularmachines.position.casing.bottom.name=Bottom
-modularmachines.position.casing.casing.back.name=Back Side
+modularmachines.position.casing.back.name=Back
 modularmachines.position.casing.left.name=Left Side
 modularmachines.position.casing.right.name=Right Side
 //Rack
@@ -22,6 +22,7 @@ modularmachines.position.rack.down.name=Lower Rack Slot
 # Tabs
 ####################################
 itemGroup.modularmachines=Modular Machines
+itemGroup.modularmachines.modules=Modules
 
 ####################################
 # Blocks

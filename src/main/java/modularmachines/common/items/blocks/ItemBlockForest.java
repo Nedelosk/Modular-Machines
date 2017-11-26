@@ -6,14 +6,14 @@ import net.minecraft.item.ItemStack;
 
 import modularmachines.common.blocks.IBlockWithMeta;
 import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.core.Tabs;
 
 public class ItemBlockForest extends ItemBlock {
 	
 	public ItemBlockForest(Block block) {
 		super(block);
 		setHasSubtypes(true);
-		setCreativeTab(TabModularMachines.tabModularMachines);
+		setCreativeTab(Tabs.tabModularMachines);
 	}
 	
 	@Override

@@ -48,6 +48,7 @@ public class ModuleContainerTESR extends TileEntitySpecialRenderer<TileEntityMod
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.disableTexture2D();
 			GlStateManager.glLineWidth(6.0F);
+			GlStateManager.disableLighting();
 			GlStateManager.depthMask(false);
 			GlStateManager.translate(x, y, z);
 			IModule hitModule = null;
@@ -64,6 +65,7 @@ public class ModuleContainerTESR extends TileEntitySpecialRenderer<TileEntityMod
 			GlStateManager.depthMask(true);
 			GlStateManager.enableTexture2D();
 			GlStateManager.disableBlend();
+			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 			animationTime -= partialTicks;
 		}

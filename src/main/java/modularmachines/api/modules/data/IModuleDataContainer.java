@@ -10,7 +10,7 @@ import modularmachines.common.modules.data.ModuleData;
 public interface IModuleDataContainer {
 	
 	/**
-	 * @return The stack that is used to display this container in a gui.
+	 * @return The stack that represents the data container.
 	 */
 	ItemStack getParent();
 	

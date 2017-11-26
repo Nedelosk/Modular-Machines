@@ -65,6 +65,12 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	/* FACING */
 	
 	/**
+	 * Updates the facing of this module.
+	 * Called if the block that contains this module has been rotated.
+	 */
+	void updateFacing();
+	
+	/**
 	 * @return The facing of this module.
 	 */
 	EnumFacing getFacing();

@@ -30,7 +30,7 @@ import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.core.Tabs;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.content.IItemModelRegister;
@@ -40,7 +40,7 @@ import modularmachines.common.utils.content.IItemModelRegister;
 public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewdriver { //implements IToolWrench {
 	
 	public ItemScrewdriver() {
-		setCreativeTab(TabModularMachines.tabModularMachines);
+		setCreativeTab(Tabs.tabModularMachines);
 		setUnlocalizedName("screwdriver");
 		setHarvestLevel("wrench", 0);
 		setMaxStackSize(1);
@@ -69,6 +69,9 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		if (!player.isSneaking()) {
+			return super.onItemRightClick(world, player, hand);
+		}
 		ItemStack itemStack = player.getHeldItem(hand);
 		EnumFacing facing = getSelectedFacing(itemStack);
 		if (facing != null) {

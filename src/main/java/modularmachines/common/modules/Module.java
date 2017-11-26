@@ -29,7 +29,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	protected final IModuleData data;
 	private ItemStack itemStack = ItemStack.EMPTY;
 	@Nullable
-	private EnumFacing facing;
+	private EnumFacing facing = null;
 	
 	public Module(IModuleHandler parent, IModulePosition position, IModuleData data, ItemStack parentItem) {
 		this.parent = parent;
@@ -106,6 +106,12 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	
 	public boolean isFacing(@Nullable EnumFacing side) {
 		return side != null && getFacing() == side;
+	}
+	
+	@Override
+	public void updateFacing() {
+		facing = null;
+		facing = getFacing();
 	}
 	
 	public EnumFacing getFacing() {

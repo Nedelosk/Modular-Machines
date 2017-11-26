@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.core.Tabs;
 import modularmachines.common.modules.ModuleRegistry;
 import modularmachines.common.utils.content.IItemModelRegister;
 
@@ -27,7 +27,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	public ItemCasing() {
 		setUnlocalizedName("casing");
 		setHasSubtypes(true);
-		setCreativeTab(TabModularMachines.tabModularMachines);
+		setCreativeTab(Tabs.tabModularMachines);
 	}
 	
 	@SideOnly(Side.CLIENT)

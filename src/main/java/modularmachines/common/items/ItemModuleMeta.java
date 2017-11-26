@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.core.Registry;
-import modularmachines.common.core.TabModularMachines;
+import modularmachines.common.core.Tabs;
 import modularmachines.common.utils.content.IItemModelRegister;
 
 public class ItemModuleMeta extends Item implements IItemModelRegister {
@@ -21,7 +21,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	public ItemModuleMeta(String uln, String[] names) {
 		setUnlocalizedName(uln);
 		setHasSubtypes(true);
-		setCreativeTab(TabModularMachines.tabModularMachines);
+		setCreativeTab(Tabs.tabModularMachines);
 		this.names = names;
 		this.uln = uln;
 	}

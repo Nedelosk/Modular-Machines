@@ -1,9 +1,11 @@
 package modularmachines.common.modules;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -41,7 +44,7 @@ import modularmachines.common.utils.capabilitys.DefaultStorage;
 public enum ModuleRegistry implements IModuleRegistry {
 	INSTANCE;
 	
-	private final List<IModuleDataContainer> containers = new ArrayList<>();
+	private final Multimap<Item, IModuleDataContainer> containers = HashMultimap.create();
 	private final IModuleData defaultData;
 	private final IForgeRegistry<IModuleData> registry;
 	
@@ -88,7 +91,7 @@ public enum ModuleRegistry implements IModuleRegistry {
 		if (stack.isEmpty()) {
 			return null;
 		}
-		for (IModuleDataContainer container : containers) {
+		for (IModuleDataContainer container : containers.get(stack.getItem())) {
 			if (container.matches(stack)) {
 				return container;
 			}
@@ -97,11 +100,15 @@ public enum ModuleRegistry implements IModuleRegistry {
 	}
 	
 	public void registerContainer(IModuleDataContainer container) {
-		containers.add(container);
+		ItemStack itemStack = container.getParent();
+		if (itemStack.isEmpty()) {
+			return;
+		}
+		containers.put(itemStack.getItem(), container);
 	}
 	
-	public List<IModuleDataContainer> getContainers() {
-		return Collections.unmodifiableList(containers);
+	public Collection<IModuleDataContainer> getContainers() {
+		return Collections.unmodifiableCollection(containers.values());
 	}
 	
 	@Override

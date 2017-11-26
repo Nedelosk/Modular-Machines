@@ -15,6 +15,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
@@ -121,5 +122,8 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	public void setFacing(EnumFacing facing) {
 		this.facing = facing;
+		for (IModule module : moduleContainer.getModules()) {
+			module.updateFacing();
+		}
 	}
 }
