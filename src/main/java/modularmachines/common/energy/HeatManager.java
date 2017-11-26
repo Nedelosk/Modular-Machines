@@ -17,8 +17,11 @@ public class HeatManager {
 	static {
 		registerType(COLD_TEMP, 0.1, 0.02);
 		registerType(50, 0.085, 0.035);
+		registerType(75, 0.080, 0.040);
 		registerType(100, 0.075, 0.045);
+		registerType(125, 0.070, 0.050);
 		registerType(150, 0.065, 0.050);
+		registerType(175, 0.045, 0.055);
 		registerType(200, 0.035, 0.055);
 		registerType(250, 0.030, 0.060);
 		registerType(300, 0.025, 0.065);

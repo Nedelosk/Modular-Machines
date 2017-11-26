@@ -303,7 +303,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(10000);
+			factory.addFluidHandler(module).addTank(50000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}

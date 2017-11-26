@@ -11,7 +11,7 @@ import modularmachines.common.energy.HeatManager;
 import modularmachines.common.modules.components.energy.ProcessComponent;
 
 public class BoilerComponent extends ProcessComponent {
-	public static int waterPerWork = 100;
+	public static int waterPerWork = 50;
 	public static int processLength = 40;
 	
 	@Override
