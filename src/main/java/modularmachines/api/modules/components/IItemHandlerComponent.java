@@ -4,9 +4,12 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.items.IItemHandler;
 
+import modularmachines.api.EnumIOMode;
+import modularmachines.api.IIOConfigurable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
@@ -17,7 +20,7 @@ import modularmachines.api.modules.INBTWritable;
  * {@link modularmachines.api.modules.components.IModuleComponentFactory#addItemHandler(IModule)} can be
  * used to add this component to a module.
  */
-public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, INBTWritable, INBTReadable {
+public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, INBTWritable, INBTReadable, IIOConfigurable {
 	
 	default IItemSlot addSlot() {
 		return addSlot(64);
@@ -39,6 +42,8 @@ public interface IItemHandlerComponent extends IItemHandler, IModuleComponent, I
 	
 	@Nullable
 	IItemSlot getSlot(int index);
+	
+	boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing);
 	
 	interface IItemSlot {
 		IItemSlot setBackgroundTexture(String backgroundTexture);

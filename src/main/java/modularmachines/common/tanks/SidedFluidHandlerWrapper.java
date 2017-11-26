@@ -30,7 +30,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!ioComponent.supportsMode(facing, EnumIOMode.INPUT)) {
+		if (!ioComponent.supportsMode(EnumIOMode.INPUT, facing)) {
 			return 0;
 		}
 		return fluidHandler.fill(resource, doFill);
@@ -39,7 +39,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	@Nullable
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (!ioComponent.supportsMode(facing, EnumIOMode.OUTPUT)) {
+		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
 			return null;
 		}
 		return fluidHandler.drain(resource, doDrain);
@@ -48,7 +48,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	@Nullable
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (!ioComponent.supportsMode(facing, EnumIOMode.OUTPUT)) {
+		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
 			return null;
 		}
 		return fluidHandler.drain(maxDrain, doDrain);

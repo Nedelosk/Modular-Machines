@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import modularmachines.api.IIOConfigurable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
@@ -17,7 +18,7 @@ import modularmachines.api.modules.INBTWritable;
  * {@link modularmachines.api.modules.components.IModuleComponentFactory#addFluidHandler(IModule)} can be
  * used to add this component to a module.
  */
-public interface IFluidHandlerComponent extends IModuleComponent, IFluidHandler, INBTReadable, INBTWritable {
+public interface IFluidHandlerComponent extends IModuleComponent, IFluidHandler, INBTReadable, INBTWritable, IIOConfigurable {
 	
 	default ITank addTank(int capacity) {
 		return addTank(capacity, false);

@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 
 import net.minecraftforge.fluids.Fluid;
@@ -15,8 +16,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import modularmachines.api.EnumIOMode;
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.api.modules.components.IIOComponent;
 import modularmachines.common.utils.ModuleUtil;
 
 public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent, INetworkComponent {
@@ -186,6 +189,24 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 			return null;
 		}
 		return tanks.get(index);
+	}
+	
+	@Override
+	public boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing) {
+		IIOComponent ioComponent = provider.getComponent(IIOComponent.class);
+		if (ioComponent == null) {
+			return true;
+		}
+		return ioComponent.supportsMode(ioMode, facing);
+	}
+	
+	@Override
+	public EnumIOMode getMode(@Nullable EnumFacing facing) {
+		IIOComponent ioComponent = provider.getComponent(IIOComponent.class);
+		if (ioComponent == null) {
+			return EnumIOMode.NONE;
+		}
+		return ioComponent.getMode(facing);
 	}
 	
 	@Override

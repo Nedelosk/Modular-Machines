@@ -37,7 +37,7 @@ public class SidedItemHandlerWrapper implements IItemHandler {
 	@Nonnull
 	@Override
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-		if (!ioComponent.supportsMode(facing, EnumIOMode.INPUT)) {
+		if (!ioComponent.supportsMode(EnumIOMode.INPUT, facing)) {
 			return stack;
 		}
 		return itemHandler.insertItem(slot, stack, simulate);
@@ -46,7 +46,7 @@ public class SidedItemHandlerWrapper implements IItemHandler {
 	@Nonnull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (!ioComponent.supportsMode(facing, EnumIOMode.OUTPUT)) {
+		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
 			return ItemStack.EMPTY;
 		}
 		return itemHandler.extractItem(slot, amount, simulate);

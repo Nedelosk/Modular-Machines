@@ -90,7 +90,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	}
 	
 	@Override
-	public boolean supportsMode(@Nullable EnumFacing facing, EnumIOMode mode) {
+	public boolean supportsMode(EnumIOMode mode, @Nullable EnumFacing facing) {
 		EnumIOMode componentMode = getMode(facing);
 		if (componentMode == EnumIOMode.DISABLED) {
 			return false;

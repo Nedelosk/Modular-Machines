@@ -142,6 +142,7 @@ curseforge {
 	project {
 		id = '233073'
 		changelog = file('changelog.html')
+		changelogType = 'html'
 		releaseType = 'alpha'
 		addArtifact sourcesJar
 		addArtifact apiJar

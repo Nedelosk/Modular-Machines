@@ -2,7 +2,9 @@ package modularmachines.common.modules.container.components;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.util.EnumFacing;
 
@@ -13,22 +15,28 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
 
+import modularmachines.api.EnumIOMode;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.IFluidHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.listeners.IModuleListener;
+import modularmachines.common.tanks.FluidHandlerWrapper;
 
 public class FluidManager extends ContainerComponent implements IFluidHandler, IModuleListener {
-	public final List<IFluidHandler> fluidHandlers;
-	private FluidHandlerConcatenate wrapper;
+	private final List<IFluidHandlerComponent> fluidHandlers;
+	private final Map<EnumFacing, FluidHandlerWrapper> facingHandlers = new EnumMap<>(EnumFacing.class);
+	private FluidHandlerConcatenate internal;
+	@Nullable
+	private FluidHandlerWrapper wrapper;
 	
 	public FluidManager() {
 		this.fluidHandlers = new ArrayList<>();
-		this.wrapper = new FluidHandlerConcatenate();
+		this.internal = new FluidHandlerConcatenate();
 	}
 	
 	@Override
 	public void onModuleRemoved(IModule module) {
-		IFluidHandler fluidHandler = module.getComponent(IFluidHandler.class);
+		IFluidHandlerComponent fluidHandler = module.getComponent(IFluidHandlerComponent.class);
 		if (fluidHandler != null) {
 			removeHandler(fluidHandler);
 		}
@@ -36,53 +44,74 @@ public class FluidManager extends ContainerComponent implements IFluidHandler, I
 	
 	@Override
 	public void onModuleAdded(IModule module) {
-		IFluidHandler fluidHandler = module.getComponent(IFluidHandler.class);
+		IFluidHandlerComponent fluidHandler = module.getComponent(IFluidHandlerComponent.class);
 		if (fluidHandler != null) {
 			addHandler(fluidHandler);
 		}
 	}
 	
-	public void addHandler(IFluidHandler handler) {
+	private void addHandler(IFluidHandlerComponent handler) {
 		fluidHandlers.add(handler);
-		this.wrapper = new FluidHandlerConcatenate(fluidHandlers.toArray(new IFluidHandler[0]));
+		reset();
 	}
 	
-	public void removeHandler(IFluidHandler handler) {
+	private void removeHandler(IFluidHandlerComponent handler) {
 		fluidHandlers.remove(handler);
-		this.wrapper = new FluidHandlerConcatenate(fluidHandlers.toArray(new IFluidHandler[0]));
+		reset();
+	}
+	
+	private void reset() {
+		fluidHandlers.clear();
+		facingHandlers.clear();
+		wrapper = null;
+		this.internal = new FluidHandlerConcatenate(fluidHandlers.toArray(new IFluidHandler[fluidHandlers.size()]));
 	}
 	
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
-		return wrapper.getTankProperties();
+		return internal.getTankProperties();
 	}
 	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		return wrapper.fill(resource, doFill);
+		return internal.fill(resource, doFill);
 	}
 	
 	@Nullable
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		return wrapper.drain(resource, doDrain);
+		return internal.drain(resource, doDrain);
 	}
 	
 	@Nullable
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		return wrapper.drain(maxDrain, doDrain);
+		return internal.drain(maxDrain, doDrain);
+	}
+	
+	private FluidHandlerWrapper getWrapper() {
+		if (wrapper == null) {
+			wrapper = new FluidHandlerWrapper(fluidHandlers, null);
+		}
+		return wrapper;
 	}
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && !fluidHandlers.isEmpty();
+		if (capability != CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || fluidHandlers.isEmpty()) {
+			return false;
+		}
+		FluidHandlerWrapper handler = facing == null ? getWrapper() : facingHandlers.computeIfAbsent(facing, k -> new FluidHandlerWrapper(fluidHandlers, facing));
+		return handler.supportsMode(EnumIOMode.NONE, facing);
 	}
 	
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY ?
-				CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this) : null;
+		if (capability != CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return null;
+		}
+		IFluidHandler handler = facing == null ? getWrapper() : facingHandlers.computeIfAbsent(facing, k -> new FluidHandlerWrapper(fluidHandlers, facing));
+		return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(handler);
 	}
 }
