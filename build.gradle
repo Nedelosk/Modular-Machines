@@ -126,7 +126,7 @@ processResources {
 }
 
 def getBuildNumber() {
-	return "$System.env.BUILD_NUMBER" != "null" ? "$System.env.BUILD_NUMBER" : "0"
+	return "$System.env.APPVEYOR_BUILD_NUMBER" != "null" ? "$System.env.APPVEYOR_BUILD_NUMBER" : "0"
 }
 
 task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
