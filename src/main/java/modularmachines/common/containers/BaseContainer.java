@@ -14,17 +14,17 @@ import modularmachines.api.ILocatableSource;
 import modularmachines.common.utils.ContainerUtil;
 
 public abstract class BaseContainer<S extends ILocatableSource> extends Container {
-
+	
 	protected S source;
 	protected EntityPlayer player;
-
+	
 	public BaseContainer(S source, InventoryPlayer inventory) {
 		this.source = source;
 		this.player = inventory.player;
 		addInventory(inventory);
 		addSlots(inventory);
 	}
-
+	
 	protected void addInventory(InventoryPlayer inventory) {
 		for (int i1 = 0; i1 < 3; i1++) {
 			for (int l1 = 0; l1 < 9; l1++) {
@@ -35,7 +35,7 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 			addSlotToContainer(new Slot(inventory, j1, 8 + j1 * 18, 142));
 		}
 	}
-
+	
 	public List<IContainerListener> getListeners() {
 		return listeners;
 	}
@@ -43,9 +43,9 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 	public S getSource() {
 		return source;
 	}
-
+	
 	protected abstract void addSlots(InventoryPlayer inventory);
-
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		ILocatable locatable = source.getLocatable();
@@ -54,20 +54,20 @@ public abstract class BaseContainer<S extends ILocatableSource> extends Containe
 		}
 		return true;
 	}
-
+	
 	public boolean sameGui(BaseContainer otherContainer) {
 		return this.source == otherContainer.source;
 	}
-
+	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 		return ContainerUtil.transferStackInSlot(inventorySlots, player, slotIndex);
 	}
-
+	
 	public EntityPlayer getPlayer() {
 		return player;
 	}
-
+	
 	public List<Slot> getSlots() {
 		return inventorySlots;
 	}

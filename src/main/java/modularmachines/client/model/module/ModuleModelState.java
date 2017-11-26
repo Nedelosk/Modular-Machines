@@ -37,7 +37,7 @@ public class ModuleModelState implements IModuleModelState {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof ModuleModelState)){
+		if (!(obj instanceof ModuleModelState)) {
 			return false;
 		}
 		ModuleModelState otherState = (ModuleModelState) obj;

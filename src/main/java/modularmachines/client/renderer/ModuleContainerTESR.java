@@ -25,7 +25,7 @@ import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 public class ModuleContainerTESR extends TileEntitySpecialRenderer<TileEntityModuleContainer> {
 	private float animationTime = 0.0F;
 	private EnumFacing lastFacing;
-
+	
 	@Override
 	public void render(TileEntityModuleContainer te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		super.render(te, x, y, z, partialTicks, destroyStage, alpha);

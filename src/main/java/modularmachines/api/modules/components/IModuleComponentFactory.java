@@ -19,16 +19,16 @@ public interface IModuleComponentFactory {
 	
 	/**
 	 * Creates and adds a item handler component to the module.
-	 * @param module The module
 	 *
+	 * @param module The module
 	 * @return The created item handler component.
 	 */
 	IItemHandlerComponent addItemHandler(IModule module);
 	
 	/**
 	 * Creates and adds a fluid handler component to the module.
-	 * @param module The module
 	 *
+	 * @param module The module
 	 * @return The created fluid handler component.
 	 */
 	IFluidHandlerComponent addFluidHandler(IModule module);

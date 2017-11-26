@@ -63,8 +63,6 @@ public class ClientEventHandler {
 		ScaledResolution resolution = event.getResolution();
 		int width = resolution.getScaledWidth();
 		int height = resolution.getScaledHeight();
-		/*int y = height / 8 * 7;
-		int x = width / 8 * 7;*/
 		Minecraft mc = Minecraft.getMinecraft();
 		FontRenderer fontRenderer = mc.fontRenderer;
 		int y = height - (int) (fontRenderer.FONT_HEIGHT * 4.5F);
@@ -73,37 +71,41 @@ public class ClientEventHandler {
 		World world = mc.world;
 		RayTraceResult posHit = mc.objectMouseOver;
 		ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-		if (heldItem.getItem() instanceof IScrewdriver) {
-			IScrewdriver screwdriver = (IScrewdriver) heldItem.getItem();
-			EnumFacing targetFacing = screwdriver.getSelectedFacing(heldItem);
-			String facingText = targetFacing != null ? WordUtils.capitalize(targetFacing.getName()) : "None";
-			String text = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.facing", facingText);
-			fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text) / 2, y, -1);
-			y += fontRenderer.FONT_HEIGHT;
-			if (posHit != null && posHit.typeOfHit == RayTraceResult.Type.BLOCK) {
-				String currentFacing = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.facing.current", WordUtils.capitalize(posHit.sideHit.getName()));
-				fontRenderer.drawString(currentFacing, x - fontRenderer.getStringWidth(currentFacing) / 2, y, -1);
-				BlockPos pos = posHit.getBlockPos();
-				EnumFacing facing = posHit.sideHit;
-				TileEntity tileEntity = WorldUtil.getTile(world, pos, TileEntity.class);
-				if (tileEntity != null && tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite())) {
-					IModuleContainer container = tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite());
-					if (container != null) {
-						IModule module = container.getModule(posHit.subHit);
-						if (module == null) {
-							return;
-						}
-						IIOComponent ioComponent = module.getComponent(IIOComponent.class);
-						if (ioComponent == null) {
-							return;
-						}
-						EnumIOMode mode = ioComponent.getMode(targetFacing);
-						y += fontRenderer.FONT_HEIGHT;
-						String modeText = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.mode", Translator.translateToLocal(mode.getUnlocalizedName()));
-						fontRenderer.drawString(modeText, x - fontRenderer.getStringWidth(modeText) / 2, y, -1);
-					}
-				}
-			}
+		if (!(heldItem.getItem() instanceof IScrewdriver)) {
+			return;
 		}
+		IScrewdriver screwdriver = (IScrewdriver) heldItem.getItem();
+		EnumFacing targetFacing = screwdriver.getSelectedFacing(heldItem);
+		String facingText = targetFacing != null ? WordUtils.capitalize(targetFacing.getName()) : "None";
+		String text = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.facing", facingText);
+		fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text) / 2, y, -1);
+		y += fontRenderer.FONT_HEIGHT;
+		if (posHit == null || posHit.typeOfHit != RayTraceResult.Type.BLOCK) {
+			return;
+		}
+		String currentFacing = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.facing.current", WordUtils.capitalize(posHit.sideHit.getName()));
+		fontRenderer.drawString(currentFacing, x - fontRenderer.getStringWidth(currentFacing) / 2, y, -1);
+		BlockPos pos = posHit.getBlockPos();
+		EnumFacing facing = posHit.sideHit;
+		TileEntity tileEntity = WorldUtil.getTile(world, pos, TileEntity.class);
+		if (tileEntity == null || !tileEntity.hasCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite())) {
+			return;
+		}
+		IModuleContainer container = tileEntity.getCapability(ModuleCapabilities.MODULE_CONTAINER, facing.getOpposite());
+		if (container == null) {
+			return;
+		}
+		IModule module = container.getModule(posHit.subHit);
+		if (module == null) {
+			return;
+		}
+		IIOComponent ioComponent = module.getComponent(IIOComponent.class);
+		if (ioComponent == null) {
+			return;
+		}
+		EnumIOMode mode = ioComponent.getMode(targetFacing);
+		y += fontRenderer.FONT_HEIGHT;
+		String modeText = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.mode", Translator.translateToLocal(mode.getUnlocalizedName()));
+		fontRenderer.drawString(modeText, x - fontRenderer.getStringWidth(modeText) / 2, y, -1);
 	}
 }

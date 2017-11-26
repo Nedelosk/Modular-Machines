@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface IModuleModelState {
 	void set(IModelProperty property, boolean value);
 	
-	default void set(IModelProperty property){
+	default void set(IModelProperty property) {
 		set(property, true);
 	}
 	

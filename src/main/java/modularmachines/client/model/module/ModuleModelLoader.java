@@ -59,20 +59,20 @@ public enum ModuleModelLoader {
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
 		locations.forEach(location -> {
-					Builder<VertexFormat, IBakedModel> baker = new Builder<>();
-					IModel model = null;
-					try {
-						model = ModelLoaderRegistry.getModel(location);
-					} catch (Exception e) {
-						loadingExceptions.put(location, e);
-					}
-					if (model != null) {
-						baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
-						//baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
-						modelBaker.put(location, baker.build());
-						modelLocations.add(location);
-					}
-				});
+			Builder<VertexFormat, IBakedModel> baker = new Builder<>();
+			IModel model = null;
+			try {
+				model = ModelLoaderRegistry.getModel(location);
+			} catch (Exception e) {
+				loadingExceptions.put(location, e);
+			}
+			if (model != null) {
+				baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
+				//baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
+				modelBaker.put(location, baker.build());
+				modelLocations.add(location);
+			}
+		});
 		ModuleModelLoader.bakedModels = modelBaker.build();
 		cachedModels.invalidateAll();
 		loadingExceptions.values().forEach(Throwable::printStackTrace);

@@ -18,11 +18,11 @@ public class BakedMultiModel implements IBakedModel {
 	protected final TextureAtlasSprite particleTexture;
 	protected final ItemOverrideList overrides;
 	
-	public static IBakedModel create(Collection<IBakedModel> models){
-		if(models.size() == 1){
+	public static IBakedModel create(Collection<IBakedModel> models) {
+		if (models.size() == 1) {
 			return models.iterator().next();
 		}
-		return  new BakedMultiModel(models);
+		return new BakedMultiModel(models);
 	}
 	
 	public BakedMultiModel(Collection<IBakedModel> models) {

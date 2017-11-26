@@ -3,7 +3,7 @@ package modularmachines.api.modules.model;
 import java.util.Collection;
 import java.util.Collections;
 
-public enum  EmptyModelState implements IModuleModelState {
+public enum EmptyModelState implements IModuleModelState {
 	INSTANCE;
 	
 	@Override

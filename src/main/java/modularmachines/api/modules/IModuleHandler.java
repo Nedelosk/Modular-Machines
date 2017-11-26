@@ -55,8 +55,7 @@ public interface IModuleHandler {
 	 * @param position  Position to insert to.
 	 * @param container The data container of the item
 	 * @param itemStack The item stack of the module
-	 * @param simulate If true, the insertion is only simulated
-	 *
+	 * @param simulate  If true, the insertion is only simulated
 	 * @return True if the modules was inserted at the position.
 	 */
 	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate);
@@ -66,7 +65,6 @@ public interface IModuleHandler {
 	 *
 	 * @param position Position to extract.
 	 * @param simulate If true, the extraction is only simulated
-	 *
 	 * @return A list with all items that the player should get. The list is empty if the extraction fails.
 	 */
 	List<ItemStack> extractModule(IModulePosition position, boolean simulate);

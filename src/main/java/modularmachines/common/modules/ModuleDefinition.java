@@ -227,14 +227,12 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 	},
 	TRANSFER_ITEM("transfer_item", 4) {
-		
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.RAIL));
 		}
 	},
 	TRANSFER_FLUID("transfer_fluid", 4) {
-		
 		@Override
 		public void registerContainers() {
 			registerDamage(new ItemStack(Blocks.GOLDEN_RAIL));
@@ -396,7 +394,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	
 	@SubscribeEvent
 	public static void onModuleRegister(RegistryEvent.Register<IModuleData> event) {
-		for(ModuleDefinition definition : values()) {
+		for (ModuleDefinition definition : values()) {
 			event.getRegistry().register(definition.data());
 		}
 	}
