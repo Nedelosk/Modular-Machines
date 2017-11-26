@@ -1,6 +1,6 @@
 # Modular-Machines
 
- [![](http://cf.way2muchnoise.eu/full_modular-machines_downloads.svg)](http://minecraft.curseforge.com/projects/modular-machines) [![](http://cf.way2muchnoise.eu/versions/Available%20For%20Minecraft_modular-machines_all.svg)](http://minecraft.curseforge.com/projects/modular-machines)
+[![Build status](https://ci.appveyor.com/api/projects/status/3hxcd9hr20w8laoe/branch/1.12.2?svg=true)](https://ci.appveyor.com/project/Nedelosk/modular-machines/branch/1.12.2) [![](http://cf.way2muchnoise.eu/full_modular-machines_downloads.svg)](http://minecraft.curseforge.com/projects/modular-machines) [![](http://cf.way2muchnoise.eu/versions/Available%20For%20Minecraft_modular-machines_all.svg)](http://minecraft.curseforge.com/projects/modular-machines)
 
 ```
 License & Copyright
