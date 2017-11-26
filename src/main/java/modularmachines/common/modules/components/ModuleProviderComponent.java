@@ -59,7 +59,7 @@ public abstract class ModuleProviderComponent extends ModuleComponent implements
 	
 	private void addToList(Set<IModule> modules, IModule module) {
 		modules.add(module);
-		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 		if (moduleProvider == null) {
 			return;
 		}

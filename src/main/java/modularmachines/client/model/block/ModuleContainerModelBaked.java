@@ -82,7 +82,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 		for (IModule module : provider.getHandler().getAllModules()) {
 			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
 			IModelData data = module.getData().getModel();
-			IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+			IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
 				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer);
 				if (bakedModel != null) {

@@ -155,7 +155,7 @@ public class BlockModuleContainer extends Block {
 		if (module == null) {
 			return FULL_BLOCK_AABB.offset(pos);
 		}
-		IBoundingBoxComponent component = module.getInterface(IBoundingBoxComponent.class);
+		IBoundingBoxComponent component = module.getComponent(IBoundingBoxComponent.class);
 		if (component == null) {
 			return FULL_BLOCK_AABB.offset(pos);
 		}
@@ -303,7 +303,7 @@ public class BlockModuleContainer extends Block {
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
 		IModuleContainer moduleContainer = ModuleUtil.getContainer(pos, world);
 		if (moduleContainer != null) {
-			moduleContainer.getModules().stream().map(m -> m.getInterfaces(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(c -> c.onNeighborTileChange(neighbor));
+			moduleContainer.getModules().stream().map(m -> m.getComponents(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(c -> c.onNeighborTileChange(neighbor));
 		}
 	}
 	
@@ -311,7 +311,7 @@ public class BlockModuleContainer extends Block {
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		IModuleContainer moduleContainer = ModuleUtil.getContainer(pos, world);
 		if (moduleContainer != null) {
-			moduleContainer.getModules().stream().map(m -> m.getInterfaces(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(INeighborBlockComponent::onNeighborBlockChange);
+			moduleContainer.getModules().stream().map(m -> m.getComponents(INeighborBlockComponent.class)).flatMap(Collection::stream).forEach(INeighborBlockComponent::onNeighborBlockChange);
 		}
 	}
 	

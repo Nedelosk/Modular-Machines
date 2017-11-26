@@ -31,7 +31,7 @@ public class WaterIntakeComponent extends TickableComponent implements INBTWrita
 		if (!tickHelper.updateOnInterval(TIME_CONSTANT)) {
 			return;
 		}
-		IFluidHandler fluidHandler = provider.getContainer().getInterface(IFluidHandler.class);
+		IFluidHandler fluidHandler = provider.getContainer().getComponent(IFluidHandler.class);
 		if (fluidHandler == null) {
 			return;
 		}

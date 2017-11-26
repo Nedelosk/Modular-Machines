@@ -50,7 +50,7 @@ public class GuiHandler implements IGuiHandler {
 		if (module == null) {
 			return null;
 		}
-		return module.getInterface(IGuiProvider.class);
+		return module.getComponent(IGuiProvider.class);
 	}
 	
 }

@@ -12,7 +12,7 @@ import modularmachines.api.modules.components.IInteractionComponent;
 public class FluidContainerInteraction extends ModuleComponent implements IInteractionComponent {
 	@Override
 	public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
-		IFluidHandlerComponent component = provider.getInterface(IFluidHandlerComponent.class);
+		IFluidHandlerComponent component = provider.getComponent(IFluidHandlerComponent.class);
 		return component != null && FluidUtil.interactWithFluidHandler(player, hand, component);
 	}
 }

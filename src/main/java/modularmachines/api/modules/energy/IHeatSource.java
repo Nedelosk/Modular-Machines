@@ -16,5 +16,5 @@ public interface IHeatSource {
 	
 	double getCapacity();
 	
-	HeatLevel getHeatLevel();
+	IHeatStep getHeatStep();
 }

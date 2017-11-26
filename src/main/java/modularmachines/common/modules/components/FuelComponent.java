@@ -68,7 +68,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public void updateFuel() {
-			IItemHandlerComponent itemHandler = provider.getInterface(IItemHandlerComponent.class);
+			IItemHandlerComponent itemHandler = provider.getComponent(IItemHandlerComponent.class);
 			if (itemHandler == null) {
 				return;
 			}
@@ -95,7 +95,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		
 		@Override
 		public void updateFuel() {
-			IFluidHandlerComponent fluidHandler = provider.getInterface(IFluidHandlerComponent.class);
+			IFluidHandlerComponent fluidHandler = provider.getComponent(IFluidHandlerComponent.class);
 			if (fluidHandler == null) {
 				return;
 			}

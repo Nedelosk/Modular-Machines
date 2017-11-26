@@ -143,7 +143,7 @@ public class ModelList implements IModelList {
 	
 	@Override
 	public IBakedModel missingModel() {
-		IBoundingBoxComponent component = module.getInterface(IBoundingBoxComponent.class);
+		IBoundingBoxComponent component = module.getComponent(IBoundingBoxComponent.class);
 		if (component != null) {
 			AxisAlignedBB boundingBox = component.getBoundingBox();
 			AABBModelBaker modelBaker = new AABBModelBaker();

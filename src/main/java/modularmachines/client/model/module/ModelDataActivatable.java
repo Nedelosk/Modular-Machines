@@ -35,7 +35,7 @@ public class ModelDataActivatable extends ModelData {
 	@Override
 	public IModuleModelState createState(IModule module) {
 		boolean isActive = false;
-		IActivatableComponent component = module.getInterface(IActivatableComponent.class);
+		IActivatableComponent component = module.getComponent(IActivatableComponent.class);
 		if (component != null) {
 			isActive = component.isActive();
 		}

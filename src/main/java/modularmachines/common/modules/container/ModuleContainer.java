@@ -60,11 +60,13 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	/* SAVE & LOAD */
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 		moduleHandler.writeToNBT(compound);
 		return compound;
 	}
 	
 	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
 		moduleHandler.readFromNBT(compound);
 	}
 	
@@ -93,7 +95,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	private void addToList(Set<IModule> modules, IModule module) {
 		modules.add(module);
-		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 		if (moduleProvider == null) {
 			return;
 		}
@@ -105,7 +107,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	public AxisAlignedBB getBoundingBox() {
 		AxisAlignedBB boundingBox = null;
 		for (IModule module : getModules()) {
-			for (IBoundingBoxComponent component : module.getInterfaces(IBoundingBoxComponent.class)) {
+			for (IBoundingBoxComponent component : module.getComponents(IBoundingBoxComponent.class)) {
 				AxisAlignedBB alignedBB = component.getCollisionBox();
 				if (boundingBox == null) {
 					boundingBox = alignedBB;
@@ -147,7 +149,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			return true;
 		}
 		IModule module = getModule(hit.subHit);
-		return module != null && module.getInterfaces(IInteractionComponent.class).stream().anyMatch(c -> c.onActivated(player, hand, hit));
+		return module != null && module.getComponents(IInteractionComponent.class).stream().anyMatch(c -> c.onActivated(player, hand, hit));
 	}
 	
 	public void onClick(EntityPlayer player, RayTraceResult hit) {
@@ -158,7 +160,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (module == null) {
 			return;
 		}
-		module.getInterfaces(IInteractionComponent.class).forEach(c -> c.onClick(player, hit));
+		module.getComponents(IInteractionComponent.class).forEach(c -> c.onClick(player, hit));
 	}
 	
 	@Override
@@ -175,7 +177,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		}
 		return modules
 				.stream()
-				.map(m -> m.getInterfaces(IBoundingBoxComponent.class))
+				.map(m -> m.getComponents(IBoundingBoxComponent.class))
 				.flatMap(Collection::stream)
 				.map(c -> c.collisionRayTrace(startVec, endVec))
 				.filter(Objects::nonNull)
@@ -281,8 +283,8 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (isMarkedForDeletion()) {
 			locatable.getWorldObj().setBlockToAir(locatable.getCoordinates());
 		}
-		getInterfaces(ITickable.class).forEach(ITickable::update);
-		getModules().stream().map(m -> m.getInterfaces(ITickable.class)).flatMap(Collection::stream).forEach(ITickable::update);
+		getComponents(ITickable.class).forEach(ITickable::update);
+		getModules().stream().map(m -> m.getComponents(ITickable.class)).flatMap(Collection::stream).forEach(ITickable::update);
 	}
 	
 	@Override
@@ -305,14 +307,14 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public void onModuleRemoved(IModule module) {
-		for (IModuleListener listener : getInterfaces(IModuleListener.class)) {
+		for (IModuleListener listener : getComponents(IModuleListener.class)) {
 			listener.onModuleRemoved(module);
 		}
 	}
 	
 	@Override
 	public void onModuleAdded(IModule module) {
-		for (IModuleListener listener : getInterfaces(IModuleListener.class)) {
+		for (IModuleListener listener : getComponents(IModuleListener.class)) {
 			listener.onModuleAdded(module);
 		}
 	}

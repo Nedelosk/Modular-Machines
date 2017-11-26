@@ -28,7 +28,7 @@ public class FluidManager extends ContainerComponent implements IFluidHandler, I
 	
 	@Override
 	public void onModuleRemoved(IModule module) {
-		IFluidHandler fluidHandler = module.getInterface(IFluidHandler.class);
+		IFluidHandler fluidHandler = module.getComponent(IFluidHandler.class);
 		if (fluidHandler != null) {
 			removeHandler(fluidHandler);
 		}
@@ -36,7 +36,7 @@ public class FluidManager extends ContainerComponent implements IFluidHandler, I
 	
 	@Override
 	public void onModuleAdded(IModule module) {
-		IFluidHandler fluidHandler = module.getInterface(IFluidHandler.class);
+		IFluidHandler fluidHandler = module.getComponent(IFluidHandler.class);
 		if (fluidHandler != null) {
 			addHandler(fluidHandler);
 		}

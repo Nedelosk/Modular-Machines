@@ -8,8 +8,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import modularmachines.api.components.INetworkComponent;
-import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
+import modularmachines.api.modules.energy.IHeatStep;
 
 public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>, INetworkComponent {
 	
@@ -17,6 +17,7 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 	protected final double capacity;
 	protected final double maxExtract;
 	protected final double maxReceive;
+	protected IHeatStep heatStep;
 	protected IHeatListener listener = () -> {
 	};
 	
@@ -76,10 +77,10 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		if (heatBuffer == max) {
 			return;
 		}
-		double step = getHeatLevel().getHeatStepUp();
-		double change = step + (((capacity - heatBuffer) / capacity) * step * heatModifier);
+		double step = getHeatStep().getHeatStepUp();
+		double change = step + (((max - heatBuffer) / max) * step * heatModifier);
 		heatBuffer += change;
-		heatBuffer = Math.min(heatBuffer, capacity);
+		heatBuffer = Math.min(heatBuffer, max);
 		listener.onChangeHeat();
 	}
 	
@@ -88,15 +89,15 @@ public class HeatBuffer implements IHeatSource, INBTSerializable<NBTTagCompound>
 		if (heatBuffer == HeatManager.COLD_TEMP) {
 			return;
 		}
-		double step = getHeatLevel().getHeatStepDown();
+		double step = getHeatStep().getHeatStepDown();
 		double change = step + ((heatBuffer / capacity) * step * heatModifier);
 		heatBuffer -= change;
 		heatBuffer = Math.max(heatBuffer, HeatManager.COLD_TEMP);
 		listener.onChangeHeat();
 	}
 	
-	public HeatLevel getHeatLevel() {
-		return HeatManager.getHeatLevel(heatBuffer);
+	public HeatStep getHeatStep() {
+		return HeatManager.getHeatStep(heatBuffer);
 	}
 	
 	@Override

@@ -144,7 +144,7 @@ public class ModuleUtil {
 		if (module == null) {
 			return null;
 		}
-		return module.getInterface(componentClass);
+		return module.getComponent(componentClass);
 	}
 	
 	@Nullable

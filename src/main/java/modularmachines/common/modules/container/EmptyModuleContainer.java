@@ -18,7 +18,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.components.IComponent;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.container.ContainerComponent;
@@ -111,26 +110,20 @@ public enum EmptyModuleContainer implements IModuleContainer {
 		return new Class[0];
 	}
 	
-	@Override
-	public boolean hasComponent(Class<?> componentClass) {
-		return false;
-	}
-	
 	@Nullable
 	@Override
-	public <T extends IComponent> T getComponent(Class<T> componentClass) {
-		return null;
-	}
-	
-	@Nullable
-	@Override
-	public <T> T getInterface(Class<T> interfaceClass) {
+	public <T> T getComponent(Class<T> interfaceClass) {
 		return null;
 	}
 	
 	@Override
-	public <T> Collection<T> getInterfaces(Class<T> interfaceClass) {
+	public <T> Collection<T> getComponents(Class<T> interfaceClass) {
 		return Collections.emptyList();
+	}
+	
+	@Override
+	public boolean hasComponent(Class<?> interfaceClass) {
+		return false;
 	}
 	
 	@Override

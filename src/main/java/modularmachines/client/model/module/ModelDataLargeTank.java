@@ -37,7 +37,7 @@ public class ModelDataLargeTank extends ModelData {
 		if (layer == BlockRenderLayer.CUTOUT) {
 			super.addModel(modelList, module, modelState, layer);
 		} else {
-			IFluidHandlerComponent component = module.getInterface(IFluidHandlerComponent.class);
+			IFluidHandlerComponent component = module.getComponent(IFluidHandlerComponent.class);
 			if (component != null) {
 				IFluidHandlerComponent.ITank tank = component.getTank(0);
 				if (tank != null) {

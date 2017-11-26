@@ -4,50 +4,49 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import modularmachines.api.modules.energy.HeatLevel;
-
 public class HeatManager {
 	
-	private static final List<HeatLevel> HEAT_LEVELS = new ArrayList<>();
+	private static final List<HeatStep> HEAT_STEPS = new ArrayList<>();
 	public static final float COLD_TEMP = 20;
-	public static final int STEAM_PER_UNIT_WATER = 160;
+	public static final int STEAM_PER_UNIT_WATER = 40;
 	public static final float BOILING_POINT = 100;
 	
 	private HeatManager() {
 	}
 	
 	static {
-		registerType(new HeatLevel(COLD_TEMP, 0.1, 0.02));
-		registerType(new HeatLevel(50, 0.085, 0.035));
-		registerType(new HeatLevel(100, 0.075, 0.045));
-		registerType(new HeatLevel(150, 0.065, 0.050));
-		registerType(new HeatLevel(200, 0.035, 0.055));
-		registerType(new HeatLevel(250, 0.030, 0.060));
-		registerType(new HeatLevel(300, 0.025, 0.065));
-		registerType(new HeatLevel(400, 0.020, 0.065));
-		registerType(new HeatLevel(500, 0.015, 0.075));
-		registerType(new HeatLevel(750, 0.005, 0.085));
+		registerType(COLD_TEMP, 0.1, 0.02);
+		registerType(50, 0.085, 0.035);
+		registerType(100, 0.075, 0.045);
+		registerType(150, 0.065, 0.050);
+		registerType(200, 0.035, 0.055);
+		registerType(250, 0.030, 0.060);
+		registerType(300, 0.025, 0.065);
+		registerType(400, 0.020, 0.065);
+		registerType(500, 0.015, 0.075);
+		registerType(750, 0.005, 0.085);
 	}
 	
-	public static void registerType(HeatLevel heatLevel) {
-		if (!HEAT_LEVELS.contains(heatLevel)) {
-			heatLevel.setIndex(HEAT_LEVELS.size());
-			HEAT_LEVELS.add(heatLevel);
-			Collections.sort(HEAT_LEVELS);
+	public static void registerType(double heatMin, double heatStepUp, double heatStepDown) {
+		HeatStep heatStep = new HeatStep(heatMin, heatStepUp, heatStepDown);
+		if (!HEAT_STEPS.contains(heatStep)) {
+			heatStep.setIndex(HEAT_STEPS.size());
+			HEAT_STEPS.add(heatStep);
+			Collections.sort(HEAT_STEPS);
 		}
 	}
 	
-	public static int getHeatLevelIndex(HeatLevel level) {
-		return HEAT_LEVELS.indexOf(level);
+	public static int getHeatLevelIndex(HeatStep level) {
+		return HEAT_STEPS.indexOf(level);
 	}
 	
-	public static HeatLevel getHeatLevel(double heat) {
-		for (int i = HEAT_LEVELS.size() - 1; i >= 0; i--) {
-			HeatLevel level = HEAT_LEVELS.get(i);
-			if (level.getHeatMin() <= heat) {
-				return level;
+	public static HeatStep getHeatStep(double heat) {
+		for (int i = HEAT_STEPS.size() - 1; i >= 0; i--) {
+			HeatStep step = HEAT_STEPS.get(i);
+			if (step.getHeatMin() <= heat) {
+				return step;
 			}
 		}
-		return null;
+		return HEAT_STEPS.get(0);
 	}
 }

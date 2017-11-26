@@ -37,6 +37,8 @@ import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.client.model.BuiltInModelLoader;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.module.ModuleModelLoader;
+import modularmachines.client.renderer.ModuleContainerTESR;
+import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.modules.ModuleDefinition;
@@ -52,6 +54,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		ModelManager.getInstance().registerModels();
 		ModelLoaderRegistry.registerLoader(new BuiltInModelLoader(ModelManager.getInstance().getBuiltInModels()));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityModuleContainer.class, new ModuleContainerTESR());
 	}
 	
 	@Override
@@ -167,7 +170,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void markForModelUpdate(IModule module) {
-		IModelComponent component = module.getInterface(IModelComponent.class);
+		IModelComponent component = module.getComponent(IModelComponent.class);
 		if (component != null) {
 			component.setModelNeedReload(true);
 		}

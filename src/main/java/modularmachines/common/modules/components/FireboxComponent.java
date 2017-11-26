@@ -11,7 +11,7 @@ import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IActivatableComponent;
 import modularmachines.api.modules.components.IFuelComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.common.modules.container.components.HeatComponent;
+import modularmachines.api.modules.energy.IHeatSource;
 
 public class FireboxComponent extends TickableComponent implements INetworkComponent, IActivatableComponent, INBTWritable,
 		INBTReadable {
@@ -27,14 +27,14 @@ public class FireboxComponent extends TickableComponent implements INetworkCompo
 	@Override
 	public void update() {
 		super.update();
-		IFuelComponent fuelComponent = provider.getInterface(IFuelComponent.class);
 		IModuleContainer container = provider.getContainer();
-		if (fuelComponent == null || !tickHelper.updateOnInterval(20)) {
+		IFuelComponent fuelComponent = provider.getComponent(IFuelComponent.class);
+		IHeatSource heatSource = container.getComponent(IHeatSource.class);
+		if (fuelComponent == null || heatSource == null || !tickHelper.updateOnInterval(20)) {
 			return;
 		}
 		if (fuelComponent.hasFuel()) {
-			HeatComponent heatComponent = container.getComponent(HeatComponent.class);
-			heatComponent.increaseHeat(maxHeat, heatModifier);
+			heatSource.increaseHeat(maxHeat, heatModifier);
 			fuelComponent.removeFuel();
 			setActive(true);
 		} else {

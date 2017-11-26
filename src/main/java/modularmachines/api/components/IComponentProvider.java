@@ -18,13 +18,11 @@ public interface IComponentProvider<C extends IComponent> extends INBTReadable, 
 	/* CLASSES */
 	Class<?>[] getComponentInterfaces(Class<? extends C> componentClass);
 	
-	boolean hasComponent(Class<?> componentClass);
-	
-	<T extends IComponent> T getComponent(Class<T> componentClass);
-	
 	/* INTERFACES*/
 	@Nullable
-	<T> T getInterface(Class<T> interfaceClass);
+	<T> T getComponent(Class<T> interfaceClass);
 	
-	<T> Collection<T> getInterfaces(Class<T> interfaceClass);
+	<T> Collection<T> getComponents(Class<T> interfaceClass);
+	
+	boolean hasComponent(final Class<?> interfaceClass);
 }

@@ -7,9 +7,11 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -26,11 +28,11 @@ import modularmachines.api.modules.INBTWritable;
 
 public class ComponentProvider<C extends IComponent> implements IComponentProvider<C> {
 	private final Map<Class<?>, List<C>> componentInterfaceMap;
-	private final Map<Class<?>, C> componentMap;
+	private final Set<C> components;
 	
 	public ComponentProvider() {
 		this.componentInterfaceMap = new LinkedHashMap<>();
-		this.componentMap = new LinkedHashMap<>();
+		this.components = new HashSet<>();
 	}
 	
 	@Nullable
@@ -46,7 +48,7 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	public static <T extends IComponent> T getInterface(final Class<T> interfaceClass, @Nullable Object inventory) {
 		IComponentProvider<T> provider = getProvider(inventory);
 		if (provider != null) {
-			return provider.getInterface(interfaceClass);
+			return provider.getComponent(interfaceClass);
 		}
 		if (interfaceClass.isInstance(inventory)) {
 			return interfaceClass.cast(inventory);
@@ -59,7 +61,7 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	public <T extends C> T addComponent(T component) {
 		Preconditions.checkNotNull(component, "Can't have a null component!");
 		component.setProvider(this);
-		this.componentMap.put(component.getClass(), component);
+		this.components.add(component);
 		for (Class<?> inter : component.getComponentInterfaces()) {
 			this.componentInterfaceMap.computeIfAbsent(inter, k -> new ArrayList<>()).add(component);
 		}
@@ -74,21 +76,14 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	}
 	
 	public Collection<C> getComponents() {
-		return this.componentMap.values();
-	}
-	
-	public <T extends IComponent> T getComponent(Class<T> componentClass) {
-		if (this.hasComponent(componentClass)) {
-			return componentClass.cast(this.componentMap.get(componentClass));
-		}
-		throw new IllegalArgumentException("No component found for " + componentClass);
+		return components;
 	}
 	
 	@Override
 	@Nullable
-	public <T> T getInterface(final Class<T> interfaceClass) {
-		if (this.hasInterface(interfaceClass)) {
-			return this.getInterfaces(interfaceClass).get(0);
+	public <T> T getComponent(final Class<T> interfaceClass) {
+		if (this.hasComponent(interfaceClass)) {
+			return this.getComponents(interfaceClass).get(0);
 		}
 		for (C component : this.getComponents()) {
 			if (interfaceClass.isInstance(component)) {
@@ -99,9 +94,9 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	}
 	
 	@Override
-	public <T> List<T> getInterfaces(final Class<T> interfaceClass) {
+	public <T> List<T> getComponents(final Class<T> interfaceClass) {
 		final List<T> interfaces = new ArrayList<>();
-		if (!this.hasInterface(interfaceClass)) {
+		if (!this.hasComponent(interfaceClass)) {
 			return interfaces;
 		}
 		for (C component : this.componentInterfaceMap.get(interfaceClass)) {
@@ -115,24 +110,20 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 		return ComponentManager.INSTANCE.getComponentInterfaces(interfaceClass);
 	}
 	
-	public boolean hasInterface(final Class<?> interfaceClass) {
+	public boolean hasComponent(final Class<?> interfaceClass) {
 		return this.componentInterfaceMap.containsKey(interfaceClass);
-	}
-	
-	public boolean hasComponent(Class<?> componentClass) {
-		return this.componentMap.containsKey(componentClass);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		for (INBTReadable readable : getInterfaces(INBTReadable.class)) {
+		for (INBTReadable readable : getComponents(INBTReadable.class)) {
 			readable.readFromNBT(compound);
 		}
 	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		for (INBTWritable writable : getInterfaces(INBTWritable.class)) {
+		for (INBTWritable writable : getComponents(INBTWritable.class)) {
 			writable.writeToNBT(compound);
 		}
 		return compound;
@@ -140,21 +131,21 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	
 	@Override
 	public void writeData(PacketBuffer data) {
-		for (INetworkComponent component : getInterfaces(INetworkComponent.class)) {
+		for (INetworkComponent component : getComponents(INetworkComponent.class)) {
 			component.writeData(data);
 		}
 	}
 	
 	@Override
 	public void readData(PacketBuffer data) throws IOException {
-		for (INetworkComponent component : getInterfaces(INetworkComponent.class)) {
+		for (INetworkComponent component : getComponents(INetworkComponent.class)) {
 			component.readData(data);
 		}
 	}
 	
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-		for (ICapabilityProvider component : getInterfaces(ICapabilityProvider.class)) {
+		for (ICapabilityProvider component : getComponents(ICapabilityProvider.class)) {
 			if (component.hasCapability(capability, facing)) {
 				return true;
 			}
@@ -165,7 +156,7 @@ public class ComponentProvider<C extends IComponent> implements IComponentProvid
 	@Nullable
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		for (ICapabilityProvider component : getInterfaces(ICapabilityProvider.class)) {
+		for (ICapabilityProvider component : getComponents(ICapabilityProvider.class)) {
 			T value = component.getCapability(capability, facing);
 			if (value != null) {
 				return value;

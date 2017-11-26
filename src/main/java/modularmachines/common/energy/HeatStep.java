@@ -1,13 +1,14 @@
-package modularmachines.api.modules.energy;
+package modularmachines.common.energy;
 
-public class HeatLevel implements Comparable<HeatLevel> {
-	
+import modularmachines.api.modules.energy.IHeatStep;
+
+public class HeatStep implements IHeatStep {
 	protected final double heatMin;
 	protected final double heatStepUp;
 	protected final double heatStepDown;
 	protected int index = -1;
 	
-	public HeatLevel(double heatMin, double heatStepUp, double heatStepDown) {
+	public HeatStep(double heatMin, double heatStepUp, double heatStepDown) {
 		this.heatMin = heatMin;
 		this.heatStepUp = heatStepUp;
 		this.heatStepDown = heatStepDown;
@@ -36,7 +37,7 @@ public class HeatLevel implements Comparable<HeatLevel> {
 	}
 	
 	@Override
-	public int compareTo(HeatLevel o) {
+	public int compareTo(IHeatStep o) {
 		if (o == null) {
 			return 1;
 		}

@@ -16,7 +16,7 @@ public abstract class ProcessEnergyComponent extends ProcessComponent implements
 	@Override
 	protected void progressTick() {
 		super.progressTick();
-		IEnergyStorage storage = provider.getContainer().getInterface(IEnergyStorage.class);
+		IEnergyStorage storage = provider.getContainer().getComponent(IEnergyStorage.class);
 		if (storage == null) {
 			return;
 		}

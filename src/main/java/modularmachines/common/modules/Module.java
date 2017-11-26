@@ -85,7 +85,7 @@ public class Module extends ComponentProvider<IModuleComponent> implements IModu
 	@Override
 	public ItemStack createItem() {
 		ItemStack itemStack = this.itemStack.copy();
-		for (IItemCreationListener listener : getInterfaces(IItemCreationListener.class)) {
+		for (IItemCreationListener listener : getComponents(IItemCreationListener.class)) {
 			itemStack = listener.createItem(itemStack);
 		}
 		return itemStack;

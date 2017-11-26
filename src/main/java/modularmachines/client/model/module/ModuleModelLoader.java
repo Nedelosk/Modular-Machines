@@ -111,7 +111,7 @@ public enum ModuleModelLoader {
 	
 	@Nullable
 	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex, BlockRenderLayer layer) {
-		IModelComponent component = module.getInterface(IModelComponent.class);
+		IModelComponent component = module.getComponent(IModelComponent.class);
 		if (component == null) {
 			return null;
 		}

@@ -32,7 +32,7 @@ public class ModelDataCasing extends ModelData {
 	
 	@Override
 	public IModuleModelState createState(IModule module) {
-		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 		if (moduleProvider == null) {
 			return EmptyModelState.INSTANCE;
 		}

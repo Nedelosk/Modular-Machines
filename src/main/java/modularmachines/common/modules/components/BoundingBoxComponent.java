@@ -29,12 +29,12 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 			return null;
 		}
 		double distance = trace.hitVec.squareDistanceTo(start);
-		IModuleProvider moduleProvider = provider.getInterface(IModuleProvider.class);
+		IModuleProvider moduleProvider = provider.getComponent(IModuleProvider.class);
 		if (moduleProvider != null) {
 			IModuleHandler handler = moduleProvider.getHandler();
 			Optional<RayTraceResult> result = handler.getModules()
 					.stream()
-					.map(m -> m.getInterfaces(IBoundingBoxComponent.class))
+					.map(m -> m.getComponents(IBoundingBoxComponent.class))
 					.flatMap(Collection::stream)
 					.map(c -> c.collisionRayTrace(start, end))
 					.filter(Objects::nonNull)

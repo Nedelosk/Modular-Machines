@@ -10,9 +10,9 @@ import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.container.ContainerComponent;
-import modularmachines.api.modules.energy.HeatLevel;
 import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.energy.HeatBuffer;
+import modularmachines.common.energy.HeatStep;
 import modularmachines.common.energy.IHeatListener;
 import modularmachines.common.utils.TickHelper;
 
@@ -36,7 +36,9 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		buffer.deserializeNBT(compound.getCompoundTag("Heat"));
+		if (compound.hasKey("Heat")) {
+			buffer.deserializeNBT(compound.getCompoundTag("Heat"));
+		}
 	}
 	
 	@Override
@@ -68,6 +70,7 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	@Override
 	public void onChangeHeat() {
 		container.sendToClient();
+		container.getLocatable().markLocatableDirty();
 	}
 	
 	@Override
@@ -91,8 +94,8 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	}
 	
 	@Override
-	public HeatLevel getHeatLevel() {
-		return buffer.getHeatLevel();
+	public HeatStep getHeatStep() {
+		return buffer.getHeatStep();
 	}
 	
 	public HeatBuffer getBuffer() {

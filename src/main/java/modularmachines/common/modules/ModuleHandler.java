@@ -116,12 +116,12 @@ public class ModuleHandler implements IModuleHandler {
 			if (provider instanceof IModuleComponent) {
 				IModuleComponent component = ((IModuleComponent) provider);
 				IModule parent = component.getProvider();
-				IModelComponent modelComponent = parent.getInterface(IModelComponent.class);
+				IModelComponent modelComponent = parent.getComponent(IModelComponent.class);
 				if (modelComponent != null) {
 					modelComponent.setModelNeedReload(true);
 				}
 			}
-			IModelComponent modelComponent = module.getInterface(IModelComponent.class);
+			IModelComponent modelComponent = module.getComponent(IModelComponent.class);
 			if (modelComponent != null) {
 				modelComponent.setModelNeedReload(true);
 			}
@@ -138,14 +138,14 @@ public class ModuleHandler implements IModuleHandler {
 		IModule module = getModule(position);
 		List<IModule> extractedModules = new ArrayList<>();
 		extractedModules.add(module);
-		IModuleProvider moduleProvider = module.getInterface(IModuleProvider.class);
+		IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 		if (moduleProvider != null) {
 			extractedModules.addAll(moduleProvider.getModules());
 		}
 		NonNullList<ItemStack> drops = NonNullList.create();
 		for (IModule otherModule : extractedModules) {
 			drops.add(otherModule.createItem());
-			otherModule.getInterfaces(IDropComponent.class).forEach(c -> c.addDrops(drops));
+			otherModule.getComponents(IDropComponent.class).forEach(c -> c.addDrops(drops));
 			MinecraftForge.EVENT_BUS.post(new ModuleEvents.DropEvent(module, drops));
 		}
 		if (simulate) {
@@ -167,7 +167,7 @@ public class ModuleHandler implements IModuleHandler {
 		} else {
 			if (provider instanceof IModule) {
 				IModule parent = (IModule) provider;
-				IModelComponent modelComponent = parent.getInterface(IModelComponent.class);
+				IModelComponent modelComponent = parent.getComponent(IModelComponent.class);
 				if (modelComponent != null) {
 					modelComponent.setModelNeedReload(true);
 				}

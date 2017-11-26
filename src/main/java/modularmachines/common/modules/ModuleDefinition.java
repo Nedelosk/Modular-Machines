@@ -252,7 +252,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			int index = itemHandler.addSlot().setFilter(ItemFliterFurnaceFuel.INSTANCE).getIndex();
 			module.addComponent(itemHandler);
 			module.addComponent(new FuelComponent.Items(25, index));
-			module.addComponent(new FireboxComponent(150, 2));
+			module.addComponent(new FireboxComponent(150, 8));
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
 		
@@ -326,7 +326,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			super.addComponents(module, factory);
 			module.addComponent(new BoilerComponent());
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}

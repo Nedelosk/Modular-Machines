@@ -28,7 +28,7 @@ public class ItemManager extends ContainerComponent implements IItemHandler, IMo
 	
 	@Override
 	public void onModuleRemoved(IModule module) {
-		IItemHandler itemHandler = module.getInterface(IItemHandler.class);
+		IItemHandler itemHandler = module.getComponent(IItemHandler.class);
 		if (itemHandler != null) {
 			removeHandler(itemHandler);
 		}
@@ -36,7 +36,7 @@ public class ItemManager extends ContainerComponent implements IItemHandler, IMo
 	
 	@Override
 	public void onModuleAdded(IModule module) {
-		IItemHandler itemHandler = module.getInterface(IItemHandler.class);
+		IItemHandler itemHandler = module.getComponent(IItemHandler.class);
 		if (itemHandler != null) {
 			addHandler(itemHandler);
 		}
