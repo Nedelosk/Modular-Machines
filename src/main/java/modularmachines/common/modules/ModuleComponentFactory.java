@@ -24,7 +24,7 @@ public enum ModuleComponentFactory implements IModuleComponentFactory {
 	@Override
 	public IItemHandlerComponent addItemHandler(IModule module) {
 		if (!module.hasComponent(IIOComponent.class)) {
-			module.addComponent(new IOComponent());
+			addIO(module);
 		}
 		return module.addComponent(new ItemHandlerComponent());
 	}
@@ -32,8 +32,13 @@ public enum ModuleComponentFactory implements IModuleComponentFactory {
 	@Override
 	public IFluidHandlerComponent addFluidHandler(IModule module) {
 		if (!module.hasComponent(IIOComponent.class)) {
-			module.addComponent(new IOComponent());
+			addIO(module);
 		}
 		return module.addComponent(new FluidHandlerComponent());
+	}
+	
+	@Override
+	public IIOComponent addIO(IModule module) {
+		return module.addComponent(new IOComponent());
 	}
 }

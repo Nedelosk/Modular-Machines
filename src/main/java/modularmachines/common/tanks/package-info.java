@@ -5,5 +5,6 @@ package modularmachines.common.tanks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import forestry.core.utils.FieldsAreNonnullByDefault;
+import modularmachines.common.utils.FieldsAreNonnullByDefault;
+
 import mcp.MethodsReturnNonnullByDefault;
