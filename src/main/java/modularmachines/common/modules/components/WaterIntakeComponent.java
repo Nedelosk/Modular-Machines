@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
-import modularmachines.api.modules.components.INeighborBlockComponent;
+import modularmachines.api.modules.components.block.INeighborBlockComponent;
 
 public class WaterIntakeComponent extends TickableComponent implements INBTWritable, INBTReadable,
 		INeighborBlockComponent {

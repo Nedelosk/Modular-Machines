@@ -9,7 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.EnumIOMode;
-import modularmachines.api.modules.components.IIOComponent;
+import modularmachines.api.modules.components.handlers.IIOComponent;
 
 public class SidedItemHandlerWrapper implements IItemHandler {
 	@Nullable

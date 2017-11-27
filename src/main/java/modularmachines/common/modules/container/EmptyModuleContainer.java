@@ -22,6 +22,8 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.events.Event;
+import modularmachines.api.modules.events.IEventListener;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.ModuleHandler;
 
@@ -83,6 +85,16 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	@Override
 	public boolean isMarkedForDeletion() {
 		return false;
+	}
+	
+	@Override
+	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener) {
+	
+	}
+	
+	@Override
+	public void receiveEvent(Event event) {
+	
 	}
 	
 	@Override
@@ -162,4 +174,6 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	@Override
 	public void update() {
 	}
+	
+	
 }

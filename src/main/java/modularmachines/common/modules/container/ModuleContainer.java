@@ -4,8 +4,10 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,12 +34,14 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.api.modules.components.IInteractionComponent;
 import modularmachines.api.modules.components.IModuleComponent;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.components.block.IInteractionComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.events.Event;
+import modularmachines.api.modules.events.IEventListener;
 import modularmachines.api.modules.listeners.IModuleListener;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
@@ -49,6 +53,7 @@ import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.components.ComponentProvider;
 
 public class ModuleContainer extends ComponentProvider<ContainerComponent> implements IModuleContainer {
+	private final Map<Class<? extends Event>, Set<IEventListener>> eventListeners;
 	private final ILocatable locatable;
 	private ModuleHandler moduleHandler;
 	private boolean markedForDeletion;
@@ -60,6 +65,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	public ModuleContainer(ILocatable locatable) {
 		this.locatable = locatable;
 		this.moduleHandler = new CasingModuleHandler(this, EnumCasingPositions.CENTER);
+		this.eventListeners = new HashMap<>();
 	}
 	
 	/* SAVE & LOAD */
@@ -328,5 +334,22 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		}
 		//reset module list
 		modules = null;
+	}
+	
+	@Override
+	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener) {
+		eventListeners.computeIfAbsent(eventClass, k -> new HashSet<>()).add(listener);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void receiveEvent(Event event) {
+		Set<IEventListener> listeners = eventListeners.get(event.getClass());
+		if (listeners == null) {
+			return;
+		}
+		for (IEventListener listener : listeners) {
+			listener.onEvent(event);
+		}
 	}
 }

@@ -3,6 +3,11 @@ package modularmachines.api.modules.components;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.components.block.IInteractionComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IIOComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 /**
  * A factory to create module components.

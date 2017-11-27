@@ -7,7 +7,7 @@ import net.minecraft.inventory.Slot;
 
 import modularmachines.api.IGuiProvider;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 public class ContainerChestModule extends BaseContainer {
 	

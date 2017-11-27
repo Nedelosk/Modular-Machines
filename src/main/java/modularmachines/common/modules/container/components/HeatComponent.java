@@ -1,35 +1,45 @@
 package modularmachines.common.modules.container.components;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ITickable;
 
 import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
+import modularmachines.api.modules.components.IFirebox;
 import modularmachines.api.modules.container.ContainerComponent;
-import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.common.energy.HeatBuffer;
+import modularmachines.api.modules.container.IHeatSource;
+import modularmachines.api.modules.events.Events;
+import modularmachines.api.modules.listeners.IModuleListener;
+import modularmachines.common.energy.HeatManager;
 import modularmachines.common.energy.HeatStep;
-import modularmachines.common.energy.IHeatListener;
 import modularmachines.common.utils.TickHelper;
 
-public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable, INBTWritable, IHeatListener, ITickable {
+public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable,
+		INBTWritable, ITickable, IModuleListener {
+	public static final double HEAT_STEP = 0.05D;
 	
-	protected final HeatBuffer buffer;
-	protected double lastHeat;
-	private TickHelper tickHelper = new TickHelper();
+	private final Set<IFirebox> fireboxes = new HashSet<>();
+	private final TickHelper tickHelper = new TickHelper();
+	
+	private double heat;
+	private double capacity;
 	
 	public HeatComponent() {
-		buffer = new HeatBuffer(500, 15F);
-		buffer.setListener(this);
+		this.capacity = 0;
+		this.heat = HeatManager.COLD_TEMP;
 	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		compound.setTag("Heat", buffer.serializeNBT());
+		compound.setDouble("Heat", heat);
 		return compound;
 	}
 	
@@ -37,78 +47,111 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		if (compound.hasKey("Heat")) {
-			buffer.deserializeNBT(compound.getCompoundTag("Heat"));
+			heat = compound.getDouble("Heat");
+			heat = Math.max(heat, HeatManager.COLD_TEMP);
 		}
-	}
-	
-	@Override
-	public double extractHeat(double maxExtract, boolean simulate) {
-		return buffer.extractHeat(maxExtract, simulate);
-	}
-	
-	@Override
-	public double receiveHeat(double maxReceive, boolean simulate) {
-		return buffer.receiveHeat(maxReceive, simulate);
-	}
-	
-	@Override
-	public void increaseHeat(double maxHeat, int heatModifier) {
-		buffer.increaseHeat(maxHeat, heatModifier);
 	}
 	
 	@Override
 	public void update() {
 		tickHelper.onTick();
 		if (tickHelper.updateOnInterval(40)) {
-			if (lastHeat == buffer.getHeatStored()) {
-				buffer.reduceHeat(1);
+			boolean activeFirebox = fireboxes.stream().anyMatch(IFirebox::isActive);
+			if (!activeFirebox || heat > capacity) {
+				reduceHeat(1);
 			}
-			lastHeat = buffer.getHeatStored();
 		}
 	}
 	
 	@Override
-	public void onChangeHeat() {
-		container.sendToClient();
-		container.getLocatable().markLocatableDirty();
+	public Collection<IFirebox> getFireboxes() {
+		return fireboxes;
+	}
+	
+	@Override
+	public double getMaxHeat() {
+		return capacity;
+	}
+	
+	@Override
+	public void onModuleRemoved(IModule module) {
+		Collection<IFirebox> fireboxes = module.getComponents(IFirebox.class);
+		if (!fireboxes.isEmpty()) {
+			this.fireboxes.removeAll(fireboxes);
+			calculateMaxHat();
+		}
+	}
+	
+	@Override
+	public void onModuleAdded(IModule module) {
+		Collection<IFirebox> fireboxes = module.getComponents(IFirebox.class);
+		if (!fireboxes.isEmpty()) {
+			this.fireboxes.addAll(fireboxes);
+			calculateMaxHat();
+		}
+	}
+	
+	private void calculateMaxHat() {
+		double maxHeat = 0.0F;
+		for (IFirebox firebox : fireboxes) {
+			maxHeat += firebox.getMaxHeat();
+		}
+		this.capacity = maxHeat / (double) fireboxes.size();
+	}
+	
+	public double getHeatLevel() {
+		return heat / capacity;
+	}
+	
+	@Override
+	public void increaseHeat(int heatModifier) {
+		if (heat >= capacity) {
+			return;
+		}
+		double change = HEAT_STEP + (((capacity - heat) / capacity) * HEAT_STEP * heatModifier);
+		heat += change;
+		heat = Math.min(heat, capacity);
+		onChangeHeat(change);
 	}
 	
 	@Override
 	public void reduceHeat(int heatModifier) {
-		buffer.reduceHeat(heatModifier);
+		if (heat == HeatManager.COLD_TEMP) {
+			return;
+		}
+		double change = HEAT_STEP + ((heat / capacity) * HEAT_STEP * heatModifier);
+		heat -= change;
+		heat = Math.max(heat, HeatManager.COLD_TEMP);
+		onChangeHeat(change);
+	}
+	
+	private void onChangeHeat(double change) {
+		container.sendToClient();
+		container.getLocatable().markLocatableDirty();
+		container.receiveEvent(new Events.HeatChangeEvent(change));
+	}
+	
+	public HeatStep getHeatStep() {
+		return HeatManager.getHeatStep(heat);
+	}
+	
+	@Override
+	public double getHeat() {
+		return heat;
 	}
 	
 	@Override
 	public void setHeatStored(double heatBuffer) {
-		buffer.setHeatStored(heatBuffer);
-	}
-	
-	@Override
-	public double getHeatStored() {
-		return buffer.getHeatStored();
-	}
-	
-	@Override
-	public double getCapacity() {
-		return buffer.getCapacity();
-	}
-	
-	@Override
-	public HeatStep getHeatStep() {
-		return buffer.getHeatStep();
-	}
-	
-	public HeatBuffer getBuffer() {
-		return buffer;
+		this.heat = heatBuffer;
 	}
 	
 	@Override
 	public void writeData(PacketBuffer data) {
-		buffer.writeData(data);
+		data.writeDouble(heat);
 	}
 	
 	@Override
 	public void readData(PacketBuffer data) throws IOException {
-		buffer.readData(data);
+		heat = data.readDouble();
 	}
 }

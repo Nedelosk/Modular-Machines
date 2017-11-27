@@ -11,7 +11,7 @@ import net.minecraftforge.items.IItemHandler;
 
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
-import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
 	private final IItemHandlerComponent[] itemHandler;

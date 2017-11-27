@@ -9,7 +9,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.IModelList;

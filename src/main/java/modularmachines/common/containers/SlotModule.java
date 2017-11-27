@@ -12,7 +12,7 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 public class SlotModule extends SlotItemHandler {
 	

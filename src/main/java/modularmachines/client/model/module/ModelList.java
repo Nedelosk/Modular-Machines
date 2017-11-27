@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IBoundingBoxComponent;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelLocations;
 import modularmachines.api.modules.model.IModelProperty;

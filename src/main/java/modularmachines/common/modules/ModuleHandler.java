@@ -27,9 +27,9 @@ import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleEvents;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.components.IDropComponent;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.components.IModuleComponent;
+import modularmachines.api.modules.components.block.IDropComponent;
 import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
@@ -100,6 +100,9 @@ public class ModuleHandler implements IModuleHandler {
 		moduleStack.setCount(1);
 		IModule module = ModuleManager.factory.createModule(this, position, container, moduleStack);
 		modules.put(position, module);
+		for (IModuleComponent component : module.getComponents()) {
+			component.onModuleAdded();
+		}
 		provider.getContainer().onModuleAdded(module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
@@ -153,6 +156,9 @@ public class ModuleHandler implements IModuleHandler {
 		}
 		modules.put(position, ModuleManager.factory.createEmptyModule(this, position));
 		provider.getContainer().onModuleRemoved(module);
+		for (IModuleComponent component : module.getComponents()) {
+			component.onModuleRemoved();
+		}
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
 		World world = locatable.getWorldObj();

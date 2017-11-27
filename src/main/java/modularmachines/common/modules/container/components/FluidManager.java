@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
 
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.listeners.IModuleListener;
 import modularmachines.common.tanks.FluidHandlerWrapper;

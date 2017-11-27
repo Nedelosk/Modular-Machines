@@ -42,8 +42,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.api.modules.components.INeighborBlockComponent;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.components.block.INeighborBlockComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;

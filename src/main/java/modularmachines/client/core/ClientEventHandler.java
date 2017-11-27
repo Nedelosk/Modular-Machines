@@ -28,7 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IIOComponent;
+import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
 import modularmachines.common.ModularMachines;

@@ -10,13 +10,13 @@ import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
-import modularmachines.api.modules.components.IFluidHandlerComponent;
 import modularmachines.api.modules.components.IFuelComponent;
-import modularmachines.api.modules.components.IItemHandlerComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 public abstract class FuelComponent extends ModuleComponent implements INBTWritable, INBTReadable, IFuelComponent {
-	protected int fuel;
-	protected int fuelTotal;
+	int fuel;
+	int fuelTotal;
 	private final int fuelPerUse;
 	
 	public FuelComponent(int fuelPerUse) {
@@ -36,20 +36,24 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 		return compound;
 	}
 	
+	@Override
 	public int getFuel() {
 		return fuel;
 	}
 	
+	@Override
 	public int getFuelTotal() {
 		return fuelTotal;
 	}
 	
+	@Override
 	public boolean hasFuel() {
 		return fuel > 0;
 	}
 	
-	public void removeFuel() {
-		fuel -= fuelPerUse;
+	@Override
+	public void removeFuel(double modifier) {
+		fuel -= fuelPerUse * modifier;
 	}
 	
 	public static class Items extends FuelComponent {

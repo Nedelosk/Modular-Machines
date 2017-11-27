@@ -4,21 +4,20 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.energy.IHeatSource;
-import modularmachines.api.modules.energy.IHeatStep;
+import modularmachines.api.modules.container.IHeatSource;
 import modularmachines.common.energy.HeatManager;
-import modularmachines.common.modules.components.energy.ProcessComponent;
+import modularmachines.common.modules.components.process.ProcessComponent;
+import modularmachines.common.modules.components.process.criteria.ProcessLogic;
 
 public class BoilerComponent extends ProcessComponent {
 	public static int waterPerWork = 50;
 	public static int processLength = 40;
 	
-	@Override
+	/*@Override
 	public boolean canWork() {
 		IModuleContainer container = provider.getContainer();
 		IHeatSource heatSource = container.getComponent(IHeatSource.class);
-		if (heatSource == null || heatSource.getHeatStored() < HeatManager.BOILING_POINT) {
+		if (heatSource == null || heatSource.getHeat() < HeatManager.BOILING_POINT) {
 			return false;
 		}
 		IFluidHandler handler = container.getComponent(IFluidHandler.class);
@@ -37,7 +36,7 @@ public class BoilerComponent extends ProcessComponent {
 	public boolean canProgress() {
 		IModuleContainer container = provider.getContainer();
 		IHeatSource heatSource = container.getComponent(IHeatSource.class);
-		if (heatSource == null || heatSource.getHeatStored() < HeatManager.BOILING_POINT) {
+		if (heatSource == null || heatSource.getHeat() < HeatManager.BOILING_POINT) {
 			return false;
 		}
 		IFluidHandler handler = container.getComponent(IFluidHandler.class);
@@ -49,6 +48,13 @@ public class BoilerComponent extends ProcessComponent {
 			return false;
 		}
 		return super.canProgress();
+	}*/
+	
+	@Override
+	protected void addCriteria(ProcessLogic logic) {
+		logic.addHeat(HeatManager.BOILING_POINT);
+		logic.addFluidDrain(FluidRegistry.WATER);
+		logic.addFluidFill(new FluidStack(FluidRegistry.getFluid("steam"), HeatManager.STEAM_PER_UNIT_WATER), false);
 	}
 	
 	@Override
@@ -81,7 +87,7 @@ public class BoilerComponent extends ProcessComponent {
 		if (heatSource == null) {
 			return 0;
 		}
-		IHeatStep heatLevel = heatSource.getHeatStep();
-		return (heatLevel.getIndex() - 1) * waterPerWork;
+		double heatLevel = heatSource.getHeatLevel();
+		return (int) ((heatLevel) * waterPerWork);
 	}
 }

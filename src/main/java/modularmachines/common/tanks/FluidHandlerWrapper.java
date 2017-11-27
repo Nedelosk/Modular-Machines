@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
-import modularmachines.api.modules.components.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 
 public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 	private final IFluidHandlerComponent[] subHandlers;

@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.fml.common.Optional;
 
+import modularmachines.api.modules.container.IHeatSource;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.energy.IHeatSource;
 import modularmachines.common.core.Constants;
 import modularmachines.common.energy.HeatManager;
 import modularmachines.common.modules.ModuleCapabilities;
@@ -58,9 +58,9 @@ public class ProbeProvider implements IProbeInfoProvider, Function<ITheOneProbe,
 		}
 		IProbeInfo containerInfo = probeInfo.vertical();
 		IHeatSource heatSource = container.getComponent(IHeatSource.class);
-		if (heatSource != null && heatSource.getHeatStored() != HeatManager.COLD_TEMP) {
+		if (heatSource != null && heatSource.getHeat() != HeatManager.COLD_TEMP) {
 			IProgressStyle style = containerInfo.defaultProgressStyle().filledColor(0xff990000).alternateFilledColor(0xff550000).borderColor(0).prefix("Heat ");
-			containerInfo.progress((int) heatSource.getHeatStored(), (int) heatSource.getCapacity(), style);
+			containerInfo.progress((int) heatSource.getHeat(), (int) heatSource.getMaxHeat(), style);
 		}
 	}
 }

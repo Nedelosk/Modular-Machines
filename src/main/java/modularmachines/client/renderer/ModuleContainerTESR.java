@@ -17,8 +17,8 @@ import net.minecraft.util.math.RayTraceResult;
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.api.modules.components.IIOComponent;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 

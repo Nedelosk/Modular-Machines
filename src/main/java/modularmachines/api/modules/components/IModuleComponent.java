@@ -13,4 +13,16 @@ public interface IModuleComponent extends IComponent<IModule> {
 	 */
 	default void onCreateModule() {
 	}
+	
+	/**
+	 * Called after the module was added to the {@link modularmachines.api.modules.IModuleHandler}.
+	 */
+	default void onModuleAdded() {
+	}
+	
+	/**
+	 * Called after the module was removed from the {@link modularmachines.api.modules.IModuleHandler}.
+	 */
+	default void onModuleRemoved() {
+	}
 }

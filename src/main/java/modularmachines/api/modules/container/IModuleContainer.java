@@ -18,6 +18,8 @@ import modularmachines.api.ILocatableSource;
 import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.events.Event;
+import modularmachines.api.modules.events.IEventListener;
 import modularmachines.api.modules.listeners.IModuleListener;
 
 /**
@@ -79,4 +81,9 @@ public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICa
 	void markForDeletion();
 	
 	boolean isMarkedForDeletion();
+	
+	/* EVENTS */
+	<E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener);
+	
+	void receiveEvent(Event event);
 }

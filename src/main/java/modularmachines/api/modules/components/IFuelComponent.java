@@ -7,7 +7,7 @@ public interface IFuelComponent extends IModuleComponent {
 	
 	boolean hasFuel();
 	
-	void removeFuel();
+	void removeFuel(double modifier);
 	
 	void updateFuel();
 }

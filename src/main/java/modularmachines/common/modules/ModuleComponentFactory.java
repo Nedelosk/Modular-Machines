@@ -3,18 +3,18 @@ package modularmachines.common.modules;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.components.IBoundingBoxComponent;
-import modularmachines.api.modules.components.IFluidHandlerComponent;
 import modularmachines.api.modules.components.IGuiFactory;
-import modularmachines.api.modules.components.IIOComponent;
-import modularmachines.api.modules.components.IInteractionComponent;
-import modularmachines.api.modules.components.IItemHandlerComponent;
 import modularmachines.api.modules.components.IModuleComponentFactory;
-import modularmachines.common.modules.components.BoundingBoxComponent;
-import modularmachines.common.modules.components.FluidHandlerComponent;
-import modularmachines.common.modules.components.GuiComponent;
-import modularmachines.common.modules.components.IOComponent;
-import modularmachines.common.modules.components.ItemHandlerComponent;
+import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.components.block.IInteractionComponent;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
+import modularmachines.api.modules.components.handlers.IIOComponent;
+import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
+import modularmachines.common.modules.components.block.BoundingBoxComponent;
+import modularmachines.common.modules.components.block.GuiComponent;
+import modularmachines.common.modules.components.handlers.FluidHandlerComponent;
+import modularmachines.common.modules.components.handlers.IOComponent;
+import modularmachines.common.modules.components.handlers.ItemHandlerComponent;
 
 public enum ModuleComponentFactory implements IModuleComponentFactory {
 	INSTANCE;
