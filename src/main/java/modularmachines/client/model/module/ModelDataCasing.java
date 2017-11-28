@@ -1,5 +1,7 @@
 package modularmachines.client.model.module;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.BlockRenderLayer;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,7 +48,7 @@ public class ModelDataCasing extends ModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, @Nullable BlockRenderLayer layer) {
 		if (modelState.get(Property.LEFT)) {
 			modelList.add(Property.LEFT);
 		}

@@ -1,9 +1,11 @@
 package modularmachines.api.modules.container;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -52,6 +54,8 @@ public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICa
 	}
 	
 	boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit);
+	
+	List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate);
 	
 	void onClick(EntityPlayer player, RayTraceResult hit);
 	

@@ -5,8 +5,10 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
@@ -56,6 +58,12 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	public boolean onActivated(EntityPlayer player, EnumHand hand, RayTraceResult hit) {
 		return false;
 	}
+	
+	@Override
+	public List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
+		return null;
+	}
+	
 	
 	@Override
 	public void onClick(EntityPlayer player, RayTraceResult hit) {

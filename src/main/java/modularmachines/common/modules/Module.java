@@ -49,7 +49,6 @@ public final class Module extends ComponentProvider<IModuleComponent> implements
 		this.data = moduleData;
 		this.index = this.container.generateIndex(this);
 		this.itemStack = new ItemStack(compound.getCompoundTag("Parent"));
-		readFromNBT(compound);
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {

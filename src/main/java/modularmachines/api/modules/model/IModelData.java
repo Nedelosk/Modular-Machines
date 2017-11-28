@@ -1,5 +1,7 @@
 package modularmachines.api.modules.model;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.BlockRenderLayer;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -10,7 +12,7 @@ import modularmachines.api.modules.IModule;
 @SideOnly(Side.CLIENT)
 public interface IModelData {
 	
-	void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer);
+	void addModel(IModelList modelList, IModule module, IModuleModelState modelState, @Nullable BlockRenderLayer layer);
 	
 	default boolean handlesChildren() {
 		return false;

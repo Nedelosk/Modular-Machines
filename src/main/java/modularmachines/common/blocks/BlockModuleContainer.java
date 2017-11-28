@@ -29,7 +29,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -116,7 +115,28 @@ public class BlockModuleContainer extends Block {
 	
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-		return super.removedByPlayer(state, world, pos, player, willHarvest);
+		return !removeModule(world, pos, player, !player.isCreative()).isEmpty() || super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+	
+	private List<ItemStack> removeModule(IBlockAccess world, BlockPos pos, EntityPlayer player, boolean simulate) {
+		IModuleContainer container = ModuleUtil.getContainer(pos, world);
+		if (container == null) {
+			return Collections.emptyList();
+		}
+		Pair<Vec3d, Vec3d> vectors = RayTraceHelper.getRayTraceVectors(player);
+		RayTraceResult hit = container.collisionRayTrace(pos, vectors.getKey(), vectors.getValue());
+		if (hit == null) {
+			return Collections.emptyList();
+		}
+		return container.extractModule(hit, simulate);
+	}
+	
+	@Override
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		drops.addAll(removeModule(world, pos, harvesters.get(), false));
+		if (drops.isEmpty()) {
+			super.getDrops(drops, world, pos, state, fortune);
+		}
 	}
 	
 	@Override
@@ -188,16 +208,6 @@ public class BlockModuleContainer extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-	}
-	
-	@Override
-	public void onBlockDestroyedByExplosion(World world, BlockPos pos, Explosion explosionIn) {
-		//dropModules(world, pos, null);
-	}
-	
-	@Override
-	public void onBlockHarvested(World world, BlockPos pos, IBlockState blockState, EntityPlayer player) {
-		//dropModules(world, pos, player);
 	}
 	
 	/*public void dropModules(World world, BlockPos pos, @Nullable EntityPlayer player){
@@ -328,11 +338,6 @@ public class BlockModuleContainer extends Block {
 	@Override
 	public EnumFacing[] getValidRotations(World world, BlockPos pos) {
 		return EnumFacing.HORIZONTALS;
-	}
-	
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return Collections.emptyList();
 	}
 	
 	@Override

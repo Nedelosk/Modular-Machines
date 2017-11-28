@@ -110,7 +110,7 @@ public enum ModuleModelLoader {
 	}
 	
 	@Nullable
-	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex, BlockRenderLayer layer) {
+	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex, @Nullable BlockRenderLayer layer) {
 		IModelComponent component = module.getComponent(IModelComponent.class);
 		if (component == null) {
 			return null;
@@ -118,7 +118,7 @@ public enum ModuleModelLoader {
 		IModuleModelState moduleModelState = component.getModelState();
 		IBakedModel model = cachedModels.getIfPresent(Pair.of(module.getData().getRegistryName(), moduleModelState));
 		IModelData data = getModelData(module);
-		if (data == null || !data.canRenderInLayer(module, layer)) {
+		if (data == null || layer != null && !data.canRenderInLayer(module, layer)) {
 			return null;
 		}
 		if (component.isModelNeedReload() || model == null) {

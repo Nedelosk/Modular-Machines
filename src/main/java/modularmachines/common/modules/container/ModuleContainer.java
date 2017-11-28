@@ -214,7 +214,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 				.orElse(null);
 	}
 	
-	private List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
+	public List<ItemStack> extractModule(RayTraceResult rayTraceResult, boolean simulate) {
 		if (markedForDeletion) {
 			return Collections.emptyList();
 		}

@@ -78,6 +78,7 @@ public enum ModuleFactory implements IModuleFactory {
 	public IModule createModule(NBTTagCompound compound, IModuleHandler parent, IModuleData moduleData, IModulePosition position) {
 		IModule module = new Module(parent, moduleData, position, compound);
 		createModule(module);
+		module.readFromNBT(compound);
 		return module;
 	}
 	

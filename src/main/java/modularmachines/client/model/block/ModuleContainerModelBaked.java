@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 
@@ -59,7 +60,16 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	@Nullable
 	private static IBakedModel bakeModel(IModuleContainer container, VertexFormat vertex, @Nullable EnumFacing facing) {
 		IModelState modelState = ModelManager.getInstance().getDefaultBlockState();
-		IBakedModel bakedModel = bakeModel(container, modelState, vertex, MinecraftForgeClient.getRenderLayer());
+		BlockRenderLayer layer = MinecraftForgeClient.getRenderLayer();
+		int focusedModule = -1;
+		//Damage Model
+		if (layer == null) {
+			RayTraceResult result = Minecraft.getMinecraft().objectMouseOver;
+			if (result != null) {
+				focusedModule = result.subHit;
+			}
+		}
+		IBakedModel bakedModel = bakeModel(container, modelState, vertex, MinecraftForgeClient.getRenderLayer(), focusedModule);
 		if (bakedModel != null) {
 			float rotation = 0F;
 			if (facing != null) {
@@ -77,14 +87,18 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	}
 	
 	@Nullable
-	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex, BlockRenderLayer layer) {
+	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex, @Nullable BlockRenderLayer layer, int focusedModule) {
 		List<IBakedModel> models = new ArrayList<>();
 		for (IModule module : provider.getHandler().getAllModules()) {
-			IBakedModel model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
+			IBakedModel model = null;
+			if (focusedModule == -1 || focusedModule == module.getIndex()) {
+				focusedModule = -1; //Add Children models to the damage model
+				model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
+			}
 			IModelData data = module.getData().getModel();
 			IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
-				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer);
+				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer, focusedModule);
 				if (bakedModel != null) {
 					if (model == null) {
 						model = BakedMultiModel.create(ImmutableList.of(bakedModel));

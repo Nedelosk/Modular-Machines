@@ -1,5 +1,7 @@
 package modularmachines.client.model.module;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -45,7 +47,7 @@ public class ModelDataActivatable extends ModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, @Nullable BlockRenderLayer layer) {
 		if (modelState.get(DefaultProperty.ACTIVE)) {
 			modelList.add(DefaultProperty.ACTIVE);
 		} else {

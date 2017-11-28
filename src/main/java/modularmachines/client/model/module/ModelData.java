@@ -43,7 +43,7 @@ public class ModelData implements IModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, @Nullable BlockRenderLayer layer) {
 		for (IModelProperty property : locations.getProperties()) {
 			if (modelState.get(property) || !modelState.has(property)) {
 				modelList.add(property);

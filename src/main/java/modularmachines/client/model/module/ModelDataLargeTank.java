@@ -1,5 +1,7 @@
 package modularmachines.client.model.module;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.BlockRenderLayer;
@@ -33,10 +35,8 @@ public class ModelDataLargeTank extends ModelData {
 	}
 	
 	@Override
-	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, BlockRenderLayer layer) {
-		if (layer == BlockRenderLayer.CUTOUT) {
-			super.addModel(modelList, module, modelState, layer);
-		} else {
+	public void addModel(IModelList modelList, IModule module, IModuleModelState modelState, @Nullable BlockRenderLayer layer) {
+		if (layer == BlockRenderLayer.TRANSLUCENT) {
 			IFluidHandlerComponent component = module.getComponent(IFluidHandlerComponent.class);
 			if (component != null) {
 				IFluidHandlerComponent.ITank tank = component.getTank(0);
@@ -56,6 +56,8 @@ public class ModelDataLargeTank extends ModelData {
 					}
 				}
 			}
+		} else {
+			super.addModel(modelList, module, modelState, layer);
 		}
 	}
 	
