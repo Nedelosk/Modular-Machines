@@ -5,12 +5,9 @@ import modularmachines.api.modules.container.IHeatSource;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.events.Events;
 
-public class HeatCriterion extends AbstractProcessCriterion {
-	private final double neededHeat;
-	
+public class HeatCriterion extends AbstractProcessCriterion<Double> {
 	public HeatCriterion(IProcessComponent component, double neededHeat) {
-		super(component);
-		this.neededHeat = neededHeat;
+		super(component, neededHeat);
 	}
 	
 	@Override
@@ -21,6 +18,6 @@ public class HeatCriterion extends AbstractProcessCriterion {
 	@Override
 	public void updateState() {
 		IHeatSource heatSource = component.getProvider().getContainer().getComponent(IHeatSource.class);
-		setState(heatSource != null && heatSource.getHeat() > neededHeat);
+		setState(heatSource != null && heatSource.getHeat() > requirement);
 	}
 }

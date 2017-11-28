@@ -10,13 +10,15 @@ import modularmachines.api.modules.components.process.IProcessCriterion;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.errors.IErrorState;
 
-public abstract class AbstractProcessCriterion implements IProcessCriterion {
+public abstract class AbstractProcessCriterion<R> implements IProcessCriterion<R> {
 	protected final IProcessComponent component;
+	protected R requirement;
 	private boolean state;
 	private boolean dirty;
 	
-	public AbstractProcessCriterion(IProcessComponent component) {
+	public AbstractProcessCriterion(IProcessComponent component, R requirement) {
 		this.component = component;
+		this.requirement = requirement;
 		markDirty();
 		IModuleContainer container = component.getProvider().getContainer();
 		registerListeners(container);
@@ -35,6 +37,18 @@ public abstract class AbstractProcessCriterion implements IProcessCriterion {
 			this.state = state;
 			component.getProvider().sendToClient();
 		}
+	}
+	
+	@Override
+	public R getRequirement() {
+		return requirement;
+	}
+	
+	/**
+	 * Only for internal use
+	 */
+	public void setRequirement(R requirement) {
+		this.requirement = requirement;
 	}
 	
 	@Nullable

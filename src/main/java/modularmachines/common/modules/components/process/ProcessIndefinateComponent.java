@@ -9,7 +9,7 @@ import modularmachines.common.modules.components.ModuleComponent;
 import modularmachines.common.modules.components.process.criteria.ProcessLogic;
 
 public abstract class ProcessIndefinateComponent extends ModuleComponent implements IProcessComponent, INBTReadable, INBTWritable {
-	private final ProcessLogic logic;
+	protected final ProcessLogic logic;
 	
 	private boolean inProgress;
 	private float actionPauseProcess;

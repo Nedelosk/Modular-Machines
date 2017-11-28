@@ -7,9 +7,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import modularmachines.api.modules.components.process.IProcessComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.events.Events;
+import modularmachines.common.utils.Log;
 
-public class DrainCriterion extends AbstractProcessCriterion {
-	private final FluidStack needed;
+public class DrainCriterion extends AbstractProcessCriterion<FluidStack> {
 	private final boolean internal;
 	
 	public DrainCriterion(IProcessComponent component, Fluid fluid, boolean internal) {
@@ -17,14 +17,28 @@ public class DrainCriterion extends AbstractProcessCriterion {
 	}
 	
 	public DrainCriterion(IProcessComponent component, FluidStack needed, boolean internal) {
-		super(component);
-		this.needed = needed;
+		super(component, needed);
 		this.internal = internal;
 	}
 	
 	@Override
 	protected void registerListeners(IModuleContainer container) {
 		container.registerListener(Events.FluidChangeEvent.class, e -> markDirty());
+	}
+	
+	@Override
+	public void work() {
+		IFluidHandler fluidHandler;
+		if (internal) {
+			fluidHandler = component.getProvider().getComponent(IFluidHandler.class);
+		} else {
+			fluidHandler = component.getProvider().getContainer().getComponent(IFluidHandler.class);
+		}
+		if (fluidHandler == null) {
+			Log.err("Failed to drain a tank, because no fluid handler exist.");
+			return;
+		}
+		fluidHandler.drain(requirement, true);
 	}
 	
 	@Override
@@ -39,7 +53,7 @@ public class DrainCriterion extends AbstractProcessCriterion {
 			setState(false);
 			return;
 		}
-		FluidStack drainedFluid = fluidHandler.drain(needed, false);
-		setState(drainedFluid != null && drainedFluid.amount >= needed.amount);
+		FluidStack drainedFluid = fluidHandler.drain(requirement, false);
+		setState(drainedFluid != null && drainedFluid.amount >= requirement.amount);
 	}
 }

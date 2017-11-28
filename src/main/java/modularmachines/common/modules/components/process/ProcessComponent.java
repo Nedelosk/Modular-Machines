@@ -60,6 +60,7 @@ public abstract class ProcessComponent extends ProcessIndefinateComponent implem
 	}
 	
 	protected void onFinishTask() {
+		logic.work();
 	}
 	
 	@Override

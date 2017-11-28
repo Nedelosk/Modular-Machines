@@ -21,6 +21,12 @@ public interface IModuleComponent extends IComponent<IModule> {
 	}
 	
 	/**
+	 * Called after the module was loaded from the NBT-Data and added to the {@link modularmachines.api.modules.IModuleHandler}.
+	 */
+	default void onModuleLoaded() {
+	}
+	
+	/**
 	 * Called after the module was removed from the {@link modularmachines.api.modules.IModuleHandler}.
 	 */
 	default void onModuleRemoved() {

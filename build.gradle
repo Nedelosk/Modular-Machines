@@ -85,6 +85,10 @@ repositories {
         name = "CoFH Maven"
         url = "http://maven.covers1624.net"
     }
+	maven { 
+		name = "Guide-API"
+		url 'http://tehnut.info/maven/'
+	}
 }
 
 dependencies {
@@ -99,6 +103,8 @@ dependencies {
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-${top_mcversion}:${top_version}"
 	//Redstone Flux 
 	compile "cofh:RedstoneFlux:${rf_version}:deobf"
+	//Guide-API
+	deobfCompile "info.amerifrance.guideapi:Guide-API:${guide_mcversion}-${guide_version}"
 }
 
 processResources {

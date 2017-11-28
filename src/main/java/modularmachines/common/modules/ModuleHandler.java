@@ -223,6 +223,9 @@ public class ModuleHandler implements IModuleHandler {
 			IModule module = ModuleManager.factory.createModule(tagCompound, this, data, position);
 			modules.put(position, module);
 			provider.getContainer().onModuleAdded(module);
+			for (IModuleComponent component : module.getComponents()) {
+				component.onModuleLoaded();
+			}
 		}
 	}
 	

@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
 import modularmachines.api.ILocatable;
-import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.events.Events;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.modules.container.components.EnergyManager;
 import modularmachines.common.modules.container.components.FluidManager;
@@ -113,8 +113,6 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	public void setFacing(EnumFacing facing) {
 		this.facing = facing;
-		for (IModule module : moduleContainer.getModules()) {
-			module.updateFacing();
-		}
+		moduleContainer.receiveEvent(new Events.FacingChangeEvent(moduleContainer, facing));
 	}
 }

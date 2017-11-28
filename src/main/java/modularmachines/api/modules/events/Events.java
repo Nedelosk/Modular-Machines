@@ -1,8 +1,11 @@
 package modularmachines.api.modules.events;
 
+import net.minecraft.util.EnumFacing;
+
 import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.components.IModuleComponent;
+import modularmachines.api.modules.container.IModuleContainer;
 
 public class Events extends Event {
 	private final IModuleComponent component;
@@ -43,6 +46,42 @@ public class Events extends Event {
 		
 		public double getHeat() {
 			return heat;
+		}
+	}
+	
+	/**
+	 * Fired after the container has loaded all data from the NBT.
+	 */
+	public static class ContainerLoadEvent extends Event {
+		private final IModuleContainer container;
+		
+		public ContainerLoadEvent(IModuleContainer container) {
+			this.container = container;
+		}
+		
+		public IModuleContainer getContainer() {
+			return container;
+		}
+	}
+	
+	/**
+	 * Fired after the block that contains this module has been rotated.
+	 */
+	public static class FacingChangeEvent extends Event {
+		private final IModuleContainer container;
+		private final EnumFacing facing;
+		
+		public FacingChangeEvent(IModuleContainer container, EnumFacing facing) {
+			this.container = container;
+			this.facing = facing;
+		}
+		
+		public EnumFacing getFacing() {
+			return facing;
+		}
+		
+		public IModuleContainer getContainer() {
+			return container;
 		}
 	}
 	

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,6 +42,7 @@ import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.events.Event;
+import modularmachines.api.modules.events.Events;
 import modularmachines.api.modules.events.IEventListener;
 import modularmachines.api.modules.listeners.IModuleListener;
 import modularmachines.api.modules.positions.EnumCasingPositions;
@@ -53,19 +55,20 @@ import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.components.ComponentProvider;
 
 public class ModuleContainer extends ComponentProvider<ContainerComponent> implements IModuleContainer {
-	private final Map<Class<? extends Event>, Set<IEventListener>> eventListeners;
+	private final Map<Class<? extends Event>, Set<IEventListener>> eventListeners = new HashMap<>();
 	private final ILocatable locatable;
 	private ModuleHandler moduleHandler;
 	private boolean markedForDeletion;
 	@Nullable
 	private Set<IModule> modules = null;
 	@Nullable
+	private Set<ITickable> tickables = null;
+	@Nullable
 	private AxisAlignedBB boundingBox = null;
 	
 	public ModuleContainer(ILocatable locatable) {
 		this.locatable = locatable;
 		this.moduleHandler = new CasingModuleHandler(this, EnumCasingPositions.CENTER);
-		this.eventListeners = new HashMap<>();
 	}
 	
 	/* SAVE & LOAD */
@@ -78,6 +81,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		moduleHandler.readFromNBT(compound);
+		receiveEvent(new Events.ContainerLoadEvent(this));
 	}
 	
 	@Override
@@ -105,6 +109,13 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		return modules;
 	}
 	
+	private Set<ITickable> getTickables() {
+		if (tickables == null) {
+			tickables = getModules().stream().map(m -> m.getComponents(ITickable.class)).flatMap(Collection::stream).collect(Collectors.toSet());
+		}
+		return tickables;
+	}
+	
 	private void addToList(Set<IModule> modules, IModule module) {
 		modules.add(module);
 		IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
@@ -118,7 +129,6 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	@Override
 	public AxisAlignedBB getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = null;
 			for (IModule module : getModules()) {
 				for (IBoundingBoxComponent component : module.getComponents(IBoundingBoxComponent.class)) {
 					AxisAlignedBB alignedBB = component.getCollisionBox();
@@ -297,7 +307,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 			locatable.getWorldObj().setBlockToAir(locatable.getCoordinates());
 		}
 		getComponents(ITickable.class).forEach(ITickable::update);
-		getModules().stream().map(m -> m.getComponents(ITickable.class)).flatMap(Collection::stream).forEach(ITickable::update);
+		getTickables().forEach(ITickable::update);
 	}
 	
 	@Override
@@ -325,6 +335,8 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		}
 		//reset module list
 		modules = null;
+		tickables = null;
+		boundingBox = null;
 	}
 	
 	@Override
@@ -334,6 +346,8 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		}
 		//reset module list
 		modules = null;
+		tickables = null;
+		boundingBox = null;
 	}
 	
 	@Override

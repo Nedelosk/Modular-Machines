@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -17,7 +16,7 @@ import modularmachines.api.modules.positions.IModulePosition;
 /**
  * It contains the components, the position and module handler of the module.
  */
-public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<IModuleComponent>, ICapabilityProvider {
+public interface IModule extends INBTWritable, IComponentProvider<IModuleComponent>, ICapabilityProvider {
 	
 	/**
 	 * @return The module handler that contains and handles this module.
@@ -64,12 +63,6 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	/* FACING */
 	
 	/**
-	 * Updates the facing of this module.
-	 * Called if the block that contains this module has been rotated.
-	 */
-	void updateFacing();
-	
-	/**
 	 * @return The facing of this module.
 	 */
 	EnumFacing getFacing();
@@ -83,11 +76,6 @@ public interface IModule extends INBTReadable, INBTWritable, IComponentProvider<
 	 * Returns true if the given side is the facing of the module.
 	 */
 	boolean isFacing(@Nullable EnumFacing side);
-	
-	/**
-	 * Rotates the give bounding box relative to the facing of this module.
-	 */
-	AxisAlignedBB rotateBoundingBox(AxisAlignedBB boundingBox);
 	
 	/**
 	 * Sends the data of all {@link modularmachines.api.components.INetworkComponent}s of this module to the client.

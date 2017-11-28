@@ -5,11 +5,18 @@ import javax.annotation.Nullable;
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.errors.IErrorState;
 
-public interface IProcessCriterion extends INetworkComponent {
+public interface IProcessCriterion<R> extends INetworkComponent {
+	
+	R getRequirement();
+	
+	void setRequirement(R requirement);
 	
 	boolean getState();
 	
 	void updateState();
+	
+	default void work() {
+	}
 	
 	@Nullable
 	IErrorState getError();

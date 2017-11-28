@@ -110,3 +110,11 @@ modularmachines.item.engine_electric_magmarium.name=Magmarium Electric Engine
 modularmachines.item.modules_boiler.name=Boiler
 modularmachines.item.modules_large_tank.name=Large Tank
 modularmachines.item.modules_firebox.name=Firebox
+
+####################################
+# Guide Book
+####################################
+guide.modularmachines.title=Book of Modularity
+guide.modularmachines.display=Book of Modularity
+guide.modularmachines.author=Modular Machines
+guide.modularmachines.welcome=Modular Machines

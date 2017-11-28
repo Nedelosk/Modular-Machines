@@ -14,13 +14,22 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
+import modularmachines.api.modules.events.Events;
 import modularmachines.common.modules.components.ModuleComponent;
+import modularmachines.common.utils.BoundingBoxHelper;
 
 public class BoundingBoxComponent extends ModuleComponent implements IBoundingBoxComponent {
 	private final AxisAlignedBB boundingBox;
+	@Nullable
+	private AxisAlignedBB collisionBox = null;
 	
 	public BoundingBoxComponent(AxisAlignedBB boundingBox) {
 		this.boundingBox = boundingBox;
+	}
+	
+	@Override
+	public void onCreateModule() {
+		provider.getContainer().registerListener(Events.FacingChangeEvent.class, e -> collisionBox = null);
 	}
 	
 	@Nullable
@@ -52,7 +61,7 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	}
 	
 	@Nullable
-	protected RayTraceResult rayTrace(Vec3d start, Vec3d end, IModule module, AxisAlignedBB boundingBox) {
+	private RayTraceResult rayTrace(Vec3d start, Vec3d end, IModule module, AxisAlignedBB boundingBox) {
 		RayTraceResult rayTrace = boundingBox.calculateIntercept(start, end);
 		if (rayTrace == null) {
 			return null;
@@ -64,8 +73,12 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	}
 	
 	public final AxisAlignedBB getCollisionBox() {
-		AxisAlignedBB boundingBox = getBoundingBox();
-		return provider.rotateBoundingBox(boundingBox).offset(this.provider.getPosition().getOffset());
+		if (collisionBox == null) {
+			AxisAlignedBB boundingBox = getBoundingBox();
+			BoundingBoxHelper helper = new BoundingBoxHelper(provider.getFacing());
+			collisionBox = helper.rotateBox(boundingBox).offset(this.provider.getPosition().getOffset());
+		}
+		return collisionBox;
 	}
 	
 	public AxisAlignedBB getBoundingBox() {

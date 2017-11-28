@@ -1,0 +1,10 @@
+@ParametersAreNonnullByDefault
+@FieldsAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package modularmachines.common.compat.guideapi;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import modularmachines.common.utils.FieldsAreNonnullByDefault;
+
+import mcp.MethodsReturnNonnullByDefault;

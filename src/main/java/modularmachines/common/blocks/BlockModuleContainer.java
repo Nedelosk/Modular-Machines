@@ -115,6 +115,11 @@ public class BlockModuleContainer extends Block {
 	}
 	
 	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+	
+	@Override
 	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, world);
 		if (container == null) {

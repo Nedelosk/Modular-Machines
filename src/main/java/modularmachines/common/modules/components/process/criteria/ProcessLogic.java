@@ -21,32 +21,33 @@ public class ProcessLogic {
 		addCriterion(new HeatCriterion(component, neededHeat));
 	}
 	
-	public void addFluidDrain(Fluid fluid, boolean internal) {
-		addCriterion(new DrainCriterion(component, fluid, internal));
+	public DrainCriterion addFluidDrain(Fluid fluid, boolean internal) {
+		return addCriterion(new DrainCriterion(component, fluid, internal));
 	}
 	
-	public void addFluidDrain(FluidStack fluidStack, boolean internal) {
-		addCriterion(new DrainCriterion(component, fluidStack, internal));
+	public DrainCriterion addFluidDrain(FluidStack fluidStack, boolean internal) {
+		return addCriterion(new DrainCriterion(component, fluidStack, internal));
 	}
 	
-	public void addFluidDrain(Fluid fluid) {
-		addCriterion(new DrainCriterion(component, fluid, false));
+	public DrainCriterion addFluidDrain(Fluid fluid) {
+		return addCriterion(new DrainCriterion(component, fluid, false));
 	}
 	
-	public void addFluidFill(Fluid fluid, boolean internal) {
-		addCriterion(new FillCriterion(component, fluid, internal));
+	public FillCriterion addFluidFill(Fluid fluid, boolean internal) {
+		return addCriterion(new FillCriterion(component, fluid, internal));
 	}
 	
-	public void addFluidFill(FluidStack fluidStack, boolean internal) {
-		addCriterion(new FillCriterion(component, fluidStack, internal));
+	public FillCriterion addFluidFill(FluidStack fluidStack, boolean internal) {
+		return addCriterion(new FillCriterion(component, fluidStack, internal));
 	}
 	
-	public void addFluidFill(Fluid fluid) {
-		addCriterion(new FillCriterion(component, fluid, false));
+	public FillCriterion addFluidFill(Fluid fluid) {
+		return addCriterion(new FillCriterion(component, fluid, false));
 	}
 	
-	public void addCriterion(IProcessCriterion criterion) {
+	public <C extends IProcessCriterion> C addCriterion(C criterion) {
 		criteria.add(criterion);
+		return criterion;
 	}
 	
 	public boolean canProgress() {
@@ -60,5 +61,12 @@ public class ProcessLogic {
 			}
 		}
 		return true;
+	}
+	
+	public void work() {
+		for (IProcessCriterion criterion : criteria) {
+			criterion.work();
+			criterion.markDirty();
+		}
 	}
 }
