@@ -8,8 +8,8 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.INBTReadable;
 import modularmachines.api.modules.INBTWritable;
@@ -44,7 +44,7 @@ public interface IItemHandlerComponent extends IItemHandlerModifiable, IModuleCo
 	@Nullable
 	IItemSlot getSlot(int index);
 	
-	boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing);
+	boolean supportsMode(IOMode ioMode, @Nullable EnumFacing facing);
 	
 	interface IItemSlot {
 		IItemSlot setBackgroundTexture(String backgroundTexture);

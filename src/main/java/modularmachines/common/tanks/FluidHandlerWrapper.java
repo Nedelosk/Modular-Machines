@@ -13,8 +13,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 
 public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
@@ -28,18 +28,18 @@ public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 	}
 	
 	@Override
-	public boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing) {
-		return ioMode != EnumIOMode.DISABLED && getMode(facing) != EnumIOMode.DISABLED;
+	public boolean supportsMode(IOMode ioMode, @Nullable EnumFacing facing) {
+		return ioMode != IOMode.DISABLED && getMode(facing) != IOMode.DISABLED;
 	}
 	
 	@Override
-	public EnumIOMode getMode(@Nullable EnumFacing facing) {
+	public IOMode getMode(@Nullable EnumFacing facing) {
 		for (IIOConfigurable component : subHandlers) {
-			if (component.getMode(facing) != EnumIOMode.DISABLED) {
-				return EnumIOMode.NONE;
+			if (component.getMode(facing) != IOMode.DISABLED) {
+				return IOMode.NONE;
 			}
 		}
-		return EnumIOMode.DISABLED;
+		return IOMode.DISABLED;
 	}
 	
 	@Override
@@ -61,7 +61,7 @@ public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 		
 		int totalFillAmount = 0;
 		for (IFluidHandlerComponent handler : subHandlers) {
-			if (!handler.supportsMode(EnumIOMode.INPUT, facing)) {
+			if (!handler.supportsMode(IOMode.INPUT, facing)) {
 				continue;
 			}
 			int fillAmount = handler.fill(resource, doFill);
@@ -84,7 +84,7 @@ public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 		
 		FluidStack totalDrained = null;
 		for (IFluidHandlerComponent handler : subHandlers) {
-			if (!handler.supportsMode(EnumIOMode.OUTPUT, facing)) {
+			if (!handler.supportsMode(IOMode.OUTPUT, facing)) {
 				continue;
 			}
 			FluidStack drain = handler.drain(resource, doDrain);
@@ -111,7 +111,7 @@ public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 		}
 		FluidStack totalDrained = null;
 		for (IFluidHandlerComponent handler : subHandlers) {
-			if (!handler.supportsMode(EnumIOMode.OUTPUT, facing)) {
+			if (!handler.supportsMode(IOMode.OUTPUT, facing)) {
 				continue;
 			}
 			if (totalDrained == null) {

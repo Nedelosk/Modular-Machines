@@ -11,7 +11,7 @@ import net.minecraft.util.NonNullList;
 
 import net.minecraftforge.items.ItemStackHandler;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
@@ -61,7 +61,7 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 	}
 	
 	@Override
-	public boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing) {
+	public boolean supportsMode(IOMode ioMode, @Nullable EnumFacing facing) {
 		IIOComponent ioComponent = module.getComponent(IIOComponent.class);
 		if (ioComponent == null) {
 			return true;
@@ -70,10 +70,10 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 	}
 	
 	@Override
-	public EnumIOMode getMode(@Nullable EnumFacing facing) {
+	public IOMode getMode(@Nullable EnumFacing facing) {
 		IIOComponent ioComponent = module.getComponent(IIOComponent.class);
 		if (ioComponent == null) {
-			return EnumIOMode.NONE;
+			return IOMode.NONE;
 		}
 		return ioComponent.getMode(facing);
 	}

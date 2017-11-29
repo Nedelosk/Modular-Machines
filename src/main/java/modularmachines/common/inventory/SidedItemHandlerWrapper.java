@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.items.IItemHandler;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 
 public class SidedItemHandlerWrapper implements IItemHandler {
@@ -37,7 +37,7 @@ public class SidedItemHandlerWrapper implements IItemHandler {
 	@Nonnull
 	@Override
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-		if (!ioComponent.supportsMode(EnumIOMode.INPUT, facing)) {
+		if (!ioComponent.supportsMode(IOMode.INPUT, facing)) {
 			return stack;
 		}
 		return itemHandler.insertItem(slot, stack, simulate);
@@ -46,7 +46,7 @@ public class SidedItemHandlerWrapper implements IItemHandler {
 	@Nonnull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
+		if (!ioComponent.supportsMode(IOMode.OUTPUT, facing)) {
 			return ItemStack.EMPTY;
 		}
 		return itemHandler.extractItem(slot, amount, simulate);

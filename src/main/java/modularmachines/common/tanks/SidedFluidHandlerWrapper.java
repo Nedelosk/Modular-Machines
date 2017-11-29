@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 
 public class SidedFluidHandlerWrapper implements IFluidHandler {
@@ -30,7 +30,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!ioComponent.supportsMode(EnumIOMode.INPUT, facing)) {
+		if (!ioComponent.supportsMode(IOMode.INPUT, facing)) {
 			return 0;
 		}
 		return fluidHandler.fill(resource, doFill);
@@ -39,7 +39,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	@Nullable
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
+		if (!ioComponent.supportsMode(IOMode.OUTPUT, facing)) {
 			return null;
 		}
 		return fluidHandler.drain(resource, doDrain);
@@ -48,7 +48,7 @@ public class SidedFluidHandlerWrapper implements IFluidHandler {
 	@Nullable
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (!ioComponent.supportsMode(EnumIOMode.OUTPUT, facing)) {
+		if (!ioComponent.supportsMode(IOMode.OUTPUT, facing)) {
 			return null;
 		}
 		return fluidHandler.drain(maxDrain, doDrain);

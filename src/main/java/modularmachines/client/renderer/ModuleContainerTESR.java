@@ -14,7 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
@@ -77,7 +77,7 @@ public class ModuleContainerTESR extends TileEntitySpecialRenderer<TileEntityMod
 		if (component == null || ioComponent == null) {
 			return;
 		}
-		EnumIOMode mode = ioComponent.getMode(facing);
+		IOMode mode = ioComponent.getMode(facing);
 		int color = mode.getColor();
 		float colorRed = (float) (color >> 16 & 255) / 255.0F;
 		float colorGreen = (float) (color >> 8 & 255) / 255.0F;

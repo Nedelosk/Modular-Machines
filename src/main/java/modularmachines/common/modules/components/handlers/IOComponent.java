@@ -15,7 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.INBTReadable;
@@ -26,14 +26,14 @@ import modularmachines.common.modules.components.ModuleComponent;
 
 public class IOComponent extends ModuleComponent implements IIOComponent, IInteractionComponent, INBTWritable,
 		INBTReadable, INetworkComponent {
-	private final Map<EnumFacing, EnumIOMode> faceModes;
-	private EnumIOMode mode;
+	private final Map<EnumFacing, IOMode> faceModes;
+	private IOMode mode;
 	
 	public IOComponent() {
 		this.faceModes = new EnumMap<>(EnumFacing.class);
-		this.mode = EnumIOMode.NONE;
+		this.mode = IOMode.NONE;
 		for (EnumFacing facing : EnumFacing.VALUES) {
-			faceModes.put(facing, EnumIOMode.NONE);
+			faceModes.put(facing, IOMode.NONE);
 		}
 	}
 	
@@ -45,16 +45,16 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			if (player.isSneaking()) {
 				clearAllModes();
 				if (!player.world.isRemote) {
-					player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.reset", new TextComponentTranslation(EnumIOMode.NONE.getUnlocalizedName())), true);
+					player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.reset", new TextComponentTranslation(IOMode.NONE.getUnlocalizedName())), true);
 				}
 				return true;
 			}
 			EnumFacing facing = screwdriver.getSelectedFacing(heldItem);
-			EnumIOMode newMode;
+			IOMode newMode;
 			if (facing == null) {
-				newMode = EnumIOMode.getNext(mode);
+				newMode = IOMode.getNext(mode);
 			} else {
-				newMode = EnumIOMode.getNext(faceModes.get(facing));
+				newMode = IOMode.getNext(faceModes.get(facing));
 			}
 			setMode(facing, newMode);
 			if (!player.world.isRemote) {
@@ -66,7 +66,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	}
 	
 	@Override
-	public EnumIOMode getMode(@Nullable EnumFacing facing) {
+	public IOMode getMode(@Nullable EnumFacing facing) {
 		if (facing == null) {
 			return mode;
 		}
@@ -74,7 +74,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	}
 	
 	@Override
-	public void setMode(@Nullable EnumFacing facing, EnumIOMode mode) {
+	public void setMode(@Nullable EnumFacing facing, IOMode mode) {
 		if (facing == null) {
 			this.mode = mode;
 		} else {
@@ -85,20 +85,20 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	
 	@Override
 	public void clearAllModes() {
-		this.mode = EnumIOMode.NONE;
+		this.mode = IOMode.NONE;
 		for (EnumFacing facing : EnumFacing.VALUES) {
-			faceModes.put(facing, EnumIOMode.NONE);
+			faceModes.put(facing, IOMode.NONE);
 		}
 		provider.sendToClient();
 	}
 	
 	@Override
-	public boolean supportsMode(EnumIOMode mode, @Nullable EnumFacing facing) {
-		EnumIOMode componentMode = getMode(facing);
-		if (componentMode == EnumIOMode.DISABLED) {
+	public boolean supportsMode(IOMode mode, @Nullable EnumFacing facing) {
+		IOMode componentMode = getMode(facing);
+		if (componentMode == IOMode.DISABLED) {
 			return false;
 		}
-		if (facing != null && componentMode == EnumIOMode.NONE) {
+		if (facing != null && componentMode == IOMode.NONE) {
 			componentMode = getMode(null);
 		}
 		switch (mode) {
@@ -126,15 +126,15 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
 			byte facing = tagCompound.getByte("Facing");
 			byte mode = tagCompound.getByte("Mode");
-			faceModes.put(EnumFacing.getFront(facing), EnumIOMode.get(mode));
+			faceModes.put(EnumFacing.getFront(facing), IOMode.get(mode));
 		}
-		mode = EnumIOMode.get(compound.getByte("Mode"));
+		mode = IOMode.get(compound.getByte("Mode"));
 	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		NBTTagList tagList = new NBTTagList();
-		for (Map.Entry<EnumFacing, EnumIOMode> entry : faceModes.entrySet()) {
+		for (Map.Entry<EnumFacing, IOMode> entry : faceModes.entrySet()) {
 			NBTTagCompound tagCompound = new NBTTagCompound();
 			tagCompound.setByte("Facing", (byte) entry.getKey().ordinal());
 			tagCompound.setByte("Mode", (byte) entry.getValue().ordinal());
@@ -147,7 +147,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	
 	@Override
 	public void writeData(PacketBuffer data) {
-		for (Map.Entry<EnumFacing, EnumIOMode> entry : faceModes.entrySet()) {
+		for (Map.Entry<EnumFacing, IOMode> entry : faceModes.entrySet()) {
 			data.writeByte(entry.getValue().ordinal());
 		}
 		data.writeByte(mode.ordinal());
@@ -156,8 +156,8 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	@Override
 	public void readData(PacketBuffer data) throws IOException {
 		for (EnumFacing facing : EnumFacing.VALUES) {
-			faceModes.put(facing, EnumIOMode.get(data.readByte()));
+			faceModes.put(facing, IOMode.get(data.readByte()));
 		}
-		mode = EnumIOMode.get(data.readByte());
+		mode = IOMode.get(data.readByte());
 	}
 }

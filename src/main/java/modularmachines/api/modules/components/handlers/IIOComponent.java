@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.util.EnumFacing;
 
-import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.IModuleComponent;
 
 /**
@@ -16,7 +16,7 @@ public interface IIOComponent extends IModuleComponent, IIOConfigurable {
 	/**
 	 * Sets the io mode of the given facing to the given io mode.
 	 */
-	void setMode(@Nullable EnumFacing facing, EnumIOMode mode);
+	void setMode(@Nullable EnumFacing facing, IOMode mode);
 	
 	/**
 	 * Sets all io modes of this component to there default mode.

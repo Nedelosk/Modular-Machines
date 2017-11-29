@@ -14,7 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
@@ -107,7 +107,7 @@ public class ItemManager extends ContainerComponent implements IItemHandler, IMo
 			return false;
 		}
 		ItemHandlerWrapper handler = facing == null ? getWrapper() : facingHandlers.computeIfAbsent(facing, k -> new ItemHandlerWrapper(itemHandlers, facing));
-		return handler.supportsMode(EnumIOMode.NONE, facing);
+		return handler.supportsMode(IOMode.NONE, facing);
 	}
 	
 	@Nullable

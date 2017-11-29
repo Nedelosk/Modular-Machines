@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerConcatenate;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
@@ -101,7 +101,7 @@ public class FluidManager extends ContainerComponent implements IFluidHandler, I
 			return false;
 		}
 		FluidHandlerWrapper handler = facing == null ? getWrapper() : facingHandlers.computeIfAbsent(facing, k -> new FluidHandlerWrapper(fluidHandlers, facing));
-		return handler.supportsMode(EnumIOMode.NONE, facing);
+		return handler.supportsMode(IOMode.NONE, facing);
 	}
 	
 	@Nullable

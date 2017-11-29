@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 
-import modularmachines.api.EnumIOMode;
+import modularmachines.api.IOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
@@ -129,7 +129,7 @@ public class ClientEventHandler {
 		if (ioComponent == null) {
 			return;
 		}
-		EnumIOMode mode = ioComponent.getMode(targetFacing);
+		IOMode mode = ioComponent.getMode(targetFacing);
 		y += fontRenderer.FONT_HEIGHT;
 		String modeText = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.mode", Translator.translateToLocal(mode.getUnlocalizedName()));
 		fontRenderer.drawString(modeText, x - fontRenderer.getStringWidth(modeText) / 2, y, -1);

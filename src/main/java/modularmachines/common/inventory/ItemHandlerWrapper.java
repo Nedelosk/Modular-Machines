@@ -9,8 +9,8 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.items.IItemHandler;
 
-import modularmachines.api.EnumIOMode;
 import modularmachines.api.IIOConfigurable;
+import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 
 public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
@@ -66,18 +66,18 @@ public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
 	}
 	
 	@Override
-	public boolean supportsMode(EnumIOMode ioMode, @Nullable EnumFacing facing) {
-		return ioMode != EnumIOMode.DISABLED && getMode(facing) != EnumIOMode.DISABLED;
+	public boolean supportsMode(IOMode ioMode, @Nullable EnumFacing facing) {
+		return ioMode != IOMode.DISABLED && getMode(facing) != IOMode.DISABLED;
 	}
 	
 	@Override
-	public EnumIOMode getMode(@Nullable EnumFacing facing) {
+	public IOMode getMode(@Nullable EnumFacing facing) {
 		for (IIOConfigurable component : itemHandler) {
-			if (component.getMode(facing) != EnumIOMode.DISABLED) {
-				return EnumIOMode.NONE;
+			if (component.getMode(facing) != IOMode.DISABLED) {
+				return IOMode.NONE;
 			}
 		}
-		return EnumIOMode.DISABLED;
+		return IOMode.DISABLED;
 	}
 	
 	@Override
@@ -95,7 +95,7 @@ public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 		int index = getIndexForSlot(slot);
 		IItemHandlerComponent handler = getHandlerFromIndex(index);
-		if (handler == null || !handler.supportsMode(EnumIOMode.INPUT, facing)) {
+		if (handler == null || !handler.supportsMode(IOMode.INPUT, facing)) {
 			return stack;
 		}
 		slot = getSlotFromIndex(slot, index);
@@ -107,7 +107,7 @@ public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
 		int index = getIndexForSlot(slot);
 		IItemHandlerComponent handler = getHandlerFromIndex(index);
 		slot = getSlotFromIndex(slot, index);
-		if (handler == null || !handler.supportsMode(EnumIOMode.OUTPUT, facing)) {
+		if (handler == null || !handler.supportsMode(IOMode.OUTPUT, facing)) {
 			return ItemStack.EMPTY;
 		}
 		return handler.extractItem(slot, amount, simulate);
