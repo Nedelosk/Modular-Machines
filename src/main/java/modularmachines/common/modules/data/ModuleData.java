@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -12,48 +11,40 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
-import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.IModuleType;
+import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.utils.Translator;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements IModuleData {
+	private static final IModuleDefinition DEFAULT_DEFINITION = (d, f) -> {
+	};
 	
+	@Nullable
 	@SideOnly(Side.CLIENT)
 	private IModelData modelData;
+	
 	private int complexity = 0;
 	private int allowedComplexity = 0;
-	private float dropChance = 1.0F;
 	private String unlocalizedName = "null";
 	private IModulePosition[] positions;
-	@Nullable
-	private ResourceLocation wallModelLocation;
-	private IModuleDefinition definition = (d, f) -> {
-	};
+	private IModuleDefinition definition = DEFAULT_DEFINITION;
 	
 	public ModuleData(IModulePosition... positions) {
 		this.positions = positions;
 	}
 	
-	/**
-	 * A description of this module. It would be displayed in jei and the item tooltip.
-	 */
 	public String getDescription() {
 		return I18n.translateToLocal(getUnlocalizedDescription());
 	}
 	
-	/**
-	 * @return The translation kay of a description that describes the module.
-	 */
 	public String getUnlocalizedDescription() {
 		return "module." + unlocalizedName + ".description";
 	}
 	
-	/**
-	 * Sets the unlocalized name of this module.
-	 */
 	public void setUnlocalizedName(String unlocalizedName) {
 		this.unlocalizedName = unlocalizedName;
 	}
@@ -71,9 +62,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return this;
 	}
 	
-	/**
-	 * @return The complexity that a module with this data has.
-	 */
 	public int getComplexity() {
 		return complexity;
 	}
@@ -83,20 +71,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return this;
 	}
 	
-	/**
-	 * The chance that the module drops if a player breaks the block that contains this module.
-	 */
-	public float getDropChance() {
-		return dropChance;
-	}
-	
-	public void setDropChance(float dropChance) {
-		this.dropChance = dropChance;
-	}
-	
-	/**
-	 * Checks if the position is a valid position for this module.
-	 */
 	public boolean isValidPosition(IModulePosition position) {
 		for (IModulePosition otherPosition : positions) {
 			if (position == otherPosition) {
@@ -112,23 +86,22 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return this;
 	}
 	
-	@Nullable
-	@Override
-	public ResourceLocation getWallModelLocation() {
-		return wallModelLocation;
-	}
+	/* CONTAINERS */
 	
 	@Override
-	public IModuleData setWallModelLocation(ResourceLocation WallModelLocation) {
-		this.wallModelLocation = WallModelLocation;
+	public IModuleData registerType(ItemStack itemStack) {
+		ModuleManager.registry.registerType(new ModuleType(itemStack, this));
 		return this;
 	}
 	
 	/* ITEM INFO */
-	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleDataContainer container) {
+	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleType container) {
 		tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.name", getDisplayName()));
 		if (complexity > 0) {
 			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity", complexity));
+		}
+		if (allowedComplexity > 0) {
+			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity.allowed", complexity));
 		}
 		if (positions.length > 0) {
 			StringBuilder builder = new StringBuilder();

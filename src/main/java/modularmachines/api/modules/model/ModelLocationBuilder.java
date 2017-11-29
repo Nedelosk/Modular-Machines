@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.IModuleData;
 
 @SideOnly(Side.CLIENT)
 public class ModelLocationBuilder {

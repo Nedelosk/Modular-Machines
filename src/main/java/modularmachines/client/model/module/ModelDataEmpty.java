@@ -10,7 +10,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.positions.EnumCasingPositions;

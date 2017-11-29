@@ -7,7 +7,6 @@ import net.minecraft.util.math.RayTraceResult;
 
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**
@@ -29,7 +28,7 @@ public interface IModuleProvider {
 	
 	IModuleContainer getContainer();
 	
-	default boolean isValidModule(IModulePosition position, IModuleDataContainer dataContainer) {
+	default boolean isValidModule(IModulePosition position, IModuleType dataContainer) {
 		return dataContainer.getData().isValidPosition(position);
 	}
 }

@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketBufferMM;
 import modularmachines.common.network.PacketId;
@@ -60,11 +60,11 @@ public class PacketInjectModule extends PacketModuleProvider {
 				if (position == null) {
 					return;
 				}
-				IModuleDataContainer dataContainer = ModuleManager.registry.getContainerFromItem(itemStack);
-				if (dataContainer == null) {
+				IModuleType type = ModuleManager.registry.getTypeFromItem(itemStack);
+				if (type == null) {
 					return;
 				}
-				handler.insertModule(position, dataContainer, itemStack, false);
+				handler.insertModule(position, type, itemStack, false);
 			}
 		}
 	}

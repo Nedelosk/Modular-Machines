@@ -96,7 +96,7 @@ public enum EmptyModuleContainer implements IModuleContainer {
 	}
 	
 	@Override
-	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener) {
+	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener<E> listener) {
 	
 	}
 	

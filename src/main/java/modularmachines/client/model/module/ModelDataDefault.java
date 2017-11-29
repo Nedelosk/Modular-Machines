@@ -7,8 +7,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.data.IModuleData;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.model.DefaultProperty;
+import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.common.core.Constants;
 
@@ -21,13 +22,13 @@ public class ModelDataDefault extends ModelData {
 		location.data().setModel(model);
 	}
 	
-	public static void addModelData(IModuleData moduleData) {
-		addModelData(moduleData, null);
+	public static IModelData addModelData(IModuleData moduleData) {
+		return addModelData(moduleData, null);
 	}
 	
-	public static void addModelData(IModuleData moduleData, @Nullable String fileName) {
+	public static IModelData addModelData(IModuleData moduleData, @Nullable String fileName) {
 		ModelDataDefault model = new ModelDataDefault();
 		model.add(DefaultProperty.INSTANCE, new ResourceLocation(Constants.MOD_ID, "module/" + moduleData.getRegistryName().getResourcePath() + (fileName != null ? fileName : "")));
-		moduleData.setModel(model);
+		return model;
 	}
 }

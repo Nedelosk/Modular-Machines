@@ -9,8 +9,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.components.IActivatableComponent;
-import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModuleModelState;

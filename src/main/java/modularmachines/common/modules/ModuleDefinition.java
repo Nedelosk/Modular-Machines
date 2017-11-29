@@ -1,5 +1,7 @@
 package modularmachines.common.modules;
 
+import java.util.function.Function;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -21,16 +23,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
-import modularmachines.api.modules.IModuleFactory;
-import modularmachines.api.modules.IModuleRegistry;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IModuleComponentFactory;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
-import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.model.DefaultProperty;
+import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.EnumRackPositions;
@@ -55,8 +56,6 @@ import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
 import modularmachines.common.modules.data.ModuleData;
-import modularmachines.common.modules.data.ModuleDataContainer;
-import modularmachines.common.modules.data.ModuleDataContainerDamage;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 
 public enum ModuleDefinition implements IModuleDefinition {
@@ -67,8 +66,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			register(new ItemStack(Blocks.CHEST));
+		protected ItemStack createItemStack() {
+			return new ItemStack(Blocks.CHEST);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -114,8 +113,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(Blocks.FURNACE));
+		protected ItemStack createItemStack() {
+			return new ItemStack(Blocks.FURNACE);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -132,8 +131,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemCasings));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemCasings);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -156,8 +155,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemCasings, 1, 1));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemCasings, 1, 1);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -176,7 +175,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemCasings, 1, 2));
+			registerType(new ItemStack(ModItems.itemCasings, 1, 2));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -194,8 +193,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
-			helper.registerContainer(factory.createDamageContainer(new ItemStack(ModItems.itemModuleRack), data()));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemModuleRack);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -218,8 +217,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 1));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemModuleRack, 1, 1);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -237,8 +236,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 2));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemModuleRack, 1, 2);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -256,8 +255,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemModuleRack, 1, 3));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemModuleRack, 1, 3);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -284,8 +283,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		public void registerContainers() {
-			registerDamage(ModuleItems.FIREBOX.get());
+		protected ItemStack createItemStack() {
+			return ModuleItems.FIREBOX.get();
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -309,8 +308,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
-			helper.registerContainer(factory.createDamageContainer(ModuleItems.LARGE_TANK.get(), data));
+		protected ItemStack createItemStack() {
+			return ModuleItems.LARGE_TANK.get();
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -334,8 +333,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		}
 		
 		@Override
-		protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
-			helper.registerContainer(factory.createDamageContainer(ModuleItems.WATER_INTAKE.get(), data));
+		protected ItemStack createItemStack() {
+			return ModuleItems.WATER_INTAKE.get();
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -351,6 +350,12 @@ public enum ModuleDefinition implements IModuleDefinition {
 			data.setPositions(EnumCasingPositions.HORIZONTAL);
 		}
 		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModelData() {
+			ModelDataDefault.addModelData(data);
+		}
+		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			module.addComponent(new BoilerComponent());
@@ -359,13 +364,13 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void registerContainers() {
-			registerDamage(ModuleItems.BOILER.get());
+			registerType(ModuleItems.BOILER.get());
 		}
 	},
 	ENGINE(new ModuleData(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN), "engine", 4) {
 		@Override
-		public void registerContainers() {
-			registerDamage(new ItemStack(ModItems.itemEngineSteam));
+		protected ItemStack createItemStack() {
+			return new ItemStack(ModItems.itemEngineSteam);
 		}
 		
 		@Override
@@ -373,20 +378,12 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
 		}
 		
-		@Override
-		protected void initData(IModuleData data) {
-			data.setWallModelLocation(new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
-		}
-		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModelData() {
-			//	ModelDataDefault.addModelData(data(), "s/bronze");
 			ModelData model = new ModelData();
 			model.add(DefaultProperty.FIRST, new ResourceLocation(Constants.MOD_ID, "module/" + data.getRegistryName().getResourcePath() + /*(fileName != null ? fileName : "")*/"s/bronze"));
-			if (data.getWallModelLocation() != null) {
-				model.add(DefaultProperty.SECOND, data.getWallModelLocation());
-			}
+			model.add(DefaultProperty.SECOND, new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
 			data.setModel(model);
 		}
 	};
@@ -407,18 +404,48 @@ public enum ModuleDefinition implements IModuleDefinition {
 	}
 	
 	protected void initData(IModuleData data) {
-		
-	}
-	
-	
-	protected void registerContainers(IModuleFactory factory, IModuleRegistry helper) {
 	}
 	
 	public void registerContainers() {
+		ItemStack itemStack = createItemStack();
+		if (!itemStack.isEmpty()) {
+			data.registerType(itemStack);
+		}
+	}
+	
+	public IModuleData data() {
+		return data;
+	}
+	
+	protected ItemStack createItemStack() {
+		return ItemStack.EMPTY;
+	}
+	
+	protected void registerType(ItemStack parent) {
+		data.registerType(parent);
+	}
+	
+	protected void registerType(IModuleType container) {
+		ModuleManager.registry.registerType(container);
+	}
+	
+	@Override
+	public void addComponents(IModule module, IModuleComponentFactory factory) {
+	}
+	
+	@SideOnly(Side.CLIENT)
+	protected Function<IModuleData, IModelData> getModelFactory() {
+		return ModelDataDefault::addModelData;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	protected void setModel(Function<IModuleData, IModelData> modelFactory) {
+		data.setModel(modelFactory.apply(data));
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public void registerModelData() {
+		setModel(getModelFactory());
 	}
 	
 	@SubscribeEvent
@@ -436,27 +463,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 	public static void registerModuleContainers() {
 		for (ModuleDefinition definition : values()) {
 			definition.registerContainers();
-			definition.registerContainers(ModuleManager.factory, ModuleManager.registry);
 		}
-	}
-	
-	public IModuleData data() {
-		return data;
-	}
-	
-	protected void register(ItemStack parent) {
-		ModuleManager.registry.registerContainer(new ModuleDataContainer(parent, data()));
-	}
-	
-	protected void registerDamage(ItemStack parent) {
-		ModuleManager.registry.registerContainer(new ModuleDataContainerDamage(parent, data()));
-	}
-	
-	protected void register(IModuleDataContainer container) {
-		ModuleManager.registry.registerContainer(container);
-	}
-	
-	@Override
-	public void addComponents(IModule module, IModuleComponentFactory factory) {
 	}
 }

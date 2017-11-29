@@ -34,17 +34,17 @@ import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.components.block.IInteractionComponent;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.container.IModuleListener;
 import modularmachines.api.modules.events.Event;
 import modularmachines.api.modules.events.Events;
 import modularmachines.api.modules.events.IEventListener;
-import modularmachines.api.modules.listeners.IModuleListener;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.CasingModuleHandler;
@@ -231,16 +231,16 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 		if (itemStack.isEmpty()) {
 			return false;
 		}
-		IModuleDataContainer dataContainer = ModuleManager.registry.getContainerFromItem(itemStack);
-		if (dataContainer == null) {
+		IModuleType type = ModuleManager.registry.getTypeFromItem(itemStack);
+		if (type == null) {
 			return false;
 		}
 		IModule module = getModule(rayTraceResult.subHit);
 		IModuleProvider provider = ModuleUtil.getComponent(module, IModuleProvider.class);
-		return provider != null && insertModule(provider, itemStack, dataContainer, rayTraceResult, simulate);
+		return provider != null && insertModule(provider, itemStack, type, rayTraceResult, simulate);
 	}
 	
-	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleDataContainer dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
+	private boolean insertModule(IModuleProvider provider, ItemStack itemStack, IModuleType dataContainer, RayTraceResult rayTraceResult, boolean simulate) {
 		IModulePosition position = provider.getPosition(rayTraceResult);
 		return position != null && provider.getHandler().insertModule(position, dataContainer, itemStack, simulate);
 	}
@@ -351,7 +351,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	}
 	
 	@Override
-	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener) {
+	public <E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener<E> listener) {
 		eventListeners.computeIfAbsent(eventClass, k -> new HashSet<>()).add(listener);
 	}
 	

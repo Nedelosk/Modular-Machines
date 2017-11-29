@@ -7,9 +7,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.data.IModuleDataContainer;
+import modularmachines.api.modules.IModuleType;
+import modularmachines.api.modules.ModuleManager;
 import modularmachines.common.items.ModuleItems;
-import modularmachines.common.modules.ModuleRegistry;
 
 public class CreativeTabModules extends CreativeTabs {
 	CreativeTabModules() {
@@ -36,8 +36,8 @@ public class CreativeTabModules extends CreativeTabs {
 			}
 		}
 		for (ItemStack itemStack : items) {
-			IModuleDataContainer dataContainer = ModuleRegistry.INSTANCE.getContainerFromItem(itemStack);
-			if (dataContainer != null) {
+			IModuleType type = ModuleManager.registry.getTypeFromItem(itemStack);
+			if (type != null) {
 				itemStacks.add(itemStack);
 			}
 		}

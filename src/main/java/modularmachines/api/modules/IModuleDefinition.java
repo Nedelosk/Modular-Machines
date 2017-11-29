@@ -1,7 +1,6 @@
 package modularmachines.api.modules;
 
 import modularmachines.api.modules.components.IModuleComponentFactory;
-import modularmachines.api.modules.data.IModuleData;
 
 /**
  * Can be implemented to add components to a module.

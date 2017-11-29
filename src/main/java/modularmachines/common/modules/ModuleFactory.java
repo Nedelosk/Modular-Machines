@@ -7,23 +7,19 @@ import net.minecraftforge.common.MinecraftForge;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleEvents;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.container.ModuleContainer;
 import modularmachines.common.modules.data.ModuleData;
-import modularmachines.common.modules.data.ModuleDataContainer;
-import modularmachines.common.modules.data.ModuleDataContainerCapability;
-import modularmachines.common.modules.data.ModuleDataContainerDamage;
-import modularmachines.common.modules.data.ModuleDataContainerNBT;
 
 public enum ModuleFactory implements IModuleFactory {
 	INSTANCE;
@@ -41,27 +37,7 @@ public enum ModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public IModuleDataContainer createContainer(ItemStack parent, IModuleData data) {
-		return new ModuleDataContainer(parent, data);
-	}
-	
-	@Override
-	public IModuleDataContainer createCapabilityContainer(ItemStack parent, IModuleData data) {
-		return new ModuleDataContainerCapability(parent, data);
-	}
-	
-	@Override
-	public IModuleDataContainer createNBTContainer(ItemStack parent, IModuleData data) {
-		return new ModuleDataContainerNBT(parent, data);
-	}
-	
-	@Override
-	public IModuleDataContainer createDamageContainer(ItemStack parent, IModuleData data) {
-		return new ModuleDataContainerDamage(parent, data);
-	}
-	
-	@Override
-	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleDataContainer container, ItemStack parentItem) {
+	public IModule createModule(IModuleHandler parent, IModulePosition position, IModuleType container, ItemStack parentItem) {
 		IModule module = new Module(parent, position, container.getData(), parentItem);
 		createModule(module);
 		return module;
@@ -69,7 +45,7 @@ public enum ModuleFactory implements IModuleFactory {
 	
 	@Override
 	public IModule createEmptyModule(IModuleHandler parent, IModulePosition position) {
-		IModule module = new Module(parent, position, ModuleManager.registry.getDefaultData(), ItemStack.EMPTY);
+		IModule module = new Module(parent, position, ModuleManager.registry.getEmpty(), ItemStack.EMPTY);
 		createModule(module);
 		return module;
 	}

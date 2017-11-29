@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**
@@ -53,12 +52,12 @@ public interface IModuleHandler {
 	 * Tries to inserts a module at the given position and return if it has inserted it.
 	 *
 	 * @param position  Position to insert to.
-	 * @param container The data container of the item
+	 * @param type The data container of the item
 	 * @param itemStack The item stack of the module
 	 * @param simulate  If true, the insertion is only simulated
 	 * @return True if the modules was inserted at the position.
 	 */
-	boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate);
+	boolean insertModule(IModulePosition position, IModuleType type, ItemStack itemStack, boolean simulate);
 	
 	/**
 	 * Tries to extract a module from the given position.

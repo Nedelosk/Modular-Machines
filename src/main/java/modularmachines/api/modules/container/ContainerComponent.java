@@ -10,7 +10,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import modularmachines.api.components.IComponent;
 
-public class ContainerComponent implements ICapabilityProvider, IComponent<IModuleContainer> {
+public class ContainerComponent implements ICapabilityProvider, IComponent<IModuleContainer>, IModuleListener {
 	public static final String ENERGY = "energy";
 	public static final String HEAT = "heat";
 	public static final String UPDATE = "update";

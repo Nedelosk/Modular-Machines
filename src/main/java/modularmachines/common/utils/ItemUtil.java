@@ -3,6 +3,7 @@ package modularmachines.common.utils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -104,7 +105,7 @@ public class ItemUtil {
 	}
 	
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {
-		if (base == null || comparison == null) {
+		if (base.isEmpty() || comparison.isEmpty()) {
 			return false;
 		}
 		if (base.getItem() != comparison.getItem()) {
@@ -125,7 +126,7 @@ public class ItemUtil {
 	@Nullable
 	public static String getStackToString(@Nonnull ItemStack stack) {
 		Item item = stack.getItem();
-		if (item == null) {
+		if (item == Item.getItemFromBlock(Blocks.AIR)) {
 			return null;
 		}
 		ResourceLocation itemName = item.getRegistryName();

@@ -16,10 +16,9 @@ import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.IFirebox;
 import modularmachines.api.modules.container.ContainerComponent;
 import modularmachines.api.modules.container.IHeatSource;
+import modularmachines.api.modules.container.IModuleListener;
 import modularmachines.api.modules.events.Events;
-import modularmachines.api.modules.listeners.IModuleListener;
-import modularmachines.common.energy.HeatManager;
-import modularmachines.common.energy.HeatStep;
+import modularmachines.common.energy.Heat;
 import modularmachines.common.utils.TickHelper;
 
 public class HeatComponent extends ContainerComponent implements IHeatSource, INetworkComponent, INBTReadable,
@@ -34,7 +33,7 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	
 	public HeatComponent() {
 		this.capacity = 0;
-		this.heat = HeatManager.COLD_TEMP;
+		this.heat = Heat.COLD_TEMP;
 	}
 	
 	@Override
@@ -48,7 +47,7 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 		super.readFromNBT(compound);
 		if (compound.hasKey("Heat")) {
 			heat = compound.getDouble("Heat");
-			heat = Math.max(heat, HeatManager.COLD_TEMP);
+			heat = Math.max(heat, Heat.COLD_TEMP);
 		}
 	}
 	
@@ -116,12 +115,12 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 	
 	@Override
 	public void reduceHeat(int heatModifier) {
-		if (heat == HeatManager.COLD_TEMP) {
+		if (heat == Heat.COLD_TEMP) {
 			return;
 		}
 		double change = HEAT_STEP + ((heat / capacity) * HEAT_STEP * heatModifier);
 		heat -= change;
-		heat = Math.max(heat, HeatManager.COLD_TEMP);
+		heat = Math.max(heat, Heat.COLD_TEMP);
 		onChangeHeat(change);
 	}
 	
@@ -129,10 +128,6 @@ public class HeatComponent extends ContainerComponent implements IHeatSource, IN
 		container.sendToClient();
 		container.getLocatable().markLocatableDirty();
 		container.receiveEvent(new Events.HeatChangeEvent(change));
-	}
-	
-	public HeatStep getHeatStep() {
-		return HeatManager.getHeatStep(heat);
 	}
 	
 	@Override

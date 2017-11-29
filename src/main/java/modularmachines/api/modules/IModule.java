@@ -10,7 +10,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import modularmachines.api.components.IComponentProvider;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**

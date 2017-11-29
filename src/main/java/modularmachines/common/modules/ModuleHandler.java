@@ -23,15 +23,15 @@ import net.minecraftforge.common.MinecraftForge;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleEvents;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.components.block.IDropComponent;
-import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketHandler;
 import modularmachines.common.network.packets.PacketExtractModule;
@@ -89,8 +89,8 @@ public class ModuleHandler implements IModuleHandler {
 	}
 	
 	@Override
-	public boolean insertModule(IModulePosition position, IModuleDataContainer container, ItemStack itemStack, boolean simulate) {
-		if (hasModule(position) || !canHandle(position) || !provider.isValidModule(position, container)) {
+	public boolean insertModule(IModulePosition position, IModuleType type, ItemStack itemStack, boolean simulate) {
+		if (hasModule(position) || !canHandle(position) || !provider.isValidModule(position, type)) {
 			return false;
 		}
 		if (simulate) {
@@ -98,7 +98,7 @@ public class ModuleHandler implements IModuleHandler {
 		}
 		ItemStack moduleStack = itemStack.copy();
 		moduleStack.setCount(1);
-		IModule module = ModuleManager.factory.createModule(this, position, container, moduleStack);
+		IModule module = ModuleManager.factory.createModule(this, position, type, moduleStack);
 		modules.put(position, module);
 		for (IModuleComponent component : module.getComponents()) {
 			component.onModuleAdded();

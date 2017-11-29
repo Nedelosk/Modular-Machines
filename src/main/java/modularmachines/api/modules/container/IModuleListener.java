@@ -3,7 +3,7 @@
  *
  * This work (the MOD) is licensed under the "MIT" License, see LICENSE for details.
  */
-package modularmachines.api.modules.listeners;
+package modularmachines.api.modules.container;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleHandler;

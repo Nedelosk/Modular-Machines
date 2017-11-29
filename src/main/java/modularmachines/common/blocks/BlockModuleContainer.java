@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -40,15 +39,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.components.block.INeighborBlockComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
-import modularmachines.common.config.Config;
 import modularmachines.common.utils.ModuleUtil;
 import modularmachines.common.utils.RayTraceHelper;
 
@@ -261,20 +257,6 @@ public class BlockModuleContainer extends Block {
 			}
 		}
 	}*/
-	
-	private ItemStack getDropStack(ItemStack stack, Random random) {
-		if (!Config.destroyModules) {
-			return stack;
-		}
-		IModuleDataContainer moduleContainer = ModuleManager.registry.getContainerFromItem(stack);
-		if (moduleContainer != null) {
-			if (random.nextFloat() < moduleContainer.getData().getDropChance()) {
-				return stack;
-			}
-			return ItemStack.EMPTY;
-		}
-		return stack;
-	}
 	
 	/*@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {

@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -38,8 +37,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.components.IModelComponent;
-import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.IModuleModelState;
 
@@ -86,11 +85,7 @@ public enum ModuleModelLoader {
 					if (modelData == null) {
 						return Collections.<ResourceLocation>emptyList();
 					}
-					List<ResourceLocation> locations = new LinkedList<>(modelData.locations().values());
-					if (data.getWallModelLocation() != null) {
-						locations.add(data.getWallModelLocation());
-					}
-					return locations;
+					return modelData.locations().values();
 				})
 				.flatMap(Collection::stream)
 				.filter(Objects::nonNull).collect(Collectors.toSet());

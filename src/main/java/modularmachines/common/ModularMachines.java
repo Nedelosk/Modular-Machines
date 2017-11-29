@@ -20,8 +20,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.data.IModuleData;
 import modularmachines.common.compat.theoneprobe.TheOneProbeCompat;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;

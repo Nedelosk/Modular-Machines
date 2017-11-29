@@ -1,5 +1,8 @@
 package modularmachines.client.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.text.WordUtils;
 
 import net.minecraft.client.Minecraft;
@@ -13,6 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -25,13 +29,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import org.lwjgl.input.Keyboard;
+
 import modularmachines.api.EnumIOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleType;
+import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
-import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.WorldUtil;
@@ -41,7 +49,25 @@ public class ClientEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tooltipEvent(ItemTooltipEvent event) {
-		event.getToolTip().addAll(ModularMachines.proxy.addModuleInfo(event.getItemStack()));
+		ItemStack itemStack = event.getItemStack();
+		List<String> tooltip = new ArrayList<>();
+		IModuleType type = ModuleManager.registry.getTypeFromItem(itemStack);
+		if (type == null) {
+			return;
+		}
+		if (Keyboard.isKeyDown(ClientProxy.MODULE_INFO.getKeyCode())) {
+			//Add module info
+			IModuleData data = type.getData();
+			List<String> moduleTooltip = new ArrayList<>();
+			tooltip.add(TextFormatting.DARK_GREEN.toString() + TextFormatting.ITALIC + Translator.translateToLocal("mm.tooltip.moduleInfo"));
+			data.addTooltip(moduleTooltip, itemStack, type);
+			tooltip.addAll(moduleTooltip);
+			
+		} else {
+			String keyName = Keyboard.getKeyName(ClientProxy.MODULE_INFO.getKeyCode());
+			tooltip.add(TextFormatting.DARK_GREEN + Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", keyName));
+		}
+		event.getToolTip().addAll(tooltip);
 	}
 	
 	@SubscribeEvent

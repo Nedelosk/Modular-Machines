@@ -15,10 +15,11 @@ import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
 
+//TODO: Add a better state system that creates the states on the server side
 @SideOnly(Side.CLIENT)
 public class ModelData implements IModelData {
 	
-	protected final ModelLocations locations;
+	private final ModelLocations locations;
 	
 	public ModelData() {
 		locations = new ModelLocations();

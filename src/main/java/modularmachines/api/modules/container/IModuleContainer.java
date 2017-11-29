@@ -22,7 +22,6 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.events.Event;
 import modularmachines.api.modules.events.IEventListener;
-import modularmachines.api.modules.listeners.IModuleListener;
 
 /**
  * Implement this interface as a capability which should handle modules.
@@ -87,7 +86,7 @@ public interface IModuleContainer extends ILocatableSource, IModuleProvider, ICa
 	boolean isMarkedForDeletion();
 	
 	/* EVENTS */
-	<E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener listener);
+	<E extends Event> void registerListener(Class<? extends E> eventClass, IEventListener<E> listener);
 	
 	void receiveEvent(Event event);
 }

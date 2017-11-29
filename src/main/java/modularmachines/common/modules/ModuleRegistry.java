@@ -25,23 +25,24 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleRegistry;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleData;
-import modularmachines.api.modules.data.IModuleDataContainer;
 import modularmachines.api.modules.positions.EnumCasingPositions;
 import modularmachines.client.model.module.ModelDataEmpty;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.modules.container.EmptyModuleContainer;
+import modularmachines.common.modules.data.ModuleType;
 import modularmachines.common.utils.capabilitys.DefaultStorage;
 
 public enum ModuleRegistry implements IModuleRegistry {
 	INSTANCE;
 	
-	private final Multimap<Item, IModuleDataContainer> containers = HashMultimap.create();
+	private final Multimap<Item, IModuleType> types = HashMultimap.create();
 	private final IModuleData defaultData;
 	private final IForgeRegistry<IModuleData> registry;
 	
@@ -68,32 +69,37 @@ public enum ModuleRegistry implements IModuleRegistry {
 	 * @return The matching module container for the stack.
 	 */
 	@Nullable
-	public IModuleDataContainer getContainerFromItem(ItemStack stack) {
+	public IModuleType getTypeFromItem(ItemStack stack) {
 		if (stack.isEmpty()) {
 			return null;
 		}
-		for (IModuleDataContainer container : containers.get(stack.getItem())) {
-			if (container.matches(stack)) {
-				return container;
+		for (IModuleType type : types.get(stack.getItem())) {
+			if (type.matches(stack)) {
+				return type;
 			}
 		}
 		return null;
 	}
 	
-	public void registerContainer(IModuleDataContainer container) {
-		ItemStack itemStack = container.getParent();
+	public void registerType(IModuleType type) {
+		ItemStack itemStack = type.getItem();
 		if (itemStack.isEmpty()) {
 			return;
 		}
-		containers.put(itemStack.getItem(), container);
-	}
-	
-	public Collection<IModuleDataContainer> getContainers() {
-		return Collections.unmodifiableCollection(containers.values());
+		types.put(itemStack.getItem(), type);
 	}
 	
 	@Override
-	public IModuleData getDefaultData() {
+	public void registerType(ItemStack parent, IModuleData data) {
+		registerType(new ModuleType(parent, data));
+	}
+	
+	public Collection<IModuleType> getTypes() {
+		return Collections.unmodifiableCollection(types.values());
+	}
+	
+	@Override
+	public IModuleData getEmpty() {
 		return defaultData;
 	}
 	
@@ -103,8 +109,8 @@ public enum ModuleRegistry implements IModuleRegistry {
 		if (heldItem.isEmpty()) {
 			return false;
 		}
-		IModuleDataContainer dataContainer = getContainerFromItem(heldItem);
-		if (dataContainer == null) {
+		IModuleType type = getTypeFromItem(heldItem);
+		if (type == null) {
 			return false;
 		}
 		IBlockState iblockstate = world.getBlockState(pos);
@@ -126,7 +132,7 @@ public enum ModuleRegistry implements IModuleRegistry {
 				return false;
 			}
 			IModuleHandler handler = container.getHandler();
-			if (handler.insertModule(EnumCasingPositions.CENTER, dataContainer, heldItem, world.isRemote)) {
+			if (handler.insertModule(EnumCasingPositions.CENTER, type, heldItem, world.isRemote)) {
 				IBlockState blockState = world.getBlockState(pos);
 				blockState.getBlock().onBlockPlacedBy(world, pos, blockState, player, heldItem);
 				SoundType soundtype = blockState.getBlock().getSoundType(blockState, world, pos, player);

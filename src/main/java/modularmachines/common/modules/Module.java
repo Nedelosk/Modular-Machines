@@ -8,12 +8,12 @@ import net.minecraft.util.EnumFacing;
 
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.components.IItemCreationListener;
 import modularmachines.api.modules.components.IModuleComponent;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.data.IModuleData;
 import modularmachines.api.modules.events.Events;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.network.PacketHandler;
@@ -145,6 +145,6 @@ public final class Module extends ComponentProvider<IModuleComponent> implements
 	
 	@Override
 	public boolean isEmpty() {
-		return getData() == ModuleRegistry.INSTANCE.getDefaultData() || itemStack.isEmpty();
+		return getData() == ModuleRegistry.INSTANCE.getEmpty() || itemStack.isEmpty();
 	}
 }

@@ -18,7 +18,7 @@ import modularmachines.api.EnumIOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
-import modularmachines.api.modules.listeners.IModuleListener;
+import modularmachines.api.modules.container.IModuleListener;
 import modularmachines.common.inventory.CombinedInvWrapper;
 import modularmachines.common.inventory.ItemHandlerWrapper;
 
