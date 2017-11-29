@@ -9,7 +9,7 @@ import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.IModuleComponent;
 
 /**
- * This component can be used to add a IO (Input / Output) configuration to your module.
+ * This component can be used to add a IO (Input / Output) configuration to the module.
  */
 public interface IIOComponent extends IModuleComponent, IIOConfigurable {
 	

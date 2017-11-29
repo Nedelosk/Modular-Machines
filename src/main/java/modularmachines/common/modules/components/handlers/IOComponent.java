@@ -12,9 +12,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 
+import modularmachines.api.IIOConfigurable;
 import modularmachines.api.IOMode;
 import modularmachines.api.IScrewdriver;
 import modularmachines.api.components.INetworkComponent;
@@ -23,10 +25,12 @@ import modularmachines.api.modules.INBTWritable;
 import modularmachines.api.modules.components.block.IInteractionComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.common.modules.components.ModuleComponent;
+import modularmachines.common.utils.TickHelper;
 
 public class IOComponent extends ModuleComponent implements IIOComponent, IInteractionComponent, INBTWritable,
-		INBTReadable, INetworkComponent {
+		INBTReadable, INetworkComponent, ITickable {
 	private final Map<EnumFacing, IOMode> faceModes;
+	private final TickHelper tickHelper = new TickHelper();
 	private IOMode mode;
 	
 	public IOComponent() {
@@ -66,6 +70,32 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	}
 	
 	@Override
+	public void update() {
+		tickHelper.onTick();
+		if (!tickHelper.updateOnInterval(5)) {
+			return;
+		}
+		for (EnumFacing facing : EnumFacing.VALUES) {
+			if (supportsMode(IOMode.PULL, facing)) {
+				doPull(facing);
+			}
+			if (supportsMode(IOMode.PUSH, facing)) {
+				doPush(facing);
+			}
+		}
+	}
+	
+	@Override
+	public void doPull(EnumFacing facing) {
+		provider.getComponents(IIOConfigurable.class).stream().filter(c -> c != this).forEach(c -> c.doPull(facing));
+	}
+	
+	@Override
+	public void doPush(EnumFacing facing) {
+		provider.getComponents(IIOConfigurable.class).stream().filter(c -> c != this).forEach(c -> c.doPush(facing));
+	}
+	
+	@Override
 	public IOMode getMode(@Nullable EnumFacing facing) {
 		if (facing == null) {
 			return mode;
@@ -81,6 +111,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			faceModes.put(facing, mode);
 		}
 		provider.sendToClient();
+		provider.getContainer().getLocatable().markForNotifyNeighbours();
 	}
 	
 	@Override
@@ -89,6 +120,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			faceModes.put(facing, IOMode.NONE);
 		}
+		provider.getContainer().getLocatable().markForNotifyNeighbours();
 		provider.sendToClient();
 	}
 	

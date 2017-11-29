@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -14,6 +15,9 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleDigging;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +27,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -206,72 +211,6 @@ public class BlockModuleContainer extends Block {
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 	}
 	
-	/*public void dropModules(World world, BlockPos pos, @Nullable EntityPlayer player){
-		if (!world.isRemote) {
-			IModuleLogic tileLogic = CapabilityUtils.getCapability(world, pos, ModuleRegistry.MODULE_LOGIC,null);
-			IAssembler assembler = CapabilityUtils.getCapability(world, pos, ModuleRegistry.ASSEMBLER,null);
-			if (tileLogic != null) {
-				Random random = world.rand;
-				List<ItemStack> drops = Lists.newArrayList();
-				if (tileLogic != null) {
-					/*ItemStack harvestTool = player.getHeldItemMainhand();
-					int level = -1;
-					if (harvestTool != null && harvestTool.getItem() != null) {
-						level = harvestTool.getItem().getHarvestLevel(harvestTool, "wrench", player, blockState);
-					}
-					if (level >= 0) {
-						drops.add(ModuleHelper.saveModularToItem(new ItemStack(this), tileLogic, player));
-					} else {
-					for (Module module : tileLogic.getModules()) {
-						for (IModuleComponent component : module.getComponents()) {
-							if (component instanceof IDropListener) {
-								drops.addAll(((IDropListener) component).getDrops(player));
-							}
-						}
-						for(ItemStack itemStack : module.getDrops()) {
-							//moduleState.getModule().saveDataToItem(itemStack, moduleState);
-							drops.add(getDropStack(itemStack, random));
-						}
-					}
-					if (!Config.destroyModules || random.nextBoolean()) {
-						drops.add(new ItemStack(ItemManager.itemChassis));
-					}
-					//}
-				} else if (assembler != null) {
-					for (IStoragePosition postion : assembler.getPositions()) {
-						IStoragePage page = assembler.getPage(postion);
-						ItemStack storageStack = page.getStorageStack();
-						drops.add(getDropStack(storageStack, random));
-						if (page != null) {
-							IItemHandler itemHandler = page.getItemHandler();
-							for (int i = 0; i < itemHandler.getSlots(); i++) {
-								drops.add(getDropStack(itemHandler.getStackInSlot(i), random));
-							}
-						}
-					}
-					if (!Config.destroyModules || random.nextBoolean()) {
-						drops.add(new ItemStack(ItemManager.itemChassis));
-					}
-				}
-				WorldUtil.dropItems(world, pos, drops);
-			}
-		}
-	}*/
-	
-	/*@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		ItemStack stack = super.getPickBlock(state, target, world, pos, player);
-		IModuleLogic itemLogic = CapabilityUtils.getCapability(stack, ModuleRegistry.MODULE_LOGIC, null);
-		IModuleLogic tileLogic = CapabilityUtils.getCapability(world, pos, ModuleRegistry.MODULE_LOGIC,null);
-		if(tileLogic != null && itemLogic != null) {
-			NBTTagCompound compound = tileLogic.writeToNBT(new NBTTagCompound());
-			itemLogic.readFromNBT(compound);
-			stack.setTagCompound(compound);
-			return stack;
-		}
-		return stack;
-	}*/
-	
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		IModuleContainer container = ModuleUtil.getContainer(pos, world);
@@ -335,5 +274,68 @@ public class BlockModuleContainer extends Block {
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean addHitEffects(IBlockState state, World world, RayTraceResult target, ParticleManager manager) {
+		BlockPos pos = target.getBlockPos();
+		EnumFacing side = target.sideHit;
+		Random rand = world.rand;
+		IBlockState iblockstate = world.getBlockState(pos);
+		if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE) {
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			double f = 0.10000000149011612D;
+			AxisAlignedBB boundingBox = iblockstate.getBoundingBox(world, pos);
+			double particleX = (double) x + rand.nextDouble() * (boundingBox.maxX - boundingBox.minX - f * 2.0F) + f + boundingBox.minX;
+			double particleY = (double) y + rand.nextDouble() * (boundingBox.maxY - boundingBox.minY - f * 2.0F) + f + boundingBox.minY;
+			double particleZ = (double) z + rand.nextDouble() * (boundingBox.maxZ - boundingBox.minZ - f * 2.0F) + f + boundingBox.minZ;
+			
+			if (side == EnumFacing.DOWN) {
+				particleY = (double) y + boundingBox.minY - 0.10000000149011612D;
+			} else if (side == EnumFacing.UP) {
+				particleY = (double) y + boundingBox.maxY + 0.10000000149011612D;
+			} else if (side == EnumFacing.NORTH) {
+				particleZ = (double) z + boundingBox.minZ - 0.10000000149011612D;
+			} else if (side == EnumFacing.SOUTH) {
+				particleZ = (double) z + boundingBox.maxZ + 0.10000000149011612D;
+			} else if (side == EnumFacing.WEST) {
+				particleX = (double) x + boundingBox.minX - 0.10000000149011612D;
+			} else if (side == EnumFacing.EAST) {
+				particleX = (double) x + boundingBox.maxX + 0.10000000149011612D;
+			}
+			Particle particle = manager.spawnEffectParticle(EnumParticleTypes.BLOCK_DUST.getParticleID(), particleX, particleY, particleZ, 0.0D, 0.0D, 0.0D, Block.getStateId(iblockstate));
+			if (particle != null) {
+				particle.multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F);
+				particle.setParticleTexture(Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/casing/bronze_side"));
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
+		IBlockState state = world.getBlockState(pos);
+		state = state.getActualState(world, pos);
+		
+		for (int xOffset = 0; xOffset < 4; ++xOffset) {
+			for (int yOffset = 0; yOffset < 4; ++yOffset) {
+				for (int zOffset = 0; zOffset < 4; ++zOffset) {
+					double x = ((double) xOffset + 0.5D) / 4.0D;
+					double y = ((double) yOffset + 0.5D) / 4.0D;
+					double z = ((double) zOffset + 0.5D) / 4.0D;
+					ParticleDigging particle = (ParticleDigging) manager.spawnEffectParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), (double) pos.getX() + x, (double) pos.getY() + y, (double) pos.getZ() + z, x - 0.5D, y - 0.5D, z - 0.5D, Block.getStateId(state));
+					if (particle != null) {
+						particle.setBlockPos(pos);
+						particle.setParticleTexture(Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("modularmachines:blocks/casing/bronze_side"));
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

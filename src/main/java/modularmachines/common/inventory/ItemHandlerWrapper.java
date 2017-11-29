@@ -81,6 +81,14 @@ public class ItemHandlerWrapper implements IItemHandler, IIOConfigurable {
 	}
 	
 	@Override
+	public void doPull(EnumFacing facing) {
+	}
+	
+	@Override
+	public void doPush(EnumFacing facing) {
+	}
+	
+	@Override
 	public ItemStack getStackInSlot(int slot) {
 		int index = getIndexForSlot(slot);
 		IItemHandler handler = getHandlerFromIndex(index);

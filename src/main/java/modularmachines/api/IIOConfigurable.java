@@ -19,4 +19,8 @@ public interface IIOConfigurable {
 	 * @return The current io mode of the given facing.
 	 */
 	IOMode getMode(@Nullable EnumFacing facing);
+	
+	void doPull(EnumFacing facing);
+	
+	void doPush(EnumFacing facing);
 }

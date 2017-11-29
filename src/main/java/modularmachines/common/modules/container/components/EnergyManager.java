@@ -92,7 +92,6 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 			if (maxReceive <= 0) {
 				break;
 			}
-			break;
 		}
 		if (!simulate && totalReceived != 0) {
 			container.receiveEvent(new Events.EnergyChangeEvent(totalReceived, false));
@@ -126,10 +125,10 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		return capability == CapabilityEnergy.ENERGY ||
+		return !handlers.isEmpty() && (capability == CapabilityEnergy.ENERGY ||
 				capability == TeslaHelper.TESLA_PRODUCER && externalMode.canExtract() ||
 				capability == TeslaHelper.TESLA_CONSUMER && externalMode.canReceive() ||
-				capability == TeslaHelper.TESLA_HOLDER;
+				capability == TeslaHelper.TESLA_HOLDER);
 	}
 	
 	@Override

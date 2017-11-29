@@ -6,15 +6,20 @@ import java.util.function.Predicate;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
+import modularmachines.common.utils.Log;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent {
@@ -51,6 +56,61 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 	@Override
 	public ItemStack extractItemInternal(int slot, int amount, boolean simulate) {
 		return super.extractItem(slot, amount, simulate);
+	}
+	
+	@Override
+	public void doPull(EnumFacing facing) {
+		EnumFacing relativeFacing = facing.getOpposite();
+		TileEntity tileEntity = ModuleUtil.getTile(module.getContainer(), facing);
+		if (tileEntity == null || !tileEntity.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, relativeFacing)) {
+			return;
+		}
+		IItemHandler itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, relativeFacing);
+		if (itemHandler == null) {
+			return;
+		}
+		move(itemHandler, this);
+	}
+	
+	@Override
+	public void doPush(EnumFacing facing) {
+		EnumFacing relativeFacing = facing.getOpposite();
+		TileEntity tileEntity = ModuleUtil.getTile(module.getContainer(), facing);
+		if (tileEntity == null || !tileEntity.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, relativeFacing)) {
+			return;
+		}
+		IItemHandler itemHandler = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, relativeFacing);
+		if (itemHandler == null) {
+			return;
+		}
+		move(this, itemHandler);
+	}
+	
+	private void move(IItemHandler from, IItemHandler to) {
+		for (int i = 0; i < from.getSlots(); i++) {
+			ItemStack extractable = from.extractItem(i, Integer.MAX_VALUE, true);
+			if (extractable.isEmpty()) {
+				continue;
+			}
+			ItemStack notInserted = ItemHandlerHelper.insertItemStacked(to, extractable, true);
+			int insertedAmount = extractable.getCount() - notInserted.getCount();
+			if (insertedAmount <= 0) {
+				continue;
+			}
+			ItemStack extracted = from.extractItem(i, insertedAmount, false);
+			if (extractable.isEmpty()) {
+				continue;
+			}
+			ItemStack notIn = ItemHandlerHelper.insertItemStacked(to, extracted, false);
+			if (!notIn.isEmpty()) {
+				ItemStack result = ItemHandlerHelper.insertItem(from, notIn, false);
+				if (!result.isEmpty()) {
+					Log.err("Failed to insert item: {}.", result);
+					//TODO: Drop the Item or something similar.
+				}
+			}
+			return;
+		}
 	}
 	
 	@Override

@@ -90,15 +90,16 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex, @Nullable BlockRenderLayer layer, int focusedModule) {
 		List<IBakedModel> models = new ArrayList<>();
 		for (IModule module : provider.getHandler().getAllModules()) {
+			int focused = focusedModule;
 			IBakedModel model = null;
-			if (focusedModule == -1 || focusedModule == module.getIndex()) {
-				focusedModule = -1; //Add Children models to the damage model
+			if (focused == -1 || focused == module.getIndex()) {
+				focused = -1; //Add Children models to the damage model
 				model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
 			}
 			IModelData data = module.getData().getModel();
 			IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
 			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
-				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer, focusedModule);
+				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer, focused);
 				if (bakedModel != null) {
 					if (model == null) {
 						model = BakedMultiModel.create(ImmutableList.of(bakedModel));

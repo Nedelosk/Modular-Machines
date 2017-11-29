@@ -22,6 +22,8 @@ public interface ILocatable {
 	
 	void markBlockUpdate();
 	
+	void markForNotifyNeighbours();
+	
 	/**
 	 * @return the facing of this locatable
 	 */

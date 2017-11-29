@@ -43,6 +43,14 @@ public class FluidHandlerWrapper implements IFluidHandler, IIOConfigurable {
 	}
 	
 	@Override
+	public void doPull(EnumFacing facing) {
+	}
+	
+	@Override
+	public void doPush(EnumFacing facing) {
+	}
+	
+	@Override
 	public IFluidTankProperties[] getTankProperties() {
 		List<IFluidTankProperties> tanks = Lists.newArrayList();
 		for (IFluidHandler handler : subHandlers) {

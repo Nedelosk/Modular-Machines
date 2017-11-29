@@ -71,12 +71,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			return new ItemStack(Blocks.CHEST);
 		}
 		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataDefault.addModelData(data());
-		}
-		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 1.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
@@ -336,13 +330,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected ItemStack createItemStack() {
 			return ModuleItems.WATER_INTAKE.get();
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			super.registerModelData();
-			ModelDataDefault.addModelData(data);
 		}
 	},
 	BOILER(new ModuleData(), "boiler", 4) {

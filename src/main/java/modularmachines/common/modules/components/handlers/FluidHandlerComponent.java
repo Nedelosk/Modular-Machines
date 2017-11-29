@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 
@@ -14,6 +15,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.IOMode;
@@ -212,6 +215,75 @@ public class FluidHandlerComponent extends ModuleComponent implements IFluidHand
 			return IOMode.NONE;
 		}
 		return ioComponent.getMode(facing);
+	}
+	
+	@Override
+	public void doPull(EnumFacing facing) {
+		EnumFacing relativeFacing = facing.getOpposite();
+		TileEntity tileEntity = ModuleUtil.getTile(provider.getContainer(), facing);
+		if (tileEntity == null || !tileEntity.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, relativeFacing)) {
+			return;
+		}
+		IFluidHandler fluidHandler = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, relativeFacing);
+		if (fluidHandler == null) {
+			return;
+		}
+		for (InternalTank tank : tanks) {
+			FluidStack fluidStack = tank.getFluid();
+			if (fluidStack == null) {
+				for (IFluidTankProperties properties : fluidHandler.getTankProperties()) {
+					FluidStack content = properties.getContents();
+					if (content == null || !properties.canDrain() || !tank.canFillFluidType(content)) {
+						continue;
+					}
+					fluidStack = content;
+				}
+				if (fluidStack == null) {
+					continue;
+				}
+			}
+			int fillAmount = tank.fill(fluidStack, false);
+			if (fillAmount <= 0) {
+				continue;
+			}
+			FluidStack drained = fluidHandler.drain(new FluidStack(fluidStack.getFluid(), fillAmount), false);
+			if (drained == null || drained.amount <= 0) {
+				continue;
+			}
+			int amount = tank.fill(fluidHandler.drain(drained.copy(), true), true);
+			if (amount > 0) {
+				provider.getContainer().receiveEvent(new Events.FluidChangeEvent(this, new FluidStack(drained.getFluid(), amount), false));
+			}
+			break;
+		}
+	}
+	
+	@Override
+	public void doPush(EnumFacing facing) {
+		EnumFacing relativeFacing = facing.getOpposite();
+		TileEntity tileEntity = ModuleUtil.getTile(provider.getContainer(), facing);
+		if (tileEntity == null || !tileEntity.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, relativeFacing)) {
+			return;
+		}
+		IFluidHandler fluidHandler = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, relativeFacing);
+		if (fluidHandler == null) {
+			return;
+		}
+		for (InternalTank tank : tanks) {
+			FluidStack fluidStack = tank.drain(Integer.MAX_VALUE, false);
+			if (fluidStack == null || fluidStack.amount <= 0) {
+				continue;
+			}
+			int filledAmount = Math.min(fluidStack.amount, fluidHandler.fill(fluidStack.copy(), false));
+			if (filledAmount <= 0) {
+				continue;
+			}
+			FluidStack drained = tank.drain(fluidHandler.fill(new FluidStack(fluidStack.getFluid(), filledAmount), true), true);
+			if (drained != null) {
+				provider.getContainer().receiveEvent(new Events.FluidChangeEvent(this, drained, true));
+			}
+			break;
+		}
 	}
 	
 	@Override

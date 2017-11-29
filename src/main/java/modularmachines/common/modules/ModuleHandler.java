@@ -106,6 +106,7 @@ public class ModuleHandler implements IModuleHandler {
 		provider.getContainer().onModuleAdded(module);
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
+		locatable.markForNotifyNeighbours();
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {
@@ -161,6 +162,7 @@ public class ModuleHandler implements IModuleHandler {
 		}
 		ILocatable locatable = provider.getContainer().getLocatable();
 		locatable.markLocatableDirty();
+		locatable.markForNotifyNeighbours();
 		World world = locatable.getWorldObj();
 		BlockPos blockPos = locatable.getCoordinates();
 		if (!world.isRemote) {

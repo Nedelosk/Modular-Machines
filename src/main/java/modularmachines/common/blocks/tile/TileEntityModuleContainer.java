@@ -23,6 +23,7 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	
 	public EnumFacing facing;
 	public IModuleContainer moduleContainer;
+	private boolean notifyNeighbours;
 	
 	public TileEntityModuleContainer() {
 		this.moduleContainer = ModuleManager.factory.createContainer(this);
@@ -41,6 +42,10 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	@Override
 	public void updateServer() {
 		moduleContainer.update();
+		if (notifyNeighbours) {
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+			notifyNeighbours = false;
+		}
 	}
 	
 	@Override
@@ -67,6 +72,11 @@ public class TileEntityModuleContainer extends TileEntityBase implements ILocata
 	public void markBlockUpdate() {
 		IBlockState blockState = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, blockState, blockState, 0);
+	}
+	
+	@Override
+	public void markForNotifyNeighbours() {
+		notifyNeighbours = true;
 	}
 	
 	@Override
