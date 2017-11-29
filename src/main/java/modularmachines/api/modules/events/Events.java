@@ -20,9 +20,15 @@ public class Events extends Event {
 	
 	public static class EnergyChangeEvent extends Event {
 		private final int energy;
+		private final boolean extracted;
 		
-		public EnergyChangeEvent(int energy) {
+		public EnergyChangeEvent(int energy, boolean extracted) {
 			this.energy = energy;
+			this.extracted = extracted;
+		}
+		
+		public boolean isExtracted() {
+			return extracted;
 		}
 		
 		public int getEnergy() {

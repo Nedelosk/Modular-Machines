@@ -1,8 +1,8 @@
 package modularmachines.common.modules.container.components;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.minecraft.util.EnumFacing;
 
@@ -10,7 +10,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
 import modularmachines.api.modules.container.ContainerComponent;
+import modularmachines.api.modules.events.Events;
 import modularmachines.common.energy.EnergyStorageWrapper;
 import modularmachines.common.energy.EnergyTransferMode;
 import modularmachines.common.energy.tesla.TeslaConsumerWrapper;
@@ -24,12 +27,9 @@ import net.darkhax.tesla.api.ITeslaProducer;
 
 public class EnergyManager extends ContainerComponent implements IEnergyStorage {
 	
-	public final List<IEnergyStorage> energyStorages;
+	public final Set<IEnergyHandlerComponent> handlers = new HashSet<>();
+	private int maxEnergy;
 	private EnergyTransferMode externalMode = EnergyTransferMode.BOTH;
-	
-	public EnergyManager() {
-		this.energyStorages = new ArrayList<>();
-	}
 	
 	public void setExternalMode(EnergyTransferMode externalMode) {
 		this.externalMode = externalMode;
@@ -39,16 +39,36 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 		return externalMode;
 	}
 	
-	public void addStorage(IEnergyStorage storage) {
-		if (!energyStorages.contains(storage)) {
-			energyStorages.add(storage);
+	@Override
+	public void onModuleRemoved(IModule module) {
+		IEnergyHandlerComponent energyHandler = module.getComponent(IEnergyHandlerComponent.class);
+		if (energyHandler != null) {
+			removeHandler(energyHandler);
 		}
+	}
+	
+	@Override
+	public void onModuleAdded(IModule module) {
+		IEnergyHandlerComponent energyHandler = module.getComponent(IEnergyHandlerComponent.class);
+		if (energyHandler != null) {
+			addHandler(energyHandler);
+		}
+	}
+	
+	private void addHandler(IEnergyHandlerComponent handler) {
+		handlers.add(handler);
+		maxEnergy += handler.getMaxEnergyStored();
+	}
+	
+	private void removeHandler(IEnergyHandlerComponent handler) {
+		handlers.remove(handler);
+		maxEnergy -= handler.getMaxEnergyStored();
 	}
 	
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		int totalExtract = 0;
-		for (IEnergyStorage energyStorage : energyStorages) {
+		for (IEnergyStorage energyStorage : handlers) {
 			int extract = energyStorage.extractEnergy(maxExtract, simulate);
 			totalExtract += extract;
 			maxExtract -= extract;
@@ -56,13 +76,16 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 				break;
 			}
 		}
+		if (!simulate && totalExtract != 0) {
+			container.receiveEvent(new Events.EnergyChangeEvent(totalExtract, true));
+		}
 		return totalExtract;
 	}
 	
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		int totalReceived = 0;
-		for (IEnergyStorage energyStorage : energyStorages) {
+		for (IEnergyStorage energyStorage : handlers) {
 			int receive = energyStorage.receiveEnergy(maxReceive, simulate);
 			totalReceived += receive;
 			maxReceive -= receive;
@@ -71,13 +94,16 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 			}
 			break;
 		}
+		if (!simulate && totalReceived != 0) {
+			container.receiveEvent(new Events.EnergyChangeEvent(totalReceived, false));
+		}
 		return totalReceived;
 	}
 	
 	@Override
 	public int getEnergyStored() {
 		int energyStored = 0;
-		for (IEnergyStorage energyStorage : energyStorages) {
+		for (IEnergyStorage energyStorage : handlers) {
 			energyStored += energyStorage.getEnergyStored();
 		}
 		return energyStored;
@@ -85,21 +111,17 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 	
 	@Override
 	public int getMaxEnergyStored() {
-		int capacity = 0;
-		for (IEnergyStorage energyStorage : energyStorages) {
-			capacity += energyStorage.getMaxEnergyStored();
-		}
-		return capacity;
+		return maxEnergy;
 	}
 	
 	@Override
 	public boolean canExtract() {
-		return !energyStorages.isEmpty();
+		return !handlers.isEmpty();
 	}
 	
 	@Override
 	public boolean canReceive() {
-		return !energyStorages.isEmpty();
+		return !handlers.isEmpty();
 	}
 	
 	@Override

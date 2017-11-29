@@ -2,10 +2,10 @@ package modularmachines.common.modules.container.components;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -23,14 +23,13 @@ import modularmachines.common.inventory.CombinedInvWrapper;
 import modularmachines.common.inventory.ItemHandlerWrapper;
 
 public class ItemManager extends ContainerComponent implements IItemHandler, IModuleListener {
-	public final List<IItemHandlerComponent> itemHandlers;
+	public final Set<IItemHandlerComponent> itemHandlers = new HashSet<>();
 	private final Map<EnumFacing, ItemHandlerWrapper> facingHandlers = new EnumMap<>(EnumFacing.class);
 	private CombinedInvWrapper internal;
 	@Nullable
 	private ItemHandlerWrapper wrapper;
 	
 	public ItemManager() {
-		this.itemHandlers = new ArrayList<>();
 		this.internal = new CombinedInvWrapper();
 	}
 	

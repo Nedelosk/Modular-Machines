@@ -1,10 +1,10 @@
 package modularmachines.common.modules.container.components;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.util.EnumFacing;
 
@@ -23,14 +23,13 @@ import modularmachines.api.modules.container.IModuleListener;
 import modularmachines.common.tanks.FluidHandlerWrapper;
 
 public class FluidManager extends ContainerComponent implements IFluidHandler, IModuleListener {
-	private final List<IFluidHandlerComponent> fluidHandlers;
+	private final Set<IFluidHandlerComponent> fluidHandlers = new HashSet<>();
 	private final Map<EnumFacing, FluidHandlerWrapper> facingHandlers = new EnumMap<>(EnumFacing.class);
 	private FluidHandlerConcatenate internal;
 	@Nullable
 	private FluidHandlerWrapper wrapper;
 	
 	public FluidManager() {
-		this.fluidHandlers = new ArrayList<>();
 		this.internal = new FluidHandlerConcatenate();
 	}
 	
