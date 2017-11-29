@@ -21,14 +21,26 @@ public interface IModuleProvider {
 	 */
 	Collection<IModule> getModules();
 	
+	/**
+	 * @return The module handler that this provider contains.
+	 */
 	IModuleHandler getHandler();
 	
+	/**
+	 * @return The position that is at the given position of the {@link RayTraceResult}.
+	 */
 	@Nullable
 	IModulePosition getPosition(RayTraceResult hit);
 	
+	/**
+	 * @return The module container that implements this or contains the module that implements this interface.
+	 */
 	IModuleContainer getContainer();
 	
-	default boolean isValidModule(IModulePosition position, IModuleType dataContainer) {
-		return dataContainer.getData().isValidPosition(position);
+	/**
+	 * Checks if the given module can be placed at the given position at the {@link IModuleHandler} of this provider.
+	 */
+	default boolean isValidModule(IModulePosition position, IModuleType type) {
+		return type.getData().isValidPosition(position);
 	}
 }

@@ -33,8 +33,8 @@ import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.api.modules.model.DefaultProperty;
 import modularmachines.api.modules.model.IModelData;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.positions.EnumCasingPositions;
-import modularmachines.api.modules.positions.EnumRackPositions;
+import modularmachines.api.modules.positions.CasingPosition;
+import modularmachines.api.modules.positions.RackPosition;
 import modularmachines.client.gui.modules.GuiChestModule;
 import modularmachines.client.model.module.ModelData;
 import modularmachines.client.model.module.ModelDataActivatable;
@@ -62,7 +62,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleData(), "chest", 4) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
+			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@Override
@@ -109,7 +109,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	FURNACE(new ModuleData(), "furnace", 1) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
+			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@Override
@@ -127,7 +127,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(18);
-			data.setPositions(EnumCasingPositions.CENTER);
+			data.setPositions(CasingPosition.CENTER);
 		}
 		
 		@Override
@@ -151,7 +151,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(27);
-			data.setPositions(EnumCasingPositions.CENTER);
+			data.setPositions(CasingPosition.CENTER);
 		}
 		
 		@Override
@@ -170,7 +170,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(36);
-			data.setPositions(EnumCasingPositions.CENTER);
+			data.setPositions(CasingPosition.CENTER);
 		}
 		
 		@Override
@@ -189,7 +189,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(3);
-			data.setPositions(EnumCasingPositions.SIDES);
+			data.setPositions(CasingPosition.SIDES);
 		}
 		
 		@Override
@@ -213,7 +213,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(6);
-			data.setPositions(EnumCasingPositions.SIDES);
+			data.setPositions(CasingPosition.SIDES);
 		}
 		
 		@Override
@@ -232,7 +232,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(12);
-			data.setPositions(EnumCasingPositions.SIDES);
+			data.setPositions(CasingPosition.SIDES);
 		}
 		
 		@Override
@@ -251,7 +251,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setAllowedComplexity(24);
-			data.setPositions(EnumCasingPositions.SIDES);
+			data.setPositions(CasingPosition.SIDES);
 		}
 		
 		@Override
@@ -269,7 +269,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	FIREBOX("firebox", 4) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
+			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@Override
@@ -297,7 +297,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			super.initData(data);
-			data.setPositions(EnumCasingPositions.SIDES);
+			data.setPositions(CasingPosition.SIDES);
 		}
 		
 		@Override
@@ -323,7 +323,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		protected void initData(IModuleData data) {
 			super.initData(data);
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
+			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@Override
@@ -347,7 +347,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 	BOILER(new ModuleData(), "boiler", 4) {
 		@Override
 		protected void initData(IModuleData data) {
-			data.setPositions(EnumCasingPositions.HORIZONTAL);
+			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -367,7 +367,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			registerType(ModuleItems.BOILER.get());
 		}
 	},
-	ENGINE(new ModuleData(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN), "engine", 4) {
+	ENGINE(new ModuleData(RackPosition.UP, RackPosition.CENTER, RackPosition.DOWN), "engine", 4) {
 		@Override
 		protected ItemStack createItemStack() {
 			return new ItemStack(ModItems.itemEngineSteam);

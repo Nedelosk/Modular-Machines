@@ -7,12 +7,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
-import modularmachines.api.modules.positions.EnumRackPositions;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.api.modules.positions.RackPosition;
 
 public class RackComponent extends ModuleProviderComponent {
 	public RackComponent() {
-		super(EnumRackPositions.UP, EnumRackPositions.CENTER, EnumRackPositions.DOWN);
+		super(RackPosition.UP, RackPosition.CENTER, RackPosition.DOWN);
 	}
 	
 	@Nullable
@@ -41,10 +41,10 @@ public class RackComponent extends ModuleProviderComponent {
 			return null;
 		}
 		if (vec.y > 0.625F) {
-			return EnumRackPositions.UP;
+			return RackPosition.UP;
 		} else if (vec.y > 0.375F) {
-			return EnumRackPositions.CENTER;
+			return RackPosition.CENTER;
 		}
-		return EnumRackPositions.DOWN;
+		return RackPosition.DOWN;
 	}
 }

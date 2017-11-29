@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package modularmachines.api.modules.listeners;
+package modularmachines.api.modules.positions;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

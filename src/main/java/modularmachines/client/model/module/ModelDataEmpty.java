@@ -13,7 +13,7 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
-import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.common.core.Constants;
 
 /**
@@ -34,7 +34,7 @@ public class ModelDataEmpty extends ModelData {
 	@Override
 	public IModuleModelState createState(IModule module) {
 		ModuleModelState moduleModelState = new ModuleModelState();
-		if (!(module.getPosition() instanceof EnumCasingPositions)) {
+		if (!(module.getPosition() instanceof CasingPosition)) {
 			moduleModelState.set(Properties.ENERGY, false);
 			return moduleModelState;
 		}

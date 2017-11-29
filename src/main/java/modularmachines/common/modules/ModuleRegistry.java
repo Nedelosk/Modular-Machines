@@ -31,7 +31,7 @@ import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.client.model.module.ModelDataEmpty;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModBlocks;
@@ -132,7 +132,7 @@ public enum ModuleRegistry implements IModuleRegistry {
 				return false;
 			}
 			IModuleHandler handler = container.getHandler();
-			if (handler.insertModule(EnumCasingPositions.CENTER, type, heldItem, world.isRemote)) {
+			if (handler.insertModule(CasingPosition.CENTER, type, heldItem, world.isRemote)) {
 				IBlockState blockState = world.getBlockState(pos);
 				blockState.getBlock().onBlockPlacedBy(world, pos, blockState, player, heldItem);
 				SoundType soundtype = blockState.getBlock().getSoundType(blockState, world, pos, player);

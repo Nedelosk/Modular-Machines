@@ -5,12 +5,12 @@ import javax.annotation.Nullable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.RayTraceResult;
 
-import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.api.modules.positions.IModulePosition;
 
 public class CasingComponent extends ModuleProviderComponent {
 	public CasingComponent() {
-		super(EnumCasingPositions.LEFT, EnumCasingPositions.RIGHT, EnumCasingPositions.FRONT, EnumCasingPositions.BACK);
+		super(CasingPosition.LEFT, CasingPosition.RIGHT, CasingPosition.FRONT, CasingPosition.BACK);
 	}
 	
 	@Nullable
@@ -25,13 +25,13 @@ public class CasingComponent extends ModuleProviderComponent {
 			return null;
 		}
 		if (facing.rotateY() == sideHit) {
-			return EnumCasingPositions.LEFT;
+			return CasingPosition.LEFT;
 		} else if (sideHit.rotateY() == facing) {
-			return EnumCasingPositions.RIGHT;
+			return CasingPosition.RIGHT;
 		} else if (sideHit.rotateY().rotateY() == facing) {
-			return EnumCasingPositions.BACK;
+			return CasingPosition.BACK;
 		} else if (sideHit == facing) {
-			return EnumCasingPositions.FRONT;
+			return CasingPosition.FRONT;
 		}
 		return null;
 	}

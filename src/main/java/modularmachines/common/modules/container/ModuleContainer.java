@@ -45,7 +45,7 @@ import modularmachines.api.modules.container.IModuleListener;
 import modularmachines.api.modules.events.Event;
 import modularmachines.api.modules.events.Events;
 import modularmachines.api.modules.events.IEventListener;
-import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.CasingModuleHandler;
 import modularmachines.common.modules.ModuleHandler;
@@ -68,7 +68,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	public ModuleContainer(ILocatable locatable) {
 		this.locatable = locatable;
-		this.moduleHandler = new CasingModuleHandler(this, EnumCasingPositions.CENTER);
+		this.moduleHandler = new CasingModuleHandler(this, CasingPosition.CENTER);
 	}
 	
 	/* SAVE & LOAD */
@@ -247,7 +247,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public IModulePosition getPosition(RayTraceResult hit) {
-		return EnumCasingPositions.CENTER;
+		return CasingPosition.CENTER;
 	}
 	
 	@Override

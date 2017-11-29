@@ -15,7 +15,7 @@ import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModelProperty;
 import modularmachines.api.modules.model.IModuleModelState;
 import modularmachines.api.modules.model.ModelLocationBuilder;
-import modularmachines.api.modules.positions.EnumCasingPositions;
+import modularmachines.api.modules.positions.CasingPosition;
 
 @SideOnly(Side.CLIENT)
 public class ModelDataCasing extends ModelData {
@@ -40,10 +40,10 @@ public class ModelDataCasing extends ModelData {
 		}
 		IModuleHandler moduleHandler = moduleProvider.getHandler();
 		ModuleModelState modelState = new ModuleModelState();
-		IModule left = moduleHandler.getModule(EnumCasingPositions.LEFT);
-		IModule right = moduleHandler.getModule(EnumCasingPositions.RIGHT);
-		modelState.set(Property.LEFT, left.isEmpty() || left.getData().isValidPosition(EnumCasingPositions.FRONT));
-		modelState.set(Property.RIGHT, right.isEmpty() || right.getData().isValidPosition(EnumCasingPositions.FRONT));
+		IModule left = moduleHandler.getModule(CasingPosition.LEFT);
+		IModule right = moduleHandler.getModule(CasingPosition.RIGHT);
+		modelState.set(Property.LEFT, left.isEmpty() || left.getData().isValidPosition(CasingPosition.FRONT));
+		modelState.set(Property.RIGHT, right.isEmpty() || right.getData().isValidPosition(CasingPosition.FRONT));
 		return modelState;
 	}
 	

@@ -58,7 +58,7 @@ public class BoilerComponent extends ProcessComponent {
 		if (heatSource == null) {
 			return 0;
 		}
-		return getWaterCost() * Heat.STEAM_PER_UNIT_WATER;
+		return getWaterCost() * Heat.STEAM_PER_UNIT_WATER * (heatSource.getHeat() / 100D);
 	}
 	
 	private int getWaterCost() {

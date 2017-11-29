@@ -8,14 +8,14 @@ import net.minecraft.util.text.translation.I18n;
 /**
  * A enum that contains all possible rack positions.
  */
-public enum EnumRackPositions implements IModulePosition {
+public enum RackPosition implements IModulePosition {
 	UP(0.0F), //The position of the upper slot of the rack
 	CENTER(-0.25F), //The position of the center slot of the rack
 	DOWN(-0.5F); //The position of the lower slot of the rack
 	
 	private float yOffset;
 	
-	EnumRackPositions(float yOffset) {
+	RackPosition(float yOffset) {
 		this.yOffset = yOffset;
 	}
 	
