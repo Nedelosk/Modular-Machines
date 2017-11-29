@@ -8,7 +8,6 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import modularmachines.api.modules.container.ContainerComponent;
@@ -30,7 +29,6 @@ public class EnergyManager extends ContainerComponent implements IEnergyStorage 
 	
 	public EnergyManager() {
 		this.energyStorages = new ArrayList<>();
-		addStorage(new EnergyStorage(10000));
 	}
 	
 	public void setExternalMode(EnergyTransferMode externalMode) {

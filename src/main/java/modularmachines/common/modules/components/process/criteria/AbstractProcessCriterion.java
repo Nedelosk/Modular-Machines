@@ -49,6 +49,7 @@ public abstract class AbstractProcessCriterion<R> implements IProcessCriterion<R
 	 */
 	public void setRequirement(R requirement) {
 		this.requirement = requirement;
+		markDirty();
 	}
 	
 	@Nullable

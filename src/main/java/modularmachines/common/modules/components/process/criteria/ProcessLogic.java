@@ -25,6 +25,10 @@ public class ProcessLogic {
 		return addCriterion(new DrainCriterion(component, fluid, internal));
 	}
 	
+	public DrainCriterion addFluidDrain(FluidStack fluidStack) {
+		return addCriterion(new DrainCriterion(component, fluidStack, false));
+	}
+	
 	public DrainCriterion addFluidDrain(FluidStack fluidStack, boolean internal) {
 		return addCriterion(new DrainCriterion(component, fluidStack, internal));
 	}
@@ -37,12 +41,24 @@ public class ProcessLogic {
 		return addCriterion(new FillCriterion(component, fluid, internal));
 	}
 	
+	public FillCriterion addFluidFill(FluidStack fluidStack) {
+		return addCriterion(new FillCriterion(component, fluidStack, false));
+	}
+	
 	public FillCriterion addFluidFill(FluidStack fluidStack, boolean internal) {
 		return addCriterion(new FillCriterion(component, fluidStack, internal));
 	}
 	
 	public FillCriterion addFluidFill(Fluid fluid) {
 		return addCriterion(new FillCriterion(component, fluid, false));
+	}
+	
+	public InjectEnergyCriterion addInjectEnergy(int energy) {
+		return addCriterion(new InjectEnergyCriterion(component, energy, false));
+	}
+	
+	public InjectEnergyCriterion addInjectEnergy(int energy, boolean internal) {
+		return addCriterion(new InjectEnergyCriterion(component, energy, internal));
 	}
 	
 	public <C extends IProcessCriterion> C addCriterion(C criterion) {

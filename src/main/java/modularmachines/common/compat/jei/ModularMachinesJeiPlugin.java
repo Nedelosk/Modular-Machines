@@ -1,8 +1,6 @@
 package modularmachines.common.compat.jei;
 
-import mezz.jei.api.JEIPlugin;
-
-@JEIPlugin
+//@JEIPlugin
 public class ModularMachinesJeiPlugin/* extends BlankModPlugin*/ {
 
 	/*public static IJeiRuntime jeiRuntime;

@@ -5,6 +5,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.components.block.IInteractionComponent;
+import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
@@ -37,6 +38,33 @@ public interface IModuleComponentFactory {
 	 * @return The created fluid handler component.
 	 */
 	IFluidHandlerComponent addFluidHandler(IModule module);
+	
+	/**
+	 * Creates and adds a energy handler and a io component to the module.
+	 *
+	 * @param module   The module
+	 * @param capacity The capacity of the energy handler
+	 * @return The created energy handler component.
+	 */
+	IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity);
+	
+	/**
+	 * Creates and adds a energy handler and a io component to the module.
+	 *
+	 * @param module   The module
+	 * @param capacity The capacity of the energy handler
+	 * @return The created energy handler component.
+	 */
+	IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity, int maxTransfer);
+	
+	/**
+	 * Creates and adds a energy handler and a io component to the module.
+	 *
+	 * @param module   The module
+	 * @param capacity The capacity of the energy handler
+	 * @return The created energy handler component.
+	 */
+	IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity, int maxReceive, int maxExtract);
 	
 	/**
 	 * Creates and adds a io component to the module.

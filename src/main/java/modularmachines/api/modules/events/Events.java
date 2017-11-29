@@ -18,6 +18,18 @@ public class Events extends Event {
 		return component;
 	}
 	
+	public static class EnergyChangeEvent extends Event {
+		private final int energy;
+		
+		public EnergyChangeEvent(int energy) {
+			this.energy = energy;
+		}
+		
+		public int getEnergy() {
+			return energy;
+		}
+	}
+	
 	public static class FluidChangeEvent extends Events {
 		private final FluidStack changedFluid;
 		private final boolean drained;

@@ -52,6 +52,7 @@ import modularmachines.common.modules.components.CasingComponent;
 import modularmachines.common.modules.components.FireboxComponent;
 import modularmachines.common.modules.components.FuelComponent;
 import modularmachines.common.modules.components.RackComponent;
+import modularmachines.common.modules.components.SteamConsumerComponent;
 import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
@@ -350,12 +351,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			data.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataDefault.addModelData(data);
-		}
-		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			module.addComponent(new BoilerComponent());
@@ -376,6 +371,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
 			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
+			module.addComponent(new SteamConsumerComponent());
+			factory.addEnergyHandler(module, 10000);
 		}
 		
 		@SideOnly(Side.CLIENT)

@@ -24,7 +24,7 @@ import modularmachines.api.modules.events.Events;
 import modularmachines.common.modules.components.ModuleComponent;
 import modularmachines.common.utils.ModuleUtil;
 
-public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent, INetworkComponent {
+public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent {
 	private NonNullList<InternalTank> tanks = NonNullList.create();
 	
 	@Override

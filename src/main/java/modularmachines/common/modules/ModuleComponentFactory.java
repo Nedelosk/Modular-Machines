@@ -7,11 +7,13 @@ import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IModuleComponentFactory;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.components.block.IInteractionComponent;
+import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.GuiComponent;
+import modularmachines.common.modules.components.handlers.EnergyHandlerComponent;
 import modularmachines.common.modules.components.handlers.FluidHandlerComponent;
 import modularmachines.common.modules.components.handlers.IOComponent;
 import modularmachines.common.modules.components.handlers.ItemHandlerComponent;
@@ -39,6 +41,31 @@ public enum ModuleComponentFactory implements IModuleComponentFactory {
 		}
 		return module.addComponent(new FluidHandlerComponent());
 	}
+	
+	@Override
+	public IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity) {
+		if (!module.hasComponent(IIOComponent.class)) {
+			addIO(module);
+		}
+		return module.addComponent(new EnergyHandlerComponent(capacity));
+	}
+	
+	@Override
+	public IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity, int maxTransfer) {
+		if (!module.hasComponent(IIOComponent.class)) {
+			addIO(module);
+		}
+		return module.addComponent(new EnergyHandlerComponent(capacity, maxTransfer));
+	}
+	
+	@Override
+	public IEnergyHandlerComponent addEnergyHandler(IModule module, int capacity, int maxReceive, int maxExtract) {
+		if (!module.hasComponent(IIOComponent.class)) {
+			addIO(module);
+		}
+		return module.addComponent(new EnergyHandlerComponent(capacity, maxReceive, maxExtract));
+	}
+	
 	
 	@Override
 	public IIOComponent addIO(IModule module) {
