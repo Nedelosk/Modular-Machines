@@ -67,6 +67,9 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.iron"));
 		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.steel"));
 		
+		category.addEntry("io_system", new Entry(keyBase + "io_system", true));
+		category.getEntry("io_system").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "io_system.info"), 370));
+		
 		category.addEntry("water_intake", new Entry(keyBase + "water_intake", true));
 		category.getEntry("water_intake").addPage(getCraftingPage("water_intake"));
 		category.getEntry("water_intake").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "water_intake.info"), 370));
