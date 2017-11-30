@@ -60,10 +60,17 @@ task apiJar(type: Jar) {
 	classifier = 'api'
 }
 
+// Javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
 artifacts {
 	archives deobfJar
 	archives sourcesJar
 	archives apiJar
+	archives javadocJar
 }
 
 repositories {
@@ -143,6 +150,12 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 	templateContent = file('changelog.mustache').getText('UTF-8')
 }
 
+def curseRelations = {
+    optionalLibrary 'just-enough-items-jei'
+    optionalLibrary 'the-one-probe'
+    optionalLibrary 'guide-api'
+}
+
 curseforge {
 	apiKey = "$System.env.CURSEAPIKEY" != "null" ? "$System.env.CURSEAPIKEY" : "0"
 	project {
@@ -150,6 +163,10 @@ curseforge {
 		changelog = file('changelog.html')
 		changelogType = 'html'
 		releaseType = 'alpha'
+		
+		relations curseRelations
+		
+		addArtifact javadocJar
 		addArtifact sourcesJar
 		addArtifact apiJar
 		addArtifact deobfJar

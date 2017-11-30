@@ -5,6 +5,15 @@ module.boiler.name=Boiler
 module.large_tank.name=Large Tank
 module.module_rack.name=Module Rack
 module.chest.name=Chest
+module.casing.bronze.name=Bronze Casing
+module.casing.iron.name=Iron Casing
+module.casing.steel.name=Steel Casing
+module.casing.magmarium.name=Magmarium Casing
+module.rack.bricks.name=Brick Module Rack
+module.rack.bronze.name=Bronze Module Rack
+module.rack.iron.name=Iron Module Rack
+module.rack.steel.name=Steel Module Rack
+module.rack.magmarium.name=Magmarium Module Rack
 
 ####################################
 # Module Positions
@@ -52,6 +61,7 @@ mm.tooltip.hold.moduleInfo=Hold %s to show Module Info
 mm.tooltip.moduleInfo=Module Info
 mm.tooltip.module.name=Name: %s
 mm.tooltip.module.complexity=Complexity: %s
+mm.tooltip.module.complexity.allowed=Allowed Complexity: %s
 mm.tooltip.module.positions=Valid Positions: %s
 
 mm.tooltip.screwdriver.facing=Target Facing: %s
@@ -110,6 +120,7 @@ modularmachines.item.engine_electric_magmarium.name=Magmarium Electric Engine
 modularmachines.item.modules_boiler.name=Boiler
 modularmachines.item.modules_large_tank.name=Large Tank
 modularmachines.item.modules_firebox.name=Firebox
+modularmachines.item.modules_water_intake.name=Water Intake
 
 ####################################
 # Guide Book
@@ -119,11 +130,34 @@ guide.modularmachines.display=Book of Modularity
 guide.modularmachines.author=Modular Machines
 guide.modularmachines.welcome=Modular Machines
 
-guide.modularmachines.entry.basic.tite=Basic
+guide.modularmachines.entry.basic.title=Basic
+guide.modularmachines.entry.process.title=Production
+guide.modularmachines.entry.integration.title=Integration
 
 guide.modularmachines.entry.basic.intro=Introduction
-guide.modularmachines.entry.basic.intro.info.0=This book contains every information that you need to build and use a machine that is build out of different modules. Every module can only be placed at certain positions on certain modules. You can see this positions for every module in this book or in the tooltip of a item that represents this module.
-guide.modularmachines.entry.basic.intro.info.1=They are serveral modules that can contain other modules. They are called module providers. One of this module is the casing. The casing itself has not to be placed on a module provider, but every other module has to. Every module provider provides some positions on that other modules can be placed.
+guide.modularmachines.entry.basic.intro.info.0=This book has every information that you need to build and use a machine that is build out of different modules. Every module can only be placed at certain positions on certain modules. You can see this positions for every module in this book or in the tooltip of an item that represents this module.
+guide.modularmachines.entry.basic.intro.info.1=They are several modules that can contain other modules. They are called module providers. One of this module is the casing. The casing itself has not to be placed on a module provider, but every other module has to. Every module provider provides some positions on that other modules can be placed.
 
 guide.modularmachines.entry.basic.casings=Casings
-guide.modularmachines.entry.basic.casings.info=A Casing is the base of a modular machine. It has not to be placed on a other module. It provides the following positions: §o§lFront, Left Side, Right Side, Back, Top and Bottom§r.\nAt the start you only need a bronze casing but later you can craft one out of iron, steel and other metals.
+guide.modularmachines.entry.basic.casings.info=A casing is the base of a modular machine. It has not to be placed on an other module. It provides the following positions: §o§lFront, Left Side, Right Side, Back, Top and Bottom§r.\nAt the start you only need a bronze casing but later you can craft one out of iron, steel and other metals.
+
+guide.modularmachines.entry.basic.module_racks=Module Racks
+guide.modularmachines.entry.basic.module_racks.info=Module racks are module providers and they are providing the following positions: §o§lUpper Rack Slot, Center Rack Slot and the Lower Rack Slot§r.
+
+guide.modularmachines.entry.basic.water_intake=Water Intake
+guide.modularmachines.entry.basic.water_intake.info=The water intake collects water from adjacent water sources or if it rains. It creates more water if more water sources are nearby. Only water sources that are adjacent to the block that contains this module count as valid water sources. It does not work in the nether.
+
+guide.modularmachines.entry.process.intro=Progress
+guide.modularmachines.entry.process.intro.info=This chapter contains information about all modules that produce something.
+
+guide.modularmachines.entry.process.firebox=Firebox
+guide.modularmachines.entry.process.firebox.info=A firebox generates heat from burnging solid fuel like wood or coal that can be usedi to create steam or smelt things. The heat of the casing starts by 20 C and goeas up to the maximal heat of the firebox. A firebox that buerns solid fuel can reach a heat of 225 C.
+
+guide.modularmachines.entry.process.boiler=Boiler
+guide.modularmachines.entry.process.boiler.info=A boiler creates steam out of water and heat. It starts to generate steam when the heat of the casing has reached 100 C. The boiler needs water to generate steam. The boiler needs more water to create steam the hotter casing is, but it creates also more steam. At 100 C it creates 160 mb of steam from 1 mb of water.
+
+guide.modularmachines.entry.process.engine_steam=Steam Engine
+guide.modularmachines.entry.process.engine_steam.info=The steam engine uses steam and generates Redstone Flux. By default it creates 20 RF per tick and uses 5 mb per tick.
+
+guide.modularmachines.entry.integration.intro=Foreword
+guide.modularmachines.entry.integration.intro.info=This chapter contains information about all modules that were discovered by other authors then the author of this book.

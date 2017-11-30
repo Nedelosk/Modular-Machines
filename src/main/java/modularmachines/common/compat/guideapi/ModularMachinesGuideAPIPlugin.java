@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModItems;
+import modularmachines.common.items.ModuleItems;
 import modularmachines.common.utils.Translator;
 
 import amerifrance.guideapi.api.GuideAPI;
@@ -40,12 +41,15 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		BOOK.setRegistryName(new ResourceLocation(Constants.MOD_ID, "guide"));
 		BOOK.setColor(Color.BLUE);
 		addModuleCategory();
+		addProcessCategory();
+		addIntegrationCategory();
 		return BOOK;
 	}
 	
 	private void addModuleCategory() {
 		final String keyBase = "guide." + Constants.MOD_ID + ".entry.basic.";
-		CategoryAbstract category = new CategoryItemStack(keyBase + "tile", new ItemStack(ModItems.itemCasings, 1, 0)).withKeyBase(Constants.MOD_ID);
+		CategoryAbstract category = new CategoryItemStack(keyBase + "title", new ItemStack(ModItems.itemCasings, 1, 0)).withKeyBase(Constants.MOD_ID);
+		
 		category.addEntry("intro", new Entry(keyBase + "intro", true));
 		category.getEntry("intro").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "intro.info.0")));
 		category.getEntry("intro").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "intro.info.1")));
@@ -55,7 +59,53 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("casings").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "casings.info"), 370));
 		category.getEntry("casings").addPage(getCraftingPage("casing.iron"));
 		category.getEntry("casings").addPage(getCraftingPage("casing.steel"));
-		category.getEntry("casings").addPage(getCraftingPage("casing.magmarium"));
+		
+		category.addEntry("module_racks", new Entry(keyBase + "module_racks", true));
+		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.bricks"));
+		category.getEntry("module_racks").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "module_racks.info"), 370));
+		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.bronze"));
+		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.iron"));
+		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.steel"));
+		
+		category.addEntry("water_intake", new Entry(keyBase + "water_intake", true));
+		category.getEntry("water_intake").addPage(getCraftingPage("water_intake"));
+		category.getEntry("water_intake").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "water_intake.info"), 370));
+		
+		category.entries.values().forEach(e -> e.pageList.stream().filter(p -> p instanceof PageText).forEach(p -> ((PageText) p).setUnicodeFlag(true)));
+		BOOK.addCategory(category);
+	}
+	
+	private void addProcessCategory() {
+		final String keyBase = "guide." + Constants.MOD_ID + ".entry.process.";
+		CategoryAbstract category = new CategoryItemStack(keyBase + "title", ModuleItems.FIREBOX.get()).withKeyBase(Constants.MOD_ID);
+		
+		category.addEntry("intro", new Entry(keyBase + "intro", true));
+		category.getEntry("intro").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "intro.info")));
+		
+		category.addEntry("firebox", new Entry(keyBase + "firebox", true));
+		//	category.getEntry("boiler").addPage(getCraftingPage("boiler"));
+		category.getEntry("firebox").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "firebox.info"), 370));
+		
+		category.addEntry("boiler", new Entry(keyBase + "boiler", true));
+		//	category.getEntry("boiler").addPage(getCraftingPage("boiler"));
+		category.getEntry("boiler").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "boiler.info"), 370));
+		
+		category.addEntry("engine_steam", new Entry(keyBase + "engine_steam", true));
+		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.bronze"));
+		category.getEntry("engine_steam").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "engine_steam.info"), 370));
+		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.iron"));
+		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.steel"));
+		
+		category.entries.values().forEach(e -> e.pageList.stream().filter(p -> p instanceof PageText).forEach(p -> ((PageText) p).setUnicodeFlag(true)));
+		BOOK.addCategory(category);
+	}
+	
+	private void addIntegrationCategory() {
+		final String keyBase = "guide." + Constants.MOD_ID + ".entry.integration.";
+		CategoryAbstract category = new CategoryItemStack(keyBase + "title", new ItemStack(ModItems.screwdriver, 1, 0)).withKeyBase(Constants.MOD_ID);
+		
+		category.addEntry("intro", new Entry(keyBase + "intro", true));
+		category.getEntry("intro").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "intro.info")));
 		
 		category.entries.values().forEach(e -> e.pageList.stream().filter(p -> p instanceof PageText).forEach(p -> ((PageText) p).setUnicodeFlag(true)));
 		BOOK.addCategory(category);
