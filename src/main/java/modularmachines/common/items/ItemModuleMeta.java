@@ -46,6 +46,10 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Registry.getItemName(uln + "_" + names[itemstack.getItemDamage()]);
+		int meta = itemstack.getItemDamage();
+		if (meta >= names.length || meta < 0) {
+			return "UNKNOWN";
+		}
+		return Registry.getItemName(uln + "_" + names[meta]);
 	}
 }

@@ -7,8 +7,13 @@ package modularmachines.common;
 
 import java.io.File;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -18,6 +23,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import modularmachines.api.modules.IModuleData;
@@ -27,11 +33,10 @@ import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.GuiHandler;
-import modularmachines.common.core.RecipeManager;
+import modularmachines.common.core.ModRecipes;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.core.managers.ModFluids;
 import modularmachines.common.core.managers.ModItems;
-import modularmachines.common.core.managers.ModOreDicts;
 import modularmachines.common.modules.ModuleComponentFactory;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleFactory;
@@ -63,22 +68,19 @@ public class ModularMachines {
 		//new ModuleLoadManager();
 		configFile = event.getSuggestedConfigurationFile();
 		MinecraftForge.EVENT_BUS.register(Config.class);
+		MinecraftForge.EVENT_BUS.register(this);
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);
 		new PacketHandler();
 		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		ModFluids.preInit();
-		ModBlocks.preInit();
-		ModItems.preInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		proxy.preInit();
-		ModOreDicts.registerOres();
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		ModuleDefinition.registerModuleContainers();
-		RecipeManager.registerRecipes();
 		proxy.init();
 		TheOneProbeCompat.postInit();
 	}
@@ -89,4 +91,18 @@ public class ModularMachines {
 		//Config.syncConfig(true);
 	}
 	
+	@SubscribeEvent
+	public void registerBlocks(RegistryEvent<Block> event) {
+		ModBlocks.preInit();
+	}
+	
+	@SubscribeEvent
+	public void registerItems(RegistryEvent<Item> event) {
+		ModItems.preInit();
+	}
+	
+	@SubscribeEvent
+	public void registerRecipes(RegistryEvent<IRecipe> event) {
+		ModRecipes.registerRecipes();
+	}
 }

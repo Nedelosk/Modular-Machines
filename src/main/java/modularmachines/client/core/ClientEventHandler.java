@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -74,6 +75,11 @@ public class ClientEventHandler {
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/container"));
 		event.getMap().registerSprite(new ResourceLocation("modularmachines:gui/liquid"));
+	}
+	
+	@SubscribeEvent
+	public void registerRecipes(ModelRegistryEvent event) {
+		ModelManager.getInstance().registerModels();
 	}
 	
 	@SubscribeEvent

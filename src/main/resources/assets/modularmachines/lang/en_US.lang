@@ -118,3 +118,12 @@ guide.modularmachines.title=Book of Modularity
 guide.modularmachines.display=Book of Modularity
 guide.modularmachines.author=Modular Machines
 guide.modularmachines.welcome=Modular Machines
+
+guide.modularmachines.entry.basic.tite=Basic
+
+guide.modularmachines.entry.basic.intro=Introduction
+guide.modularmachines.entry.basic.intro.info.0=This book contains every information that you need to build and use a machine that is build out of different modules. Every module can only be placed at certain positions on certain modules. You can see this positions for every module in this book or in the tooltip of a item that represents this module.
+guide.modularmachines.entry.basic.intro.info.1=They are serveral modules that can contain other modules. They are called module providers. One of this module is the casing. The casing itself has not to be placed on a module provider, but every other module has to. Every module provider provides some positions on that other modules can be placed.
+
+guide.modularmachines.entry.basic.casings=Casings
+guide.modularmachines.entry.basic.casings.info=A Casing is the base of a modular machine. It has not to be placed on a other module. It provides the following positions: §o§lFront, Left Side, Right Side, Back, Top and Bottom§r.\nAt the start you only need a bronze casing but later you can craft one out of iron, steel and other metals.

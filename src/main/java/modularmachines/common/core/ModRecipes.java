@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import modularmachines.common.core.managers.ModItems;
 
-public class RecipeManager {
+public class ModRecipes {
 	
 	public static void registerRecipes() {
 		//RecipeRegistry.registerRecipeHandler(new RecipeHandlerHeat("Boiler"));
@@ -29,10 +29,10 @@ public class RecipeManager {
 	
 	private static void addModuleRecipes() {
 		// Casings
-		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1, 1), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1, 2), "+++", "+ +", "---", '+', "plateSteel", '-', Blocks.BRICK_BLOCK);
-		addShapedRecipe(new ItemStack(ModItems.itemCasings, 1, 3), "+++", "+ +", "---", '+', "plateMagmarium", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe("casing.bronze", new ItemStack(ModItems.itemCasings, 1), "+++", "+ +", "---", '+', "plateBronze", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe("casing.iron", new ItemStack(ModItems.itemCasings, 1, 1), "+++", "+ +", "---", '+', "plateIron", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe("casing.steel", new ItemStack(ModItems.itemCasings, 1, 2), "+++", "+ +", "---", '+', "plateSteel", '-', Blocks.BRICK_BLOCK);
+		addShapedRecipe("casing.magmarium", new ItemStack(ModItems.itemCasings, 1, 3), "+++", "+ +", "---", '+', "plateMagmarium", '-', Blocks.BRICK_BLOCK);
 		// Module Storages
 		addShapedRecipe(new ItemStack(ModItems.itemModuleRack), "BIB", "BIB", "BIB", 'I', "stickWood", 'B', "logWood");
 		addShapedRecipe(new ItemStack(ModItems.itemModuleRack, 1, 1), "BIB", "BIB", "BIB", 'I', "ingotBrick", 'B', new ItemStack(Blocks.BRICK_BLOCK));

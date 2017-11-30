@@ -52,7 +52,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-		ModelManager.getInstance().registerModels();
 		ModelLoaderRegistry.registerLoader(new BuiltInModelLoader(ModelManager.getInstance().getBuiltInModels()));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityModuleContainer.class, new ModuleContainerTESR());
 	}
