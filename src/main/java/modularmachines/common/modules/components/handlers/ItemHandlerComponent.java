@@ -17,12 +17,13 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
+import modularmachines.api.modules.components.block.IDropComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.common.utils.Log;
 import modularmachines.common.utils.ModuleUtil;
 
-public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent {
+public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent, IDropComponent {
 	private final NonNullList<ItemSlot> slots = NonNullList.create();
 	private IModule module;
 	
@@ -173,6 +174,15 @@ public class ItemHandlerComponent extends ItemStackHandler implements IItemHandl
 		super.onContentsChanged(slot);
 		ModuleUtil.markDirty(module);
 		ModuleUtil.markForModelUpdate(module);
+	}
+	
+	@Override
+	public void addDrops(NonNullList<ItemStack> drops) {
+		for (ItemStack stack : stacks) {
+			if (!stack.isEmpty()) {
+				drops.add(stack);
+			}
+		}
 	}
 	
 	public class ItemSlot implements IItemSlot {

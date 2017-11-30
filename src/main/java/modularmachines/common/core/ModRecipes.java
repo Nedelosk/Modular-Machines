@@ -33,12 +33,15 @@ public class ModRecipes {
 		addShapedRecipe("engine.steam.steel", new ItemStack(ModItems.itemEngineSteam, 1, 2), "GHP", "BII", "GHP", 'I', "rodSteel", 'H', "ingotSteel", 'G', "gearSteel", 'P', "plateSteel", 'B', new ItemStack(ModItems.itemEngineSteam, 1, 1));
 		addShapedRecipe("engine.steam.magmarium", new ItemStack(ModItems.itemEngineSteam, 1, 3), "GHP", "BII", "GHP", 'I', "rodMagmarium", 'H', "ingotMagmarium", 'G', "gearMagmarium", 'P', "plateMagmarium", 'B', new ItemStack(ModItems.itemEngineSteam, 1, 2));
 		// Turbines
-		addShapedRecipe("engine.steam.bronze", new ItemStack(ModItems.itemTurbineSteam, 1, 0), "SPI", "PBP", "IPS", 'I', "ingotBronze", 'B', "blockBronze", 'P', "plateBronze", 'S', "screwBronze");
-		addShapedRecipe("engine.steam.iron", new ItemStack(ModItems.itemTurbineSteam, 1, 1), "SPR", "PBP", "RPS", 'R', "rodIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
-		addShapedRecipe("engine.steam.steel", new ItemStack(ModItems.itemTurbineSteam, 1, 2), "SPR", "PBP", "RPS", 'R', "rodSteel", 'B', "blockSteel", 'P', "plateSteel", 'S', "screwSteel");
-		addShapedRecipe("engine.steam.magmarium", new ItemStack(ModItems.itemTurbineSteam, 1, 3), "SPR", "PBP", "RPS", 'R', "rodMagmarium", 'B', "blockMagmarium", 'P', "plateMagmarium", 'S', "screwMagmarium");
+		addShapedRecipe("turbine.steam.bronze", new ItemStack(ModItems.itemTurbineSteam, 1, 0), "SPI", "PBP", "IPS", 'I', "ingotBronze", 'B', "blockBronze", 'P', "plateBronze", 'S', "screwBronze");
+		addShapedRecipe("turbine.steam.iron", new ItemStack(ModItems.itemTurbineSteam, 1, 1), "SPR", "PBP", "RPS", 'R', "rodIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
+		addShapedRecipe("turbine.steam.steel", new ItemStack(ModItems.itemTurbineSteam, 1, 2), "SPR", "PBP", "RPS", 'R', "rodSteel", 'B', "blockSteel", 'P', "plateSteel", 'S', "screwSteel");
+		addShapedRecipe("turbine.steam.magmarium", new ItemStack(ModItems.itemTurbineSteam, 1, 3), "SPR", "PBP", "RPS", 'R', "rodMagmarium", 'B', "blockMagmarium", 'P', "plateMagmarium", 'S', "screwMagmarium");
 		
 		addShapedRecipe("water_intake", ModuleItems.WATER_INTAKE.get(), "GBG", "BCB", "IBI", 'B', new ItemStack(Blocks.IRON_BARS), 'G', "gearIron", 'I', "ingotIron", 'C', Items.BUCKET);
+		addShapedRecipe("large_tank", ModuleItems.LARGE_TANK.get(), "BHB", "IGI", "BHB", 'G', "blockGlass", 'H', "gearBronze", 'I', "ingotBronze", 'B', "ingotBrick");
+		addShapedRecipe("firebox", ModuleItems.FIREBOX.get(), "IBI", "BFB", "GBG", 'G', "gearIron", 'B', new ItemStack(Blocks.IRON_BARS), 'I', "ingotIron", "F", new ItemStack(Items.FIRE_CHARGE));
+		addShapedRecipe("boiler", ModuleItems.BOILER.get(), "PPP", "G G", "PFP", 'P', "plateBronze", 'G', "gearBronze", 'F', Blocks.FURNACE);
 	}
 	
 	private static void addShapedRecipe(String name, ItemStack stack, Object... obj) {

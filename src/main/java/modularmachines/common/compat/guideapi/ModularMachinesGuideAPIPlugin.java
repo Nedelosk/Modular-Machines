@@ -76,6 +76,10 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("water_intake").addPage(getCraftingPage("water_intake"));
 		category.getEntry("water_intake").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "water_intake.info"), 370));
 		
+		category.addEntry("large_tank", new Entry(keyBase + "large_tank", true));
+		category.getEntry("large_tank").addPage(getCraftingPage("large_tank"));
+		category.getEntry("large_tank").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "large_tank.info"), 370));
+		
 		category.entries.values().forEach(e -> e.pageList.stream().filter(p -> p instanceof PageText).forEach(p -> ((PageText) p).setUnicodeFlag(true)));
 		BOOK.addCategory(category);
 	}
@@ -88,11 +92,11 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("intro").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "intro.info")));
 		
 		category.addEntry("firebox", new Entry(keyBase + "firebox", true));
-		//	category.getEntry("boiler").addPage(getCraftingPage("boiler"));
+		category.getEntry("firebox").addPage(getCraftingPage("firebox"));
 		category.getEntry("firebox").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "firebox.info"), 370));
 		
 		category.addEntry("boiler", new Entry(keyBase + "boiler", true));
-		//	category.getEntry("boiler").addPage(getCraftingPage("boiler"));
+		category.getEntry("boiler").addPage(getCraftingPage("boiler"));
 		category.getEntry("boiler").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "boiler.info"), 370));
 		
 		category.addEntry("engine_steam", new Entry(keyBase + "engine_steam", true));

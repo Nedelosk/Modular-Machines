@@ -25,6 +25,9 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleRegistry;
@@ -49,7 +52,9 @@ public enum ModuleRegistry implements IModuleRegistry {
 	ModuleRegistry() {
 		ResourceLocation defaultKey = new ResourceLocation(Constants.MOD_ID, "empty");
 		defaultData = ModuleManager.factory.createData().setRegistryName(defaultKey);
-		ModelDataEmpty.addModelData(defaultData);
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			ModelDataEmpty.addModelData(defaultData);
+		}
 		registry = new RegistryBuilder<IModuleData>()
 				.setMaxID(4095)
 				.setName(new ResourceLocation("modularmachines:moduledatas"))
