@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/casings/side_right",
-	"textures": {
-		"side": "modularmachines:blocks/casing/bronze_side"
-    }
-}

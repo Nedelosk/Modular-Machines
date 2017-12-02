@@ -34,8 +34,9 @@ import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
+import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.positions.CasingPosition;
-import modularmachines.client.model.module.ModelDataEmpty;
+import modularmachines.client.model.module.BakeryBase;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.modules.container.EmptyModuleContainer;
@@ -45,6 +46,12 @@ import modularmachines.common.utils.capabilitys.DefaultStorage;
 public enum ModuleRegistry implements IModuleRegistry {
 	INSTANCE;
 	
+	private final IModuleKeyGenerator defaultGenerator = m -> {
+		IModuleData moduleData = m.getData();
+		ResourceLocation registryName = moduleData.getRegistryName();
+		return registryName == null ? "null" : registryName.getResourcePath();
+	};
+	
 	private final Multimap<Item, IModuleType> types = HashMultimap.create();
 	private final IModuleData defaultData;
 	private final IForgeRegistry<IModuleData> registry;
@@ -53,7 +60,8 @@ public enum ModuleRegistry implements IModuleRegistry {
 		ResourceLocation defaultKey = new ResourceLocation(Constants.MOD_ID, "empty");
 		defaultData = ModuleManager.factory.createData().setRegistryName(defaultKey);
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			ModelDataEmpty.addModelData(defaultData);
+			defaultData.setGenerator(defaultGenerator);
+			defaultData.setBakery(new BakeryBase());
 		}
 		registry = new RegistryBuilder<IModuleData>()
 				.setMaxID(4095)
@@ -106,6 +114,11 @@ public enum ModuleRegistry implements IModuleRegistry {
 	@Override
 	public IModuleData getEmpty() {
 		return defaultData;
+	}
+	
+	@Override
+	public IModuleKeyGenerator getDefaultGenerator() {
+		return defaultGenerator;
 	}
 	
 	@Override

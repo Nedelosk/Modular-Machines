@@ -1,0 +1,8 @@
+{
+  "parent": "modularmachines:module/casings/casing",
+  "textures": {
+    "down": "thermalexpansion:blocks/machine/machine_side",
+    "side": "thermalexpansion:blocks/machine/machine_side",
+    "top": "thermalexpansion:blocks/machine/machine_top"
+  }
+}

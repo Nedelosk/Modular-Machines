@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/casings/side_right",
+  "textures": {
+    "side": "thermalexpansion:blocks/machine/machine_side"
+  }
+}

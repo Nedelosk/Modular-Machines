@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/casings/side_left",
+  "textures": {
+    "side": "modularmachines:blocks/casing/iron_side"
+  }
+}

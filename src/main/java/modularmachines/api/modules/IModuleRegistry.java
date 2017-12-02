@@ -10,6 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.positions.CasingPosition;
 
 /**
@@ -41,4 +42,6 @@ public interface IModuleRegistry {
 	 * @return The module data that is used for empty modules.
 	 */
 	IModuleData getEmpty();
+	
+	IModuleKeyGenerator getDefaultGenerator();
 }

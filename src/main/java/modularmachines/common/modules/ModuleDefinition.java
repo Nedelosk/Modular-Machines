@@ -1,6 +1,6 @@
 package modularmachines.common.modules;
 
-import java.util.function.Function;
+import javax.annotation.Nullable;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,34 +15,34 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.FluidStack;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
-import modularmachines.api.modules.IModuleType;
+import modularmachines.api.modules.IModuleHandler;
+import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IActivatableComponent;
 import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IModuleComponentFactory;
+import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
-import modularmachines.api.modules.model.DefaultProperty;
-import modularmachines.api.modules.model.IModelData;
-import modularmachines.api.modules.model.ModelLocationBuilder;
+import modularmachines.api.modules.model.IModuleKeyGenerator;
+import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.api.modules.positions.RackPosition;
 import modularmachines.client.gui.modules.GuiChestModule;
-import modularmachines.client.model.module.ModelData;
-import modularmachines.client.model.module.ModelDataActivatable;
-import modularmachines.client.model.module.ModelDataCasing;
-import modularmachines.client.model.module.ModelDataDefault;
-import modularmachines.client.model.module.ModelDataLargeTank;
-import modularmachines.client.model.module.ModelDataModuleRack;
-import modularmachines.common.ModularMachines;
+import modularmachines.client.model.module.BakeryActivatable;
+import modularmachines.client.model.module.BakeryBase;
+import modularmachines.client.model.module.BakeryCasing;
+import modularmachines.client.model.module.BakeryLargeTank;
 import modularmachines.common.containers.ContainerChestModule;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModItems;
@@ -58,6 +58,7 @@ import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
+import modularmachines.common.utils.Mod;
 
 public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleData(), "chest", 4) {
@@ -101,7 +102,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 			});
 		}
 	},
-	FURNACE(new ModuleData(), "furnace", 1) {
+	/*FURNACE(new ModuleData(), "furnace", 1) {
 		@Override
 		protected void initData(IModuleData data) {
 			data.setPositions(CasingPosition.HORIZONTAL);
@@ -117,7 +118,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		public void registerModelData() {
 			ModelDataActivatable.addModelData(data());
 		}
-	},
+	},*/
 	CASING_BRONZE("casing.bronze", 0) {
 		@Override
 		protected void initData(IModuleData data) {
@@ -132,8 +133,13 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void registerModelData() {
-			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("bronze/casings"));
+		protected IModuleModelBakery createBakery() {
+			return new BakeryCasing("bronze");
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return CASING_GENERATOR;
 		}
 		
 		@Override
@@ -141,44 +147,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			factory.addBoundingBox(module, new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F));
 			module.addComponent(new CasingComponent());
 		}
-	},
-	CASING_IRON("casing.iron", 0) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(27);
-			data.setPositions(CasingPosition.CENTER);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemCasings, 1, 1);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("iron/casings"));
-		}
-		
-	},
-	CASING_STEEL("casing.steel", 0) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(36);
-			data.setPositions(CasingPosition.CENTER);
-		}
-		
-		@Override
-		public void registerContainers() {
-			registerType(new ItemStack(ModItems.itemCasings, 1, 2));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataCasing.addModelData(new ModelLocationBuilder(data()).addFolder("steel/casings"));
-		}
-		
 	},
 	MODULE_RACK_BRICK("rack.brick", 1) {
 		@Override
@@ -194,8 +162,8 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void registerModelData() {
-			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("brick/module_storage"));
+		protected IModuleModelBakery createBakery() {
+			return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/rack/brick"));
 		}
 		
 		@Override
@@ -203,63 +171,6 @@ public enum ModuleDefinition implements IModuleDefinition {
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new RackComponent());
 		}
-	},
-	MODULE_RACK_BRONZE("rack.bronze", 2) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(6);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemModuleRack, 1, 1);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("bronze/module_storage"));
-		}
-		
-	},
-	MODULE_RACK_IRON("rack.iron", 3) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(12);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemModuleRack, 1, 2);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("iron/module_storage"));
-		}
-		
-	},
-	MODULE_RACK_STEEL("rack.steel", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(24);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemModuleRack, 1, 3);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataModuleRack.addModelData(new ModelLocationBuilder(data()).addFolder("steel/module_storage"));
-		}
-		
 	},
 	FIREBOX("firebox", 4) {
 		@Override
@@ -282,10 +193,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 			return ModuleItems.FIREBOX.get();
 		}
 		
-		@SideOnly(Side.CLIENT)
 		@Override
-		public void registerModelData() {
-			ModelDataActivatable.addModelData(data);
+		protected boolean isActivatable() {
+			return true;
 		}
 	},
 	TANK_LARGE("large_tank", 4) {
@@ -309,9 +219,29 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void registerModelData() {
-			super.registerModelData();
-			ModelDataLargeTank.addModelData(data);
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/large_storage"),
+					new ResourceLocation(Constants.MOD_ID, "module/tank/window"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return m -> {
+				String defaultKey = DEFAULT_GENERATOR.generateKey(m);
+				IFluidHandlerComponent component = m.getComponent(IFluidHandlerComponent.class);
+				if (component == null) {
+					return defaultKey;
+				}
+				IFluidHandlerComponent.ITank tank = component.getTank(0);
+				if (tank == null) {
+					return defaultKey;
+				}
+				FluidStack stack = tank.getFluid();
+				if (stack == null) {
+					return defaultKey;
+				}
+				return defaultKey + ":fluid=" + stack.hashCode();
+			};
 		}
 	},
 	WATER_INTAKE("water_intake", 4) {
@@ -364,27 +294,83 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		public void registerModelData() {
-			ModelData model = new ModelData();
-			model.add(DefaultProperty.FIRST, new ResourceLocation(Constants.MOD_ID, "module/" + data.getRegistryName().getResourcePath() + /*(fileName != null ? fileName : "")*/"s/bronze"));
-			model.add(DefaultProperty.SECOND, new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
-			data.setModel(model);
+		protected IModuleModelBakery createBakery() {
+			return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/engines/bronze"),
+					new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
+		}
+	},
+	//Thermal Expansion
+	MACHINE_FRAME("machine_frame", 0) {
+		@Override
+		protected void initData(IModuleData data) {
+			data.setAllowedComplexity(18);
+			data.setPositions(CasingPosition.CENTER);
+		}
+		
+		@Override
+		protected ItemStack createItemStack() {
+			return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Mod.THERMAL_EXPANSION.modID(), "frame")));
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryCasing("machine_frame");
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return CASING_GENERATOR;
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addBoundingBox(module, new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F));
+			module.addComponent(new CasingComponent());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
 		}
 	};
+	protected static final IModuleKeyGenerator DEFAULT_GENERATOR = ModuleRegistry.INSTANCE.getDefaultGenerator();
+	protected static final IModuleKeyGenerator ACTIVATABLE_GENERATOR = m -> {
+		IActivatableComponent component = m.getComponent(IActivatableComponent.class);
+		String key = DEFAULT_GENERATOR.generateKey(m);
+		return component == null ? key : key + (component.isActive() ? "_on" : "_off");
+	};
+	protected static final IModuleKeyGenerator CASING_GENERATOR = m -> {
+		IActivatableComponent component = m.getComponent(IActivatableComponent.class);
+		StringBuilder stringBuilder = new StringBuilder(DEFAULT_GENERATOR.generateKey(m));
+		IModuleProvider moduleProvider = m.getComponent(IModuleProvider.class);
+		if (moduleProvider == null) {
+			return stringBuilder.toString();
+		}
+		IModuleHandler moduleHandler = moduleProvider.getHandler();
+		IModule left = moduleHandler.getModule(CasingPosition.LEFT);
+		IModule right = moduleHandler.getModule(CasingPosition.RIGHT);
+		stringBuilder.append(":left=").append(left.isEmpty() || left.getData().isValidPosition(CasingPosition.FRONT)).append(',');
+		stringBuilder.append("right=").append(right.isEmpty() || right.getData().isValidPosition(CasingPosition.FRONT));
+		return stringBuilder.toString();
+	};
+	
 	
 	protected final IModuleData data;
+	private final String registryName;
 	
-	ModuleDefinition(String name, int complexity) {
-		this(ModuleManager.factory.createData(), name, complexity);
+	ModuleDefinition(String registryName, int complexity) {
+		this(ModuleManager.factory.createData(), registryName, complexity);
 	}
 	
-	ModuleDefinition(IModuleData data, String registry, int complexity) {
+	ModuleDefinition(IModuleData data, String registryName, int complexity) {
 		this.data = data;
-		data.setRegistryName(new ResourceLocation(Constants.MOD_ID, registry));
+		data.setRegistryName(new ResourceLocation(Constants.MOD_ID, registryName));
 		data.setComplexity(complexity);
-		data.setUnlocalizedName(registry);
+		data.setUnlocalizedName(registryName);
 		data.setDefinition(this);
 		initData(data);
+		this.registryName = registryName;
 	}
 	
 	protected void initData(IModuleData data) {
@@ -409,44 +395,53 @@ public enum ModuleDefinition implements IModuleDefinition {
 		data.registerType(parent);
 	}
 	
-	protected void registerType(IModuleType container) {
-		ModuleManager.registry.registerType(container);
-	}
-	
-	@Override
-	public void addComponents(IModule module, IModuleComponentFactory factory) {
+	@Nullable
+	protected Mod getRequiredMod() {
+		return null;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	protected Function<IModuleData, IModelData> getModelFactory() {
-		return ModelDataDefault::addModelData;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected void setModel(Function<IModuleData, IModelData> modelFactory) {
-		data.setModel(modelFactory.apply(data));
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void registerModelData() {
-		setModel(getModelFactory());
-	}
-	
-	@SubscribeEvent
-	public static void onModuleRegister(RegistryEvent.Register<IModuleData> event) {
-		for (ModuleDefinition definition : values()) {
-			event.getRegistry().register(definition.data());
+	protected IModuleModelBakery createBakery() {
+		if (isActivatable()) {
+			return new BakeryActivatable(new ResourceLocation(Constants.MOD_ID, "module/" + registryName + "_off"),
+					new ResourceLocation(Constants.MOD_ID, "module/" + registryName + "_on"));
 		}
+		return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/" + registryName));
+	}
+	
+	protected boolean isActivatable() {
+		return false;
+	}
+	
+	protected IModuleKeyGenerator getGenerator() {
+		if (isActivatable()) {
+			return ACTIVATABLE_GENERATOR;
+		}
+		return DEFAULT_GENERATOR;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void registerModels() {
+		data.setGenerator(getGenerator());
+		data.setBakery(createBakery());
 	}
 	
 	@SubscribeEvent
-	public static void onModelRegister(ModelRegistryEvent event) {
-		ModularMachines.proxy.registerModuleModels();
+	public static void onDataRegister(RegistryEvent.Register<IModuleData> event) {
+		for (ModuleDefinition definition : values()) {
+			Mod mod = definition.getRequiredMod();
+			if (mod == null || mod.active()) {
+				event.getRegistry().register(definition.data());
+			}
+		}
 	}
 	
 	public static void registerModuleContainers() {
 		for (ModuleDefinition definition : values()) {
-			definition.registerContainers();
+			Mod mod = definition.getRequiredMod();
+			if (mod == null || mod.active()) {
+				definition.registerContainers();
+			}
 		}
 	}
 }

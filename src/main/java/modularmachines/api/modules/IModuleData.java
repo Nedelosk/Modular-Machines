@@ -1,6 +1,5 @@
 package modularmachines.api.modules;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -10,7 +9,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import modularmachines.api.modules.model.IModelData;
+import modularmachines.api.modules.model.IModuleKeyGenerator;
+import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**
@@ -74,10 +74,13 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	IModuleDefinition getDefinition();
 	
 	/* MODEL */
-	@Nullable
 	@SideOnly(Side.CLIENT)
-	IModelData getModel();
+	IModuleModelBakery getBakery();
 	
 	@SideOnly(Side.CLIENT)
-	IModuleData setModel(IModelData modelData);
+	IModuleData setBakery(IModuleModelBakery bakery);
+	
+	IModuleKeyGenerator getGenerator();
+	
+	IModuleData setGenerator(IModuleKeyGenerator generator);
 }

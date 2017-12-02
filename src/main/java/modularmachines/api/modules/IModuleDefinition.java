@@ -1,5 +1,8 @@
 package modularmachines.api.modules;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import modularmachines.api.modules.components.IModuleComponentFactory;
 
 /**
@@ -16,4 +19,11 @@ public interface IModuleDefinition {
 	 * @param factory A factory that can be used to create components.
 	 */
 	void addComponents(IModule module, IModuleComponentFactory factory);
+	
+	/**
+	 * Called at the {@link net.minecraftforge.client.event.ModelRegistryEvent}.
+	 */
+	@SideOnly(Side.CLIENT)
+	default void registerModels() {
+	}
 }

@@ -1,5 +1,7 @@
 package modularmachines.common.modules;
 
+import com.google.common.base.MoreObjects;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
@@ -146,5 +148,10 @@ public final class Module extends ComponentProvider<IModuleComponent> implements
 	@Override
 	public boolean isEmpty() {
 		return getData() == ModuleRegistry.INSTANCE.getEmpty() || itemStack.isEmpty();
+	}
+	
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(getClass()).add("data", data).add("index", index).add("position", position).add("item", itemStack).add("facing", facing).toString();
 	}
 }

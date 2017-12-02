@@ -41,6 +41,7 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.client.model.ModelManager;
+import modularmachines.common.ModularMachines;
 import modularmachines.common.modules.ModuleCapabilities;
 import modularmachines.common.utils.Translator;
 import modularmachines.common.utils.WorldUtil;
@@ -78,7 +79,8 @@ public class ClientEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void registerRecipes(ModelRegistryEvent event) {
+	public void onRegisterModels(ModelRegistryEvent event) {
+		ModularMachines.proxy.registerModuleModels();
 		ModelManager.getInstance().registerModels();
 	}
 	

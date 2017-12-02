@@ -6,17 +6,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.components.IModelComponent;
-import modularmachines.api.modules.model.EmptyModelState;
-import modularmachines.api.modules.model.IModuleModelState;
 
 @SideOnly(Side.CLIENT)
 public class ModelComponent extends ModuleComponent implements IModelComponent {
 	private boolean needsReload;
-	private IModuleModelState modelState = EmptyModelState.INSTANCE;
+	@Nullable
+	private String modelKey;
 	
 	@Override
 	public void setModelNeedReload(boolean modelNeedReload) {
-		this.modelState = modelState;
+		this.needsReload = modelNeedReload;
 	}
 	
 	@Override
@@ -24,14 +23,14 @@ public class ModelComponent extends ModuleComponent implements IModelComponent {
 		return needsReload;
 	}
 	
-	@Override
-	public void setModelState(IModuleModelState modelState) {
-		this.needsReload = needsReload;
-	}
-	
 	@Nullable
 	@Override
-	public IModuleModelState getModelState() {
-		return modelState;
+	public String getModelKey() {
+		return modelKey;
+	}
+	
+	@Override
+	public void setModelKey(String modelKey) {
+		this.modelKey = modelKey;
 	}
 }

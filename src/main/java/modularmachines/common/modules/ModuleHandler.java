@@ -173,8 +173,9 @@ public class ModuleHandler implements IModuleHandler {
 			}
 			PacketHandler.sendToNetwork(new PacketExtractModule(provider.getContainer(), index, getPositionIndex(position)), blockPos, world);
 		} else {
-			if (provider instanceof IModule) {
-				IModule parent = (IModule) provider;
+			if (provider instanceof IModuleComponent) {
+				IModuleComponent component = ((IModuleComponent) provider);
+				IModule parent = component.getProvider();
 				IModelComponent modelComponent = parent.getComponent(IModelComponent.class);
 				if (modelComponent != null) {
 					modelComponent.setModelNeedReload(true);

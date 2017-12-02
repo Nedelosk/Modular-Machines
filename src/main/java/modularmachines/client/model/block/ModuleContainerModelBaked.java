@@ -36,11 +36,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleProvider;
 import modularmachines.api.modules.container.IModuleContainer;
-import modularmachines.api.modules.model.IModelData;
+import modularmachines.api.modules.model.IModelInfo;
+import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.client.model.ModelManager;
 import modularmachines.client.model.TRSRBakedModel;
 import modularmachines.client.model.module.BakedMultiModel;
+import modularmachines.client.model.module.ModelInfo;
 import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.common.blocks.propertys.UnlistedBlockAccess;
 import modularmachines.common.blocks.propertys.UnlistedBlockPos;
@@ -69,7 +71,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 				focusedModule = result.subHit;
 			}
 		}
-		IBakedModel bakedModel = bakeModel(container, modelState, vertex, MinecraftForgeClient.getRenderLayer(), focusedModule);
+		IBakedModel bakedModel = bakeModel(container, new ModelInfo(vertex, modelState, ModuleModelLoader.DefaultTextureGetter.INSTANCE, MinecraftForgeClient.getRenderLayer()), focusedModule);
 		if (bakedModel != null) {
 			float rotation = 0F;
 			if (facing != null) {
@@ -87,19 +89,19 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	}
 	
 	@Nullable
-	private static IBakedModel bakeModel(IModuleProvider provider, IModelState modelState, VertexFormat vertex, @Nullable BlockRenderLayer layer, int focusedModule) {
+	private static IBakedModel bakeModel(IModuleProvider provider, IModelInfo modelInfo, int focusedModule) {
 		List<IBakedModel> models = new ArrayList<>();
 		for (IModule module : provider.getHandler().getAllModules()) {
 			int focused = focusedModule;
 			IBakedModel model = null;
 			if (focused == -1 || focused == module.getIndex()) {
 				focused = -1; //Add Children models to the damage model
-				model = ModuleModelLoader.getModel(module, modelState, vertex, layer);
+				model = ModuleModelLoader.getModel(module, modelInfo);
 			}
-			IModelData data = module.getData().getModel();
+			IModuleModelBakery bakery = module.getData().getBakery();
 			IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
-			if (moduleProvider != null && (data == null || !data.handlesChildren())) {
-				IBakedModel bakedModel = bakeModel(moduleProvider, modelState, vertex, layer, focused);
+			if (moduleProvider != null && !bakery.handlesChildren()) {
+				IBakedModel bakedModel = bakeModel(moduleProvider, modelInfo, focused);
 				if (bakedModel != null) {
 					if (model == null) {
 						model = BakedMultiModel.create(ImmutableList.of(bakedModel));

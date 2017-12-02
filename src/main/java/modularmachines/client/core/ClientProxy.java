@@ -26,11 +26,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.lwjgl.input.Keyboard;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModelComponent;
@@ -41,7 +43,6 @@ import modularmachines.client.renderer.ModuleContainerTESR;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
-import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.components.ModelComponent;
 import modularmachines.common.utils.Translator;
 
@@ -64,8 +65,9 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerModuleModels() {
-		for (ModuleDefinition definition : ModuleDefinition.values()) {
-			definition.registerModelData();
+		for (IModuleData data : GameRegistry.findRegistry(IModuleData.class)) {
+			IModuleDefinition definition = data.getDefinition();
+			definition.registerModels();
 		}
 		ModuleModelLoader.INSTANCE.registerModels();
 	}

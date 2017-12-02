@@ -7,10 +7,8 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -30,7 +28,6 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.model.IModelState;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,8 +36,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.components.IModelComponent;
-import modularmachines.api.modules.model.IModelData;
-import modularmachines.api.modules.model.IModuleModelState;
+import modularmachines.api.modules.model.IModelInfo;
+import modularmachines.api.modules.model.IModuleModelBakery;
 
 @SideOnly(Side.CLIENT)
 public enum ModuleModelLoader {
@@ -48,13 +45,12 @@ public enum ModuleModelLoader {
 	
 	@Nullable
 	private static ImmutableMap<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> bakedModels;
-	private static final Cache<Pair<ResourceLocation, IModuleModelState>, IBakedModel> cachedModels =
-			CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
-	private static Set<ResourceLocation> locations;
+	private static final Cache<Pair<String, BlockRenderLayer>, IBakedModel> cachedModels =
+			CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
+	private static Set<ResourceLocation> locations = Collections.emptySet();
 	
 	@SuppressWarnings("unchecked")
 	public void reloadModels() {
-		List<ResourceLocation> modelLocations = new ArrayList<>();
 		Map<ResourceLocation, Exception> loadingExceptions = Maps.newHashMap();
 		Builder<ResourceLocation, ImmutableMap<VertexFormat, IBakedModel>> modelBaker = new Builder<>();
 		locations.forEach(location -> {
@@ -67,9 +63,7 @@ public enum ModuleModelLoader {
 			}
 			if (model != null) {
 				baker.put(DefaultVertexFormats.BLOCK, model.bake(model.getDefaultState(), DefaultVertexFormats.BLOCK, DefaultTextureGetter.INSTANCE));
-				//baker.put(DefaultVertexFormats.ITEM, model.bake(model.getDefaultState(), DefaultVertexFormats.ITEM, DefaultTextureGetter.INSTANCE));
 				modelBaker.put(location, baker.build());
-				modelLocations.add(location);
 			}
 		});
 		ModuleModelLoader.bakedModels = modelBaker.build();
@@ -80,13 +74,7 @@ public enum ModuleModelLoader {
 	public void registerModels() {
 		locations = GameRegistry.findRegistry(IModuleData.class).getValues().stream()
 				.filter(Objects::nonNull)
-				.map(data -> {
-					IModelData modelData = data.getModel();
-					if (modelData == null) {
-						return Collections.<ResourceLocation>emptyList();
-					}
-					return modelData.locations().values();
-				})
+				.map(data -> data.getBakery().getDependencies())
 				.flatMap(Collection::stream)
 				.filter(Objects::nonNull).collect(Collectors.toSet());
 	}
@@ -105,44 +93,39 @@ public enum ModuleModelLoader {
 	}
 	
 	@Nullable
-	public static IBakedModel getModel(IModule module, IModelState modelState, VertexFormat vertex, @Nullable BlockRenderLayer layer) {
+	public static IBakedModel getModel(IModule module, IModelInfo modelInfo) {
+		if (module.isEmpty()) {
+			return null;
+		}
 		IModelComponent component = module.getComponent(IModelComponent.class);
 		if (component == null) {
 			return null;
 		}
-		IModuleModelState moduleModelState = component.getModelState();
-		IBakedModel model = cachedModels.getIfPresent(Pair.of(module.getData().getRegistryName(), moduleModelState));
-		IModelData data = getModelData(module);
-		if (data == null || layer != null && !data.canRenderInLayer(module, layer)) {
+		IModuleData data = module.getData();
+		String modelKey = component.getModelKey();
+		IBakedModel model = modelKey == null ? null : cachedModels.getIfPresent(Pair.of(modelKey, modelInfo.getLayer()));
+		IModuleModelBakery bakery = module.getData().getBakery();
+		BlockRenderLayer layer = modelInfo.getLayer();
+		if (layer != null && !bakery.canRenderInLayer(module, layer)) {
 			return null;
 		}
 		if (component.isModelNeedReload() || model == null) {
-			ModelList modelList = new ModelList(module, data.locations(), vertex, modelState, DefaultTextureGetter.INSTANCE);
-			component.setModelState(moduleModelState = data.createState(module));
-			data.addModel(modelList, module, moduleModelState, layer);
+			ModelList modelList = new ModelList(modelInfo);
+			component.setModelKey(modelKey = data.getGenerator().generateKey(module));
+			bakery.bakeModel(module, modelInfo, modelList);
 			
 			if (modelList.empty()) {
 				if (module.isEmpty() || layer != BlockRenderLayer.CUTOUT) {
 					return null;
 				}
-				model = modelList.missingModel();
+				model = modelInfo.bakeMissingModel(module);
 			} else {
 				model = BakedMultiModel.create(modelList.models());
 			}
-			if (data.cacheModel()) {
-				cachedModels.put(Pair.of(module.getData().getRegistryName(), moduleModelState), model);
-			}
+			cachedModels.put(Pair.of(modelKey, modelInfo.getLayer()), model);
 			component.setModelNeedReload(false);
 		}
 		return model;
-	}
-	
-	@Nullable
-	private static IModelData getModelData(@Nullable IModule module) {
-		if (module == null) {
-			return null;
-		}
-		return module.getData().getModel();
 	}
 	
 	@Nullable

@@ -31,14 +31,13 @@ public class ModRecipes {
 		addShapedRecipe("engine.steam.bronze", new ItemStack(ModItems.itemEngineSteam, 1, 0), "PG ", "BII", "PG ", 'I', "ingotBronze", 'G', "gearBronze", 'P', "plateBronze", 'B', Blocks.PISTON);
 		// Turbines
 		addShapedRecipe("turbine.steam.bronze", new ItemStack(ModItems.itemTurbineSteam, 1, 0), "SPI", "PBP", "IPS", 'I', "ingotBronze", 'B', "blockBronze", 'P', "plateBronze", 'S', "screwBronze");
-		addShapedRecipe("turbine.steam.iron", new ItemStack(ModItems.itemTurbineSteam, 1, 1), "SPR", "PBP", "RPS", 'R', "rodIron", 'B', "blockIron", 'P', "plateIron", 'S', "screwIron");
-		addShapedRecipe("turbine.steam.steel", new ItemStack(ModItems.itemTurbineSteam, 1, 2), "SPR", "PBP", "RPS", 'R', "rodSteel", 'B', "blockSteel", 'P', "plateSteel", 'S', "screwSteel");
-		addShapedRecipe("turbine.steam.magmarium", new ItemStack(ModItems.itemTurbineSteam, 1, 3), "SPR", "PBP", "RPS", 'R', "rodMagmarium", 'B', "blockMagmarium", 'P', "plateMagmarium", 'S', "screwMagmarium");
-		
+		//Modules
 		addShapedRecipe("water_intake", ModuleItems.WATER_INTAKE.get(), "GBG", "BCB", "IBI", 'B', new ItemStack(Blocks.IRON_BARS), 'G', "gearIron", 'I', "ingotIron", 'C', Items.BUCKET);
 		addShapedRecipe("large_tank", ModuleItems.LARGE_TANK.get(), "BHB", "IGI", "BHB", 'G', "blockGlass", 'H', "gearBronze", 'I', "ingotBronze", 'B', "ingotBrick");
 		addShapedRecipe("firebox", ModuleItems.FIREBOX.get(), "IBI", "BFB", "GBG", 'G', "gearIron", 'B', new ItemStack(Blocks.IRON_BARS), 'I', "ingotIron", 'F', new ItemStack(Items.FIRE_CHARGE));
 		addShapedRecipe("boiler", ModuleItems.BOILER.get(), "PPP", "G G", "PFP", 'P', "plateBronze", 'G', "gearBronze", 'F', Blocks.FURNACE);
+		//Screwdriver
+		addShapedRecipe("screwdriver", new ItemStack(ModItems.screwdriver), "  I", "TI ", "SC ", 'I', "ingotIron", 'S', "stickWood", 'C', "ingotCopper", 'T', "ingotTin");
 	}
 	
 	private static void addShapedRecipe(String name, ItemStack stack, Object... obj) {

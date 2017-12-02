@@ -126,6 +126,6 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 	
 	@Override
 	public IRecipe getRecipe(@Nonnull ItemStack bookStack) {
-		return new ShapelessOreRecipe(null, GuideAPI.getStackFromBook(BOOK), new ItemStack(Items.BOOK), "blockGlass", "feather").setRegistryName("guide");
+		return new ShapelessOreRecipe(null, GuideAPI.getStackFromBook(BOOK), new ItemStack(Items.BOOK), "blockGlass", "ingotBrick").setRegistryName(Constants.MOD_ID, "guide");
 	}
 }

@@ -1,5 +1,7 @@
 package modularmachines.common.modules.data;
 
+import com.google.common.base.MoreObjects;
+
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -15,7 +17,8 @@ import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.model.IModelData;
+import modularmachines.api.modules.model.IModuleKeyGenerator;
+import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.utils.Translator;
 
@@ -25,7 +28,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	
 	@Nullable
 	@SideOnly(Side.CLIENT)
-	private IModelData modelData;
+	private IModuleModelBakery bakery;
+	private IModuleKeyGenerator generator;
 	
 	private int complexity = 0;
 	private int allowedComplexity = 0;
@@ -131,16 +135,33 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return definition;
 	}
 	
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(getClass()).add("registry", getRegistryName()).add("positions", positions).toString();
+	}
+	
 	/* MODEL */
 	@SideOnly(Side.CLIENT)
-	@Nullable
-	public IModelData getModel() {
-		return modelData;
+	@Override
+	public IModuleModelBakery getBakery() {
+		return bakery;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public IModuleData setModel(IModelData modelData) {
-		this.modelData = modelData;
+	@Override
+	public IModuleData setBakery(IModuleModelBakery bakery) {
+		this.bakery = bakery;
+		return this;
+	}
+	
+	@Override
+	public IModuleKeyGenerator getGenerator() {
+		return generator;
+	}
+	
+	@Override
+	public IModuleData setGenerator(IModuleKeyGenerator generator) {
+		this.generator = generator;
 		return this;
 	}
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "modularmachines:module/casings/casing",
+  "textures": {
+    "down": "modularmachines:blocks/casing/casing_down",
+    "side": "modularmachines:blocks/casing/magmarium_side",
+    "top": "modularmachines:blocks/casing/magmarium_top"
+  }
+}
