@@ -8,15 +8,11 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BakedQuadRetextured;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.EnumFacing;
-
-import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
-import net.minecraftforge.client.model.pipeline.VertexTransformer;
 
 public class RetexturedBakedModel implements IBakedModel {
 	protected final ImmutableList<BakedQuad> general;
@@ -30,9 +26,7 @@ public class RetexturedBakedModel implements IBakedModel {
 		for (EnumFacing face : EnumFacing.values()) {
 			if (!original.isBuiltInRenderer()) {
 				for (BakedQuad quad : original.getQuads(null, face, 0)) {
-					Transformer transformer = new Transformer(sprite, quad.getSprite(), quad.getFormat());
-					quad.pipe(transformer);
-					builder.add(transformer.build());
+					builder.add(new BakedQuadRetextured(quad, sprite));
 				}
 			}
 		}
@@ -40,9 +34,7 @@ public class RetexturedBakedModel implements IBakedModel {
 		// general quads
 		if (!original.isBuiltInRenderer()) {
 			for (BakedQuad quad : original.getQuads(null, null, 0)) {
-				Transformer transformer = new Transformer(sprite, quad.getSprite(), quad.getFormat());
-				quad.pipe(transformer);
-				builder.add(transformer.build());
+				builder.add(new BakedQuadRetextured(quad, sprite));
 			}
 		}
 		
@@ -80,31 +72,5 @@ public class RetexturedBakedModel implements IBakedModel {
 	@Override
 	public ItemOverrideList getOverrides() {
 		return original.getOverrides();
-	}
-	
-	private static class Transformer extends VertexTransformer {
-		private final TextureAtlasSprite sprite;
-		private final TextureAtlasSprite oldSprite;
-		
-		public Transformer(TextureAtlasSprite sprite, TextureAtlasSprite oldSprite, VertexFormat format) {
-			super(new UnpackedBakedQuad.Builder(format));
-			this.sprite = sprite;
-			this.oldSprite = oldSprite;
-		}
-		
-		@Override
-		public void put(int element, float... data) {
-			VertexFormatElement vertexElement = parent.getVertexFormat().getElement(element);
-			VertexFormatElement.EnumUsage usage = vertexElement.getUsage();
-			if (usage == VertexFormatElement.EnumUsage.UV && data.length >= 3 && vertexElement.getIndex() == 0) {
-				data[0] = sprite.getInterpolatedU((double) oldSprite.getUnInterpolatedU(data[0]));
-				data[1] = sprite.getInterpolatedV((double) oldSprite.getUnInterpolatedV(data[1]));
-			}
-			super.put(element, data);
-		}
-		
-		public UnpackedBakedQuad build() {
-			return ((UnpackedBakedQuad.Builder) parent).build();
-		}
 	}
 }

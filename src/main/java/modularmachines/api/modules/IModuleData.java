@@ -49,6 +49,7 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	IModuleData setComplexity(int complexity);
 	
 	/* POSITIONS */
+	
 	/**
 	 * Checks if the position is a valid position of the module.
 	 */

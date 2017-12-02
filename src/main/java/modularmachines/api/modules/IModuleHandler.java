@@ -52,7 +52,7 @@ public interface IModuleHandler {
 	 * Tries to inserts a module at the given position and return if it has inserted it.
 	 *
 	 * @param position  Position to insert to.
-	 * @param type The data container of the item
+	 * @param type      The data container of the item
 	 * @param itemStack The item stack of the module
 	 * @param simulate  If true, the insertion is only simulated
 	 * @return True if the modules was inserted at the position.
