@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 
 import modularmachines.api.modules.IModule;
@@ -15,7 +16,7 @@ import modularmachines.api.modules.IModule;
 public class CommonProxy {
 	
 	public void preInit() {
-		
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 	}
 	
 	public void init() {

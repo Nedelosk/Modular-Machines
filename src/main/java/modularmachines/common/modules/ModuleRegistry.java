@@ -155,7 +155,9 @@ public enum ModuleRegistry implements IModuleRegistry {
 				blockState.getBlock().onBlockPlacedBy(world, pos, blockState, player, heldItem);
 				SoundType soundtype = blockState.getBlock().getSoundType(blockState, world, pos, player);
 				world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-				heldItem.shrink(1);
+				if (!player.capabilities.isCreativeMode) {
+					heldItem.shrink(1);
+				}
 			}
 			
 			return true;
