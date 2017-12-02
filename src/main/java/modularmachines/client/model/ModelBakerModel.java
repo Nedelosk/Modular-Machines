@@ -41,16 +41,12 @@ public class ModelBakerModel implements IBakedModel {
 	
 	private final Map<EnumFacing, List<BakedQuad>> faceQuads;
 	private final List<BakedQuad> generalQuads;
-	private final List<Pair<IBlockState, IBakedModel>> models;
-	private final List<Pair<IBlockState, IBakedModel>> modelsPost;
 	
 	private float[] rotation = getDefaultRotation();
 	private float[] translation = getDefaultTranslation();
 	private float[] scale = getDefaultScale();
 	
 	public ModelBakerModel(IModelState modelState) {
-		models = new ArrayList<>();
-		modelsPost = new ArrayList<>();
 		faceQuads = new EnumMap<>(EnumFacing.class);
 		generalQuads = new ArrayList<>();
 		particleSprite = RenderUtil.getMissingSprite();
@@ -63,9 +59,7 @@ public class ModelBakerModel implements IBakedModel {
 		}
 	}
 	
-	private ModelBakerModel(List<Pair<IBlockState, IBakedModel>> models, List<Pair<IBlockState, IBakedModel>> modelsPost, Map<EnumFacing, List<BakedQuad>> faceQuads, List<BakedQuad> generalQuads, boolean isGui3d, boolean isAmbientOcclusion, IModelState modelState, float[] rotation, float[] translation, float[] scale, TextureAtlasSprite particleSprite) {
-		this.models = models;
-		this.modelsPost = modelsPost;
+	private ModelBakerModel(Map<EnumFacing, List<BakedQuad>> faceQuads, List<BakedQuad> generalQuads, boolean isGui3d, boolean isAmbientOcclusion, IModelState modelState, float[] rotation, float[] translation, float[] scale, TextureAtlasSprite particleSprite) {
 		this.faceQuads = faceQuads;
 		this.generalQuads = generalQuads;
 		this.isGui3d = isGui3d;
@@ -154,14 +148,6 @@ public class ModelBakerModel implements IBakedModel {
 		this.transforms = PerspectiveMapWrapper.getTransforms(modelState);
 	}
 	
-	public void addModelQuads(Pair<IBlockState, IBakedModel> model) {
-		this.models.add(model);
-	}
-	
-	public void addModelQuadsPost(Pair<IBlockState, IBakedModel> model) {
-		this.modelsPost.add(model);
-	}
-	
 	public void addQuad(@Nullable EnumFacing facing, BakedQuad quad) {
 		if (facing != null) {
 			faceQuads.get(facing).add(quad);
@@ -172,27 +158,15 @@ public class ModelBakerModel implements IBakedModel {
 	
 	public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 		List<BakedQuad> quads = new ArrayList<>();
-		for (Pair<IBlockState, IBakedModel> model : this.models) {
-			List<BakedQuad> modelQuads = model.getRight().getQuads(model.getLeft(), side, rand);
-			if (!modelQuads.isEmpty()) {
-				quads.addAll(modelQuads);
-			}
-		}
 		if (side != null) {
 			quads.addAll(faceQuads.get(side));
 		}
 		quads.addAll(generalQuads);
-		for (Pair<IBlockState, IBakedModel> model : this.modelsPost) {
-			List<BakedQuad> modelQuads = model.getRight().getQuads(model.getLeft(), side, rand);
-			if (!modelQuads.isEmpty()) {
-				quads.addAll(modelQuads);
-			}
-		}
 		return quads;
 	}
 	
 	public ModelBakerModel copy() {
-		return new ModelBakerModel(models, modelsPost, faceQuads, generalQuads, isGui3d, isAmbientOcclusion, modelState, rotation, translation, scale, particleSprite);
+		return new ModelBakerModel(faceQuads, generalQuads, isGui3d, isAmbientOcclusion, modelState, rotation, translation, scale, particleSprite);
 	}
 	
 	

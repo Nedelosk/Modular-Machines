@@ -17,7 +17,7 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.model.IModelInfo;
 import modularmachines.api.modules.model.IModelList;
-import modularmachines.client.model.AABBModelBaker;
+import modularmachines.client.model.ModelBakery;
 import modularmachines.client.model.RetexturedBakedModel;
 import modularmachines.common.utils.RenderUtil;
 
@@ -36,11 +36,10 @@ public class BakeryLargeTank extends BakeryBase {
 		fluidModels = new IBakedModel[FLUID_LEVELS];
 		double height = FLUID_BOUNDING_BOX.maxY - FLUID_BOUNDING_BOX.minY;
 		for (int i = 0; i < FLUID_LEVELS; i++) {
-			AABBModelBaker baker = new AABBModelBaker();
 			double maxY = (height) / (double) FLUID_LEVELS * (double) (i + 1);
-			baker.setModelBounds(new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + maxY, FLUID_BOUNDING_BOX.maxZ));
+			ModelBakery baker = new ModelBakery(new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + maxY, FLUID_BOUNDING_BOX.maxZ));
 			baker.addModel(RenderUtil.getMissingSprite(), 1);
-			fluidModels[i] = baker.bakeModel(true);
+			fluidModels[i] = baker.bake(true);
 		}
 	}
 	

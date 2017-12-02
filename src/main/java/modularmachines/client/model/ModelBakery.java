@@ -4,8 +4,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -13,15 +11,12 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
 import net.minecraft.client.renderer.block.model.BlockPartFace;
 import net.minecraft.client.renderer.block.model.FaceBakery;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import net.minecraftforge.common.model.IModelState;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,25 +25,21 @@ import org.lwjgl.util.vector.Vector3f;
 
 //AABB = AxisAlignedBoundingBox
 @SideOnly(Side.CLIENT)
-public class AABBModelBaker {
-	protected final FaceBakery faceBakery = new FaceBakery();
-	private final List<BoundModelBakerFace> faces = new ArrayList<>();
-	private final List<Pair<IBlockState, IBakedModel>> bakedModels = new ArrayList<>();
-	private final List<Pair<IBlockState, IBakedModel>> bakedModelsPost = new ArrayList<>();
-	protected AxisAlignedBB modelBounds;
-	protected final ModelBakerModel currentModel = new ModelBakerModel(ModelManager.getInstance().getDefaultBlockState());
-	protected int colorIndex = -1;
+public class ModelBakery {
+	private static final FaceBakery FACE_BAKERY = new FaceBakery();
+	private final List<ModelFace> faces = new ArrayList<>();
+	private final Vector3f from;
+	private final Vector3f to;
+	private final ModelBakerModel currentModel = new ModelBakerModel(ModelManager.getInstance().getDefaultBlockState());
+	private int colorIndex = -1;
 	
-	public AABBModelBaker() {
+	public ModelBakery() {
 		this(Block.FULL_BLOCK_AABB);
 	}
 	
-	public AABBModelBaker(AxisAlignedBB modelBounds) {
-		this.modelBounds = modelBounds;
-	}
-	
-	public void setModelBounds(AxisAlignedBB modelBounds) {
-		this.modelBounds = modelBounds;
+	public ModelBakery(AxisAlignedBB modelBounds) {
+		from = new Vector3f((float) modelBounds.minX * 16.0f, (float) modelBounds.minY * 16.0f, (float) modelBounds.minZ * 16.0f);
+		to = new Vector3f((float) modelBounds.maxX * 16.0f, (float) modelBounds.maxY * 16.0f, (float) modelBounds.maxZ * 16.0f);
 	}
 	
 	public void setColorIndex(int colorIndex) {
@@ -85,21 +76,7 @@ public class AABBModelBaker {
 		}
 	}
 	
-	public void addBlockModel(@Nullable BlockPos pos, TextureAtlasSprite sprite, int colorIndex) {
-		addBlockModel(pos, new TextureAtlasSprite[]{sprite, sprite, sprite, sprite, sprite, sprite}, colorIndex);
-	}
-	
-	public void addBakedModel(@Nullable IBlockState state, IBakedModel model) {
-		if (model != null) {
-			this.bakedModels.add(Pair.of(state, model));
-		}
-	}
-	
-	public void addBakedModelPost(@Nullable IBlockState state, IBakedModel model) {
-		this.bakedModelsPost.add(Pair.of(state, model));
-	}
-	
-	protected float[] getFaceUvs(EnumFacing face, Vector3f to, Vector3f from) {
+	private float[] getUvs(EnumFacing face, Vector3f to, Vector3f from) {
 		float minU;
 		float minV;
 		float maxU;
@@ -171,66 +148,38 @@ public class AABBModelBaker {
 	}
 	
 	public void addFace(EnumFacing facing, TextureAtlasSprite sprite) {
-		if (sprite == null) {
-			return;
-		}
-		
-		faces.add(new BoundModelBakerFace(facing, colorIndex, sprite, modelBounds));
+		faces.add(new ModelFace(facing, colorIndex, sprite));
 	}
 	
-	public ModelBakerModel bakeModel(boolean flip) {
-		ModelRotation mr = ModelRotation.X0_Y0;
+	public ModelBakerModel bake(boolean flip) {
+		ModelRotation modelRotation = ModelRotation.X0_Y0;
 		
 		if (flip) {
-			mr = ModelRotation.X0_Y180;
+			modelRotation = ModelRotation.X0_Y180;
 		}
 		
-		//Add baked models to the current model.
-		for (Pair<IBlockState, IBakedModel> bakedModel : bakedModels) {
-			currentModel.addModelQuads(bakedModel);
-		}
-		
-		for (Pair<IBlockState, IBakedModel> bakedModel : bakedModelsPost) {
-			currentModel.addModelQuadsPost(bakedModel);
-		}
-		
-		for (BoundModelBakerFace face : faces) {
-			final AxisAlignedBB modelBounds = face.modelBounds;
-			final Vector3f from = new Vector3f((float) modelBounds.minX * 16.0f, (float) modelBounds.minY * 16.0f, (float) modelBounds.minZ * 16.0f);
-			final Vector3f to = new Vector3f((float) modelBounds.maxX * 16.0f, (float) modelBounds.maxY * 16.0f, (float) modelBounds.maxZ * 16.0f);
-			final EnumFacing myFace = face.face;
-			final float[] uvs = getFaceUvs(myFace, to, from);
+		for (ModelFace face : faces) {
+			EnumFacing myFace = face.face;
+			float[] uvs = getUvs(myFace, to, from);
 			
-			final BlockFaceUV uv = new BlockFaceUV(uvs, 0);
-			final BlockPartFace bpf = new BlockPartFace(myFace, face.colorIndex, "", uv);
-			
-			BakedQuad bf = faceBakery.makeBakedQuad(from, to, bpf, face.spite, myFace, mr, null, true, true);
-			
-			currentModel.addQuad(myFace, bf);
+			BlockFaceUV uv = new BlockFaceUV(uvs, 0);
+			BlockPartFace bpf = new BlockPartFace(myFace, face.colorIndex, "", uv);
+			BakedQuad quad = FACE_BAKERY.makeBakedQuad(from, to, bpf, face.spite, myFace, modelRotation, null, true, true);
+			currentModel.addQuad(myFace, quad);
 		}
 		
 		return currentModel;
 	}
 	
-	public void setModelState(@Nullable IModelState modelState) {
-		currentModel.setModelState(modelState);
-	}
-	
-	public void setParticleSprite(TextureAtlasSprite particleSprite) {
-		currentModel.setParticleSprite(particleSprite);
-	}
-	
-	private static class BoundModelBakerFace {
-		private final AxisAlignedBB modelBounds;
+	private class ModelFace {
 		private final EnumFacing face;
 		private final TextureAtlasSprite spite;
 		private final int colorIndex;
 		
-		private BoundModelBakerFace(EnumFacing face, int colorIndex, TextureAtlasSprite sprite, AxisAlignedBB modelBounds) {
+		private ModelFace(EnumFacing face, int colorIndex, TextureAtlasSprite sprite) {
 			this.colorIndex = colorIndex;
 			this.face = face;
 			this.spite = sprite;
-			this.modelBounds = modelBounds;
 		}
 	}
 }

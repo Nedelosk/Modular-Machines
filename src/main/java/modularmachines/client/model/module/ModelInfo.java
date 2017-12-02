@@ -17,7 +17,7 @@ import net.minecraftforge.common.model.IModelState;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.block.IBoundingBoxComponent;
 import modularmachines.api.modules.model.IModelInfo;
-import modularmachines.client.model.AABBModelBaker;
+import modularmachines.client.model.ModelBakery;
 
 public class ModelInfo implements IModelInfo {
 	private final VertexFormat format;
@@ -75,10 +75,9 @@ public class ModelInfo implements IModelInfo {
 		IBoundingBoxComponent component = module.getComponent(IBoundingBoxComponent.class);
 		if (component != null) {
 			AxisAlignedBB boundingBox = component.getBoundingBox();
-			AABBModelBaker modelBaker = new AABBModelBaker();
-			modelBaker.setModelBounds(boundingBox);
+			ModelBakery modelBaker = new ModelBakery(boundingBox);
 			modelBaker.addModel(Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite(), 0);
-			return modelBaker.bakeModel(true);
+			return modelBaker.bake(true);
 		}
 		return ModelLoaderRegistry.getMissingModel().bake(modelState, format, textureGetter);
 	}
