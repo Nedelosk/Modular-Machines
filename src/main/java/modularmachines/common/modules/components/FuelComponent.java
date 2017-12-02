@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 
 import modularmachines.api.modules.INBTReadable;
@@ -80,8 +81,7 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 			if (input.isEmpty() || itemHandler.extractItemInternal(fuelSlot, 1, false).isEmpty()) {
 				return;
 			}
-			fuel = fuelGetter.apply(input);
-			fuelTotal = fuel;
+			fuel = fuelTotal = fuelGetter.apply(input);
 		}
 	}
 	
@@ -115,8 +115,31 @@ public abstract class FuelComponent extends ModuleComponent implements INBTWrita
 			if (input == null) {
 				return;
 			}
-			fuel = fuelGetter.apply(input);
-			fuelTotal = fuel;
+			fuel = fuelTotal = fuelGetter.apply(input);
+		}
+	}
+	
+	public static class Energy extends FuelComponent {
+		private final Function<Integer, Integer> fuelGetter;
+		private final int energyPerUse;
+		
+		public Energy(int fuelPerUse, Function<Integer, Integer> fuelGetter, int energyPerUse) {
+			super(fuelPerUse);
+			this.fuelGetter = fuelGetter;
+			this.energyPerUse = energyPerUse;
+		}
+		
+		@Override
+		public void updateFuel() {
+			IEnergyStorage energyStorage = provider.getContainer().getComponent(IEnergyStorage.class);
+			if (energyStorage == null) {
+				return;
+			}
+			int extractedEnergy = energyStorage.extractEnergy(energyPerUse, true);
+			if (extractedEnergy < energyPerUse) {
+				return;
+			}
+			fuel = fuelTotal = fuelGetter.apply(extractedEnergy);
 		}
 	}
 }
