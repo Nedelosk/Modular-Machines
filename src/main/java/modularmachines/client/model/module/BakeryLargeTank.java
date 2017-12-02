@@ -1,6 +1,7 @@
 package modularmachines.client.model.module;
 
-import net.minecraft.client.Minecraft;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.BlockRenderLayer;
@@ -17,13 +18,30 @@ import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.model.IModelInfo;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.client.model.AABBModelBaker;
+import modularmachines.client.model.RetexturedBakedModel;
+import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class BakeryLargeTank extends BakeryBase {
 	private static final AxisAlignedBB FLUID_BOUNDING_BOX = new AxisAlignedBB(3.0F / 16.0F, 2.0F / 16.0F, 11.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 15.99F / 16.0F);
+	private static final int FLUID_LEVELS = 100;
+	@Nullable
+	private static IBakedModel[] fluidModels = null;
 	
 	public BakeryLargeTank(ResourceLocation... modelLocation) {
 		super(modelLocation);
+	}
+	
+	private static void generateFluidModels() {
+		fluidModels = new IBakedModel[FLUID_LEVELS];
+		double height = FLUID_BOUNDING_BOX.maxY - FLUID_BOUNDING_BOX.minY;
+		for (int i = 0; i < FLUID_LEVELS; i++) {
+			AABBModelBaker baker = new AABBModelBaker();
+			double maxY = (height) / (double) FLUID_LEVELS * (double) (i + 1);
+			baker.setModelBounds(new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + maxY, FLUID_BOUNDING_BOX.maxZ));
+			baker.addModel(RenderUtil.getMissingSprite(), 1);
+			fluidModels[i] = baker.bakeModel(true);
+		}
 	}
 	
 	@Override
@@ -49,15 +67,13 @@ public class BakeryLargeTank extends BakeryBase {
 	}
 	
 	private IBakedModel bakeFluidModel(FluidStack fluidStack, double capacity) {
-		AABBModelBaker baker = new AABBModelBaker();
+		if (fluidModels == null) {
+			generateFluidModels();
+		}
 		double amount = fluidStack.amount;
-		double percent = amount / capacity;
-		double height = FLUID_BOUNDING_BOX.maxY - FLUID_BOUNDING_BOX.minY;
-		height *= percent;
-		baker.setModelBounds(new AxisAlignedBB(FLUID_BOUNDING_BOX.minX, FLUID_BOUNDING_BOX.minY, FLUID_BOUNDING_BOX.minZ, FLUID_BOUNDING_BOX.maxX, FLUID_BOUNDING_BOX.minY + height, FLUID_BOUNDING_BOX.maxZ));
-		TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(fluidStack.getFluid().getStill().toString());
-		baker.addModel(sprite, 0);
-		return baker.bakeModel(true);
+		int level = (int) Math.min(FLUID_LEVELS - 1, (long) (amount * FLUID_LEVELS / capacity));
+		TextureAtlasSprite sprite = RenderUtil.getSprite(fluidStack);
+		return new RetexturedBakedModel(fluidModels[level], sprite);
 	}
 	
 	@Override

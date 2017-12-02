@@ -129,7 +129,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 	
 	@Override
 	public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
-		if (state instanceof IExtendedBlockState) {
+		if (state instanceof IExtendedBlockState && side == null) {
 			IExtendedBlockState stateExtended = (IExtendedBlockState) state;
 			IBlockAccess world = stateExtended.getValue(UnlistedBlockAccess.BLOCKACCESS);
 			BlockPos pos = stateExtended.getValue(UnlistedBlockPos.POS);

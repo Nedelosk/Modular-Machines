@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -26,6 +25,8 @@ import net.minecraftforge.common.model.TRSRTransformation;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import modularmachines.common.utils.RenderUtil;
 
 @SideOnly(Side.CLIENT)
 public class ModelBakerModel implements IBakedModel {
@@ -52,7 +53,7 @@ public class ModelBakerModel implements IBakedModel {
 		modelsPost = new ArrayList<>();
 		faceQuads = new EnumMap<>(EnumFacing.class);
 		generalQuads = new ArrayList<>();
-		particleSprite = Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+		particleSprite = RenderUtil.getMissingSprite();
 		isGui3d = true;
 		isAmbientOcclusion = false;
 		setModelState(modelState);
