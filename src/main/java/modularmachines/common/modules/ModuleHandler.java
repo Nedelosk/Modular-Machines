@@ -206,7 +206,7 @@ public class ModuleHandler implements IModuleHandler {
 	
 	public void readFromNBT(NBTTagCompound compound) {
 		for (IModulePosition position : positions) {
-			modules.put(position, null);
+			modules.put(position, ModuleManager.factory.createEmptyModule(this, position));
 		}
 		NBTTagList tagList = compound.getTagList("Modules", 10);
 		for (int i = 0; i < tagList.tagCount(); i++) {

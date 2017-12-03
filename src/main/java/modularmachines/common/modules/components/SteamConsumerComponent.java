@@ -6,7 +6,7 @@ import modularmachines.common.modules.components.process.criteria.ProcessLogic;
 
 public class SteamConsumerComponent extends ProcessComponent {
 	public static int processLength = 2;
-	public static int energyPerSteam = 40;
+	public static int energyPerSteam = 60;
 	
 	@Override
 	protected void addCriteria(ProcessLogic logic) {

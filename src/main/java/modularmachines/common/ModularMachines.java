@@ -92,17 +92,17 @@ public class ModularMachines {
 	}
 	
 	@SubscribeEvent
-	public void registerBlocks(RegistryEvent<Block> event) {
+	public void registerBlocks(RegistryEvent.Register<Block> event) {
 		ModBlocks.preInit();
 	}
 	
 	@SubscribeEvent
-	public void registerItems(RegistryEvent<Item> event) {
+	public void registerItems(RegistryEvent.Register<Item> event) {
 		ModItems.preInit();
 	}
 	
 	@SubscribeEvent
-	public void registerRecipes(RegistryEvent<IRecipe> event) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		ModRecipes.registerRecipes();
 	}
 }

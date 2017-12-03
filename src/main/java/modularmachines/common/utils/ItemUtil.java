@@ -1,14 +1,12 @@
 package modularmachines.common.utils;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -123,28 +121,47 @@ public class ItemUtil {
 		}
 	}
 	
-	@Nullable
-	public static String getStackToString(@Nonnull ItemStack stack) {
-		Item item = stack.getItem();
-		if (item == Item.getItemFromBlock(Blocks.AIR)) {
-			return null;
+	public static boolean isEquivalent(ItemStack base, ItemStack comparison) {
+		if (base.isEmpty() || comparison.isEmpty()) {
+			return false;
 		}
-		ResourceLocation itemName = item.getRegistryName();
-		if (itemName == null) {
-			return null;
+		if (base.getItem() != comparison.getItem()) {
+			return false;
 		}
-		String name = itemName.toString() + ":";
-		NBTTagCompound serializedNbt = stack.serializeNBT();
-		NBTTagCompound nbtTagCompound = serializedNbt.getCompoundTag("tag").copy();
-		if (serializedNbt.hasKey("ForgeCaps")) {
-			if (nbtTagCompound == null) {
-				nbtTagCompound = new NBTTagCompound();
+		if (base.getItemDamage() != OreDictionary.WILDCARD_VALUE) {
+			if (base.getItemDamage() != comparison.getItemDamage()) {
+				return false;
 			}
-			nbtTagCompound.setTag("ForgeCaps", serializedNbt.getCompoundTag("ForgeCaps"));
 		}
-		if (nbtTagCompound != null && !nbtTagCompound.hasNoTags()) {
-			name += ':' + nbtTagCompound.toString();
+		if (!base.hasTagCompound() || base.getTagCompound().hasNoTags()) {
+			return true;
+		} else {
+			return containsNBT(comparison.getTagCompound(), base.getTagCompound());
 		}
-		return name;
+		
+	}
+	
+	private static boolean containsNBT(@Nullable NBTTagCompound base, @Nullable NBTTagCompound comparison) {
+		if (comparison == null || comparison.hasNoTags()) {
+			return true;
+		}
+		if (base == null || base.hasNoTags()) {
+			return false;
+		}
+		for (String nbtKey : comparison.getKeySet()) {
+			NBTBase comparisonNbt = comparison.getTag(nbtKey);
+			NBTBase baseNbt = base.getTag(nbtKey);
+			if (baseNbt == null || baseNbt.getId() != comparisonNbt.getId()) {
+				return false;
+			}
+			if (comparisonNbt.getId() == Constants.NBT.TAG_COMPOUND) {
+				if (!containsNBT((NBTTagCompound) comparisonNbt, (NBTTagCompound) baseNbt)) {
+					return false;
+				}
+			} else if (!baseNbt.equals(comparisonNbt)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -1,0 +1,68 @@
+{
+  "textures": {
+    "side": "thermalexpansion:blocks/storage/tank_side_0_4",
+    "top": "thermalexpansion:blocks/storage/tank_top_4",
+    "bottom": "thermalexpansion:blocks/storage/tank_bottom_0_4"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        1,
+        0
+      ],
+      "to": [
+        14,
+        14,
+        6
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            2,
+            8,
+            14,
+            14
+          ],
+          "texture": "#bottom"
+        },
+        "up": {
+          "uv": [
+            2,
+            2,
+            14,
+            8
+          ],
+          "texture": "#top"
+        },
+        "north": {
+          "uv": [
+            2,
+            0,
+            14,
+            16
+          ],
+          "texture": "#side"
+        },
+        "west": {
+          "uv": [
+            2,
+            0,
+            8,
+            16
+          ],
+          "texture": "#side"
+        },
+        "east": {
+          "uv": [
+            8,
+            0,
+            14,
+            16
+          ],
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

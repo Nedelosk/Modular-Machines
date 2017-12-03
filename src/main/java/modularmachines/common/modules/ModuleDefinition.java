@@ -19,7 +19,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidStack;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,6 +27,7 @@ import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleProvider;
+import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IActivatableComponent;
 import modularmachines.api.modules.components.IGuiFactory;
@@ -57,8 +57,10 @@ import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
 import modularmachines.common.modules.data.ModuleData;
+import modularmachines.common.modules.data.ModuleTypeNBT;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
 import modularmachines.common.utils.Mod;
+import modularmachines.common.utils.NBTUtil;
 
 public enum ModuleDefinition implements IModuleDefinition {
 	CHEST(new ModuleData(), "chest", 4) {
@@ -226,22 +228,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		protected IModuleKeyGenerator getGenerator() {
-			return m -> {
-				String defaultKey = DEFAULT_GENERATOR.generateKey(m);
-				IFluidHandlerComponent component = m.getComponent(IFluidHandlerComponent.class);
-				if (component == null) {
-					return defaultKey;
-				}
-				IFluidHandlerComponent.ITank tank = component.getTank(0);
-				if (tank == null) {
-					return defaultKey;
-				}
-				FluidStack stack = tank.getFluid();
-				if (stack == null) {
-					return defaultKey;
-				}
-				return defaultKey + ":fluid=" + stack.hashCode();
-			};
+			return TANK_GENERATOR;
 		}
 	},
 	WATER_INTAKE("water_intake", 4) {
@@ -309,7 +296,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		protected ItemStack createItemStack() {
-			return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Mod.THERMAL_EXPANSION.modID(), "frame")));
+			return new ItemStack(Mod.THERMAL_EXPANSION.getItem("frame"));
 		}
 		
 		@SideOnly(Side.CLIENT)
@@ -333,6 +320,181 @@ public enum ModuleDefinition implements IModuleDefinition {
 		protected Mod getRequiredMod() {
 			return Mod.THERMAL_EXPANSION;
 		}
+	},
+	PORTABLE_BASIC("portable_basic", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(20000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 0), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/basic"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return TANK_GENERATOR;
+		}
+	},
+	PORTABLE_HARDENED("portable_hardened", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(80000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 1), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/hardened"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return TANK_GENERATOR;
+		}
+	},
+	PORTABLE_REINFORCED("portable_reinforced", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(180000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 2), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/reinforced"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return TANK_GENERATOR;
+		}
+	},
+	PORTABLE_SIGNALUM("portable_signalum", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(320000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 3), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/signalum"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return TANK_GENERATOR;
+		}
+	},
+	PORTABLE_RESONANT("portable_resonant", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.SIDES);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addFluidHandler(module).addTank(500000);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
+			module.addComponent(new FluidContainerInteraction());
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 4), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/resonant"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return TANK_GENERATOR;
+		}
 	};
 	protected static final IModuleKeyGenerator DEFAULT_GENERATOR = ModuleRegistry.INSTANCE.getDefaultGenerator();
 	protected static final IModuleKeyGenerator ACTIVATABLE_GENERATOR = m -> {
@@ -353,6 +515,22 @@ public enum ModuleDefinition implements IModuleDefinition {
 		stringBuilder.append(":left=").append(left.isEmpty() || left.getData().isValidPosition(CasingPosition.FRONT)).append(',');
 		stringBuilder.append("right=").append(right.isEmpty() || right.getData().isValidPosition(CasingPosition.FRONT));
 		return stringBuilder.toString();
+	};
+	protected static final IModuleKeyGenerator TANK_GENERATOR = m -> {
+		String defaultKey = DEFAULT_GENERATOR.generateKey(m);
+		IFluidHandlerComponent component = m.getComponent(IFluidHandlerComponent.class);
+		if (component == null) {
+			return defaultKey;
+		}
+		IFluidHandlerComponent.ITank tank = component.getTank(0);
+		if (tank == null) {
+			return defaultKey;
+		}
+		FluidStack stack = tank.getFluid();
+		if (stack == null) {
+			return defaultKey;
+		}
+		return defaultKey + ":fluid=" + stack.hashCode();
 	};
 	
 	
@@ -377,6 +555,10 @@ public enum ModuleDefinition implements IModuleDefinition {
 	}
 	
 	public void registerContainers() {
+		IModuleType type = createCustomType();
+		if (type != null) {
+			ModuleManager.registry.registerType(type);
+		}
 		ItemStack itemStack = createItemStack();
 		if (!itemStack.isEmpty()) {
 			data.registerType(itemStack);
@@ -385,6 +567,11 @@ public enum ModuleDefinition implements IModuleDefinition {
 	
 	public IModuleData data() {
 		return data;
+	}
+	
+	@Nullable
+	protected IModuleType createCustomType() {
+		return null;
 	}
 	
 	protected ItemStack createItemStack() {
