@@ -24,11 +24,10 @@ import modularmachines.api.components.INetworkComponent;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.events.Events;
-import modularmachines.common.modules.components.ModuleComponent;
 import modularmachines.common.utils.ModuleUtil;
 
-public class FluidHandlerComponent extends ModuleComponent implements IFluidHandlerComponent {
-	private NonNullList<InternalTank> tanks = NonNullList.create();
+public class FluidHandlerComponent extends HandlerComponent implements IFluidHandlerComponent {
+	private final NonNullList<InternalTank> tanks = NonNullList.create();
 	
 	@Override
 	public ITank addTank(int capacity, boolean isOutput) {

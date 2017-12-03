@@ -32,4 +32,7 @@ public interface ILocatable {
 	
 	void setFacing(EnumFacing facing);
 	
+	//@Nullable
+	//GameProfile getOwner();
+	
 }

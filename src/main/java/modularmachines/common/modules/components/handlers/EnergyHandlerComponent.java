@@ -8,29 +8,28 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import modularmachines.api.IOMode;
 import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.events.Events;
-import modularmachines.common.modules.components.ModuleComponent;
+import modularmachines.common.energy.EnergyStorageBasic;
 import modularmachines.common.utils.ModuleUtil;
 
-public class EnergyHandlerComponent extends ModuleComponent implements IEnergyHandlerComponent {
-	private final EnergyStorage energyStorage;
+public class EnergyHandlerComponent extends HandlerComponent implements IEnergyHandlerComponent {
+	private final EnergyStorageBasic energyStorage;
 	
 	public EnergyHandlerComponent(int capacity) {
-		energyStorage = new EnergyStorage(capacity);
+		energyStorage = new EnergyStorageBasic(capacity);
 	}
 	
 	public EnergyHandlerComponent(int capacity, int maxTransfer) {
-		energyStorage = new EnergyStorage(capacity, maxTransfer);
+		energyStorage = new EnergyStorageBasic(capacity, maxTransfer);
 	}
 	
 	public EnergyHandlerComponent(int capacity, int maxReceive, int maxExtract) {
-		energyStorage = new EnergyStorage(capacity, maxReceive, maxExtract);
+		energyStorage = new EnergyStorageBasic(capacity, maxReceive, maxExtract);
 	}
 	
 	@Override
@@ -141,5 +140,13 @@ public class EnergyHandlerComponent extends ModuleComponent implements IEnergyHa
 	@Override
 	public boolean canReceive() {
 		return energyStorage.canReceive();
+	}
+	
+	public void setEnergy(int energy) {
+		energyStorage.setEnergy(energy);
+	}
+	
+	public int getScaledEnergyStored(int scale) {
+		return (int) (getEnergyStored() * (long) scale / getMaxEnergyStored());
 	}
 }

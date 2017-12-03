@@ -8,12 +8,8 @@ import net.minecraft.util.EnumFacing;
 
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import modularmachines.api.IIOConfigurable;
 import modularmachines.api.IOMode;
 import modularmachines.api.modules.IModule;
-import modularmachines.api.modules.INBTReadable;
-import modularmachines.api.modules.INBTWritable;
-import modularmachines.api.modules.components.IModuleComponent;
 
 /**
  * This component can be used to add a item handler to the module.
@@ -21,7 +17,7 @@ import modularmachines.api.modules.components.IModuleComponent;
  * {@link modularmachines.api.modules.components.IModuleComponentFactory#addItemHandler(IModule)} can be
  * used to add this component to a module.
  */
-public interface IItemHandlerComponent extends IItemHandlerModifiable, IModuleComponent, INBTWritable, INBTReadable, IIOConfigurable {
+public interface IItemHandlerComponent extends IItemHandlerModifiable, IHandlerComponent {
 	
 	default IItemSlot addSlot() {
 		return addSlot(64);
@@ -40,6 +36,9 @@ public interface IItemHandlerComponent extends IItemHandlerModifiable, IModuleCo
 	ItemStack insertItemInternal(int slot, ItemStack stack, boolean simulate);
 	
 	ItemStack extractItemInternal(int slot, int amount, boolean simulate);
+	
+	@Override
+	ISaveHandler<IItemHandlerComponent> getSaveHandler();
 	
 	@Nullable
 	IItemSlot getSlot(int index);

@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/cells/energy_cell",
+  "textures": {
+    "frame": "thermalexpansion:blocks/storage/cell_side_1"
+  }
+}

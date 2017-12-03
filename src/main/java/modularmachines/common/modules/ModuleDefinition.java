@@ -32,6 +32,7 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IActivatableComponent;
 import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IModuleComponentFactory;
+import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
 import modularmachines.api.modules.model.IModuleKeyGenerator;
@@ -42,6 +43,7 @@ import modularmachines.client.gui.modules.GuiChestModule;
 import modularmachines.client.model.module.BakeryActivatable;
 import modularmachines.client.model.module.BakeryBase;
 import modularmachines.client.model.module.BakeryCasing;
+import modularmachines.client.model.module.BakeryEnergyCell;
 import modularmachines.client.model.module.BakeryLargeTank;
 import modularmachines.common.containers.ContainerChestModule;
 import modularmachines.common.core.Constants;
@@ -56,6 +58,7 @@ import modularmachines.common.modules.components.SteamConsumerComponent;
 import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
+import modularmachines.common.modules.components.handlers.SaveHandlers;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.data.ModuleTypeNBT;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
@@ -321,6 +324,176 @@ public enum ModuleDefinition implements IModuleDefinition {
 			return Mod.THERMAL_EXPANSION;
 		}
 	},
+	CELL_BASIC("cell_basic", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addEnergyHandler(module, 2000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 0), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/basic"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return ENERGY_CELL_GENERATOR;
+		}
+	},
+	CELL_HARDENED("cell_hardened", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addEnergyHandler(module, 8000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 1), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/hardened"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return ENERGY_CELL_GENERATOR;
+		}
+	},
+	CELL_REINFORCED("cell_reinforced", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addEnergyHandler(module, 18000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 2), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/reinforced"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return ENERGY_CELL_GENERATOR;
+		}
+	},
+	CELL_SIGNALUM("cell_signalum", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addEnergyHandler(module, 32000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 3), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/signalum"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return ENERGY_CELL_GENERATOR;
+		}
+	},
+	CELL_RESONANT("cell_resonant", 4) {
+		@Override
+		protected void initData(IModuleData data) {
+			super.initData(data);
+			data.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@Override
+		public void addComponents(IModule module, IModuleComponentFactory factory) {
+			factory.addEnergyHandler(module, 50000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
+			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
+		}
+		
+		@Override
+		protected Mod getRequiredMod() {
+			return Mod.THERMAL_EXPANSION;
+		}
+		
+		@Override
+		protected IModuleType createCustomType() {
+			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 4), data);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		protected IModuleModelBakery createBakery() {
+			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/resonant"));
+		}
+		
+		@Override
+		protected IModuleKeyGenerator getGenerator() {
+			return ENERGY_CELL_GENERATOR;
+		}
+	},
 	PORTABLE_BASIC("portable_basic", 4) {
 		@Override
 		protected void initData(IModuleData data) {
@@ -330,7 +503,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(20000);
+			IFluidHandlerComponent component = factory.addFluidHandler(module);
+			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
+			component.addTank(20000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
@@ -365,7 +540,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(80000);
+			IFluidHandlerComponent component = factory.addFluidHandler(module);
+			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
+			component.addTank(80000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
@@ -400,7 +577,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(180000);
+			IFluidHandlerComponent component = factory.addFluidHandler(module);
+			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
+			component.addTank(180000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
@@ -435,7 +614,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(320000);
+			IFluidHandlerComponent component = factory.addFluidHandler(module);
+			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
+			component.addTank(320000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
@@ -470,7 +651,9 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addFluidHandler(module).addTank(500000);
+			IFluidHandlerComponent component = factory.addFluidHandler(module);
+			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
+			component.addTank(500000);
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
@@ -531,6 +714,15 @@ public enum ModuleDefinition implements IModuleDefinition {
 			return defaultKey;
 		}
 		return defaultKey + ":fluid=" + stack.hashCode();
+	};
+	protected static final IModuleKeyGenerator ENERGY_CELL_GENERATOR = m -> {
+		String defaultKey = DEFAULT_GENERATOR.generateKey(m);
+		IEnergyHandlerComponent component = m.getComponent(IEnergyHandlerComponent.class);
+		if (component == null) {
+			return defaultKey;
+		}
+		int scaledEnergy = component.getScaledEnergyStored(9);
+		return defaultKey + ":energy=" + scaledEnergy;
 	};
 	
 	

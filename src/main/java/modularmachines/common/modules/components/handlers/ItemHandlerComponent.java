@@ -20,12 +20,26 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.components.block.IDropComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
+import modularmachines.api.modules.components.handlers.ISaveHandler;
 import modularmachines.common.utils.Log;
 import modularmachines.common.utils.ModuleUtil;
 
 public class ItemHandlerComponent extends ItemStackHandler implements IItemHandlerComponent, IDropComponent {
 	private final NonNullList<ItemSlot> slots = NonNullList.create();
+	@Nullable
+	private ISaveHandler<IItemHandlerComponent> saveHandler = null;
 	private IModule module;
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setSaveHandler(ISaveHandler saveHandler) {
+		this.saveHandler = saveHandler;
+	}
+	
+	@Override
+	public ISaveHandler<IItemHandlerComponent> getSaveHandler() {
+		return saveHandler;
+	}
 	
 	@Override
 	public IItemSlot addSlot(int limit, boolean isOutput) {

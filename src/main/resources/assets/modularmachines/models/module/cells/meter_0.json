@@ -1,0 +1,6 @@
+{
+  "parent": "modularmachines:module/cells/energy_meter",
+  "textures": {
+    "cell": "thermalexpansion:blocks/storage/cell_meter_0"
+  }
+}
