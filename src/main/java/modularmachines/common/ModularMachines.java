@@ -25,10 +25,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.ModuleManager;
-import modularmachines.common.compat.theoneprobe.TheOneProbeCompat;
+import modularmachines.common.compat.CompatManager;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
@@ -76,18 +78,28 @@ public class ModularMachines {
 		ModFluids.preInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		proxy.preInit();
+		ModuleDefinition.preInit();
+		CompatManager.preInit();
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
-		ModuleDefinition.registerModuleContainers();
+		registerTypes();
 		proxy.init();
-		TheOneProbeCompat.postInit();
+		CompatManager.init();
+	}
+	
+	public static void registerTypes() {
+		for (IModuleData data : GameRegistry.findRegistry(IModuleData.class)) {
+			IModuleDefinition definition = data.getDefinition();
+			definition.registerTypes(ModuleRegistry.INSTANCE);
+		}
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit();
+		CompatManager.postInit();
 		//Config.syncConfig(true);
 	}
 	

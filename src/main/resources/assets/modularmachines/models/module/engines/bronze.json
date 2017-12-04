@@ -1,5 +1,5 @@
 {
-  "parent": "modularmachines:module/default/engines/small",
+  "parent": "modularmachines:module/engines/engine",
   "textures": {
     "engine": "modularmachines:modules/engine_bronze"
   }

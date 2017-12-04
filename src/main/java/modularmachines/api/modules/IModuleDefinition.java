@@ -20,10 +20,10 @@ public interface IModuleDefinition {
 	 */
 	void addComponents(IModule module, IModuleComponentFactory factory);
 	
-	/**
-	 * Called at the {@link net.minecraftforge.client.event.ModelRegistryEvent}.
-	 */
 	@SideOnly(Side.CLIENT)
-	default void registerModels() {
+	default void registerModels(IModuleModelRegistry registry) {
+	}
+	
+	default void registerTypes(IModuleRegistry registry) {
 	}
 }

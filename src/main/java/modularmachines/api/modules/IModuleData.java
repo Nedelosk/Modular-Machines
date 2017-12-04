@@ -6,11 +6,6 @@ import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import modularmachines.api.modules.model.IModuleKeyGenerator;
-import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
 
 /**
@@ -73,15 +68,4 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	IModuleData setDefinition(IModuleDefinition definition);
 	
 	IModuleDefinition getDefinition();
-	
-	/* MODEL */
-	@SideOnly(Side.CLIENT)
-	IModuleModelBakery getBakery();
-	
-	@SideOnly(Side.CLIENT)
-	IModuleData setBakery(IModuleModelBakery bakery);
-	
-	IModuleKeyGenerator getGenerator();
-	
-	IModuleData setGenerator(IModuleKeyGenerator generator);
 }

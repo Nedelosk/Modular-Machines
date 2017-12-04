@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/engines/small",
-    "textures": {
-        "engine": "modularmachines:modules/engine_steel"
-    }
-}

@@ -28,6 +28,8 @@ public interface IModuleRegistry {
 	
 	void registerType(ItemStack parent, IModuleData data);
 	
+	void registerType(IModuleData data, ItemStack parent);
+	
 	/**
 	 * Registers the given module type.
 	 */

@@ -27,6 +27,8 @@ import net.minecraftforge.fluids.Fluid;
 
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 
@@ -38,6 +40,7 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.client.model.BuiltInModelLoader;
 import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.ModuleModelRegistry;
 import modularmachines.client.model.module.ModuleModelLoader;
 import modularmachines.client.renderer.ModuleContainerTESR;
 import modularmachines.common.blocks.tile.TileEntityModuleContainer;
@@ -56,6 +59,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		ModelLoaderRegistry.registerLoader(new BuiltInModelLoader(ModelManager.getInstance().getBuiltInModels()));
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityModuleContainer.class, new ModuleContainerTESR());
+		ModuleManager.modelRegistry = ModuleModelRegistry.INSTANCE;
 	}
 	
 	@Override
@@ -66,11 +70,16 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerModuleModels() {
+		registerModels();
+		ModuleModelLoader.INSTANCE.registerModels();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void registerModels() {
 		for (IModuleData data : GameRegistry.findRegistry(IModuleData.class)) {
 			IModuleDefinition definition = data.getDefinition();
-			definition.registerModels();
+			definition.registerModels(ModuleModelRegistry.INSTANCE);
 		}
-		ModuleModelLoader.INSTANCE.registerModels();
 	}
 	
 	@Override

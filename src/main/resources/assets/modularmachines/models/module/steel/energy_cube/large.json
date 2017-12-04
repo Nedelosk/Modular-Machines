@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/energy_cube/large",
-    "textures": {
-        "metal": "mekanism:blocks/SteelBlock"
-    }
-}

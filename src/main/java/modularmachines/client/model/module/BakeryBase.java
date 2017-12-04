@@ -2,7 +2,9 @@ package modularmachines.client.model.module;
 
 import com.google.common.collect.ImmutableList;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -13,8 +15,8 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.model.IModelInfo;
 import modularmachines.api.modules.model.IModelList;
 import modularmachines.api.modules.model.IModuleModelBakery;
+import modularmachines.common.core.Constants;
 
-@SideOnly(Side.CLIENT)
 public class BakeryBase implements IModuleModelBakery {
 	protected final ImmutableList<ResourceLocation> modelLocations;
 	
@@ -22,7 +24,14 @@ public class BakeryBase implements IModuleModelBakery {
 		this.modelLocations = ImmutableList.copyOf(modelLocations);
 	}
 	
+	public BakeryBase(String... locations) {
+		this.modelLocations = ImmutableList.copyOf(Arrays.stream(locations)
+				.map(path -> new ResourceLocation(Constants.MOD_ID, path))
+				.collect(Collectors.toList()));
+	}
+	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void bakeModel(IModule module, IModelInfo modelInfo, IModelList modelList) {
 		for (ResourceLocation location : modelLocations) {
 			modelList.add(location);
@@ -30,6 +39,7 @@ public class BakeryBase implements IModuleModelBakery {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public Collection<ResourceLocation> getDependencies() {
 		return modelLocations;
 	}

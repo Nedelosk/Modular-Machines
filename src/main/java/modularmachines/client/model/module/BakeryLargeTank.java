@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -21,17 +20,18 @@ import modularmachines.client.model.ModelBakery;
 import modularmachines.client.model.RetexturedBakedModel;
 import modularmachines.common.utils.RenderUtil;
 
-@SideOnly(Side.CLIENT)
 public class BakeryLargeTank extends BakeryBase {
 	private static final AxisAlignedBB FLUID_BOUNDING_BOX = new AxisAlignedBB(3.0F / 16.0F, 2.0F / 16.0F, 11.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 15.99F / 16.0F);
 	private static final int FLUID_LEVELS = 100;
+	@SideOnly(Side.CLIENT)
 	@Nullable
 	private static IBakedModel[] fluidModels = null;
 	
-	public BakeryLargeTank(ResourceLocation... modelLocation) {
-		super(modelLocation);
+	public BakeryLargeTank(String... locations) {
+		super(locations);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private static void generateFluidModels() {
 		fluidModels = new IBakedModel[FLUID_LEVELS];
 		double height = FLUID_BOUNDING_BOX.maxY - FLUID_BOUNDING_BOX.minY;
@@ -44,6 +44,7 @@ public class BakeryLargeTank extends BakeryBase {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void bakeModel(IModule module, IModelInfo modelInfo, IModelList modelList) {
 		BlockRenderLayer layer = modelInfo.getLayer();
 		if (layer != BlockRenderLayer.TRANSLUCENT) {
@@ -65,6 +66,7 @@ public class BakeryLargeTank extends BakeryBase {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	private IBakedModel bakeFluidModel(FluidStack fluidStack, double capacity) {
 		if (fluidModels == null) {
 			generateFluidModels();
@@ -76,6 +78,7 @@ public class BakeryLargeTank extends BakeryBase {
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean canRenderInLayer(IModule module, BlockRenderLayer layer) {
 		return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.CUTOUT;
 	}

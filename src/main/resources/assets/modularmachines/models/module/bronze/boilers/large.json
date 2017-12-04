@@ -1,6 +1,0 @@
-{
-    "parent": "modularmachines:module/default/boilers/large",
-	"textures": {
-        "boiler": "modularmachines:modules/boiler_bronze"
-    }
-}

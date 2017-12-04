@@ -1,9 +1,0 @@
-{
-    "parent": "modularmachines:module/default/euBattery/large",
-    "textures": {
-        "front": "ic2:blocks/wiring/storage/cesu_front",
-		"bottom": "ic2:blocks/wiring/storage/cesu_bottomtop",
-		"side": "ic2:blocks/wiring/storage/cesu_leftright",
-		"top": "ic2:blocks/wiring/storage/cesu_bottomtop"
-    }
-}

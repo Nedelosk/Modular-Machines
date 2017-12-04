@@ -1,7 +1,5 @@
 package modularmachines.common.modules;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,8 +13,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fluids.FluidStack;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,26 +22,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleDataBuilder;
 import modularmachines.api.modules.IModuleDefinition;
-import modularmachines.api.modules.IModuleHandler;
-import modularmachines.api.modules.IModuleProvider;
-import modularmachines.api.modules.IModuleType;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.components.IActivatableComponent;
+import modularmachines.api.modules.IModuleModelRegistry;
+import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.components.IGuiFactory;
 import modularmachines.api.modules.components.IModuleComponentFactory;
-import modularmachines.api.modules.components.handlers.IEnergyHandlerComponent;
-import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IItemHandlerComponent;
-import modularmachines.api.modules.model.IModuleKeyGenerator;
-import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.CasingPosition;
 import modularmachines.api.modules.positions.RackPosition;
 import modularmachines.client.gui.modules.GuiChestModule;
 import modularmachines.client.model.module.BakeryActivatable;
 import modularmachines.client.model.module.BakeryBase;
 import modularmachines.client.model.module.BakeryCasing;
-import modularmachines.client.model.module.BakeryEnergyCell;
 import modularmachines.client.model.module.BakeryLargeTank;
 import modularmachines.common.containers.ContainerChestModule;
 import modularmachines.common.core.Constants;
@@ -58,23 +49,25 @@ import modularmachines.common.modules.components.SteamConsumerComponent;
 import modularmachines.common.modules.components.WaterIntakeComponent;
 import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
-import modularmachines.common.modules.components.handlers.SaveHandlers;
 import modularmachines.common.modules.data.ModuleData;
-import modularmachines.common.modules.data.ModuleTypeNBT;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
-import modularmachines.common.utils.Mod;
-import modularmachines.common.utils.NBTUtil;
 
 public enum ModuleDefinition implements IModuleDefinition {
-	CHEST(new ModuleData(), "chest", 4) {
+	CHEST("chest", 4) {
 		@Override
-		protected void initData(IModuleData data) {
-			data.setPositions(CasingPosition.HORIZONTAL);
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryBase("chest"));
 		}
 		
 		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(Blocks.CHEST);
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, new ItemStack(Blocks.CHEST));
 		}
 		
 		@Override
@@ -85,7 +78,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 				itemHandler.addSlot();
 			}
 			factory.addGui(module, new IGuiFactory() {
-				@SideOnly(Side.CLIENT)
+				
 				@Override
 				public GuiContainer createGui(InventoryPlayer inventory) {
 					return new GuiChestModule(module, inventory);
@@ -107,44 +100,21 @@ public enum ModuleDefinition implements IModuleDefinition {
 			});
 		}
 	},
-	/*FURNACE(new ModuleData(), "furnace", 1) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(Blocks.FURNACE);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void registerModelData() {
-			ModelDataActivatable.addModelData(data());
-		}
-	},*/
 	CASING_BRONZE("casing.bronze", 0) {
 		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(18);
-			data.setPositions(CasingPosition.CENTER);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemCasings);
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.CENTER);
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryCasing("bronze");
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryCasing("bronze"), ModuleKeyGenerators.CASING_GENERATOR);
 		}
 		
 		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return CASING_GENERATOR;
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, new ItemStack(ModItems.itemCasings));
 		}
 		
 		@Override
@@ -155,20 +125,19 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	MODULE_RACK_BRICK("rack.brick", 1) {
 		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(3);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemModuleRack);
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.SIDES);
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/rack/brick"));
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/rack/brick")));
+		}
+		
+		@Override
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, new ItemStack(ModItems.itemModuleRack));
 		}
 		
 		@Override
@@ -179,8 +148,19 @@ public enum ModuleDefinition implements IModuleDefinition {
 	},
 	FIREBOX("firebox", 4) {
 		@Override
-		protected void initData(IModuleData data) {
-			data.setPositions(CasingPosition.HORIZONTAL);
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryActivatable("module/firebox_off", "module/firebox_on"), ModuleKeyGenerators.ACTIVATABLE_GENERATOR);
+		}
+		
+		@Override
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, ModuleItems.FIREBOX.get());
 		}
 		
 		@Override
@@ -192,22 +172,22 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(new FireboxComponent(225, 8));
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return ModuleItems.FIREBOX.get();
-		}
-		
-		@Override
-		protected boolean isActivatable() {
-			return true;
-		}
 	},
 	TANK_LARGE("large_tank", 4) {
 		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.SIDES);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryLargeTank("module/tank/large_storage", "module/tank/window"), ModuleKeyGenerators.TANK_GENERATOR);
+		}
+		
+		@Override
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, ModuleItems.LARGE_TANK.get());
 		}
 		
 		@Override
@@ -216,29 +196,22 @@ public enum ModuleDefinition implements IModuleDefinition {
 			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
 			module.addComponent(new FluidContainerInteraction());
 		}
-		
+	},
+	WATER_INTAKE("water_intake", 4) {
 		@Override
-		protected ItemStack createItemStack() {
-			return ModuleItems.LARGE_TANK.get();
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.HORIZONTAL);
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/large_storage"),
-					new ResourceLocation(Constants.MOD_ID, "module/tank/window"));
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryBase("module/engines/water_intake"));
 		}
 		
 		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
-	},
-	WATER_INTAKE("water_intake", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, ModuleItems.WATER_INTAKE.get());
 		}
 		
 		@Override
@@ -246,16 +219,22 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(new WaterIntakeComponent());
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
+	},
+	BOILER("boiler", 4) {
+		@Override
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(CasingPosition.HORIZONTAL);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryBase("module/engines/boiler"));
+		}
 		
 		@Override
-		protected ItemStack createItemStack() {
-			return ModuleItems.WATER_INTAKE.get();
-		}
-	},
-	BOILER(new ModuleData(), "boiler", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setPositions(CasingPosition.HORIZONTAL);
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, ModuleItems.BOILER.get());
 		}
 		
 		@Override
@@ -263,16 +242,22 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(new BoilerComponent());
 			factory.addBoundingBox(module, new AxisAlignedBB(2.0F / 16.0F, 2.0F / 16.0F, 15.0F / 16F, 14.0F / 16.0F, 14.0F / 16.0F, 1.0F));
 		}
+	},
+	ENGINE("engine", 4) {
+		@Override
+		protected void setProperties(IModuleDataBuilder builder) {
+			builder.setPositions(RackPosition.UP, RackPosition.CENTER, RackPosition.DOWN);
+		}
+		
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void registerModels(IModuleModelRegistry registry) {
+			registry.registerModel(data, new BakeryBase("module/engines/bronze", "module/windows/bronze"));
+		}
 		
 		@Override
-		public void registerContainers() {
-			registerType(ModuleItems.BOILER.get());
-		}
-	},
-	ENGINE(new ModuleData(RackPosition.UP, RackPosition.CENTER, RackPosition.DOWN), "engine", 4) {
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(ModItems.itemEngineSteam);
+		public void registerTypes(IModuleRegistry registry) {
+			registry.registerType(data, new ItemStack(ModItems.itemEngineSteam));
 		}
 		
 		@Override
@@ -281,546 +266,30 @@ public enum ModuleDefinition implements IModuleDefinition {
 			module.addComponent(new SteamConsumerComponent());
 			factory.addEnergyHandler(module, 10000);
 		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/engines/bronze"),
-					new ResourceLocation(Constants.MOD_ID, "module/windows/bronze"));
-		}
-	},
-	//Thermal Expansion
-	MACHINE_FRAME("machine_frame", 0) {
-		@Override
-		protected void initData(IModuleData data) {
-			data.setAllowedComplexity(18);
-			data.setPositions(CasingPosition.CENTER);
-		}
-		
-		@Override
-		protected ItemStack createItemStack() {
-			return new ItemStack(Mod.THERMAL_EXPANSION.getItem("frame"));
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryCasing("machine_frame");
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return CASING_GENERATOR;
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addBoundingBox(module, new AxisAlignedBB(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.9375F, 0.9375F));
-			module.addComponent(new CasingComponent());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-	},
-	CELL_BASIC("cell_basic", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addEnergyHandler(module, 2000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 0), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/basic"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return ENERGY_CELL_GENERATOR;
-		}
-	},
-	CELL_HARDENED("cell_hardened", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addEnergyHandler(module, 8000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 1), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/hardened"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return ENERGY_CELL_GENERATOR;
-		}
-	},
-	CELL_REINFORCED("cell_reinforced", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addEnergyHandler(module, 18000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 2), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/reinforced"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return ENERGY_CELL_GENERATOR;
-		}
-	},
-	CELL_SIGNALUM("cell_signalum", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addEnergyHandler(module, 32000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 3), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/signalum"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return ENERGY_CELL_GENERATOR;
-		}
-	},
-	CELL_RESONANT("cell_resonant", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.HORIZONTAL);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			factory.addEnergyHandler(module, 50000000).setSaveHandler(SaveHandlers.THEnergy.INSTANCE);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.1250F, 0.5625F, 0.875F, 0.875F, 1F));
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("cell")), "Level", (byte) 4), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryEnergyCell(new ResourceLocation(Constants.MOD_ID, "module/cells/resonant"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return ENERGY_CELL_GENERATOR;
-		}
-	},
-	PORTABLE_BASIC("portable_basic", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			IFluidHandlerComponent component = factory.addFluidHandler(module);
-			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
-			component.addTank(20000);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
-			module.addComponent(new FluidContainerInteraction());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 0), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/basic"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
-	},
-	PORTABLE_HARDENED("portable_hardened", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			IFluidHandlerComponent component = factory.addFluidHandler(module);
-			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
-			component.addTank(80000);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
-			module.addComponent(new FluidContainerInteraction());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 1), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/hardened"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
-	},
-	PORTABLE_REINFORCED("portable_reinforced", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			IFluidHandlerComponent component = factory.addFluidHandler(module);
-			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
-			component.addTank(180000);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
-			module.addComponent(new FluidContainerInteraction());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 2), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/reinforced"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
-	},
-	PORTABLE_SIGNALUM("portable_signalum", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			IFluidHandlerComponent component = factory.addFluidHandler(module);
-			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
-			component.addTank(320000);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
-			module.addComponent(new FluidContainerInteraction());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 3), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/signalum"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
-	},
-	PORTABLE_RESONANT("portable_resonant", 4) {
-		@Override
-		protected void initData(IModuleData data) {
-			super.initData(data);
-			data.setPositions(CasingPosition.SIDES);
-		}
-		
-		@Override
-		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			IFluidHandlerComponent component = factory.addFluidHandler(module);
-			component.setSaveHandler(SaveHandlers.THTank.INSTANCE);
-			component.addTank(500000);
-			factory.addBoundingBox(module, new AxisAlignedBB(0.125F, 0.0625F, 0.5625F, 0.875F, 0.875F, 1F));
-			module.addComponent(new FluidContainerInteraction());
-		}
-		
-		@Override
-		protected Mod getRequiredMod() {
-			return Mod.THERMAL_EXPANSION;
-		}
-		
-		@Override
-		protected IModuleType createCustomType() {
-			return new ModuleTypeNBT(NBTUtil.setByte(new ItemStack(Mod.THERMAL_EXPANSION.getItem("tank")), "Level", (byte) 4), data);
-		}
-		
-		@SideOnly(Side.CLIENT)
-		@Override
-		protected IModuleModelBakery createBakery() {
-			return new BakeryLargeTank(new ResourceLocation(Constants.MOD_ID, "module/tank/portable/resonant"));
-		}
-		
-		@Override
-		protected IModuleKeyGenerator getGenerator() {
-			return TANK_GENERATOR;
-		}
 	};
-	protected static final IModuleKeyGenerator DEFAULT_GENERATOR = ModuleRegistry.INSTANCE.getDefaultGenerator();
-	protected static final IModuleKeyGenerator ACTIVATABLE_GENERATOR = m -> {
-		IActivatableComponent component = m.getComponent(IActivatableComponent.class);
-		String key = DEFAULT_GENERATOR.generateKey(m);
-		return component == null ? key : key + (component.isActive() ? "_on" : "_off");
-	};
-	protected static final IModuleKeyGenerator CASING_GENERATOR = m -> {
-		IActivatableComponent component = m.getComponent(IActivatableComponent.class);
-		StringBuilder stringBuilder = new StringBuilder(DEFAULT_GENERATOR.generateKey(m));
-		IModuleProvider moduleProvider = m.getComponent(IModuleProvider.class);
-		if (moduleProvider == null) {
-			return stringBuilder.toString();
-		}
-		IModuleHandler moduleHandler = moduleProvider.getHandler();
-		IModule left = moduleHandler.getModule(CasingPosition.LEFT);
-		IModule right = moduleHandler.getModule(CasingPosition.RIGHT);
-		stringBuilder.append(":left=").append(left.isEmpty() || left.getData().isValidPosition(CasingPosition.FRONT)).append(',');
-		stringBuilder.append("right=").append(right.isEmpty() || right.getData().isValidPosition(CasingPosition.FRONT));
-		return stringBuilder.toString();
-	};
-	protected static final IModuleKeyGenerator TANK_GENERATOR = m -> {
-		String defaultKey = DEFAULT_GENERATOR.generateKey(m);
-		IFluidHandlerComponent component = m.getComponent(IFluidHandlerComponent.class);
-		if (component == null) {
-			return defaultKey;
-		}
-		IFluidHandlerComponent.ITank tank = component.getTank(0);
-		if (tank == null) {
-			return defaultKey;
-		}
-		FluidStack stack = tank.getFluid();
-		if (stack == null) {
-			return defaultKey;
-		}
-		return defaultKey + ":fluid=" + stack.hashCode();
-	};
-	protected static final IModuleKeyGenerator ENERGY_CELL_GENERATOR = m -> {
-		String defaultKey = DEFAULT_GENERATOR.generateKey(m);
-		IEnergyHandlerComponent component = m.getComponent(IEnergyHandlerComponent.class);
-		if (component == null) {
-			return defaultKey;
-		}
-		int scaledEnergy = component.getScaledEnergyStored(9);
-		return defaultKey + ":energy=" + scaledEnergy;
-	};
-	
-	
 	protected final IModuleData data;
-	private final String registryName;
 	
 	ModuleDefinition(String registryName, int complexity) {
-		this(ModuleManager.factory.createData(), registryName, complexity);
+		IModuleDataBuilder dataBuilder = new ModuleData.Builder()
+				.setRegistryName(registryName)
+				.setComplexity(complexity)
+				.setUnlocalizedName(registryName)
+				.setDefinition(this);
+		setProperties(dataBuilder);
+		this.data = dataBuilder.build();
 	}
 	
-	ModuleDefinition(IModuleData data, String registryName, int complexity) {
-		this.data = data;
-		data.setRegistryName(new ResourceLocation(Constants.MOD_ID, registryName));
-		data.setComplexity(complexity);
-		data.setUnlocalizedName(registryName);
-		data.setDefinition(this);
-		initData(data);
-		this.registryName = registryName;
+	protected void setProperties(IModuleDataBuilder builder) {
 	}
 	
-	protected void initData(IModuleData data) {
-	}
-	
-	public void registerContainers() {
-		IModuleType type = createCustomType();
-		if (type != null) {
-			ModuleManager.registry.registerType(type);
-		}
-		ItemStack itemStack = createItemStack();
-		if (!itemStack.isEmpty()) {
-			data.registerType(itemStack);
-		}
-	}
-	
-	public IModuleData data() {
-		return data;
-	}
-	
-	@Nullable
-	protected IModuleType createCustomType() {
-		return null;
-	}
-	
-	protected ItemStack createItemStack() {
-		return ItemStack.EMPTY;
-	}
-	
-	protected void registerType(ItemStack parent) {
-		data.registerType(parent);
-	}
-	
-	@Nullable
-	protected Mod getRequiredMod() {
-		return null;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected IModuleModelBakery createBakery() {
-		if (isActivatable()) {
-			return new BakeryActivatable(new ResourceLocation(Constants.MOD_ID, "module/" + registryName + "_off"),
-					new ResourceLocation(Constants.MOD_ID, "module/" + registryName + "_on"));
-		}
-		return new BakeryBase(new ResourceLocation(Constants.MOD_ID, "module/" + registryName));
-	}
-	
-	protected boolean isActivatable() {
-		return false;
-	}
-	
-	protected IModuleKeyGenerator getGenerator() {
-		if (isActivatable()) {
-			return ACTIVATABLE_GENERATOR;
-		}
-		return DEFAULT_GENERATOR;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void registerModels() {
-		data.setGenerator(getGenerator());
-		data.setBakery(createBakery());
+	public static void preInit() {
+		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 	}
 	
 	@SubscribeEvent
 	public static void onDataRegister(RegistryEvent.Register<IModuleData> event) {
 		for (ModuleDefinition definition : values()) {
-			Mod mod = definition.getRequiredMod();
-			if (mod == null || mod.active()) {
-				event.getRegistry().register(definition.data());
-			}
-		}
-	}
-	
-	public static void registerModuleContainers() {
-		for (ModuleDefinition definition : values()) {
-			Mod mod = definition.getRequiredMod();
-			if (mod == null || mod.active()) {
-				definition.registerContainers();
-			}
+			event.getRegistry().register(definition.data);
 		}
 	}
 }

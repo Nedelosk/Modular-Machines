@@ -1,15 +1,11 @@
 package modularmachines.common.compat.thermalexpansion;
 
-public class TEPlugin {
+import modularmachines.common.compat.ICompatPlugin;
+
+public class TEPlugin implements ICompatPlugin {
 	
-	public static void preInit() {
-	}
-	
-	public static void init() {
-	
-	}
-	
-	public static void postInit() {
-	
+	@Override
+	public void preInit() {
+		TEModuleDefinition.preInit();
 	}
 }

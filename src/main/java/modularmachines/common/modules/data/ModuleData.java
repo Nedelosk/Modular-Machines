@@ -6,31 +6,28 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleDataBuilder;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
+import modularmachines.common.core.Constants;
 import modularmachines.common.utils.Translator;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements IModuleData {
 	private static final IModuleDefinition DEFAULT_DEFINITION = (d, f) -> {
 	};
-	
-	@Nullable
-	@SideOnly(Side.CLIENT)
-	private IModuleModelBakery bakery;
-	private IModuleKeyGenerator generator;
-	
 	private int complexity = 0;
 	private int allowedComplexity = 0;
 	private String unlocalizedName = "null";
@@ -140,28 +137,52 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return MoreObjects.toStringHelper(getClass()).add("registry", getRegistryName()).add("positions", positions).toString();
 	}
 	
-	/* MODEL */
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IModuleModelBakery getBakery() {
-		return bakery;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IModuleData setBakery(IModuleModelBakery bakery) {
-		this.bakery = bakery;
-		return this;
-	}
-	
-	@Override
-	public IModuleKeyGenerator getGenerator() {
-		return generator;
-	}
-	
-	@Override
-	public IModuleData setGenerator(IModuleKeyGenerator generator) {
-		this.generator = generator;
-		return this;
+	public static class Builder implements IModuleDataBuilder {
+		private IModulePosition[] positions = new IModulePosition[0];
+		private String registryName = "null";
+		private String unlocalizedName = "null";
+		private int complexity = 0;
+		private IModuleKeyGenerator generator = ModuleManager.registry.getDefaultGenerator();
+		@Nullable
+		private IModuleModelBakery bakery = null;
+		private IModuleDefinition definition = DEFAULT_DEFINITION;
+		
+		public IModuleDataBuilder setPositions(IModulePosition... positions) {
+			this.positions = positions;
+			return this;
+		}
+		
+		public IModuleDataBuilder setRegistryName(String registryName) {
+			this.registryName = registryName;
+			return this;
+		}
+		
+		public IModuleDataBuilder setUnlocalizedName(String unlocalizedName) {
+			this.unlocalizedName = unlocalizedName;
+			return this;
+		}
+		
+		public IModuleDataBuilder setComplexity(int complexity) {
+			this.complexity = complexity;
+			return this;
+		}
+		
+		public IModuleDataBuilder setDefinition(IModuleDefinition definition) {
+			this.definition = definition;
+			return this;
+		}
+		
+		public IModuleData build() {
+			String modID = Constants.MOD_ID;
+			ModContainer modContainer = Loader.instance().activeModContainer();
+			if (modContainer != null) {
+				modID = modContainer.getModId();
+			}
+			IModuleData moduleData = new ModuleData(positions)
+					.setRegistryName(new ResourceLocation(modID, registryName))
+					.setComplexity(complexity)
+					.setDefinition(definition);
+			return moduleData;
+		}
 	}
 }

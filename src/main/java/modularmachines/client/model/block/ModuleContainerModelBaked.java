@@ -40,6 +40,7 @@ import modularmachines.api.modules.model.IModelInfo;
 import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.client.model.ModelManager;
+import modularmachines.client.model.ModuleModelRegistry;
 import modularmachines.client.model.TRSRBakedModel;
 import modularmachines.client.model.module.BakedMultiModel;
 import modularmachines.client.model.module.ModelInfo;
@@ -98,9 +99,9 @@ public class ModuleContainerModelBaked implements IBakedModel {
 				focused = -1; //Add Children models to the damage model
 				model = ModuleModelLoader.getModel(module, modelInfo);
 			}
-			IModuleModelBakery bakery = module.getData().getBakery();
+			IModuleModelBakery bakery = ModuleModelRegistry.INSTANCE.getModel(module.getData());
 			IModuleProvider moduleProvider = module.getComponent(IModuleProvider.class);
-			if (moduleProvider != null && !bakery.handlesChildren()) {
+			if (moduleProvider != null && (bakery == null || !bakery.handlesChildren())) {
 				IBakedModel bakedModel = bakeModel(moduleProvider, modelInfo, focused);
 				if (bakedModel != null) {
 					if (model == null) {

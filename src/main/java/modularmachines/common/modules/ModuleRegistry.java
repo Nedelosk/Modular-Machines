@@ -36,7 +36,6 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.positions.CasingPosition;
-import modularmachines.client.model.module.BakeryBase;
 import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.modules.container.EmptyModuleContainer;
@@ -60,8 +59,8 @@ public enum ModuleRegistry implements IModuleRegistry {
 		ResourceLocation defaultKey = new ResourceLocation(Constants.MOD_ID, "empty");
 		defaultData = ModuleManager.factory.createData().setRegistryName(defaultKey);
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			defaultData.setGenerator(defaultGenerator);
-			defaultData.setBakery(new BakeryBase());
+			//	defaultData.setGenerator(defaultGenerator);
+			//	defaultData.setBakery(new BakeryBase());
 		}
 		registry = new RegistryBuilder<IModuleData>()
 				.setMaxID(4095)
@@ -100,6 +99,11 @@ public enum ModuleRegistry implements IModuleRegistry {
 			return;
 		}
 		types.put(itemStack.getItem(), type);
+	}
+	
+	@Override
+	public void registerType(IModuleData data, ItemStack parent) {
+		registerType(new ModuleType(parent, data));
 	}
 	
 	@Override

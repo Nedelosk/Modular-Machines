@@ -37,7 +37,9 @@ import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.components.IModelComponent;
 import modularmachines.api.modules.model.IModelInfo;
+import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.model.IModuleModelBakery;
+import modularmachines.client.model.ModuleModelRegistry;
 
 @SideOnly(Side.CLIENT)
 public enum ModuleModelLoader {
@@ -73,8 +75,9 @@ public enum ModuleModelLoader {
 	
 	public void registerModels() {
 		locations = GameRegistry.findRegistry(IModuleData.class).getValues().stream()
+				.map(ModuleModelRegistry.INSTANCE::getModel)
 				.filter(Objects::nonNull)
-				.map(data -> data.getBakery().getDependencies())
+				.map(IModuleModelBakery::getDependencies)
 				.flatMap(Collection::stream)
 				.filter(Objects::nonNull).collect(Collectors.toSet());
 	}
@@ -104,14 +107,15 @@ public enum ModuleModelLoader {
 		IModuleData data = module.getData();
 		String modelKey = component.getModelKey();
 		IBakedModel model = modelKey == null ? null : cachedModels.getIfPresent(Pair.of(modelKey, modelInfo.getLayer()));
-		IModuleModelBakery bakery = module.getData().getBakery();
+		IModuleModelBakery bakery = ModuleModelRegistry.INSTANCE.getModel(module.getData());
 		BlockRenderLayer layer = modelInfo.getLayer();
-		if (layer != null && !bakery.canRenderInLayer(module, layer)) {
+		if (bakery == null || layer != null && !bakery.canRenderInLayer(module, layer)) {
 			return null;
 		}
 		if (component.isModelNeedReload() || model == null) {
 			ModelList modelList = new ModelList(modelInfo);
-			component.setModelKey(modelKey = data.getGenerator().generateKey(module));
+			IModuleKeyGenerator generator = ModuleModelRegistry.INSTANCE.getGenerator(data);
+			component.setModelKey(modelKey = generator.generateKey(module));
 			bakery.bakeModel(module, modelInfo, modelList);
 			
 			if (modelList.empty()) {
