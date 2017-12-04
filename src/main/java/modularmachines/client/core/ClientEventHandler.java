@@ -25,7 +25,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -49,7 +48,7 @@ import modularmachines.common.utils.WorldUtil;
 @SideOnly(Side.CLIENT)
 public class ClientEventHandler {
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent
 	public void tooltipEvent(ItemTooltipEvent event) {
 		ItemStack itemStack = event.getItemStack();
 		List<String> tooltip = new ArrayList<>();

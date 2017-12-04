@@ -1,5 +1,7 @@
 package modularmachines.common.core;
 
+import java.util.stream.Collectors;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -24,22 +26,6 @@ public class CreativeTabModules extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void displayAllRelevantItems(NonNullList<ItemStack> itemStacks) {
-		NonNullList<ItemStack> items = NonNullList.create();
-		for (CreativeTabs creativeTab : CreativeTabs.CREATIVE_TAB_ARRAY) {
-			if (creativeTab == CreativeTabs.HOTBAR || creativeTab == this || creativeTab == SEARCH) {
-				continue;
-			}
-			try {
-				creativeTab.displayAllRelevantItems(items);
-			} catch (RuntimeException | LinkageError e) {
-				e.printStackTrace();
-			}
-		}
-		for (ItemStack itemStack : items) {
-			IModuleType type = ModuleManager.registry.getTypeFromItem(itemStack);
-			if (type != null) {
-				itemStacks.add(itemStack);
-			}
-		}
+		itemStacks.addAll(ModuleManager.registry.getTypes().stream().map(IModuleType::getItem).collect(Collectors.toList()));
 	}
 }

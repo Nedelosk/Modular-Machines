@@ -11,7 +11,7 @@ import modularmachines.api.modules.model.IModelList;
 public class BakeryActivatable extends BakeryBase {
 	/**
 	 * @param locations 0 = inactive
-	 *                       1 = active
+	 *                  1 = active
 	 */
 	public BakeryActivatable(String... locations) {
 		super(locations);
