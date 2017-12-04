@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import modularmachines.api.ILocatable;
 import modularmachines.api.modules.IModule;
 import modularmachines.api.modules.IModuleData;
+import modularmachines.api.modules.IModuleDataBuilder;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleFactory;
 import modularmachines.api.modules.IModuleHandler;
@@ -32,8 +33,8 @@ public enum ModuleFactory implements IModuleFactory {
 	}
 	
 	@Override
-	public IModuleData createData() {
-		return new ModuleData();
+	public IModuleDataBuilder createData() {
+		return new ModuleData.Builder();
 	}
 	
 	@Override

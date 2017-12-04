@@ -2,6 +2,9 @@ package modularmachines.api.modules;
 
 import modularmachines.api.modules.positions.IModulePosition;
 
+/**
+ * A builder to create a module data.
+ */
 public interface IModuleDataBuilder {
 	IModuleDataBuilder setPositions(IModulePosition... positions);
 	

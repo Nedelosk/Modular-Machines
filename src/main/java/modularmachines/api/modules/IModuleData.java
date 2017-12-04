@@ -25,23 +25,12 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	 */
 	String getUnlocalizedDescription();
 	
-	/**
-	 * Sets the unlocalized name of this module.
-	 */
-	void setUnlocalizedName(String unlocalizedName);
-	
 	String getDisplayName();
-	
-	int getAllowedComplexity();
-	
-	IModuleData setAllowedComplexity(int allowedComplexity);
 	
 	/**
 	 * @return The complexity that a module with this data has.
 	 */
 	int getComplexity();
-	
-	IModuleData setComplexity(int complexity);
 	
 	/* POSITIONS */
 	
@@ -50,22 +39,8 @@ public interface IModuleData extends IForgeRegistryEntry<IModuleData> {
 	 */
 	boolean isValidPosition(IModulePosition position);
 	
-	/**
-	 * Sets the valid positions of the module.
-	 */
-	IModuleData setPositions(IModulePosition... positions);
-	
-	/* TYPES */
-	
-	/**
-	 * Registers a {@link IModuleType} that represents this data and the given {@link ItemStack}.
-	 */
-	IModuleData registerType(ItemStack itemStack);
-	
 	/* ITEM INFO */
 	void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleType container);
-	
-	IModuleData setDefinition(IModuleDefinition definition);
 	
 	IModuleDefinition getDefinition();
 }

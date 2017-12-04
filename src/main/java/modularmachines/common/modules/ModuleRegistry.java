@@ -25,9 +25,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleRegistry;
@@ -36,7 +33,6 @@ import modularmachines.api.modules.ModuleManager;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.positions.CasingPosition;
-import modularmachines.common.core.Constants;
 import modularmachines.common.core.managers.ModBlocks;
 import modularmachines.common.modules.container.EmptyModuleContainer;
 import modularmachines.common.modules.data.ModuleType;
@@ -56,17 +52,12 @@ public enum ModuleRegistry implements IModuleRegistry {
 	private final IForgeRegistry<IModuleData> registry;
 	
 	ModuleRegistry() {
-		ResourceLocation defaultKey = new ResourceLocation(Constants.MOD_ID, "empty");
-		defaultData = ModuleManager.factory.createData().setRegistryName(defaultKey);
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			//	defaultData.setGenerator(defaultGenerator);
-			//	defaultData.setBakery(new BakeryBase());
-		}
+		defaultData = ModuleManager.factory.createData().setRegistryName("empty").build();
 		registry = new RegistryBuilder<IModuleData>()
 				.setMaxID(4095)
 				.setName(new ResourceLocation("modularmachines:moduledatas"))
 				.setType(IModuleData.class)
-				.setDefaultKey(defaultKey)
+				.setDefaultKey(defaultData.getRegistryName())
 				.create();
 		registry.register(defaultData);
 		

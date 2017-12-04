@@ -2,74 +2,52 @@ package modularmachines.common.modules.data;
 
 import com.google.common.base.MoreObjects;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDataBuilder;
 import modularmachines.api.modules.IModuleDefinition;
 import modularmachines.api.modules.IModuleType;
-import modularmachines.api.modules.ModuleManager;
-import modularmachines.api.modules.model.IModuleKeyGenerator;
-import modularmachines.api.modules.model.IModuleModelBakery;
 import modularmachines.api.modules.positions.IModulePosition;
-import modularmachines.common.core.Constants;
 import modularmachines.common.utils.Translator;
 
 public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements IModuleData {
-	private static final IModuleDefinition DEFAULT_DEFINITION = (d, f) -> {
-	};
-	private int complexity = 0;
+	private final int complexity;
 	private int allowedComplexity = 0;
-	private String unlocalizedName = "null";
-	private IModulePosition[] positions;
-	private IModuleDefinition definition = DEFAULT_DEFINITION;
+	private final String unlocalizedName;
+	private final IModulePosition[] positions;
+	private final IModuleDefinition definition;
 	
-	public ModuleData(IModulePosition... positions) {
+	public ModuleData(int complexity, String unlocalizedName, IModuleDefinition definition, IModulePosition[] positions, String registryName) {
+		this.complexity = complexity;
+		this.unlocalizedName = unlocalizedName;
 		this.positions = positions;
+		this.definition = definition;
+		setRegistryName(registryName);
 	}
 	
 	public String getDescription() {
-		return I18n.translateToLocal(getUnlocalizedDescription());
+		return Translator.translateToLocal(getUnlocalizedDescription());
 	}
 	
 	public String getUnlocalizedDescription() {
 		return "module." + unlocalizedName + ".description";
 	}
 	
-	public void setUnlocalizedName(String unlocalizedName) {
-		this.unlocalizedName = unlocalizedName;
-	}
-	
 	public String getDisplayName() {
-		return I18n.translateToLocal("module." + unlocalizedName + ".name");
+		return Translator.translateToLocal("module." + unlocalizedName + ".name");
 	}
 	
 	public int getAllowedComplexity() {
 		return allowedComplexity;
 	}
 	
-	public IModuleData setAllowedComplexity(int allowedComplexity) {
-		this.allowedComplexity = allowedComplexity;
-		return this;
-	}
-	
 	public int getComplexity() {
 		return complexity;
-	}
-	
-	public IModuleData setComplexity(int complexity) {
-		this.complexity = complexity;
-		return this;
 	}
 	
 	public boolean isValidPosition(IModulePosition position) {
@@ -81,20 +59,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		return false;
 	}
 	
-	@Override
-	public IModuleData setPositions(IModulePosition... positions) {
-		this.positions = positions;
-		return this;
-	}
-	
-	/* CONTAINERS */
-	
-	@Override
-	public IModuleData registerType(ItemStack itemStack) {
-		ModuleManager.registry.registerType(new ModuleType(itemStack, this));
-		return this;
-	}
-	
 	/* ITEM INFO */
 	public void addTooltip(List<String> tooltip, ItemStack itemStack, IModuleType container) {
 		tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.name", getDisplayName()));
@@ -102,7 +66,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity", complexity));
 		}
 		if (allowedComplexity > 0) {
-			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity.allowed", complexity));
+			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.module.complexity.allowed", allowedComplexity));
 		}
 		if (positions.length > 0) {
 			StringBuilder builder = new StringBuilder();
@@ -122,12 +86,6 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 	}
 	
 	@Override
-	public IModuleData setDefinition(IModuleDefinition definition) {
-		this.definition = definition;
-		return this;
-	}
-	
-	@Override
 	public IModuleDefinition getDefinition() {
 		return definition;
 	}
@@ -142,10 +100,8 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		private String registryName = "null";
 		private String unlocalizedName = "null";
 		private int complexity = 0;
-		private IModuleKeyGenerator generator = ModuleManager.registry.getDefaultGenerator();
-		@Nullable
-		private IModuleModelBakery bakery = null;
-		private IModuleDefinition definition = DEFAULT_DEFINITION;
+		private IModuleDefinition definition = (m, f) -> {
+		};
 		
 		public IModuleDataBuilder setPositions(IModulePosition... positions) {
 			this.positions = positions;
@@ -173,16 +129,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 		}
 		
 		public IModuleData build() {
-			String modID = Constants.MOD_ID;
-			ModContainer modContainer = Loader.instance().activeModContainer();
-			if (modContainer != null) {
-				modID = modContainer.getModId();
-			}
-			IModuleData moduleData = new ModuleData(positions)
-					.setRegistryName(new ResourceLocation(modID, registryName))
-					.setComplexity(complexity)
-					.setDefinition(definition);
-			return moduleData;
+			return new ModuleData(complexity, unlocalizedName, definition, positions, registryName);
 		}
 	}
 }

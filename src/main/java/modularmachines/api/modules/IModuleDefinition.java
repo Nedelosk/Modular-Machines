@@ -8,7 +8,7 @@ import modularmachines.api.modules.components.IModuleComponentFactory;
 /**
  * Can be implemented to add components to a module.
  * <p>
- * Must be added to a module data with {@link IModuleData#setDefinition(IModuleDefinition)}.
+ * Must be added to a module data with {@link IModuleDataBuilder#setDefinition(IModuleDefinition)}.
  */
 public interface IModuleDefinition {
 	

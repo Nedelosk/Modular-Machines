@@ -12,7 +12,7 @@ import modularmachines.api.modules.positions.IModulePosition;
  */
 public interface IModuleFactory {
 	
-	IModuleData createData();
+	IModuleDataBuilder createData();
 	
 	IModuleContainer createContainer(ILocatable locatable);
 	
