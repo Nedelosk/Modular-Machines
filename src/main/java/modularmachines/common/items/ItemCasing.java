@@ -18,7 +18,7 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	private String[] casings = new String[]{"bronze", "iron", "steel", "magmarium"};
 	
 	public ItemCasing() {
-		setUnlocalizedName("casing");
+		setTranslationKey("casing");
 		setHasSubtypes(true);
 		setCreativeTab(Tabs.tabModularMachines);
 	}
@@ -32,8 +32,8 @@ public class ItemCasing extends Item implements IItemModelRegister {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.getItemName(getUnlocalizedName().replace("item.", "") + "_" + casings[stack.getItemDamage()]);
+	public String getTranslationKey(ItemStack stack) {
+		return Registry.getItemName(getTranslationKey().replace("item.", "") + "_" + casings[stack.getItemDamage()]);
 	}
 	
 	@Override

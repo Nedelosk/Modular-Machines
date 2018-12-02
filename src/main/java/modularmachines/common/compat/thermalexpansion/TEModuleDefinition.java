@@ -307,7 +307,7 @@ public enum TEModuleDefinition implements IModuleDefinition {
 		IModuleDataBuilder dataBuilder = new ModuleData.Builder()
 				.setRegistryName(registryName)
 				.setComplexity(complexity)
-				.setUnlocalizedName(registryName)
+				.setTranslationKey(registryName)
 				.setDefinition(this);
 		setProperties(dataBuilder);
 		this.data = dataBuilder.build();

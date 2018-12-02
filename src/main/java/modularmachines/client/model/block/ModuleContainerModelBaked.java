@@ -118,7 +118,7 @@ public class ModuleContainerModelBaked implements IBakedModel {
 			Vec3d offset = position.getOffset();
 			float rotation = position.getRotationAngle();
 			if (rotation > 0.0F || rotation < 0.0F || !Vec3d.ZERO.equals(offset)) {
-				model = new TRSRBakedModel(model, (float) offset.x, (float) offset.y, (float) offset.z, 0F, rotation, 0F, 1F);
+				model = new TRSRBakedModel(model, (float) -offset.x, (float) offset.y, (float) offset.z, 0F, -rotation, 0F, 1F);
 			}
 			models.add(model);
 		}

@@ -113,7 +113,7 @@ public class ModuleData extends IForgeRegistryEntry.Impl<IModuleData> implements
 			return this;
 		}
 		
-		public IModuleDataBuilder setUnlocalizedName(String unlocalizedName) {
+		public IModuleDataBuilder setTranslationKey(String unlocalizedName) {
 			this.unlocalizedName = unlocalizedName;
 			return this;
 		}

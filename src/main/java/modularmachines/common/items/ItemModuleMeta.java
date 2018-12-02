@@ -19,7 +19,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	private String uln;
 	
 	public ItemModuleMeta(String uln, String[] names) {
-		setUnlocalizedName(uln);
+		setTranslationKey(uln);
 		setHasSubtypes(true);
 		setCreativeTab(Tabs.tabModularMachines);
 		this.names = names;
@@ -45,7 +45,7 @@ public class ItemModuleMeta extends Item implements IItemModelRegister {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
+	public String getTranslationKey(ItemStack itemstack) {
 		int meta = itemstack.getItemDamage();
 		if (meta >= names.length || meta < 0) {
 			return "UNKNOWN";

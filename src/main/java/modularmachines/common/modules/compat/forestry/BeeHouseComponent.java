@@ -79,13 +79,13 @@ public class BeeHouseComponent extends ModuleComponent implements IBeeHousing, I
 	
 	@Override
 	public float getExactTemperature() {
-		IClimateState climateState = ForestryAPI.climateManager.getClimateState(getWorldObj(), getCoordinates());
+		IClimateState climateState = ForestryAPI.climateManager.getState(getWorldObj(), getCoordinates());
 		return climateState.getTemperature();
 	}
 	
 	@Override
 	public float getExactHumidity() {
-		IClimateState climateState = ForestryAPI.climateManager.getClimateState(getWorldObj(), getCoordinates());
+		IClimateState climateState = ForestryAPI.climateManager.getState(getWorldObj(), getCoordinates());
 		return climateState.getHumidity();
 	}
 	

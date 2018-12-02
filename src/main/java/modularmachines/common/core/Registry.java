@@ -72,7 +72,7 @@ public class Registry {
 	}
 	
 	public static Item register(Item entry) {
-		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), entry.getUnlocalizedName()));
+		entry.setRegistryName(new ResourceLocation(Loader.instance().activeModContainer().getModId(), entry.getTranslationKey()));
 		ForgeRegistries.ITEMS.register(entry);
 		ModularMachines.proxy.registerItem(entry);
 		return entry;

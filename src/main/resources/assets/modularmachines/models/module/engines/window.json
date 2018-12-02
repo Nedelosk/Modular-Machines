@@ -1,0 +1,39 @@
+{
+  "textures": {
+    "window": "modularmachines:modules/engines/window"
+  },
+  "elements": [
+    {
+      "from": [
+        9,
+        9,
+        0
+      ],
+      "to": [
+        13,
+        13,
+        0.001
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ],
+          "texture": "#window"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ],
+          "texture": "#window"
+        }
+      }
+    }
+  ]
+}

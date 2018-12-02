@@ -73,11 +73,13 @@ public class BoundingBoxComponent extends ModuleComponent implements IBoundingBo
 	}
 	
 	public final AxisAlignedBB getCollisionBox() {
-		if (collisionBox == null) {
+		//if (collisionBox == null) {
+		Vec3d offset = this.provider.getPosition().getOffset();
 			AxisAlignedBB boundingBox = getBoundingBox();
 			BoundingBoxHelper helper = new BoundingBoxHelper(provider.getFacing());
-			collisionBox = helper.rotateBox(boundingBox).offset(this.provider.getPosition().getOffset());
-		}
+		//collisionBox = boundingBox.offset(offset);
+		collisionBox = helper.rotateBox(boundingBox.offset(offset));
+		//}
 		return collisionBox;
 	}
 	

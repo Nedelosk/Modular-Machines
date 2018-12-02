@@ -127,7 +127,7 @@ public final class Module extends ComponentProvider<IModuleComponent> implements
 	}
 	
 	private float getFacingRotation(IModule module) {
-		float rotation = (float) -Math.toDegrees(module.getPosition().getRotationAngle());
+		float rotation = (float) Math.toDegrees(module.getPosition().getRotationAngle());
 		IModuleProvider provider = module.getProvider();
 		if (provider instanceof IModuleComponent) {
 			IModule parent = ((IModuleComponent) provider).getProvider();

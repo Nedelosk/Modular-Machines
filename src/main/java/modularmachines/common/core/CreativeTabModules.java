@@ -19,7 +19,7 @@ public class CreativeTabModules extends CreativeTabs {
 	}
 	
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return ModuleItems.LARGE_TANK.get();
 	}
 	

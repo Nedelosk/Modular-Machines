@@ -1,7 +1,6 @@
 package modularmachines.common.modules.components.handlers;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			if (player.isSneaking()) {
 				clearAllModes();
 				if (!player.world.isRemote) {
-					player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.reset", new TextComponentTranslation(IOMode.NONE.getUnlocalizedName())), true);
+					player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.reset", new TextComponentTranslation(IOMode.NONE.getTranslationKey())), true);
 				}
 				return true;
 			}
@@ -62,7 +61,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			}
 			setMode(facing, newMode);
 			if (!player.world.isRemote) {
-				player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.module", new TextComponentTranslation(newMode.getUnlocalizedName())), true);
+				player.sendStatusMessage(new TextComponentTranslation("mm.message.screwdriver.module", new TextComponentTranslation(newMode.getTranslationKey())), true);
 			}
 			return true;
 		}
@@ -158,7 +157,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 			NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
 			byte facing = tagCompound.getByte("Facing");
 			byte mode = tagCompound.getByte("Mode");
-			faceModes.put(EnumFacing.getFront(facing), IOMode.get(mode));
+			faceModes.put(EnumFacing.byIndex(facing), IOMode.get(mode));
 		}
 		mode = IOMode.get(compound.getByte("Mode"));
 	}
@@ -186,7 +185,7 @@ public class IOComponent extends ModuleComponent implements IIOComponent, IInter
 	}
 	
 	@Override
-	public void readData(PacketBuffer data) throws IOException {
+	public void readData(PacketBuffer data) {
 		for (EnumFacing facing : EnumFacing.VALUES) {
 			faceModes.put(facing, IOMode.get(data.readByte()));
 		}

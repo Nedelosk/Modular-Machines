@@ -7,13 +7,8 @@ package modularmachines.common;
 
 import java.io.File;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -23,27 +18,28 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import modularmachines.api.modules.IModuleData;
 import modularmachines.api.modules.IModuleDefinition;
+import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.positions.CasingPosition;
+import modularmachines.api.modules.positions.RackPosition;
 import modularmachines.common.compat.CompatManager;
 import modularmachines.common.config.Config;
 import modularmachines.common.core.CommonProxy;
 import modularmachines.common.core.Constants;
+import modularmachines.common.core.EventHandler;
 import modularmachines.common.core.GuiHandler;
-import modularmachines.common.core.ModRecipes;
-import modularmachines.common.core.managers.ModBlocks;
-import modularmachines.common.core.managers.ModFluids;
-import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.modules.ModuleComponentFactory;
 import modularmachines.common.modules.ModuleDefinition;
 import modularmachines.common.modules.ModuleFactory;
 import modularmachines.common.modules.ModuleRegistry;
+import modularmachines.common.modules.json.ModuleParser;
 import modularmachines.common.network.PacketHandler;
+import modularmachines.registry.ModFluids;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION)
 public class ModularMachines {
@@ -60,26 +56,29 @@ public class ModularMachines {
 	
 	public ModularMachines() {
 		FluidRegistry.enableUniversalBucket();
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 	}
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ModuleManager.factory = ModuleFactory.INSTANCE;
-		ModuleManager.registry = ModuleRegistry.INSTANCE;
+		IModuleRegistry registry = ModuleManager.registry = ModuleRegistry.INSTANCE;
+		registry.registerPositions(CasingPosition.values());
+		registry.registerPositions(RackPosition.values());
 		ModuleManager.componentFactory = ModuleComponentFactory.INSTANCE;
 		//new ModuleLoadManager();
 		configFile = event.getSuggestedConfigurationFile();
 		MinecraftForge.EVENT_BUS.register(Config.class);
-		MinecraftForge.EVENT_BUS.register(this);
 		Config.config = new Configuration(ModularMachines.configFile);
 		Config.syncConfig(true);
 		new PacketHandler();
-		MinecraftForge.EVENT_BUS.register(ModuleDefinition.class);
 		ModFluids.preInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		proxy.preInit();
 		ModuleDefinition.preInit();
 		CompatManager.preInit();
+		ModuleParser parser = new ModuleParser(new File(event.getModConfigurationDirectory(), Constants.MOD_ID + "/modules"));
+		parser.load();
 	}
 	
 	@Mod.EventHandler
@@ -101,20 +100,5 @@ public class ModularMachines {
 		proxy.postInit();
 		CompatManager.postInit();
 		//Config.syncConfig(true);
-	}
-	
-	@SubscribeEvent
-	public void registerBlocks(RegistryEvent.Register<Block> event) {
-		ModBlocks.preInit();
-	}
-	
-	@SubscribeEvent
-	public void registerItems(RegistryEvent.Register<Item> event) {
-		ModItems.preInit();
-	}
-	
-	@SubscribeEvent
-	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		ModRecipes.registerRecipes();
 	}
 }

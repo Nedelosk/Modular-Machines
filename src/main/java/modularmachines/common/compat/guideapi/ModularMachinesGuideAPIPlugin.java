@@ -1,6 +1,6 @@
 package modularmachines.common.compat.guideapi;
 
-import javax.annotation.Nonnull;
+/*import javax.annotation.Nonnull;
 import java.awt.Color;
 
 import net.minecraft.init.Items;
@@ -13,7 +13,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 
 import modularmachines.common.core.Constants;
-import modularmachines.common.core.managers.ModItems;
+import modularmachines.registry.ModItems;
 import modularmachines.common.items.ModuleItems;
 import modularmachines.common.utils.Translator;
 
@@ -28,7 +28,7 @@ import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.page.PageJsonRecipe;
 import amerifrance.guideapi.page.PageText;
 
-@GuideBook(priority = EventPriority.HIGHEST)
+/*@GuideBook(priority = EventPriority.HIGHEST)
 public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 	private static final Book BOOK = new Book();
 	
@@ -65,7 +65,7 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("module_racks").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "module_racks.info"), 370));
 		/*category.getEntry("module_racks").addPage(getCraftingPage("module_rack.bronze"));
 		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.iron"));
-		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.steel"));*/
+		category.getEntry("module_racks").addPage(getCraftingPage("module_rack.steel"));*//*
 		
 		category.addEntry("io_system", new EntryItemStack(keyBase + "io_system", true, new ItemStack(ModItems.screwdriver)));
 		category.getEntry("io_system").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "io_system.info.0"), 370));
@@ -103,7 +103,7 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.bronze"));
 		category.getEntry("engine_steam").addPageList(PageHelper.pagesForLongText(Translator.translateToLocal(keyBase + "engine_steam.info"), 370));
 		/*category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.iron"));
-		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.steel"));*/
+		category.getEntry("engine_steam").addPage(getCraftingPage("engine.steam.steel"));*//*
 		
 		category.entries.values().forEach(e -> e.pageList.stream().filter(p -> p instanceof PageText).forEach(p -> ((PageText) p).setUnicodeFlag(true)));
 		BOOK.addCategory(category);
@@ -128,4 +128,4 @@ public class ModularMachinesGuideAPIPlugin implements IGuideBook {
 	public IRecipe getRecipe(@Nonnull ItemStack bookStack) {
 		return new ShapelessOreRecipe(null, GuideAPI.getStackFromBook(BOOK), new ItemStack(Items.BOOK), "blockGlass", "ingotBrick").setRegistryName(Constants.MOD_ID, "guide");
 	}
-}
+}*/

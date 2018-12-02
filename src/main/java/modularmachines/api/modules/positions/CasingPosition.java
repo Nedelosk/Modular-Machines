@@ -13,8 +13,8 @@ public enum CasingPosition implements IModulePosition {
 	TOP, //The position at the top ot the module container
 	BOTTOM, //The position at the bottom ot the module container
 	BACK((float) (Math.PI)), //The position at the back ot the module container
-	RIGHT((float) (Math.PI / 2)), //The position at the right side ot the module container
-	LEFT(-(float) (Math.PI / 2)); //The position at the left side ot the module container
+	RIGHT(-(float) (Math.PI / 2)), //The position at the right side ot the module container
+	LEFT((float) (Math.PI / 2)); //The position at the left side ot the module container
 	
 	public static final CasingPosition[] HORIZONTAL = new CasingPosition[]{FRONT, BACK, RIGHT, LEFT};
 	public static final CasingPosition[] SIDES = new CasingPosition[]{RIGHT, LEFT};
@@ -35,8 +35,13 @@ public enum CasingPosition implements IModulePosition {
 		return rotation;
 	}
 	
+	@Override
+	public String getUID() {
+		return "casing." + name().toLowerCase(Locale.ENGLISH);
+	}
+	
 	@SuppressWarnings("deprecation")
 	public String getName() {
-		return I18n.translateToLocal("modularmachines.position.casing." + toString().toLowerCase(Locale.ENGLISH) + ".name");
+		return I18n.translateToLocal("modularmachines.position." + getUID() + ".name");
 	}
 }

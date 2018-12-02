@@ -1,5 +1,7 @@
 package modularmachines.api.modules.components.block;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -15,6 +17,7 @@ import modularmachines.api.modules.components.IModuleComponent;
  */
 public interface IBoundingBoxComponent extends IModuleComponent {
 	
+	@Nullable
 	RayTraceResult collisionRayTrace(Vec3d start, Vec3d end);
 	
 	AxisAlignedBB getCollisionBox();

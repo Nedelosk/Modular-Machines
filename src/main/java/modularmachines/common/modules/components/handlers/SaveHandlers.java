@@ -44,7 +44,7 @@ public class SaveHandlers {
 		@Override
 		public void readFromItem(IFluidHandlerComponent component, ItemStack itemStack) {
 			NBTTagCompound fluid = NBTUtil.getTag(itemStack, "Fluid");
-			if (!fluid.hasNoTags()) {
+			if (!fluid.isEmpty()) {
 				IFluidHandlerComponent.ITank tank = component.getTank(0);
 				if (tank != null) {
 					tank.setFluid(FluidStack.loadFluidStackFromNBT(fluid));

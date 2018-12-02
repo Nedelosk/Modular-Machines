@@ -16,7 +16,7 @@ import modularmachines.common.utils.content.IItemModelRegister;
 public class ItemModules extends Item implements IItemModelRegister {
 	
 	public ItemModules() {
-		setUnlocalizedName("modules");
+		setTranslationKey("modules");
 		setHasSubtypes(true);
 		setCreativeTab(Tabs.tabModularMachines);
 	}
@@ -40,7 +40,7 @@ public class ItemModules extends Item implements IItemModelRegister {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
+	public String getTranslationKey(ItemStack itemstack) {
 		return Registry.getItemName("modules_" + ModuleItems.getItem(itemstack.getItemDamage()).getName());
 	}
 }

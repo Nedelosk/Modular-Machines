@@ -192,7 +192,7 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 				.filter(Objects::nonNull)
 				.min(Comparator.comparingDouble(hit -> hit.hitVec.squareDistanceTo(startVec)))
 				.map(r -> {
-					RayTraceResult result = new RayTraceResult(r.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), r.sideHit, pos);
+					RayTraceResult result = new RayTraceResult(r.hitVec.add((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), r.sideHit, pos);
 					result.subHit = r.subHit;
 					result.hitInfo = r.hitInfo;
 					return result;
@@ -261,15 +261,12 @@ public class ModuleContainer extends ComponentProvider<ContainerComponent> imple
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		if (super.hasCapability(capability, facing)) {
-			return true;
-		}
+		return super.hasCapability(capability, facing);
 		/*for (IModule module : getModules()) {
 			if (module.hasCapability(capability, facing)) {
 				return true;
 			}
 		}*/
-		return false;
 	}
 	
 	@Nullable

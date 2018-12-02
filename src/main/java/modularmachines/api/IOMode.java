@@ -70,7 +70,7 @@ public enum IOMode {
 		return color;
 	}
 	
-	public String getUnlocalizedName() {
+	public String getTranslationKey() {
 		return unlocalizedName;
 	}
 }

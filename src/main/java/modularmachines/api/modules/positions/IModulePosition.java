@@ -16,6 +16,11 @@ public interface IModulePosition {
 	String getName();
 	
 	/**
+	 * @return A unique string identifier for this position.
+	 */
+	String getUID();
+	
+	/**
 	 * @return The rotation angle of the position.
 	 */
 	default float getRotationAngle() {
@@ -33,6 +38,6 @@ public interface IModulePosition {
 	 * @return The facing of the position relative to the world.
 	 */
 	default EnumFacing getFacing() {
-		return EnumFacing.fromAngle(-Math.toDegrees(getRotationAngle()));
+		return EnumFacing.fromAngle(Math.toDegrees(getRotationAngle()));
 	}
 }

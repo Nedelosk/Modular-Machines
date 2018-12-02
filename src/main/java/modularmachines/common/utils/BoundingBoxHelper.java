@@ -21,12 +21,12 @@ public class BoundingBoxHelper {
 				this.z = EnumFacing.UP;
 				break;
 			case EAST:
-				this.x = EnumFacing.SOUTH;
+				this.x = EnumFacing.NORTH;
 				this.y = EnumFacing.UP;
 				this.z = EnumFacing.EAST;
 				break;
 			case WEST:
-				this.x = EnumFacing.NORTH;
+				this.x = EnumFacing.SOUTH;
 				this.y = EnumFacing.UP;
 				this.z = EnumFacing.WEST;
 				break;
@@ -36,10 +36,6 @@ public class BoundingBoxHelper {
 				this.z = EnumFacing.NORTH;
 				break;
 			case SOUTH:
-				this.x = EnumFacing.EAST;
-				this.y = EnumFacing.UP;
-				this.z = EnumFacing.SOUTH;
-				break;
 			default:
 				this.x = EnumFacing.EAST;
 				this.y = EnumFacing.UP;
@@ -53,25 +49,25 @@ public class BoundingBoxHelper {
 	}
 	
 	public AxisAlignedBB rotateBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-		double aX = minX * this.x.getFrontOffsetX() + minY * this.y.getFrontOffsetX() + minZ * this.z.getFrontOffsetX();
-		double aY = minX * this.x.getFrontOffsetY() + minY * this.y.getFrontOffsetY() + minZ * this.z.getFrontOffsetY();
-		double aZ = minX * this.x.getFrontOffsetZ() + minY * this.y.getFrontOffsetZ() + minZ * this.z.getFrontOffsetZ();
+		double aX = minX * this.x.getXOffset() + minY * this.y.getXOffset() + minZ * this.z.getXOffset();
+		double aY = minX * this.x.getYOffset() + minY * this.y.getYOffset() + minZ * this.z.getYOffset();
+		double aZ = minX * this.x.getZOffset() + minY * this.y.getZOffset() + minZ * this.z.getZOffset();
 		
-		double bX = maxX * this.x.getFrontOffsetX() + maxY * this.y.getFrontOffsetX() + maxZ * this.z.getFrontOffsetX();
-		double bY = maxX * this.x.getFrontOffsetY() + maxY * this.y.getFrontOffsetY() + maxZ * this.z.getFrontOffsetY();
-		double bZ = maxX * this.x.getFrontOffsetZ() + maxY * this.y.getFrontOffsetZ() + maxZ * this.z.getFrontOffsetZ();
+		double bX = maxX * this.x.getXOffset() + maxY * this.y.getXOffset() + maxZ * this.z.getXOffset();
+		double bY = maxX * this.x.getYOffset() + maxY * this.y.getYOffset() + maxZ * this.z.getYOffset();
+		double bZ = maxX * this.x.getZOffset() + maxY * this.y.getZOffset() + maxZ * this.z.getZOffset();
 		
-		if (this.x.getFrontOffsetX() + this.y.getFrontOffsetX() + this.z.getFrontOffsetX() < 0) {
+		if (this.x.getXOffset() + this.y.getXOffset() + this.z.getXOffset() < 0) {
 			aX += 1;
 			bX += 1;
 		}
 		
-		if (this.x.getFrontOffsetY() + this.y.getFrontOffsetY() + this.z.getFrontOffsetY() < 0) {
+		if (this.x.getYOffset() + this.y.getYOffset() + this.z.getYOffset() < 0) {
 			aY += 1;
 			bY += 1;
 		}
 		
-		if (this.x.getFrontOffsetZ() + this.y.getFrontOffsetZ() + this.z.getFrontOffsetZ() < 0) {
+		if (this.x.getZOffset() + this.y.getZOffset() + this.z.getZOffset() < 0) {
 			aZ += 1;
 			bZ += 1;
 		}

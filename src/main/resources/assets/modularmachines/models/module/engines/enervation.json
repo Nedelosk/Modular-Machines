@@ -1,0 +1,7 @@
+{
+  "parent": "modularmachines:module/engines/dynamo",
+  "textures": {
+    "base": "thermalexpansion:blocks/dynamo/dynamo_enervation",
+    "trunk": "thermalexpansion:blocks/dynamo/dynamo_coil_redstone"
+  }
+}

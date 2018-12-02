@@ -22,13 +22,13 @@ public class ItemBlockForest extends ItemBlock {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack) {
+	public String getTranslationKey(ItemStack itemstack) {
 		String prefix = Integer.toString(itemstack.getItemDamage());
 		if (block instanceof IBlockWithMeta) {
 			IBlockWithMeta metaBlock = (IBlockWithMeta) block;
 			int meta = itemstack.getMetadata();
 			prefix = metaBlock.getNameFromMeta(meta);
 		}
-		return Registry.getItemName(getBlock().getUnlocalizedName() + "." + prefix);
+		return Registry.getItemName(getBlock().getTranslationKey() + "." + prefix);
 	}
 }

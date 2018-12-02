@@ -10,7 +10,7 @@ public interface IModuleDataBuilder {
 	
 	IModuleDataBuilder setRegistryName(String registryName);
 	
-	IModuleDataBuilder setUnlocalizedName(String unlocalizedName);
+	IModuleDataBuilder setTranslationKey(String unlocalizedName);
 	
 	IModuleDataBuilder setComplexity(int complexity);
 	

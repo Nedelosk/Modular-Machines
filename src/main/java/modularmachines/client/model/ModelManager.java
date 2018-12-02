@@ -73,7 +73,7 @@ public class ModelManager {
 	}
 	
 	public ModelResourceLocation createModelLocation(Item item) {
-		String itemName = ForgeRegistries.ITEMS.getKey(item).getResourcePath();
+		String itemName = ForgeRegistries.ITEMS.getKey(item).getPath();
 		return createModelLocation(itemName);
 	}
 	

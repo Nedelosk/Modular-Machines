@@ -47,7 +47,7 @@ public class FluidBlock extends BlockFluidClassic {
 	}
 	
 	@Override
-	public String getUnlocalizedName() {
+	public String getTranslationKey() {
 		return Registry.setUnlocalizedBlockName(fluidName);
 	}
 }

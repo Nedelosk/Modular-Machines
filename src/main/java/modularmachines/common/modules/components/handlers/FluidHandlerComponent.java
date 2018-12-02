@@ -1,7 +1,10 @@
 package modularmachines.common.modules.components.handlers;
 
+import com.google.common.collect.ImmutableList;
+
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.function.Predicate;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,6 +24,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import modularmachines.api.IOMode;
 import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.ingredients.IngredientType;
 import modularmachines.api.modules.components.handlers.IFluidHandlerComponent;
 import modularmachines.api.modules.components.handlers.IIOComponent;
 import modularmachines.api.modules.events.Events;
@@ -217,6 +221,38 @@ public class FluidHandlerComponent extends HandlerComponent implements IFluidHan
 	}
 	
 	@Override
+	public FluidStack injectIngredient(FluidStack ingredient, boolean simulate) {
+		int filledAmount = fill(ingredient, !simulate);
+		if (filledAmount <= 0) {
+			return null;
+		}
+		return new FluidStack(ingredient.getFluid(), fill(ingredient, !simulate));
+	}
+	
+	@Override
+	public Collection<FluidStack> getIngredients() {
+		ImmutableList.Builder<FluidStack> builder = new ImmutableList.Builder<>();
+		for (ITank tank : tanks) {
+			FluidStack stack = tank.getFluid();
+			if (stack == null) {
+				continue;
+			}
+			builder.add(stack);
+		}
+		return builder.build();
+	}
+	
+	@Override
+	public FluidStack extractIngredient(FluidStack ingredient, boolean simulate) {
+		return drain(ingredient, !simulate);
+	}
+	
+	@Override
+	public boolean canHandle(IngredientType type) {
+		return type == IngredientType.FLUID;
+	}
+	
+	@Override
 	public void doPull(EnumFacing facing) {
 		EnumFacing relativeFacing = facing.getOpposite();
 		TileEntity tileEntity = ModuleUtil.getTile(provider.getContainer(), facing);
@@ -354,7 +390,7 @@ public class FluidHandlerComponent extends HandlerComponent implements IFluidHan
 		}
 		
 		@Override
-		public void readData(PacketBuffer data) throws IOException {
+		public void readData(PacketBuffer data) {
 			setFluid(readFluidStack(data));
 		}
 		

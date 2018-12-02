@@ -41,7 +41,7 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 	
 	public ItemScrewdriver() {
 		setCreativeTab(Tabs.tabModularMachines);
-		setUnlocalizedName("screwdriver");
+		setTranslationKey("screwdriver");
 		setHarvestLevel("wrench", 0);
 		setMaxStackSize(1);
 	}
@@ -78,7 +78,7 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 			if (facing == EnumFacing.UP) {
 				facing = null;
 			} else {
-				facing = EnumFacing.getFront(facing.ordinal() + 1);
+				facing = EnumFacing.byIndex(facing.ordinal() + 1);
 			}
 		} else {
 			facing = EnumFacing.NORTH;
@@ -109,7 +109,7 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 			return null;
 		}
 		byte facing = compound.getByte("Facing");
-		return EnumFacing.getFront(facing);
+		return EnumFacing.byIndex(facing);
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 		if (facing == null) {
 			if (compound != null) {
 				compound.removeTag("Facing");
-				if (compound.hasNoTags()) {
+				if (compound.isEmpty()) {
 					itemStack.setTagCompound(null);
 				}
 			}
@@ -151,7 +151,7 @@ public class ItemScrewdriver extends Item implements IItemModelRegister, IScrewd
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return Registry.getItemName(getUnlocalizedName().replace("item.", ""));
+	public String getTranslationKey(ItemStack stack) {
+		return Registry.getItemName(getTranslationKey().replace("item.", ""));
 	}
 }

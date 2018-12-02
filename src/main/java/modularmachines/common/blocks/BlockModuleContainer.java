@@ -57,7 +57,7 @@ public class BlockModuleContainer extends Block {
 		super(Material.IRON);
 		setSoundType(SoundType.METAL);
 		setHardness(2.0F);
-		setUnlocalizedName("module_container");
+		setTranslationKey("module_container");
 		setRegistryName("module_container");
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
@@ -78,7 +78,7 @@ public class BlockModuleContainer extends Block {
 	}
 	
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 	

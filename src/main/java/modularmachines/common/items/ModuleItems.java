@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import net.minecraft.item.ItemStack;
 
-import modularmachines.common.core.managers.ModItems;
+import modularmachines.registry.ModItems;
 
 public enum ModuleItems {
 	FIREBOX, LARGE_TANK, WATER_INTAKE, BOILER;

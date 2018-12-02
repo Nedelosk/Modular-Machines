@@ -114,7 +114,7 @@ public class ItemUtil {
 				return false;
 			}
 		}
-		if (!base.hasTagCompound() || base.getTagCompound().hasNoTags()) {
+		if (!base.hasTagCompound() || base.getTagCompound().isEmpty()) {
 			return true;
 		} else {
 			return ItemStack.areItemStackTagsEqual(base, comparison);
@@ -133,7 +133,7 @@ public class ItemUtil {
 				return false;
 			}
 		}
-		if (!base.hasTagCompound() || base.getTagCompound().hasNoTags()) {
+		if (!base.hasTagCompound() || base.getTagCompound().isEmpty()) {
 			return true;
 		} else {
 			return containsNBT(comparison.getTagCompound(), base.getTagCompound());
@@ -142,10 +142,10 @@ public class ItemUtil {
 	}
 	
 	private static boolean containsNBT(@Nullable NBTTagCompound base, @Nullable NBTTagCompound comparison) {
-		if (comparison == null || comparison.hasNoTags()) {
+		if (comparison == null || comparison.isEmpty()) {
 			return true;
 		}
-		if (base == null || base.hasNoTags()) {
+		if (base == null || base.isEmpty()) {
 			return false;
 		}
 		for (String nbtKey : comparison.getKeySet()) {

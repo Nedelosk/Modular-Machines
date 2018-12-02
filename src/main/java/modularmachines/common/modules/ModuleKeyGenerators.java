@@ -18,7 +18,7 @@ public class ModuleKeyGenerators {
 	public static final IModuleKeyGenerator DEFAULT_GENERATOR = m -> {
 		IModuleData moduleData = m.getData();
 		ResourceLocation registryName = moduleData.getRegistryName();
-		return registryName == null ? "null" : registryName.getResourcePath();
+		return registryName == null ? "null" : registryName.getPath();
 	};
 	
 	public static final IModuleKeyGenerator ACTIVATABLE_GENERATOR = m -> {

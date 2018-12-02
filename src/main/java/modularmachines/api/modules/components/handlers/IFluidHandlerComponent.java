@@ -8,6 +8,9 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import modularmachines.api.components.INetworkComponent;
+import modularmachines.api.ingredients.IIngredientConsumer;
+import modularmachines.api.ingredients.IIngredientHolder;
+import modularmachines.api.ingredients.IIngredientProducer;
 import modularmachines.api.modules.IModule;
 
 /**
@@ -17,7 +20,7 @@ import modularmachines.api.modules.IModule;
  * used to add this component to a module.
  */
 public interface IFluidHandlerComponent extends IHandlerComponent, IFluidHandler,
-		INetworkComponent {
+		INetworkComponent, IIngredientConsumer<FluidStack>, IIngredientProducer<FluidStack>, IIngredientHolder<FluidStack> {
 	
 	default ITank addTank(int capacity) {
 		return addTank(capacity, false);

@@ -3,7 +3,7 @@ package modularmachines.common.core;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-import modularmachines.common.core.managers.ModItems;
+import modularmachines.registry.ModItems;
 
 public class CreativeTabModularMachines extends CreativeTabs {
 	
@@ -12,7 +12,7 @@ public class CreativeTabModularMachines extends CreativeTabs {
 	}
 	
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(ModItems.itemCasings);
 	}
 }

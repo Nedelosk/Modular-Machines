@@ -6,6 +6,8 @@ import com.google.common.collect.Multimap;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -30,13 +32,15 @@ import modularmachines.api.modules.IModuleHandler;
 import modularmachines.api.modules.IModuleRegistry;
 import modularmachines.api.modules.IModuleType;
 import modularmachines.api.modules.ModuleManager;
+import modularmachines.api.modules.components.IComponentParser;
 import modularmachines.api.modules.container.IModuleContainer;
 import modularmachines.api.modules.model.IModuleKeyGenerator;
 import modularmachines.api.modules.positions.CasingPosition;
-import modularmachines.common.core.managers.ModBlocks;
+import modularmachines.api.modules.positions.IModulePosition;
 import modularmachines.common.modules.container.EmptyModuleContainer;
 import modularmachines.common.modules.data.ModuleType;
 import modularmachines.common.utils.capabilitys.DefaultStorage;
+import modularmachines.registry.ModBlocks;
 
 public enum ModuleRegistry implements IModuleRegistry {
 	INSTANCE;
@@ -44,9 +48,11 @@ public enum ModuleRegistry implements IModuleRegistry {
 	private final IModuleKeyGenerator defaultGenerator = m -> {
 		IModuleData moduleData = m.getData();
 		ResourceLocation registryName = moduleData.getRegistryName();
-		return registryName == null ? "null" : registryName.getResourcePath();
+		return registryName == null ? "null" : registryName.getPath();
 	};
 	
+	private final Map<ResourceLocation, IComponentParser> parsers = new HashMap<>();
+	private final Map<String, IModulePosition> positions = new HashMap<>();
 	private final Multimap<Item, IModuleType> types = HashMultimap.create();
 	private final IModuleData defaultData;
 	private final IForgeRegistry<IModuleData> registry;
@@ -95,6 +101,33 @@ public enum ModuleRegistry implements IModuleRegistry {
 	@Override
 	public void registerType(IModuleData data, ItemStack parent) {
 		registerType(new ModuleType(parent, data));
+	}
+	
+	@Override
+	public void registerParser(ResourceLocation key, IComponentParser parser) {
+		if (parsers.containsKey(key)) {
+			throw new IllegalStateException("Duplicate component parser: " + key);
+		}
+		parsers.put(key, parser);
+	}
+	
+	@Nullable
+	@Override
+	public IComponentParser getParser(ResourceLocation key) {
+		return parsers.get(key);
+	}
+	
+	@Override
+	public void registerPositions(IModulePosition... positions) {
+		for (IModulePosition position : positions) {
+			this.positions.put(position.getUID(), position);
+		}
+	}
+	
+	@Nullable
+	@Override
+	public IModulePosition getPosition(String uid) {
+		return positions.get(uid);
 	}
 	
 	@Override

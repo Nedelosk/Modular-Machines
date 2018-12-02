@@ -79,7 +79,7 @@ repositories {
 		url = "http://maven.ic2.player.to/"
 	}
 	maven {
-		url 'http://maven.epoxide.xyz'
+		url = 'http://maven.mcmoddev.com'
 	}
 	maven {
 		url "http://dvs1.progwml6.com/files/maven"
@@ -92,10 +92,10 @@ repositories {
         name = "CoFH Maven"
         url = "http://maven.covers1624.net"
     }
-	maven { 
-		name = "Guide-API"
-		url 'http://tehnut.info/maven/'
-	}
+	 maven {
+		name = "blamejared Maven"	 
+		url 'https://maven.blamejared.com'
+	 }
 }
 
 dependencies {
@@ -110,8 +110,8 @@ dependencies {
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-${top_mcversion}:${top_version}"
 	//Redstone Flux 
 	compile "cofh:RedstoneFlux:${rf_version}:deobf"
-	//Guide-API
-	deobfCompile "info.amerifrance.guideapi:Guide-API:${guide_mcversion}-${guide_version}"
+	//Patchouli
+	compile "vazkii.patchouli:Patchouli:${patchouli_version}"
 }
 
 processResources {

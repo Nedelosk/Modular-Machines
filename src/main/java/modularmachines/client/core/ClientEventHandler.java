@@ -66,7 +66,7 @@ public class ClientEventHandler {
 			
 		} else {
 			String keyName = Keyboard.getKeyName(ClientProxy.MODULE_INFO.getKeyCode());
-			tooltip.add(TextFormatting.DARK_GREEN + Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", keyName));
+			tooltip.add(Translator.translateToLocalFormatted("mm.tooltip.hold.moduleInfo", TextFormatting.DARK_GREEN.toString() + TextFormatting.ITALIC + keyName + TextFormatting.GRAY));
 		}
 		event.getToolTip().addAll(tooltip);
 	}
@@ -138,7 +138,7 @@ public class ClientEventHandler {
 		}
 		IOMode mode = ioComponent.getMode(targetFacing);
 		y += fontRenderer.FONT_HEIGHT;
-		String modeText = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.mode", Translator.translateToLocal(mode.getUnlocalizedName()));
+		String modeText = Translator.translateToLocalFormatted("mm.tooltip.screwdriver.mode", Translator.translateToLocal(mode.getTranslationKey()));
 		fontRenderer.drawString(modeText, x - fontRenderer.getStringWidth(modeText) / 2, y, -1);
 	}
 }

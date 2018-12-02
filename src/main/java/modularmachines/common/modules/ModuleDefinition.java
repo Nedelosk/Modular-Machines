@@ -38,7 +38,6 @@ import modularmachines.client.model.module.BakeryCasing;
 import modularmachines.client.model.module.BakeryLargeTank;
 import modularmachines.common.containers.ContainerChestModule;
 import modularmachines.common.core.Constants;
-import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.items.ModuleItems;
 import modularmachines.common.modules.components.BoilerComponent;
 import modularmachines.common.modules.components.CasingComponent;
@@ -51,6 +50,7 @@ import modularmachines.common.modules.components.block.BoundingBoxComponent;
 import modularmachines.common.modules.components.block.FluidContainerInteraction;
 import modularmachines.common.modules.data.ModuleData;
 import modularmachines.common.modules.filters.ItemFliterFurnaceFuel;
+import modularmachines.registry.ModItems;
 
 public enum ModuleDefinition implements IModuleDefinition {
 	CHEST("chest", 4) {
@@ -62,7 +62,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModels(IModuleModelRegistry registry) {
-			registry.registerModel(data, new BakeryBase("chest"));
+			registry.registerModel(data, new BakeryBase("module/chest"));
 		}
 		
 		@Override
@@ -206,7 +206,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModels(IModuleModelRegistry registry) {
-			registry.registerModel(data, new BakeryBase("module/engines/water_intake"));
+			registry.registerModel(data, new BakeryBase("module/water_intake"));
 		}
 		
 		@Override
@@ -229,7 +229,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModels(IModuleModelRegistry registry) {
-			registry.registerModel(data, new BakeryBase("module/engines/boiler"));
+			registry.registerModel(data, new BakeryBase("module/boiler"));
 		}
 		
 		@Override
@@ -246,13 +246,13 @@ public enum ModuleDefinition implements IModuleDefinition {
 	ENGINE("engine", 4) {
 		@Override
 		protected void setProperties(IModuleDataBuilder builder) {
-			builder.setPositions(RackPosition.UP, RackPosition.CENTER, RackPosition.DOWN);
+			builder.setPositions(RackPosition.values());
 		}
 		
 		@SideOnly(Side.CLIENT)
 		@Override
 		public void registerModels(IModuleModelRegistry registry) {
-			registry.registerModel(data, new BakeryBase("module/engines/bronze", "module/windows/bronze"));
+			registry.registerModel(data, new BakeryBase("module/engines/peat", "module/engines/window"));
 		}
 		
 		@Override
@@ -262,7 +262,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		
 		@Override
 		public void addComponents(IModule module, IModuleComponentFactory factory) {
-			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 10.0F / 16.0F, 15.0F / 16F, 13.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
+			module.addComponent(new BoundingBoxComponent(new AxisAlignedBB(3.0F / 16.0F, 9.0F / 16.0F, 15.0F / 16F, 7.0F / 16.0F, 13.0F / 16.0F, 1.0F)));
 			module.addComponent(new SteamConsumerComponent());
 			factory.addEnergyHandler(module, 10000);
 		}
@@ -273,7 +273,7 @@ public enum ModuleDefinition implements IModuleDefinition {
 		IModuleDataBuilder dataBuilder = new ModuleData.Builder()
 				.setRegistryName(registryName)
 				.setComplexity(complexity)
-				.setUnlocalizedName(registryName)
+				.setTranslationKey(registryName)
 				.setDefinition(this);
 		setProperties(dataBuilder);
 		this.data = dataBuilder.build();

@@ -10,8 +10,8 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import modularmachines.common.core.managers.ModItems;
 import modularmachines.common.items.ModuleItems;
+import modularmachines.registry.ModItems;
 
 public class ModRecipes {
 	
